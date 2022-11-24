@@ -1,13 +1,17 @@
 import {put,call,takeEvery} from 'redux-saga/effects'
-import { companiesdata,getcompaniesaction,createcompanyaction,updatecompanyaction} from './companyslice'
-import {quotes,companyapi} from "../../api/agent"
+import {companyapi} from "../../api/agent"
 import { createtoast } from '../ToastSlice'
 import { store} from "../../app/store"
+import { companiesdata } from './companyslice'
 function* companiesgetsagaworker(){
     try{
         var res: Promise<any>=yield call(companyapi.getallcompaniesdata)
         // console.log(res)
-        yield put({type:companiesdata,payload:res})
+        // yield put({type:companiesdata,payload:res})
+        // yield store.dispatch({type:"company/companiesdata",payload:res})
+        // yield store.dispatch(companiesdata(res))
+        // yield put(companiesdata(res))
+        yield put({type:"company/companiesdata",payload:res})
     }
     catch(err){
 console.log(err)
@@ -24,7 +28,7 @@ function* createcompanysagaworker(payload){
         // yield put({type:companiesdata,payload:res})
         yield companiesgetsagaworker()
 
-        yield store.dispatch(createtoast({
+        yield put(createtoast({
 
             id:454,
 

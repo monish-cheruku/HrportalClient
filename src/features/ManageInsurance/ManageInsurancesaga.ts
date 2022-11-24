@@ -8,7 +8,7 @@ function* Insurancegetsagaworker(){
         // console.log("getting ............................")
         var res: Promise<any>=yield call(insuranceapi.getallInsurancedata)
         // console.log(res)
-        yield put({type:Insurancedata,payload:res})
+        yield put({type:"Insurance/Insurancedata",payload:res})
     }
     catch(err){
 console.log(err)

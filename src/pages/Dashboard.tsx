@@ -1,20 +1,41 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import ManageCompany from "./ManageCompany";
-import MyJobPosts from "./MyJobPosts";
+import MyJobPosts from "./DashboardComponents/MyJobPosts";
+import JobPostActions from "./DashboardComponents/JobPostActionsHiringManager/JobPostActions";
+
 
 const Dashboard = () => {
-    const [openedtab,setOpenedtab]=useState("myjobposts")
+    const [openedtab,setOpenedtab]=useState("jobpostactions")
     const[nooftabs,setnooftabs]=useState(3)
+    // useEffect(()=>{
+    //     console.log("dashboard")
+    // })
     return (
         <div>
             <div className="grid">
-                <div className={"col-"+(12/nooftabs).toString()+" lg:col-"+(12/nooftabs).toString()+" xl:col-"+(12/nooftabs).toString()+" sm:col-6"} onClick={e=>setOpenedtab("candidateaction")}>
+                {/* <div className={"col-"+(12/nooftabs).toString()+" lg:col-"+(12/nooftabs).toString()+" xl:col-"+(12/nooftabs).toString()+" sm:col-6"} onClick={e=>setOpenedtab("candidateaction")}>
 
                     <div className={openedtab=="candidateaction"?"cardaction mb-0":"cardaction1 mb-0"}>     
                         <div className="flex justify-content-between mb-3">
                             <div>
                                 <span className="block  font-medium mb-3">Candidate Actions</span>
+                                <div className="text-900 font-medium text-xl">3</div>
+                            </div>
+                            <div className="flex align-items-center justify-content-center bg-blue-100 border-round" style={{ width: "2.5rem", height: "2.5rem" }}>
+                                <i className="pi pi-user-edit text-blue-500 text-xl" />
+                            </div>
+                        </div>
+
+                    </div>
+                </div> */}
+                <div className={"col-"+(12/nooftabs).toString()+" lg:col-"+(12/nooftabs).toString()+" xl:col-"+(12/nooftabs).toString()+" sm:col-6"} onClick={e=>setOpenedtab("jobpostactions")}>
+
+                    <div className={openedtab=="jobpostactions"?"cardaction mb-0":"cardaction1 mb-0"}>     
+                        <div className="flex justify-content-between mb-3">
+                            
+                            <div>
+                                <span className="block  font-medium mb-3">JobPosts Actions</span>
                                 <div className="text-900 font-medium text-xl">3</div>
                             </div>
                             <div className="flex align-items-center justify-content-center bg-blue-100 border-round" style={{ width: "2.5rem", height: "2.5rem" }}>
@@ -72,7 +93,7 @@ const Dashboard = () => {
             <div >
   <div className="card mb-0">
                         <div className="flex justify-content-between mb-3">
-                            {openedtab=="candidateaction"&&<div> candidateaction</div>}
+                            {openedtab=="jobpostactions"&&<div> <JobPostActions/>    </div>}
                             {openedtab=="myjobposts"&&<div style={{width:"100%"}}><MyJobPosts/></div>}
                            {openedtab=="selectedcandidates"&& <div >selectedcandidates</div>}
                             {/* <div hidden={true}>d</div> */}
@@ -85,9 +106,10 @@ const Dashboard = () => {
     );
 };
 
-// export default Dashboard
-const comparisonFn = function (prevProps, nextProps) {
-    return prevProps.location.pathname === nextProps.location.pathname;
-};
+// // export default Dashboard
+// const comparisonFn = function (prevProps, nextProps) {
+//     return prevProps.location.pathname === nextProps.location.pathname;
+// };
 
-export default React.memo(Dashboard, comparisonFn);
+// export default React.memo(Dashboard, comparisonFn);
+export default Dashboard

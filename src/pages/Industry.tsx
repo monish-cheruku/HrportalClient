@@ -223,11 +223,12 @@ const ManageIndustry = () => {
         </div>
     );
 };
-const comparisonFn = function (prevProps, nextProps) {
-    return prevProps.location.pathname === nextProps.location.pathname;
-};
+// const comparisonFn = function (prevProps, nextProps) {
+//     return prevProps.location.pathname === nextProps.location.pathname;
+// };
 
-export default React.memo(ManageIndustry, comparisonFn);
+// export default React.memo(ManageIndustry, comparisonFn);
+export default ManageIndustry
 
 
 

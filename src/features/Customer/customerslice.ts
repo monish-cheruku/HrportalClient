@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { quoteSlice } from "../Quotes/quoteslice";
+
 
 export interface Customer {
     CustomerId: number;
@@ -18,7 +18,7 @@ export const customerSlice = createSlice({
             var temp=payload.payload
             state=[...temp]
           
-            console.log(state)
+            // console.log(state)
             return state;
         },
         

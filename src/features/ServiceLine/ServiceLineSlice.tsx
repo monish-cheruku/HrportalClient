@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { quoteSlice } from "../Quotes/quoteslice";
 
 export interface ServiceLine {
     ServiceLineId: number;
+    CompanyId:string,
     BusinessUnitId: number;
     ServiceLineName: string;
     Acronym: string;
@@ -14,7 +14,7 @@ export interface ServiceLine {
 
 export interface IServiceLineoptions{
     key:number,
-    label:string;
+    label:string,
     value:number
 }
 const initialState: ServiceLine[] = [];

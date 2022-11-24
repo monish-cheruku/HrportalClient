@@ -1,5 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { quoteSlice } from "../Quotes/quoteslice";
+import { createAction, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface Company {
     BusinessUnitName: string;
@@ -15,12 +14,13 @@ export interface ICompanyoptions{
     value:number
 }
 const initialState: Company[] = [];
-
+// const companiesdata = createAction<number>('companiesdata')
 export const companySlice = createSlice({
     name: "company",
     initialState,
     reducers: {
         companiesdata:  (state, payload: any) => {
+            
             var temp=payload.payload
             state=[...temp]
           

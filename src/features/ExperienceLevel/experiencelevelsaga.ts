@@ -1,13 +1,13 @@
 import {put,call,takeEvery} from 'redux-saga/effects'
 import { experiencelevelsdata,getexperiencelevelsaction,createexperiencelevelaction,updateexperiencelevelaction} from './experiencelevelslice'
-import {quotes,Experienceapi} from "../../api/agent"
+import {Experienceapi} from "../../api/agent"
 import { createtoast } from '../ToastSlice'
 import { store} from "../../app/store"
 function* experiencelevelsgetsagaworker(){
     try{
         var res: Promise<any>=yield call(Experienceapi.getallexperiencelevelsdata)
-        console.log(res)
-        yield put({type:experiencelevelsdata,payload:res})
+        // console.log(res)
+        yield put({type:"experiencelevel/experiencelevelsdata",payload:res})
     }
     catch(err){
 console.log(err)

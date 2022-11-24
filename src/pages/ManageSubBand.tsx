@@ -23,22 +23,66 @@ import { useSelector } from "react-redux";
 import { RootState } from "../app/store";
 import { act } from "react-dom/test-utils";
 import { FilterMatchMode } from "primereact/api";
+import { getBandaction, IBandoptions } from "../features/Band/Bandslice";
+import { Dropdown } from "primereact/dropdown";
+
 // import '../../index.css';
 const ManageSubband = () => {
     const [productDialog, setProductDialog] = useState(false);
     const [submitted, setSubmitted] = useState(false);
     const [cities, setCities] = useState([]);
+    const [BandID, SetBandID] = useState("");
     const [subbandid, setsubbandid] = useState(0);
     const [subbandname, setsubbandname] = useState("");
     const [bandname, setbandname] = useState("");
     const [subbanddesc, setsubbanddesc] = useState("");
+    const [issave, setissave] = useState(false);
     const [active, setActive] = useState<boolean>(true);
     const [data, Setdata] = useState([]);
     const [editmode, setEditmode] = useState(false);
+    const [Band, SetBand] = useState(false);
     const [globalFilterValue2, setGlobalFilterValue2] = useState("");
     const [filters2, setFilters2] = useState({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     });
+    const selectbands = useSelector((state: RootState) => state.Band)
+
+
+    const getdropdownelems = () => {
+        var bandoptions: IBandoptions[] = []
+        selectbands.forEach(e => {
+
+            bandoptions.push({
+                key: e.BandId,
+                label: e.BandName,
+                value: e.BandId
+            })
+        });
+
+        return bandoptions
+    }
+    const getdropdownactiveelems = () => {
+        var bandoptions: IBandoptions[] = []
+        selectbands.forEach(e => {
+            if (e.Active == true) {
+                bandoptions.push({
+                    key: e.BandId,
+                    label: e.BandName,
+                    value: e.BandId
+                })
+            }
+        });
+
+        return bandoptions
+    }
+    const SelectBand = [
+        { label: 's1', value: 's1' },
+        { label: 's2', value: 's2' },
+        { label: 's3', value: 's3' },
+        { label: 's4', value: 's4' }
+    ];
+
+
 
     const subbandsdata = useSelector((state: RootState) => state.subband);
     const dispatch = useDispatch();
@@ -46,7 +90,11 @@ const ManageSubband = () => {
     useEffect(() => {
         dispatch(getsubbandsaction());
     }, []);
-
+    useEffect(() => {
+        dispatch(getBandaction());
+        getdropdownelems()
+        getdropdownactiveelems()
+    }, [])
     const onGlobalFilterChange2 = (e: any) => {
         const value = e.target.value;
         let _filters2 = { ...filters2 };
@@ -56,6 +104,7 @@ const ManageSubband = () => {
         setGlobalFilterValue2(value);
     };
     const hideDialog = () => {
+        setissave(false)
         setSubmitted(false);
         setProductDialog(false);
     };
@@ -86,6 +135,7 @@ const ManageSubband = () => {
                     className="p-button-success mr-2"
                     onClick={(e) => {
                         setEditmode(false);
+                        SetBandID("");
                         setsubbanddesc("");
                         setsubbandname("");
                         setbandname("");
@@ -118,7 +168,28 @@ const ManageSubband = () => {
             </React.Fragment>
         );
     };
+    const bandtemplate = (data) => {
+        var bandoptions = getdropdownelems()
+        var bandid = data.BandId
+        var bandstr = ''
+        bandoptions.forEach(e => {
+            if (e.value == bandid)
+                bandstr = e.label
+        });
+        return (
+            <div>
 
+{bandstr}
+            </div>
+        )
+    }
+    const getdropdownvalindialog = (BandID: string) => {
+        var bandoptions = getdropdownelems()
+        bandoptions.forEach(e => {
+            if (e.label == BandID) return "L"
+        });
+        return "notexist"
+    }
     const leftToolbarTemplate = () => {
         return (
             <React.Fragment>
@@ -136,6 +207,7 @@ const ManageSubband = () => {
                         setEditmode(true);
                         // console.log(rowdata)
                         setsubbandid(data.subbandId);
+                        SetBandID(data.BandID);
                         setsubbanddesc(data.SubBandDesc);
                         setsubbandname(data.SubBandName);
                         setbandname(data.BandName);
@@ -154,20 +226,25 @@ const ManageSubband = () => {
                 icon="pi pi-check"
                 className="p-button-text"
                 onClick={() => {
+                    setissave (true);
                     console.log(subbandname);
                     console.log(bandname);
                     console.log(subbanddesc);
                     console.log(active);
                     var c = {
                         SubBandId: subbandid,
-                        BandId: bandname,
+                        BandName: bandname,
+                        BandId:BandID,
                         SubBandName: subbandname,
                         SubBandDesc: subbanddesc,
                         Active: active,
                     };
+                    if(subbandname!="")
+                    {
                     if (editmode === false) {
-                        dispatch(createsubbandaction( {
-                            BandId: bandname,
+                        dispatch(createsubbandaction(
+                            {
+                                BandId:BandID,
                             SubBandName: subbandname,
                             SubBandDesc: subbanddesc,
                             Active: active,
@@ -179,7 +256,7 @@ const ManageSubband = () => {
                     // axios.post("http://10.154.155.135:8000/api/company");
                     // hideDialog();
                 }}
-            />
+                }/>
         </React.Fragment>
     );
 
@@ -198,6 +275,8 @@ const ManageSubband = () => {
             <div>
                 <div>
                     <DataTable value={subbandsdata} showGridlines={false} responsiveLayout="scroll" paginator={true} rows={5} globalFilterFields={["SubBandName", "SubBandDesc", "Active"]} filters={filters2} header={Headercomp}>
+                    <Column field="BandID" header="Band" body={bandtemplate} sortable></Column>  
+                        
                         <Column field="SubBandName" header="Sub Band Name" sortable></Column>
                         <Column field="BandName" header="Band Name" sortable></Column>
                         <Column field="SubBandDesc" header="Sub Band Description" sortable></Column>
@@ -208,19 +287,27 @@ const ManageSubband = () => {
 
                 <Dialog visible={productDialog} style={{ width: "450px" }} header={editmode?"Edit Sub Bands Information ":"Add Sub Bands Information "} modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
                 <div className="field">
-                        <label htmlFor="SubBandName<">Sub Band Name</label>
-                        <InputText id=" SubBandName"  maxLength={5}onChange={(e) => setsubbandname(e.target.value)} value={subbandname}></InputText>
+                <label htmlFor="BandName<">Band Name*</label>
+                            {/* <InputText id=" BandName" onChange={(e) => setbandname(e.target.value)} value={bandname}></InputText> */}
 
+                            <Dropdown className={ issave==true&&BandID==""?"p-invalid":"p-valid"} value={BandID} options={!editmode?getdropdownactiveelems():getdropdownelems()}   id="BandID" onChange={(e) => SetBandID(e.value)}   placeholder="Select  Band Name"/>
+
+                            { issave==true&&BandID=="" && <small className="p-error">*Band Name  is Required.</small>}
+{/* <Dropdown value={BandID} options={!editmode?getdropdownactiveelems():getdropdownelems()} onChange={(e) => SetBandID(e.value)} placeholder="Select a Band"/> */}
+                    
 
                     <div className="field">
-                        <label htmlFor="BandName<">Band Name</label>
-                        <InputText id=" BandName" onChange={(e) => setbandname(e.target.value)} value={bandname}></InputText>
-                        <br />
+                    <label htmlFor="SubBandName<">Sub Band Name*</label>
+                        {/* <InputText id=" SubBandName" onChange={(e) => setsubbandname(e.target.value)} value={subbandname}></InputText> */}
+                        <InputText className={ issave==true&&subbandname==""?"p-invalid":"p-valid"} placeholder={subbandname==""?"":""} id=" SubBandName" onChange={(e) => setsubbandname(e.target.value)} value={subbandname}></InputText>
+                        { issave==true&&subbandname=="" && <small className="p-error">*Sub Band Name is required.</small>}
+
+                            <br />
                         <br />
                         <div className="field">
                             <label htmlFor="SubBandDesc">Sub Band Description</label>
-                            <InputTextarea id="SubBandDesc"  maxLength={500} onChange={(e) => setsubbanddesc(e.target.value)} value={subbanddesc}></InputTextarea>
-                        </div>
+                            <InputTextarea id="SubBandDesc" onChange={(e) => setsubbanddesc(e.target.value)} value={subbanddesc}></InputTextarea>
+                              </div>
 
                         <div className="col-12">
                             <Checkbox inputId="Active" checked={active} onChange={(e) => setActive(!active)} />
@@ -233,8 +320,9 @@ const ManageSubband = () => {
         </div>
     );
 };
-const comparisonFn = function (prevProps, nextProps) {
-    return prevProps.location.pathname === nextProps.location.pathname;
-};
+// const comparisonFn = function (prevProps, nextProps) {
+//     return prevProps.location.pathname === nextProps.location.pathname;
+// };
 
-export default React.memo(ManageSubband, comparisonFn);
+// export default React.memo(ManageSubband, comparisonFn);
+export default ManageSubband;

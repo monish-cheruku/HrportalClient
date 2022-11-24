@@ -7,7 +7,7 @@ function* subbandsgetsagaworker(){
     try{
         var res: Promise<any>=yield call(SubBandapi.getallsubbandsdata)
         // console.log(res)
-        yield put({type:subbandsdata,payload:res})
+        yield put({type:"subband/subbandsdata",payload:res})
     }
     catch(err){
 console.log(err)

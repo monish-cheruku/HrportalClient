@@ -15,12 +15,12 @@ import { Checkbox } from "primereact/checkbox";
 
 import { InputTextarea } from "primereact/inputtextarea";
 import { RadioButton } from "primereact/radiobutton";
-import Counter from "./Counter";
-import QuotesComp from "./QuotesComp";
 import { getexperiencelevelsaction, createexperiencelevelaction, updateexperiencelevelaction, ExperienceLevel } from "../features/ExperienceLevel/experiencelevelslice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { RootState } from "../app/store";
+import { Slider } from 'primereact/slider';
+
 import { act } from "react-dom/test-utils";
 import { FilterMatchMode } from "primereact/api";
 import { InputNumber } from "primereact/inputnumber";
@@ -32,7 +32,9 @@ const ManageExperiencelevel = () => {
     const [experiencelevelid, setexperiencelevelid] = useState(0);
     const [experiencelevel, setexperiencelevel] = useState("");
     const [experiencelevelrange, setexperiencelevelrange] = useState(0);
+    const [issave, setissave] = useState(false)
     const [active, setActive] = useState<boolean>(true);
+    const [rangeValues, setRangeValues] = useState([0,1]);
     const [data, Setdata] = useState([]);
     const [editmode, setEditmode] = useState(false);
     const [globalFilterValue2, setGlobalFilterValue2] = useState("");
@@ -56,6 +58,7 @@ const ManageExperiencelevel = () => {
         setGlobalFilterValue2(value);
     };
     const hideDialog = () => {
+        setissave(false)
         setSubmitted(false);
         setProductDialog(false);
     };
@@ -89,7 +92,7 @@ const ManageExperiencelevel = () => {
                         setexperiencelevelrange(0);
                         setexperiencelevel("");
                         setActive(true);
-
+                        setRangeValues([0,35])
                         setProductDialog(true);
                     }}
                 />
@@ -120,7 +123,7 @@ const ManageExperiencelevel = () => {
     const leftToolbarTemplate = () => {
         return (
             <React.Fragment>
-                <h2>Manage experiencelevel</h2>
+                <h2>Manage experience level</h2>
             </React.Fragment>
         );
     };
@@ -134,7 +137,8 @@ const ManageExperiencelevel = () => {
                         setEditmode(true);
                         console.log(data)
                         setexperiencelevelid(data.ExperienceLevelId);
-                        setexperiencelevelrange(data.ExperienceRange);
+                        // setexperiencelevelrange(data.ExperienceRange);
+                        setRangeValues([data.Min_ExperienceRange,data.Max_ExperienceRange])
                         setexperiencelevel(data.ExperienceLevel);
                         setActive(data.Active);
                         setProductDialog(true);
@@ -151,20 +155,26 @@ const ManageExperiencelevel = () => {
                 icon="pi pi-check"
                 className="p-button-text"
                 onClick={() => {
+                    setissave(true);
                     console.log(experiencelevel);
                     console.log(experiencelevelrange);
                     console.log(active);
+                    var temp = rangeValues
                     var c = {
                         ExperienceLevelId: experiencelevelid,
                         ExperienceLevel: experiencelevel,
-                        ExperienceRange: experiencelevelrange,
-                        Active: active,
+                      
+                        Min_ExperienceRange: temp[0],
+
+                        Max_ExperienceRange: temp[1],
                     };
+                    if (experiencelevel != "") {
                     if (editmode === false) {
                         dispatch(createexperiencelevelaction({                           
                             ExperienceLevel: experiencelevel,
-                            ExperienceRange: experiencelevelrange,
-                            Active: active,
+                            Min_Experience: temp[0],
+                            Max_Experience: temp[1],
+                            Active: active
                         }));
                     } else {
                         dispatch(updateexperiencelevelaction(c));
@@ -172,8 +182,9 @@ const ManageExperiencelevel = () => {
                     setProductDialog(false);
                     // axios.post("http://10.154.155.135:8000/api/company");
                     // hideDialog();
-                }}
-            />
+                }
+            }
+                } />
         </React.Fragment>
     );
 
@@ -193,7 +204,8 @@ const ManageExperiencelevel = () => {
                 <div>
                     <DataTable value={experiencelevelsdata} showGridlines={false} responsiveLayout="scroll" paginator={true} rows={5} globalFilterFields={["ExperienceLevel", "ExperienceLevelRange", "Active"]} filters={filters2} header={Headercomp}>
                         <Column field="ExperienceLevel" header="Experience Level " sortable></Column>
-                        <Column field="ExperienceRange" header="Experience Level Range" body={(d)=><div>{d.ExperienceRange?.toString()}</div>}sortable dataType="number"></Column>
+                        <Column field="Min_Experience" header="Minimum Experience " sortable dataType="number" body={e=><div>{e.Min_Experience}</div>}></Column>
+                        <Column field="Max_Experience" header="Maximum Experience" sortable dataType="number" body={e=><div>{e.Max_Experience}</div>}></Column>
                         <Column field="Active" header="Active" sortable dataType="boolean" body={activediv}></Column>
                         <Column field="edit" header="Edit" body={actionBodyTemplate} exportable={false}></Column>
                     </DataTable>
@@ -202,13 +214,18 @@ const ManageExperiencelevel = () => {
                 <Dialog visible={productDialog} style={{ width: "450px" }} header={editmode?"Edit Experience Levels Information ":"Add Experience Levels Information "} modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
                     <div className="field">
                         <label htmlFor="ExperienceLevel<">ExperienceLevel </label>
-                        <InputText id=" ExperienceLevel"  maxLength={100} onChange={(e) => setexperiencelevel(e.target.value)} value={experiencelevel}></InputText>
-
+                        {/* <InputText id=" ExperienceLevel" onChange={(e) => setexperiencelevel(e.target.value)} value={experiencelevel}></InputText> */}
+                        <InputText className={issave == true && experiencelevel == "" ? "p-invalid" : "p-valid"} placeholder={experiencelevel == "" ? "" : ""} id=" ExperienceLevel" onChange={(e) => setexperiencelevel(e.target.value)} value={experiencelevel}></InputText>
+                        {issave == true && experiencelevel == "" && <small className="p-error">Experience Level is required.</small>}
                         <br />
                         <br />
                         <div className="field">
-                            <label htmlFor="ExperienceLevelRange">ExperienceLevel Range</label>
-                            <InputNumber id="ExperienceLevelRange" onChange={(e) => setexperiencelevelrange(e.value)} value={experiencelevelrange}></InputNumber>
+                        <label htmlFor="MinimumExperienceRange"> Experience Range</label>
+                            {/* <InputNumber id="MinimumExperienceLevelRange" onChange={(e) => setexperiencelevelrange(e.value)} value={experiencelevelrange}></InputNumber> */}
+                            {/* <InputText value={rangeValues as number} onChange={(e) => setRangeValues(parseInt(e.target.value))} /> */}
+                            {"["+rangeValues[0]+","+rangeValues[1]+"]"}
+                            {/* <Slider value={sliderValue as number} onChange={(e) => setSliderValue(e.value as number)} /> */}
+                            <Slider min={0} max={35} step={3} value={rangeValues} onChange={(e) => { setRangeValues(e.value) }} range />
                         </div>
 
                         <div className="col-12">
@@ -221,8 +238,9 @@ const ManageExperiencelevel = () => {
         </div>
     );
 };
-const comparisonFn = function (prevProps, nextProps) {
-    return prevProps.location.pathname === nextProps.location.pathname;
-};
+// const comparisonFn = function (prevProps, nextProps) {
+//     return prevProps.location.pathname === nextProps.location.pathname;
+// };
 
-export default React.memo(ManageExperiencelevel, comparisonFn);
+// export default React.memo(ManageExperiencelevel, comparisonFn);
+export default ManageExperiencelevel

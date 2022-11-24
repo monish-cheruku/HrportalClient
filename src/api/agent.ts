@@ -8,18 +8,20 @@ import {SubBand} from "../features/SubBand/subbandslice"
 import {store} from '../app/store'
 
 import { createtoast } from '../features/ToastSlice'
+import {UserRoles} from "../features/UserRoles/userroleslice"
 
 
 
 
 // import {Band} from "../features/Band/bandslice"
 
-axios.defaults.baseURL = 'http://10.154.155.171:8000/api';
+axios.defaults.baseURL = 'http://10.154.155.177:8000/api';
 //http://10.154.28.148:8000/api/     monish//
 //http://10.154.155.152:8000/api      /dwaraka
 axios.interceptors.response.use(undefined, (error) => {
   if (error.message === "Network Error" && !error.response) {
     console.log("Network error - make sure API is running!");
+    alert("error : "+error)
     store.dispatch(createtoast({
 
       id:34,
@@ -30,7 +32,9 @@ axios.interceptors.response.use(undefined, (error) => {
 
       endpoint:"400"
 
-  }))
+  }
+  )
+  )
 
   return
   }
@@ -78,41 +82,40 @@ const requests = {
   };
 
 
-const quotes={
-        getdataof: (id: number) => axios.get(`https://dummyjson.com/quotes/${id}`),
+export const Login={
+  login:(data)=>requests.post('/login',data)
 }
-
-const companyapi={
+export const companyapi={
   getallcompaniesdata:()=>requests.get(`/company`),
   createcompany:(data)=>requests.post("/company",data),
   updatecompany:(data)=>requests.put("/company",data)
 }
-const businessunitapi={
+export const businessunitapi={
   getallbusinessunitsdata:()=>requests.get(`/businessunit`),
   createbusinessunit:(data)=>requests.post("/businessunit",data),
   updatebusinessunit:(data)=>requests.put("/businessunit",data)
 }
-const Customerapi={
+export const Customerapi={
   getallcustomersdata:()=>requests.get(`/Customer`),
   createcustomer:(data)=>requests.post("/Customer",data),
   updatecustomer:(data)=>requests.put("/Customer",data)
 }
-const Experienceapi={
+export const Experienceapi={
   getallexperiencelevelsdata:()=>requests.get(`/Experience`),
   createexperiencelevel:(data)=>requests.post("/Experience",data),
   updateexperiencelevel:(data)=>requests.put("/Experience",data)
 }
-const Designationapi={
+export const Designationapi={
   getalldesignationsdata:()=>requests.get(`/Designation`),
   createdesignation:(data)=>requests.post("/Designation",data),
   updatedesignation:(data)=>requests.put("/Designation",data)
 }
-const SubBandapi={
+export const SubBandapi={
   getallsubbandsdata:()=>requests.get(`/SubBand`),
   createsubband:(data)=>requests.post("/SubBand",data),
-  update:(data)=>requests.put("/SubBand",data)
+  updatesubband:(data)=>requests.put("/SubBand",data)
 }
-const servicelineapi={
+export const servicelineapi={
 
   getallservicelinedata:()=>requests.get("/serviceline"),
 
@@ -122,7 +125,7 @@ const servicelineapi={
 
 }
 
-const Locationapi={
+export const Locationapi={
 
   getallLocationdata:()=>requests.get("/Location"),
 
@@ -132,7 +135,7 @@ const Locationapi={
 
 }
 
-const Bandapi={
+export const Bandapi={
 
   getallBanddata:()=>requests.get("/Band"),
 
@@ -141,7 +144,7 @@ const Bandapi={
   updateBand:(data)=>requests.put("/Band",data)
 
 }
-const AvgCTCapi={
+export const AvgCTCapi={
 
   getallManageBilldata:()=>requests.get("/AvgCTC"),
 
@@ -153,7 +156,7 @@ const AvgCTCapi={
 
 
 
-const insuranceapi={
+export const insuranceapi={
 
   getallInsurancedata:()=>requests.get("/Insurance"),
 
@@ -162,8 +165,28 @@ const insuranceapi={
   updateInsurance:(data)=>requests.put("/Insurance",data)
 
 }
+export const userrolesapi={
+  getalluserrolesdata:()=>requests.get(`/UserRoles`),
+  createuserroles:(data)=>requests.post("/UserRoles",data),
+  updateuserroles:(data)=>requests.put("/UserRoles",data)
+}
+export const Rolesapi={
+  getallRolesdata:()=>requests.get(`/Roles`),
 
-const Industryapi={
+
+}
+export const AdUsersapi={
+
+  getallAdUsersdata:()=>requests.get("/AdUsers"),
+
+  createAdUsers:(data)=>requests.post("/AdUsers",data),
+
+  updateAdUsers:(data)=>requests.put("/AdUsers",data)
+
+}
+
+
+export const Industryapi={
 
   getallIndustrydata:()=>requests.get("/Industry"),
 
@@ -173,12 +196,12 @@ const Industryapi={
 
 }
 
+export const jobpostactions={
+  getalljobpostactiondata:(data)=>requests.post("jobpost/jobpostactionsdetails",data),
+
+}
 
 
 
 
 
-
-
-
-export  {quotes,companyapi, businessunitapi, Customerapi, Experienceapi, Designationapi, SubBandapi,servicelineapi,Locationapi,Bandapi,AvgCTCapi,insuranceapi,Industryapi}

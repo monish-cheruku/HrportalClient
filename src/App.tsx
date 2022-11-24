@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames';
-import { Route, useLocation } from 'react-router-dom';
+import { Route, useLocation, Routes, Navigate } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 
 import { AppTopbar } from './AppTopbar';
@@ -18,7 +18,6 @@ import 'prismjs/themes/prism-coy.css';
 import './assets/demo/flags/flags.css';
 import './assets/demo/Demos.scss';
 import './assets/layout/layout.scss';
-import './App.scss';
 import ManageCompany from './pages/ManageCompany';
 import Dashboard from './pages/Dashboard';
 import ManageBusinessUnit from './pages/ManageBusinessUnit';
@@ -38,18 +37,24 @@ import ManageBill from '../src/pages/ManageBillrate'
 import ManageInsurance from './pages/ManageInsurance';
 import Industry from './pages/Industry';
 
-import { createtoast, Toaster} from '../src/features/ToastSlice'
+import { createtoast, Toaster } from '../src/features/ToastSlice'
 
 import { useDispatch } from 'react-redux';
 
 import { useSelector } from 'react-redux';
 
 import { RootState } from './app/store';
-
+import UserRoles from './pages/UserRoles';
+import LoginPage from './LoginPage';
+import { ILogin } from './features/Login/Loginslice';
+import JobpostsactionApproval from './pages/DashboardComponents/JobPostActionsHiringManager/JobpostsactionApproval';
+import Newcomp from './Newcomp';
+import ProtectedRoute from './components/routes/ProtectedRout';
 
 
 const App = () => {
-    const toastdata=useSelector((state:RootState)=>state.toaster)
+    const toastdata = useSelector((state: RootState) => state.toaster)
+    const state = useSelector((state: RootState) => state)
     const [layoutMode, setLayoutMode] = useState('static');
     const [layoutColorMode, setLayoutColorMode] = useState<any>('light')
     const [inputStyle, setInputStyle] = useState('outlined');
@@ -62,12 +67,13 @@ const App = () => {
     const location = useLocation();
     const toast = useRef(null);
     PrimeReact.ripple = true;
+    var Logindata: ILogin = useSelector((state: RootState) => state.Login);
 
     let menuClick = false;
     let mobileTopbarMenuClick = false;
 
     useEffect(() => {
-    
+
         if (mobileMenuActive) {
             addClass(document.body, "body-overflow-hidden");
         } else {
@@ -80,35 +86,32 @@ const App = () => {
 
     }, [location]);
 
-useEffect(()=>{
+    useEffect(() => {
+        if (toast.current ? toastdata.data != "" : false) {
 
-    // var {status,data,endpoint}=toastdata
+            if (toastdata.status == "error")
+                toast.current.show({ severity: toastdata.status, summary: toastdata.status + " in " + toastdata.endpoint, detail: toastdata.data, life: 3000 });
+            else
+                toast.current.show({ severity: toastdata.status, summary: toastdata.status, detail: toastdata.data, life: 3000 });
+        }
 
-   
-
-    // if(toastdata.status=="success")
-    if (toastdata.data!=""){
-
-        if(toastdata.status=="error")
-        toast.current.show({severity:toastdata.status, summary: toastdata.status+" in "+toastdata.endpoint, detail:toastdata.data, life: 3000});
-       else
-        toast.current.show({severity:toastdata.status, summary: toastdata.status, detail:toastdata.data, life: 3000});
-    }
+    }, [toastdata])
 
 
-
-},[toastdata])
     useEffect(() => {
         copyTooltipRef && copyTooltipRef.current && copyTooltipRef.current.updateTargetEvents();
     }, [location]);
+    useEffect(() => {
+        // console.log(state)
+    }, [])
 
     const onInputStyleChange = (inputStyle: React.SetStateAction<string>) => {
         setInputStyle(inputStyle);
     }
 
     const onRipple = () => {
-        PrimeReact.ripple =! PrimeReact.ripple ;
-        setRipple(! PrimeReact.ripple )
+        PrimeReact.ripple = !PrimeReact.ripple;
+        setRipple(!PrimeReact.ripple)
     }
 
     const onLayoutModeChange = (mode: React.SetStateAction<string>) => {
@@ -132,7 +135,6 @@ useEffect(()=>{
         mobileTopbarMenuClick = false;
         menuClick = false;
     }
-
     const onToggleMenuClick = (event: { preventDefault: () => void; }) => {
         menuClick = true;
 
@@ -188,89 +190,85 @@ useEffect(()=>{
             label: 'Home',
             items: [
                 // {label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/'},
-                {label: 'Dashboard', icon: 'pi pi-fw pi-Hospital', to: '/'}
+                { label: 'Dashboard', icon: 'pi pi-fw pi-Hospital', to: '/dashboard' },
             ]
         },
         {
             label: 'Administration',
             // label: 'Administration', icon: 'pi pi-fw pi-search',
             items: [
-                
-                
-                        {
-                            label: 'Company', icon: 'pi pi-fw pi-bookmark',to: '/Managecompany' ,
-                        },
-                        {
-                            label: 'Businessunit', icon: 'pi pi-fw pi-bookmark',to: '/ManageBusinessUnit' ,
-                        },
-                        {
-                            label: 'Service Line', icon: 'pi pi-fw pi-bookmark',to: '/serviceline' ,
-                        },
-                        // {
-                        //     label: 'Roles', icon: 'pi pi-fw pi-bookmark',to: '/manage Roles' ,
-                        // },
+
+
+                {
+                    label: 'Industry', icon: 'pi pi-fw pi-bookmark', to: '/Industry'
+
+                },
+                {
+                    label: 'Company', icon: 'pi pi-fw pi-bookmark', to: '/Managecompany',
+                },
+                {
+                    label: 'Businessunit', icon: 'pi pi-fw pi-bookmark', to: '/ManageBusinessUnit',
+                },
+                {
+                    label: 'Service Line', icon: 'pi pi-fw pi-bookmark', to: '/serviceline',
+                },
+                // {
+                //     label: 'Roles', icon: 'pi pi-fw pi-bookmark',to: '/manage Roles' ,
+                // },
 
 
 
-                        {
-                            label: 'Customer', icon: 'pi pi-fw pi-bookmark',to: '/ManageCustomer' ,
-                        },
-                        {
-                            label: 'Location', icon: 'pi pi-fw pi-bookmark',to: '/Location' ,
-                        }, 
-                                                
-                        {
-                            label: 'Experience Level', icon: 'pi pi-fw pi-bookmark',to: '/ManageExperienceLevel' ,
-                        },
-                        {
+                {
+                    label: 'Customer', icon: 'pi pi-fw pi-bookmark', to: '/ManageCustomer',
+                },
+                {
+                    label: 'Location', icon: 'pi pi-fw pi-bookmark', to: '/Location',
+                },
 
-                            label: 'Avg CTC/Bill Rate', icon: 'pi pi-fw pi-bookmark',to: '/AvgCTC' ,
+                {
+                    label: 'Experience Level', icon: 'pi pi-fw pi-bookmark', to: '/ManageExperienceLevel',
+                },
+                {
 
-                        },
-                        {
-                            label: 'Designation', icon: 'pi pi-fw pi-bookmark',to: '/ManageDesignation' ,
-                        },
-                        {
+                    label: 'Avg CTC/Bill Rate', icon: 'pi pi-fw pi-bookmark', to: '/AvgCTC',
 
-                            label: 'Band', icon: 'pi pi-fw pi-bookmark',to: '/Band' ,
+                },
+                {
+                    label: 'Designation', icon: 'pi pi-fw pi-bookmark', to: '/ManageDesignation',
+                },
+                {
+                    label: 'UserRoles', icon: 'pi pi-fw pi-bookmark', to: '/userroles',
+                },
+                {
 
-                        },
-                        {
-                            label: 'SubBand', icon: 'pi pi-fw pi-bookmark',to: '/ManageSubBand' ,
-                        },
+                    label: 'Band', icon: 'pi pi-fw pi-bookmark', to: '/Band',
 
-
-                        {
-
-                            label: 'Insurance/Accident Limit', icon: 'pi pi-fw pi-bookmark',to: '/Insurance' ,
-
-                        },
-                        
-                        {
-                            label: 'Industry', icon: 'pi pi-fw pi-bookmark',to: '/Industry' 
-
-                        }
+                },
+                {
+                    label: 'SubBand', icon: 'pi pi-fw pi-bookmark', to: '/ManageSubBand',
+                },
 
 
+                {
+
+                    label: 'Insurance/Accident Limit', icon: 'pi pi-fw pi-bookmark', to: '/Insurance',
+
+                },
 
 
-
-                        // {
-                        //     label: 'Manage Company', icon: 'pi pi-fw pi-bookmark',
-                        //     items: [
-                        //         { label: 'Submenu 1.1.1', icon: 'pi pi-fw pi-bookmark' },
-                        //         { label: 'Submenu 1.1.2', icon: 'pi pi-fw pi-bookmark' },
-                        //         { label: 'Submenu 1.1.3', icon: 'pi pi-fw pi-bookmark' },
-                        //     ]
-                        // },
-                      
-               
             ]
         },
-       
-       
-    ];
 
+
+    ];
+    if (Logindata.groups ? !(Logindata.groups.length > 1) : true) {
+        // console.log(Logindata.groups?Logindata.groups.length>1:"text")
+
+        var ob = menu.filter((i) => i.label == "Administration")
+        var i = menu.indexOf(ob[0])
+        i > 0 ? menu.splice(i, 1) : console.log()
+
+    }
     const addClass = (element: HTMLElement, className: string) => {
         if (element.classList)
             element.classList.add(className);
@@ -295,54 +293,152 @@ useEffect(()=>{
         'p-ripple-disabled': ripple === false,
         'layout-theme-light': layoutColorMode === 'light'
     });
-
+    // if (Component.getLayout) {
+    //     return (
+    //         <LayoutProvider>
+    //             {Component.getLayout(<Component {...pageProps} />)}
+    //         </LayoutProvider>
+    //     )
+    // } else {
+        function RequireAuth({ children, redirectTo }) {
+            let isAuthenticated = true;
+            return isAuthenticated ? children : <Navigate to={redirectTo} />;
+          }
     return (
-        <div className={wrapperClass} onClick={onWrapperClick}>
-            <Tooltip ref={copyTooltipRef} target=".block-action-copy" position="bottom" content="Copied to clipboard" event="focus" />
-            <Toast ref={toast} position="bottom-left" />
-            <AppTopbar onToggleMenuClick={onToggleMenuClick} layoutColorMode={layoutColorMode}
-                mobileTopbarMenuActive={mobileTopbarMenuActive} onMobileTopbarMenuClick={onMobileTopbarMenuClick} onMobileSubTopbarMenuClick={onMobileSubTopbarMenuClick} />
-
-
-            <div className="layout-sidebar mw-100" onClick={onSidebarClick}>
-                <AppMenu model={menu} onMenuItemClick={onMenuItemClick} layoutColorMode={layoutColorMode} />
-            </div>
-            <div className="layout-main-container">
-                <div className="layout-main">
-
-
-                    <Route path="/" exact component={Dashboard} />
-                    <Route path="/Managecompany" component={ManageCompany} />
-                    <Route path="/ManageBusinessUnit" component={ManageBusinessUnit} />
-                    <Route path="/Managecustomer" component={ManageCustomer} />
-                    <Route path="/ManageExperienceLevel" component={ManageExperienceLevel} />
-                    <Route path="/ManageDesignation" component={ManageDesignation} />     
-                    <Route path="/ManageSubBand" component={ManageSubBand} />
-                    <Route path="/serviceline" component={ServiceLine}/>
-                    <Route path="/Location" component={Location}/>
-                    <Route path="/Band" component={ManageBand}/>
-                    <Route path="/AvgCTC" component={ManageBill}/>
-                    <Route path="/Insurance" component={ManageInsurance}/>
-                    <Route path="/Industry" component={Industry}/>
+        //         <Switch>
+        // <HashRouter>
+//React protected router?
 
 
 
-                  
-                   
-                   
-                </div>
+        <Routes>
+            <Route  path="/Login" element={<LoginPage />} />
+            {/* <Route path="/Industry" element={<Industry />} />
+            <Route path="/dashboard" element={<Dashboard />} /> */}
+            {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+            {/* <Route
+        path="*"
+        element={<RequireAuth redirectTo="/login">
+        <Routes>
 
-                {/* < AppFooter layoutColorMode={layoutColorMode} /> */}
-            </div>
+            <Route path="/dashboard" element={<Dashboard />} />
+        </Routes>
+          </RequireAuth>}/> */}
+            <Route
+                path="*"
+                element={
+                    // <RequireAuth  redirectTo="/login">
+                        <div className={wrapperClass} onClick={onWrapperClick}>
+                            <div>
 
-            <AppConfig rippleEffect={ripple} onRippleEffect={onRipple} inputStyle={inputStyle} onInputStyleChange={onInputStyleChange}
-                layoutMode={layoutMode} onLayoutModeChange={onLayoutModeChange} layoutColorMode={layoutColorMode} onColorModeChange={onColorModeChange} />
+                                <Tooltip ref={copyTooltipRef} target=".block-action-copy" position="bottom" content="Copied to clipboard" event="focus" />
+                                <Toast ref={toast} position="bottom-left" />
+                                <AppTopbar onToggleMenuClick={onToggleMenuClick} layoutColorMode={layoutColorMode}
+                                    mobileTopbarMenuActive={mobileTopbarMenuActive} onMobileTopbarMenuClick={onMobileTopbarMenuClick} onMobileSubTopbarMenuClick={onMobileSubTopbarMenuClick} />
+                                <div className="layout-sidebar mw-100" onClick={onSidebarClick}>
+                                    <AppMenu model={menu} onMenuItemClick={onMenuItemClick} layoutColorMode={layoutColorMode} />
+                                </div>
+                                <div className="layout-main-container">
+                                    <div className="layout-main">
 
-            <CSSTransition classNames="layout-mask" timeout={{ enter: 200, exit: 200 }} in={mobileMenuActive} unmountOnExit>
-                <div className="layout-mask p-component-overlay"></div>
-            </CSSTransition>
+                                        <Routes>
+                                            <Route path="/dashboard" element={<Dashboard />} />
+                                            <Route path="/Industry" element={<Industry />} />
+                                            <Route path="/Managecompany" element={<ManageCompany />} />
+                                            <Route path="/ManageBusinessUnit" element={<ManageBusinessUnit />} />
+                                            <Route path="/Managecustomer" element={<ManageCustomer />} />
+                                            <Route path="/ManageExperienceLevel" element={<ManageExperienceLevel />} />
+                                            <Route path="/ManageDesignation" element={<ManageDesignation />} />
+                                            <Route path="/ManageSubBand" element={<ManageSubBand />} />
+                                            <Route path="/serviceline" element={<ServiceLine />} />
+                                            <Route path="/Location" element={<Location />} />
+                                            <Route path="/Band" element={<ManageBand />} />
+                                            <Route path="/AvgCTC" element={<ManageBill />} />
+                                            <Route path="/Insurance" element={<ManageInsurance />} />
+                                            <Route path="/userroles" element={<UserRoles />} />
 
-        </div>
+
+
+
+
+                                            <Route path="/jobpostsactionApproval/:JobCode"  element={<JobpostsactionApproval />} />
+                                        
+
+
+                                        </Routes>
+                                    </div>
+
+
+                                </div>
+
+                                <AppConfig rippleEffect={ripple} onRippleEffect={onRipple} inputStyle={inputStyle} onInputStyleChange={onInputStyleChange}
+                                    layoutMode={layoutMode} onLayoutModeChange={onLayoutModeChange} layoutColorMode={layoutColorMode} onColorModeChange={onColorModeChange} />
+
+                                <CSSTransition classNames="layout-mask" timeout={{ enter: 200, exit: 200 }} in={mobileMenuActive} unmountOnExit>
+                                    <div className="layout-mask p-component-overlay"></div>
+                                </CSSTransition>
+                            </div>
+                        </div>
+                    // </RequireAuth>
+               }
+            /> 
+            {/* <ProtectedRout
+                    isAuthenticated={true}
+                    path={"/(.+)"}
+                    render={() => (
+                        <div className={wrapperClass} onClick={onWrapperClick}>
+                            <div>
+
+                                <Tooltip ref={copyTooltipRef} target=".block-action-copy" position="bottom" content="Copied to clipboard" event="focus" />
+                                <Toast ref={toast} position="bottom-left" />
+                                <AppTopbar onToggleMenuClick={onToggleMenuClick} layoutColorMode={layoutColorMode}
+                                    mobileTopbarMenuActive={mobileTopbarMenuActive} onMobileTopbarMenuClick={onMobileTopbarMenuClick} onMobileSubTopbarMenuClick={onMobileSubTopbarMenuClick} />
+                                <div className="layout-sidebar mw-100" onClick={onSidebarClick}>
+                                    <AppMenu model={menu} onMenuItemClick={onMenuItemClick} layoutColorMode={layoutColorMode} />
+                                </div>
+                                <div className="layout-main-container">
+                                    <div className="layout-main">
+
+                                        <Route path="/dashboard" element={<Dashboard />} />
+                                        <Route path="/Industry" element={<Industry />} />
+                                        <Route path="/Managecompany" element={<ManageCompany />} />
+                                        <Route path="/ManageBusinessUnit" element={<ManageBusinessUnit />} />
+                                        <Route path="/Managecustomer" element={<ManageCustomer />} />
+                                        <Route path="/ManageExperienceLevel" element={<ManageExperienceLevel />} />
+                                        <Route path="/ManageDesignation" element={<ManageDesignation />} />
+                                        <Route path="/ManageSubBand" element={<ManageSubBand />} />
+                                        <Route path="/serviceline" element={<ServiceLine />} />
+                                        <Route path="/Location" element={<Location />} />
+                                        <Route path="/Band" element={<ManageBand />} />
+                                        <Route path="/AvgCTC" element={<ManageBill />} />
+                                        <Route path="/Insurance" element={<ManageInsurance />} />
+                                        <Route path="/userroles" element={<UserRoles />} />
+
+
+
+
+
+                                        <Route path="/dashboard/jobpostsactionApproval" element={<JobpostsactionApproval />} />
+                                       
+
+
+                                    </div>
+
+
+                                </div>
+
+                                <AppConfig rippleEffect={ripple} onRippleEffect={onRipple} inputStyle={inputStyle} onInputStyleChange={onInputStyleChange}
+                                    layoutMode={layoutMode} onLayoutModeChange={onLayoutModeChange} layoutColorMode={layoutColorMode} onColorModeChange={onColorModeChange} />
+
+                                <CSSTransition classNames="layout-mask" timeout={{ enter: 200, exit: 200 }} in={mobileMenuActive} unmountOnExit>
+                                    <div className="layout-mask p-component-overlay"></div>
+                                </CSSTransition>
+                            </div>
+                        </div>
+                    )} component={undefined} /> */}
+
+        </Routes>
+
     );
 
 }

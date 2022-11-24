@@ -36,6 +36,7 @@ const ManageCustomer = () => {
     const [acronym, setAcronym] = useState("");
     const [active, setActive] = useState<boolean>(true);
     const [data, Setdata] = useState([]);
+    const [issave, setissave] = useState(false);
     const [editmode, setEditmode] = useState(false);
     const [globalFilterValue2, setGlobalFilterValue2] = useState("");
     // const toast = useRef();
@@ -59,6 +60,7 @@ const ManageCustomer = () => {
         setGlobalFilterValue2(value);
     };
     const hideDialog = () => {
+        setissave(false)
         setSubmitted(false);
         setProductDialog(false);
     };
@@ -157,6 +159,7 @@ const ManageCustomer = () => {
                 icon="pi pi-check"
                 className="p-button-text"
                 onClick={() => {
+                    setissave (true);
                     console.log(customername);
                     console.log(customerdesc);
                     console.log(acronym);
@@ -168,6 +171,8 @@ const ManageCustomer = () => {
                         Acronym: acronym,
                         Active: active,
                     };
+                    if(customername!="")
+                    {
                     if (editmode === false) {
                         dispatch(createcustomeraction(c));
                     } else {
@@ -177,7 +182,7 @@ const ManageCustomer = () => {
                     // axios.post("http://10.154.155.135:8000/api/customer");
                     // hideDialog();
                 }}
-            />
+                }/>
         </React.Fragment>
     );
 
@@ -207,10 +212,11 @@ const ManageCustomer = () => {
 
                 <Dialog visible={productDialog} style={{ width: "450px" }} header={editmode?"Edit Customers Information ":"Add Customers Information "} modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
                     <div className="field">
-                        <label htmlFor="CustomerName<">Customer Name</label>
-                        <InputText id=" CustomerName"  maxLength={50} onChange={(e) => setCustomername(e.target.value)} value={customername}></InputText>
-
-                        <br />
+                    <label htmlFor="CustomerName<">Customer Name*</label>
+                        {/* <InputText id=" CustomerName" onChange={(e) => setCustomername(e.target.value)} value={customername}></InputText> */}
+                        <InputText className={ issave==true&&customername==""?"p-invalid":"p-valid"} placeholder={customername==""?"":""} id=" CustomerName" onChange={(e) => setCustomername(e.target.value)} value={customername}></InputText>
+                        { issave==true&&customername=="" && <small className="p-error">Customer Name is required*</small>}
+                         <br />
                         <br />
                         <div className="field">
                             <label htmlFor="CustomerDesc">Customer Description</label>
@@ -231,8 +237,9 @@ const ManageCustomer = () => {
         </div>
     );
 };
-const comparisonFn = function (prevProps, nextProps) {
-    return prevProps.location.pathname === nextProps.location.pathname;
-};
+// const comparisonFn = function (prevProps, nextProps) {
+//     return prevProps.location.pathname === nextProps.location.pathname;
+// };
 
-export default React.memo(ManageCustomer, comparisonFn);
+// export default React.memo(ManageCustomer, comparisonFn);
+export default ManageCustomer;

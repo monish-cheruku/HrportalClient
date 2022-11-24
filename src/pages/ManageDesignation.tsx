@@ -31,6 +31,7 @@ const ManageDesignation = () => {
     const [designationid, setdesignationid] = useState(0);
     const [designationname, setdesignationname] = useState("");
     const [designationdesc, setdesignationdesc] = useState("");
+    const [issave, setissave] = useState(false);
     const [active, setActive] = useState<boolean>(true);
     const [data, Setdata] = useState([]);
     const [editmode, setEditmode] = useState(false);
@@ -55,6 +56,7 @@ const ManageDesignation = () => {
         setGlobalFilterValue2(value);
     };
     const hideDialog = () => {
+        setissave(false)
         setSubmitted(false);
         setProductDialog(false);
     };
@@ -150,6 +152,7 @@ const ManageDesignation = () => {
                 icon="pi pi-check"
                 className="p-button-text"
                 onClick={() => {
+                    setissave (true);
                     console.log(designationname);
                     console.log(designationdesc);
                     console.log(active);
@@ -159,6 +162,8 @@ const ManageDesignation = () => {
                         DesignationDesc: designationdesc,
                         Active: active,
                     };
+                    if(designationname!="")
+                    {
                     if (editmode === false) {
                         dispatch(createdesignationaction(c));
                     } else {
@@ -169,7 +174,7 @@ const ManageDesignation = () => {
                     // axios.post("http://10.154.155.135:8000/api/company");
                     // hideDialog();
                 }}
-            />
+                }/>
         </React.Fragment>
     );
 
@@ -198,9 +203,10 @@ const ManageDesignation = () => {
                 <Dialog visible={productDialog} style={{ width: "450px" }} header={editmode?"Edit Designations Information ":"Add Designations Information "} modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
                     <div className="field">
                         <label htmlFor="DesignationName<">Designation Name</label>
-                        <InputText id=" DesignationName"  maxLength={100} onChange={(e) => setdesignationname(e.target.value)} value={designationname}></InputText>
-
-                        <br />
+                         {/* <InputText id=" DesignationName" onChange={(e) => setdesignationname(e.target.value)} value={designationname}></InputText> */}
+                         <InputText className={ issave==true&&designationname==""?"p-invalid":"p-valid"} placeholder={designationname==""?"":""} id=" DesignationName" onChange={(e) => setdesignationname(e.target.value)} value={designationname}></InputText>
+                        { issave==true&&designationname=="" && <small className="p-error">Designation Name is required.</small>}
+                         <br />
                         <br />
                         <div className="field">
                             <label htmlFor="DesignationDesc">Designation Description</label>
@@ -217,8 +223,9 @@ const ManageDesignation = () => {
         </div>
     );
 };
-const comparisonFn = function (prevProps, nextProps) {
-    return prevProps.location.pathname === nextProps.location.pathname;
-};
+// const comparisonFn = function (prevProps, nextProps) {
+//     return prevProps.location.pathname === nextProps.location.pathname;
+// };
 
-export default React.memo(ManageDesignation, comparisonFn);
+// export default React.memo(ManageDesignation, comparisonFn);
+export default ManageDesignation;

@@ -50,7 +50,7 @@ const ManageLocation = () => {
 
     useEffect(() => {
         dispatch(getLocationaction());
-        console.log(getLocationaction)
+        // console.log(getLocationaction())
     }, []);
 
     const onGlobalFilterChange2 = (e: any) => {
@@ -192,8 +192,9 @@ const ManageLocation = () => {
         </div>
     );
 };
-const comparisonFn = function (prevProps, nextProps) {
-    return prevProps.location.pathname === nextProps.location.pathname;
-};
+// const comparisonFn = function (prevProps, nextProps) {
+//     return prevProps.location.pathname === nextProps.location.pathname;
+// };
 
-export default React.memo(ManageLocation, comparisonFn);
+// export default React.memo(ManageLocation, comparisonFn);
+export default ManageLocation;

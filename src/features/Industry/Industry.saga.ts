@@ -1,13 +1,13 @@
 import {put,call,takeEvery} from 'redux-saga/effects'
 import { Industriesdata,getIndustriesaction,createIndustryaction,updateIndustryaction} from './Industryslice'
-import {quotes, Industryapi} from "../../api/agent"
+import { Industryapi} from "../../api/agent"
 import { createtoast } from '../ToastSlice'
 import { store} from "../../app/store"
 function* Industriesgetsagaworker(){
     try{
         var res: Promise<any>=yield call(Industryapi.getallIndustrydata)
         // console.log(res)
-        yield put({type:Industriesdata,payload:res})
+        yield put({type:"Industry/Industriesdata",payload:res})
     }
     catch(err){
 console.log(err)

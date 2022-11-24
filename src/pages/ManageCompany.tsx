@@ -223,14 +223,14 @@ const ManageCompany = () => {
         </div>
     );
 };
-const comparisonFn = function (prevProps, nextProps) {
-    return prevProps.location.pathname === nextProps.location.pathname;
-};
+// const comparisonFn = function (prevProps, nextProps) {
+//     return prevProps.location.pathname === nextProps.location.pathname;
+// };
 
-export default React.memo(ManageCompany, comparisonFn);
+// export default React.memo(ManageCompany, comparisonFn);
 
 
-
+export default  ManageCompany
 
 
 

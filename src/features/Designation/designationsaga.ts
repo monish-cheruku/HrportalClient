@@ -7,7 +7,7 @@ function* designationsgetsagaworker(){
     try{
         var res: Promise<any>=yield call(Designationapi.getalldesignationsdata)
         // console.log(res)
-        yield put({type:designationsdata,payload:res})
+        yield put({type:"designation/designationsdata",payload:res})
     }
     catch(err){
 console.log(err)

@@ -328,13 +328,13 @@ const ManageBill = () => {
         </div>
     );
 };
-const comparisonFn = function (prevProps, nextProps) {
-    return prevProps.location.pathname === nextProps.location.pathname;
-};
+// const comparisonFn = function (prevProps, nextProps) {
+//     return prevProps.location.pathname === nextProps.location.pathname;
+// };
 
-export default React.memo(ManageBill, comparisonFn);
+// export default React.memo(ManageBill, comparisonFn);
 
-
+export default ManageBill
 
 
 

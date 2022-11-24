@@ -7,7 +7,7 @@ function* servicelinegetsagaworker(){
     try{
         var res: Promise<any>=yield call(servicelineapi.getallservicelinedata)
         // console.log(res)
-        yield put({type:servicelinedata,payload:res})
+        yield put({type:"serviceline/servicelinedata",payload:res})
     }
     catch(err){
 console.log(err)

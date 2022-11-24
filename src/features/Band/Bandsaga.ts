@@ -7,7 +7,7 @@ function* Bandgetsagaworker(){
     try{
         var res: Promise<any>=yield call(Bandapi.getallBanddata)
         console.log(res)
-        yield put({type:Banddata,payload:res})
+        yield put({type:"Band/Banddata",payload:res})
     }
     catch(err){
 console.log(err)

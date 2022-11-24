@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { quoteSlice } from "../Quotes/quoteslice";
 
 export interface ExperienceLevel {
     ExperienceLevelId: number;
@@ -19,11 +18,10 @@ export const experiencelevelSlice = createSlice({
     initialState,
     reducers: {
         experiencelevelsdata:  (state, payload: any) => {
-            console.log("experince data setting")
             var temp=payload.payload
             state=[...temp]
           
-            console.log(state)
+            // console.log(state)
             return state;
         },
         
@@ -32,7 +30,7 @@ export const experiencelevelSlice = createSlice({
         
         //functions for sagas watching
         getexperiencelevelsaction:(state)=>{
-            console.log("getexperiencelevelsaction")
+           
         },
         createexperiencelevelaction:(state,payload:PayloadAction<any>)=>{
 console.log(payload)

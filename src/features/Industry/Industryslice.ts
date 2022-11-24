@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { quoteSlice } from "../Quotes/quoteslice";
 
 export interface Industry {
     IndustryId: number;
@@ -17,7 +16,7 @@ export const IndustrySlice = createSlice({
             var temp=payload.payload
             state=[...temp]
           
-            console.log(state)
+            // console.log(state)
             return state;
         },
         

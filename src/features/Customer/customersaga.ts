@@ -1,13 +1,13 @@
 import {put,call,takeEvery} from 'redux-saga/effects'
 import {customersdata,getcustomersaction,createcustomeraction,updatecustomeraction} from './customerslice'
-import {quotes,Customerapi} from "../../api/agent"
+import {Customerapi} from "../../api/agent"
 import { createtoast } from '../ToastSlice'
 import { store} from "../../app/store"
 function* customersgetsagaworker(){
     try{
         var res: Promise<any>=yield call(Customerapi.getallcustomersdata)
-        console.log(res)
-        yield put({type:customersdata,payload:res})
+        // console.log(res)
+        yield put({type:"customer/customersdata",payload:res})
     }
     catch(err){
 console.log(err)

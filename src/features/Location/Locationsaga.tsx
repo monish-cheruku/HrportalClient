@@ -1,13 +1,13 @@
 import {put,call,takeEvery} from 'redux-saga/effects'
 import { Locationdata,getLocationaction,createLocationaction,updateLocationaction} from './Locationslice'
-import {quotes,Locationapi} from "../../api/agent"
+import {Locationapi} from "../../api/agent"
 import { createtoast } from '../ToastSlice'
 import { store} from "../../app/store"
 function* Locationgetsagaworker(){
     try{
         var res: Promise<any>=yield call(Locationapi.getallLocationdata)
         // console.log(res)
-        yield put({type:Locationdata,payload:res})
+        yield put({type:"Location/Locationdata",payload:res})
     }
     catch(err){
 // console.log(err)

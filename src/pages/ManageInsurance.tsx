@@ -20,16 +20,18 @@ import { InputTextarea } from "primereact/inputtextarea";
 import { RadioButton } from "primereact/radiobutton";
 
 import {getInsuranceaction,createInsuranceaction,updateInsuranceaction} from "../features/ManageInsurance/ManageInsuranceslice";
-import { useDispatch } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { RootState } from "../app/store";
 import { act } from "react-dom/test-utils";
 import { FilterMatchMode } from "primereact/api";
 // import { classNames } from 'primereact/utils';
 import { getBandaction,IBandoptions } from "../features/Band/Bandslice";
+import {getactivebandoptions,getallbandoptions} from "../features/Band/BandSelector"
 
+// import {store} from "../app/store"
 // import '../../index.css';
-const ManageInsurance = () => {
+const ManageInsurance = (props) => {
     const [productDialog, setProductDialog] = useState(false);
     const [submitted, setSubmitted] = useState(false);
     const [InsuranceAccidentLimitId, SetInsuranceAccidentLimitId] = useState(0);
@@ -61,33 +63,33 @@ const ManageInsurance = () => {
     const [filters2, setFilters2] = useState({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     });
-const selectbands=useSelector((state:RootState)=>state.Band)
+// const selectbands=useSelector((state:RootState)=>state.Band)
 
 
-const getdropdownelems=()=>{
-    var bandoptions:IBandoptions[]  =[]
-selectbands.forEach(e => {
+// const getdropdownelems=()=>{
+//     var bandoptions:IBandoptions[]  =[]
+// selectbands.forEach(e => {
   
-    bandoptions.push({
-        key:e.BandId,
-        label:e.BandName,
-        value:e.BandId
-    })});
+//     bandoptions.push({
+//         key:e.BandId,
+//         label:e.BandName,
+//         value:e.BandId
+//     })});
 
-return bandoptions
-}
-const getdropdownactiveelems=()=>{
-    var bandoptions:IBandoptions[]  =[]
-selectbands.forEach(e => {
-    if(e.Active==true){
-    bandoptions.push({
-        key:e.BandId,
-        label:e.BandName,
-        value:e.BandId
-    })}});
+// return bandoptions
+// }
+// const getdropdownactiveelems=()=>{
+//     var bandoptions:IBandoptions[]  =[]
+// selectbands.forEach(e => {
+//     if(e.Active==true){
+//     bandoptions.push({
+//         key:e.BandId,
+//         label:e.BandName,
+//         value:e.BandId
+//     })}});
 
-return bandoptions
-}
+// return bandoptions
+// }
     const servicelinedata= useSelector((state: RootState) => state.Insurance);
     const dispatch = useDispatch();
     
@@ -98,8 +100,7 @@ return bandoptions
     }, []);
     useEffect(()=>{
         dispatch(getBandaction());
-        getdropdownelems()
-        getdropdownactiveelems()
+      
     },[])
 
     const onGlobalFilterChange2 = (e: any) => {
@@ -147,7 +148,8 @@ return bandoptions
         );
     };
     const bandtemplate=(data)=>{
-var bandoptions=getdropdownelems()
+       
+var bandoptions=props.getallbandoptionsprop
         var bandid=data.BandId
         var bandstr=''
         bandoptions.forEach(e => {
@@ -161,13 +163,13 @@ var bandoptions=getdropdownelems()
             </div>
         )
     }
-    const getdropdownvalindialog=(BandID:string)=>{
-        var bandoptions=getdropdownelems()
-       bandoptions.forEach(e => {
-        if(e.label==BandID)return "L"
-       });
-        return "notexist"
-    }
+    // const getdropdownvalindialog=(BandID:string)=>{
+    //     var bandoptions=getdropdownelems()
+    //    bandoptions.forEach(e => {
+    //     if(e.label==BandID)return "L"
+    //    });
+    //     return "notexist"
+    // }
     const actionBodyTemplate = (data) => {
         return (
             <React.Fragment>
@@ -178,7 +180,7 @@ var bandoptions=getdropdownelems()
                         setEditmode(true);
                         console.log(data)
                         SetInsuranceAccidentLimitId(data.InsuranceAccidentLimitId)
-                        SetBandID(data.BandID);
+                        SetBandID(data.BandId);
                         SetInsuranceLimit(data.InsuranceLimit);
                         SetAccidentLimit(data.AccidentLimit);
                         setActive(data.Active);
@@ -276,7 +278,7 @@ var bandoptions=getdropdownelems()
                     <div className="field">
                         <label htmlFor="BandID">Band Name</label>
                         {/* <InputText id="BandID" onChange={(e) => SetBandID(e.target.value)} value={BandID}></InputText> */}
-                        <Dropdown className={ issave==true&&BandID==""?"p-invalid":"p-valid"} value={BandID} options={!editmode?getdropdownactiveelems():getdropdownelems()}   id="BandID" onChange={(e) => SetBandID(e.value)}   placeholder="Select  Band Name"/>
+                        <Dropdown className={ issave==true&&BandID==""?"p-invalid":"p-valid"} value={BandID} options={!editmode?props.getallbandoptionsprop:props.getactivebandoptionsprop}   id="BandID" onChange={(e) => SetBandID(e.value)}   placeholder="Select  Band Name"/>
            { issave==true&&BandID=="" && <small className="p-error">*Band Name  is Required.</small>}
  
 
@@ -302,15 +304,25 @@ var bandoptions=getdropdownelems()
         </div>
     );
 };
-const comparisonFn = function (prevProps, nextProps) {
-    return prevProps.location.pathname === nextProps.location.pathname;
-};
+function mapStateToProps(state) {
+    
+    // const { todos } = state
+    console.log(state)
+    return { 
+        getallbandoptionsprop:getactivebandoptions(state),
+        getactivebandoptionsprop:getallbandoptions(state)
+    
+    }
+  }
+// const comparisonFn = function (prevProps, nextProps) {
+//     return prevProps.location.pathname === nextProps.location.pathname;
+// };
 
-export default React.memo(ManageInsurance, comparisonFn);
+// export default React.memo( connect(mapStateToProps)(ManageInsurance), comparisonFn);
 
 
 
-
+export default connect(mapStateToProps)(ManageInsurance)
 
 
 

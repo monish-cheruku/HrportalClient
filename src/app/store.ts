@@ -1,67 +1,89 @@
-import { applyMiddleware, configureStore } from '@reduxjs/toolkit'
+import { applyMiddleware, configureStore,combineReducers } from '@reduxjs/toolkit'
 import createSagaMiddleware from 'redux-saga';
 import { createLogger } from "redux-logger";
-import {rootSaga} from './saga'
-import counterReducer from '../features/Counter/countersclice'
-import quoteReducer from '../features/Quotes/quoteslice'
-import  companyReducer from '../features/Company/companyslice'
+import { rootSaga } from './saga'
+import companyReducer from '../features/Company/companyslice'
 import businessunitReducer from '../features/BusinessUnit/businessunitslice'
 import customerReducer from '../features/Customer/customerslice'
 import experiencelevelReducer from '../features/ExperienceLevel/experiencelevelslice'
-import designationReducer  from '../features/Designation/designationslice';
+import designationReducer from '../features/Designation/designationslice';
 import subbandReducer from '../features/SubBand/subbandslice';
 import toastReducer from '../features/ToastSlice'
-import  servicelineReducer from '../features/ServiceLine/ServiceLineSlice';
+import servicelineReducer from '../features/ServiceLine/ServiceLineSlice';
 import LocationReducer from '../features/Location/Locationslice'
 import BandReducer from '../features/Band/Bandslice'
 import ManageBillReducer from '../features/ManageBillRate/ManageBillRateslice'
 import InsuranceReducer from '../features/ManageInsurance/ManageInsuranceslice'
 import IndustryReducer from '../features/Industry/Industryslice'
 // import bandReducer from '../features/Band/bandslice';
+import UserRolesReducer from '../features/UserRoles/userroleslice';
+import userroleoptions from '../features/UserRoles/userroleoptionsslice';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import LoginReducer from '../features/Login/Loginslice';
+import jobpostactionsReducer from '../features/JobPostActions/jobpostactionsslice';
 
-
-
+import {persistStore,persistReducer} from 'redux-persist'
+import storage  from 'redux-persist/lib/storage'
+import rolesoptions from '../features/UserRoles/rolesoptionsslice';
 // export function useReduxStore() {
 const sagaMiddleware = createSagaMiddleware();
 const logger = createLogger();
 
 // const enhancers = applyMiddleware(logger, sagaMiddleware);
 // }
+const persistconfig={
+  key:"persist-key",
+  storage
+}
 
-const rootreducer = {
-  counter: counterReducer,
-  quote: quoteReducer,
+const rootreducer = combineReducers({
+ 
   company: companyReducer,
   businessunit: businessunitReducer,
   customer: customerReducer,
   experiencelevel: experiencelevelReducer,
   designation: designationReducer,
   subband: subbandReducer,
- toaster:toastReducer,
- serviceline:servicelineReducer,
+  toaster: toastReducer,
+  serviceline: servicelineReducer,
 
-  Location:LocationReducer,
+  Location: LocationReducer,
 
-  Band:BandReducer,
+  Band: BandReducer,
 
   ManageBill: ManageBillReducer,
 
   Insurance: InsuranceReducer,
-  Industry: IndustryReducer
-
-
+  Industry: IndustryReducer,
+  userroles: UserRolesReducer,
+  userroleoptions: userroleoptions,
+Login:LoginReducer,
+JobPostAction:jobpostactionsReducer,
+rolesoptions:rolesoptions
 
   // band: bandReducer,
 
-}
+})
+const persistedReducer=persistReducer(persistconfig,rootreducer)
+// const middlewares = [sagaMiddleware]
+// const middlewareEnhancer = applyMiddleware(...middlewares)
+
+// const enhancers = [middlewareEnhancer]
+// const composedEnhancers = composeWithDevTools(...enhancers)
+
 export const store = configureStore({
-  reducer: rootreducer,
-    middleware: [sagaMiddleware]
-  })
-  sagaMiddleware.run(rootSaga)
+  reducer: persistedReducer,
+  middleware: [sagaMiddleware],
+  // enhancers: [composedEnhancers]
+})
+
+export const persistor=persistStore(store)
+sagaMiddleware.run(rootSaga)
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>
+
+// export type RootReducer=ReturnType<typeof rootreducer>
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch
 

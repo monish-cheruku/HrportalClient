@@ -7,7 +7,7 @@ function* businessunitsgetsagaworker(){
     try{
         var res: Promise<any>=yield call(businessunitapi.getallbusinessunitsdata)
         // console.log(res)
-        yield put({type:businessunitsdata,payload:res})
+        yield put({type:"businessunit/businessunitsdata",payload:res})
     }
     catch(err){
 console.log(err)

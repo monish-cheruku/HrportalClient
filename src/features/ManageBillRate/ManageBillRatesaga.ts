@@ -7,7 +7,7 @@ function* ManageBillgetsagaworker(){
     try{
         var res: Promise<any>=yield call(AvgCTCapi.getallManageBilldata)
         // console.log(res)
-        yield put({type:ManageBilldata,payload:res})
+        yield put({type:"ManageBill/ManageBilldata",payload:res})
     }
     catch(err){
 console.log(err)
