@@ -87,19 +87,7 @@ const navigate=useNavigate()
                     <InputText value={globalFilterValue2} onChange={onGlobalFilterChange2} placeholder="Keyword Search" />
                 </span>
 
-                <Button
-                    label="Create Job Post"
-                    icon="pi pi-plus"
-                    className="p-button-success mr-2"
-                    onClick={(e) => {
-                        setEditmode(false);
-                        setCompanydesc("");
-                        setCompanyname("");
-                        setActive(true);
 
-                        setProductDialog(true);
-                    }}
-                />
             </div>
         );
     };
@@ -213,7 +201,7 @@ const navigate=useNavigate()
     return (
         <div>
             <DataTable value={jobpostactionsdata} showGridlines={false} responsiveLayout="scroll" paginator={true} rows={5} globalFilterFields={['JobPostID','JobCode','HiringManager','Company','BusinessUnit','ServiceLine','Customer','ExperianceLevel','NoOfPositions']} filters={filters2} header={Headercomp}>
-                <Column field="JobCode" header="JobCode" body={rowdata=>
+                <Column field="JobCode" header="Job Code" body={rowdata=>
                 // <Button 
                 // // to={"dashboard/jobpostsactionApproval/"+rowdata.JobCode} 
                 //  onClick={e=>
@@ -225,47 +213,26 @@ const navigate=useNavigate()
                 // }
                 //  >{rowdata.JobCode}</Button>
                  
-                 <Link to={"/jobpostsactionApproval/"+rowdata.JobCode}   >{rowdata.JobCode}</Link>
+                 <Link to={"/jobpostsactionApproval/"+rowdata.JobCode} state={rowdata}  >{rowdata.JobCode}</Link>
                  
                  
                  
                  }></Column>
-                <Column field="JobPostID" header="JobPostId" ></Column>
-                <Column field="HiringManager" header="HiringManager" ></Column>
+                <Column field="JobTitle" header="Job Title" ></Column>
+                <Column field="HiringManager" header="Hiring Manager" ></Column>
+                <Column field="Industry" header="Industry" ></Column>
                 <Column field="Company" header="Company" ></Column>
                 <Column field="BusinessUnit" header="BusinessUnit" ></Column>
                 <Column field="ServiceLine" header="ServiceLine" ></Column>
                 <Column field="Customer" header="Customer" ></Column>
-                <Column field="ExperianceLevel" header="ExperianceLevel" ></Column>
-                <Column field="NoOfPositions" header="NoOfPositions" ></Column>
-                {/* <Column field="company" header="Company" sortable></Column>
-                <Column field="bu" header="Business Unit" sortable></Column>
-                <Column field="serviceline" header="Service Line" sortable></Column>
-                <Column field="customer" header="Customer" sortable></Column>
-                <Column field="explevel" header="Experience Level" sortable></Column>
-                <Column field="exponboarddate" header="On-bording Date" sortable></Column>
-                <Column field="noposts" header="No Of Posts" sortable></Column>
-                <Column field="status" header="Status" sortable></Column>
-                <Column field="Active" header="Active" sortable dataType="boolean" body={activediv}></Column>
-                <Column field="edit" header="Edit" body={actionBodyTemplate} exportable={false}></Column> */}
+                <Column field="ExperianceLevel" header="Experiance Level" ></Column>
+                <Column field="OnBoardingDate" header="Expected DOJ" ></Column>
+                <Column field="NoOfPositions" header="No Positions" ></Column>
+                <Column field="Stage" header="Status" ></Column>
+ 
             </DataTable>
 
-            <Form
-                onSubmit={onSubmit}
-                initialValues={{ Company:"",JobDescription: "", email: "", password: "", date: null, country: null, accept: false }}
-                validate={validate}
-                
-                render={({ handleSubmit,values }) => (
-                    <form onSubmit={handleSubmit} className="formgrid grid">
-                        <Dialog visible={productDialog} style={{ width: "70vw" }} header="Create Job post" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
-                            <br />
 
-                           
-
-                        </Dialog>
-                    </form>
-                )}
-            />
         </div>
     );
 

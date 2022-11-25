@@ -93,7 +93,7 @@ const Dashboard = () => {
             <div >
   <div className="card mb-0">
                         <div className="flex justify-content-between mb-3">
-                            {openedtab=="jobpostactions"&&<div> <JobPostActions/>    </div>}
+                            {openedtab=="jobpostactions"&&<div style={{width:"100%"}}> <JobPostActions/>    </div>}
                             {openedtab=="myjobposts"&&<div style={{width:"100%"}}><MyJobPosts/></div>}
                            {openedtab=="selectedcandidates"&& <div >selectedcandidates</div>}
                             {/* <div hidden={true}>d</div> */}
