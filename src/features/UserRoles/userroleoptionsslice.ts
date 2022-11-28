@@ -34,8 +34,8 @@ export const userroleoptionsSlice = createSlice({
                     LastName: e.LastName,
                     Active: e.Active,
                     key: e.Id,
-                    label: e.FirstName + ',' + e.LastName,
-                    value: e.FirstName + '_' + e.LastName,
+                    label: e.LastName + ',' + e.FirstName,
+                    value: e.UserName,
                 })
             });
             console.clear()

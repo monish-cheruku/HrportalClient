@@ -45,6 +45,8 @@ import { getIndustriesaction } from "../../features/Industry/Industryslice";
 import { getactiveIndustryoptions } from "../../features/Industry/industryselector";
 import { getexperiencelevelsaction } from "../../features/ExperienceLevel/experiencelevelslice";
 import { getactiveexperienceleveloptions } from "../../features/ExperienceLevel/experiencelevelselector";
+import CreateJobPost from "./CreateJobPost";
+import { useNavigate } from "react-router";
 // import '../../index.css';
 const MyJobPosts = (props) => {
     const [productDialog, setProductDialog] = useState(false);
@@ -66,6 +68,7 @@ const MyJobPosts = (props) => {
     const selectcompany = useSelector((state: RootState) => state.company);
 
     const dispatch = useDispatch();
+    const navigate=useNavigate()
 
     useEffect(() => {
         //dispatch(getcompaniesaction());
@@ -119,12 +122,14 @@ const MyJobPosts = (props) => {
                     icon="pi pi-plus"
                     className="p-button-success mr-2"
                     onClick={(e) => {
-                        setEditmode(false);
-                        setCompanydesc("");
-                        setCompanyname("");
-                        setActive(true);
+                        // setEditmode(false);
+                        // setCompanydesc("");
+                        // setCompanyname("");
+                        // setActive(true);
 
-                        setProductDialog(true);
+                        // setProductDialog(true);
+                        // Navigate(to="/myjobposts/createjobpost")
+                        navigate("/myjobposts/createjobpost")
                     }}
                 />
             </div>
@@ -257,46 +262,46 @@ const MyJobPosts = (props) => {
 
     //     form.restart();
     // };
-const filterbusinessunit=(i:any,s:any)=>{
-// console.log(i)
-// console.log(s)
-var temp:any=[]
-i.forEach((e)=>{
-    // console.log(e)
-    if(e.companyid==s){
-        temp.push({
-            
-        key:e.key,
-        label:e.label,
-        value:e.value
-    
-        })
-    }
-   })
-//    console.log(temp)
-   return temp
-}
-const filterserviceline=(i:any,c:any,b:any)=>{
-    console.log(i)
-    console.log(c)
-    console.log(b)
+    const filterbusinessunit = (i: any, s: any) => {
+        // console.log(i)
+        // console.log(s)
+        var temp: any = []
+        i.forEach((e) => {
+            // console.log(e)
+            if (e.companyid == s) {
+                temp.push({
 
-    var temp:any=[]
-    i.forEach((e)=>{
-        // console.log(e)
-        if(e.companyid==c&&e.businessunitid==b){
-            temp.push({
-                
-            key:e.key,
-            label:e.label,
-            value:e.value
-        
-            })
-        }
-       })
-       console.log(temp)
-       return temp
-}
+                    key: e.key,
+                    label: e.label,
+                    value: e.value
+
+                })
+            }
+        })
+        //    console.log(temp)
+        return temp
+    }
+    const filterserviceline = (i: any, c: any, b: any) => {
+        console.log(i)
+        console.log(c)
+        console.log(b)
+
+        var temp: any = []
+        i.forEach((e) => {
+            // console.log(e)
+            if (e.companyid == c && e.businessunitid == b) {
+                temp.push({
+
+                    key: e.key,
+                    label: e.label,
+                    value: e.value
+
+                })
+            }
+        })
+        console.log(temp)
+        return temp
+    }
     return (
         <div>
             <DataTable value={company} showGridlines={false} responsiveLayout="scroll" paginator={true} rows={5} globalFilterFields={["CompanyName", "CompanyDesc", "Active"]} filters={filters2} header={Headercomp}>
@@ -314,17 +319,17 @@ const filterserviceline=(i:any,c:any,b:any)=>{
                 <Column field="edit" header="Edit" body={actionBodyTemplate} exportable={false}></Column>
             </DataTable>
 
-            <Form
+            {/* <Form
                 onSubmit={onSubmit}
-                initialValues={{ Company:"",JobDescription: "", email: "", password: "", date: null, country: null, accept: false }}
+                initialValues={{ Company: "", JobDescription: "", email: "", password: "", date: null, country: null, accept: false }}
                 validate={validate}
-                
-                render={({ handleSubmit,values }) => (
-                    <form onSubmit={handleSubmit} className="formgrid grid">
+
+                render={({ handleSubmit, values }) => (
+                    <form onSubmit={handleSubmit} className="formgrid grid"> */}
                         <Dialog visible={productDialog} style={{ width: "70vw" }} header="Create Job post" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
                             <br />
 
-                            <div className="p-fluid formgrid grid">
+                            {/* <div className="p-fluid formgrid grid">
                                 <div className="field col-12 md:col-4">
                                     <Field
                                         name="Company"
@@ -349,7 +354,7 @@ const filterserviceline=(i:any,c:any,b:any)=>{
                                             <div className="field">
                                                 <label htmlFor="Business unit">Business unit</label>
                                                 <span className="column">
-                                                    <Dropdown id="Business unit" {...input} options={filterbusinessunit(props.getactivebusinessunitoptionsprop,values.Company)} placeholder="Select a Business unit" />
+                                                    <Dropdown id="Business unit" {...input} options={filterbusinessunit(props.getactivebusinessunitoptionsprop, values.Company)} placeholder="Select a Business unit" />
                                                 </span>
                                             </div>
                                         )}
@@ -363,7 +368,7 @@ const filterserviceline=(i:any,c:any,b:any)=>{
                                             <div className="field">
                                                 <label htmlFor="service Line">Service Line</label>
                                                 <span className="column">
-                                                    <Dropdown id="service Line" {...input} options={filterserviceline(props.getactiveservicelineoptionsprop,values.Company,values.Businessunit)} optionLabel="label" placeholder="Select a service Line" />
+                                                    <Dropdown id="service Line" {...input} options={filterserviceline(props.getactiveservicelineoptionsprop, values.Company, values.Businessunit)} optionLabel="label" placeholder="Select a service Line" />
                                                 </span>
                                             </div>
                                         )}
@@ -603,12 +608,12 @@ const filterserviceline=(i:any,c:any,b:any)=>{
                                         )}
                                     />
                                 </div>
-                            </div>
-
+                            </div> */}
+<CreateJobPost></CreateJobPost>
                         </Dialog>
-                    </form>
+                    {/* </form>
                 )}
-            />
+            /> */}
         </div>
     );
 };

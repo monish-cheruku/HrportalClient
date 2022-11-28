@@ -26,7 +26,7 @@ export const getactivebusinessunitoptions=createSelector(
     }
    })
 // console.log(temp)
-        
+        // console.log(temp)
         return temp
   // return [{key:"abc",label:"abc",value:"abc"},{key:"def",label:"def",value:"def"},{key:"ghi",label:"ghi",value:"ghi"},]
     }
@@ -49,7 +49,7 @@ export const getactivebusinessunitoptionsfilterbycustomer=(s:string)=>createSele
   }
  })
 // console.log(temp)
-      
+      // console.log(temp)
       return temp
 // return [{key:"abc",label:"abc",value:"abc"},{key:"def",label:"def",value:"def"},{key:"ghi",label:"ghi",value:"ghi"},]
   }
@@ -70,7 +70,7 @@ export const getactivebusinessunitoptionsfilterbycustomer=(s:string)=>createSele
          
         })
      
-             
+            //  console.log(temp)
              return temp
         // return [{key:"qwe",label:"qwe",value:"qwe"},{key:"def",label:"def",value:"def"},{key:"ghi",label:"ghi",value:"ghi"},]
 

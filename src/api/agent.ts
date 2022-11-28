@@ -15,7 +15,7 @@ import {UserRoles} from "../features/UserRoles/userroleslice"
 
 // import {Band} from "../features/Band/bandslice"
 
-axios.defaults.baseURL = 'http://10.154.155.177:8000/api';
+axios.defaults.baseURL = 'http://10.154.155.212:8000/api';
 //http://10.154.28.148:8000/api/     monish//
 //http://10.154.155.152:8000/api      /dwaraka
 axios.interceptors.response.use(undefined, (error) => {
@@ -198,7 +198,9 @@ export const Industryapi={
 
 export const jobpostactions={
   getalljobpostactiondata:(data)=>requests.post("jobpost/jobpostactionsdetails",data),
-
+  jobpostactionssubmit:(data)=>requests.post("jobpost/jobpostactionssubmit",data),
+  usersbyroles:(data)=>requests.post("jobpost/usersbyrole",data),
+  createjobpost:(data)=>requests.post("jobpost/addjobpost",data)
 }
 
 

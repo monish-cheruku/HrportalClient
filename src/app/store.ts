@@ -21,7 +21,7 @@ import userroleoptions from '../features/UserRoles/userroleoptionsslice';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import LoginReducer from '../features/Login/Loginslice';
 import jobpostactionsReducer from '../features/JobPostActions/jobpostactionsslice';
-
+import usersbyrolesReducer from '../features/JobPostActions/usersbyrolesslice'
 import {persistStore,persistReducer} from 'redux-persist'
 import storage  from 'redux-persist/lib/storage'
 import rolesoptions from '../features/UserRoles/rolesoptionsslice';
@@ -59,7 +59,8 @@ const rootreducer = combineReducers({
   userroleoptions: userroleoptions,
 Login:LoginReducer,
 JobPostAction:jobpostactionsReducer,
-rolesoptions:rolesoptions
+rolesoptions:rolesoptions,
+usersbyroles:usersbyrolesReducer
 
   // band: bandReducer,
 

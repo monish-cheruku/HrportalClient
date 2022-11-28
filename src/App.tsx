@@ -50,6 +50,7 @@ import { ILogin } from './features/Login/Loginslice';
 import JobpostsactionApproval from './pages/DashboardComponents/JobPostActionsHiringManager/JobpostsactionApproval';
 import Newcomp from './Newcomp';
 import ProtectedRoute from './components/routes/ProtectedRout';
+import CreateJobPost from './pages/DashboardComponents/CreateJobPost';
 
 
 const App = () => {
@@ -362,6 +363,7 @@ const App = () => {
 
 
                                             <Route path="/jobpostsactionApproval/:JobCode"  element={<JobpostsactionApproval />} />
+                                            <Route path="/myjobposts/createjobpost"  element={<CreateJobPost />} />
                                         
 
 

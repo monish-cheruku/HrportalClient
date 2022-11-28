@@ -39,8 +39,8 @@ const navigate=useNavigate()
     useEffect(() => {
 // alert("rerendering")
         dispatch(getJobPostActionfromapi({
-            // "ApproverName":Logindata.username
-            "ApproverName":"sbatchu"
+            "ApproverName":Logindata.username
+            // "ApproverName":"nkanagala"
         }))
         // console.log(jobpostactionsdata)
         //dispatch(getcompaniesaction());
@@ -138,55 +138,7 @@ const navigate=useNavigate()
             </React.Fragment>
         );
     };
-    const productDialogFooter = (
-        <React.Fragment>
-            <Button label="Cancel" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
-            <Button
-                type="submit"
-                label="Submit"
-                icon="pi pi-check"
-                className="p-button-text"
-                onClick={() => {
-                    console.log(companyname);
-                    console.log(companydesc);
-                    console.log(active);
-                    var c = {
-                        CompanyId: companyid,
-                        CompanyName: companyname,
-                        CompanyDesc: companydesc,
-                        Active: active,
-                    };
-                    if (editmode === false) {
-                        // dispatch(createcompanyaction(c));
-                    } else {
-                        // dispatch(updatecompanyaction(c));
-                    }
-                    setProductDialog(false);
-                    // axios.post("http://10.154.155.135:8000/api/company");
-                    // hideDialog();
-                }}
-            />
-        </React.Fragment>
-    );
 
-    const onCategoryChange = () => {
-        return console.log("dudgf");
-    };
-    const onSubmit = (data, form) => {
-        form.restart();
-    };
-
- 
-
-    const validate = (data) => {
-        let errors = {};
-
-        if (!data.JobDescription) {
-            errors.JobDescription = "*JobDescription is required.";
-        }
-
-        return errors;
-    };
 
     //  const end = <InputText placeholder="Search" type="text" />;
     const activediv = (body: { Active: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined }) => {
@@ -217,7 +169,7 @@ const navigate=useNavigate()
                  
                  
                  
-                 }></Column>
+                 }></Column>                
                 <Column field="JobTitle" header="Job Title" ></Column>
                 <Column field="HiringManager" header="Hiring Manager" ></Column>
                 <Column field="Industry" header="Industry" ></Column>
