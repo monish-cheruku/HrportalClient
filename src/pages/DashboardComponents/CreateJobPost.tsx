@@ -61,7 +61,7 @@ function CreateJobPost(props) {
         // if (!data.JobTitle) {
         //     errors.JobTitle = "*JobDescription is required.";
         // }
-        var arr = ["Company_id", "BusinessUnit_id", "Serviceline_id", "Industry_id", "Industry_id", "Customer_id", "Location_id", "EmploymentType", "JobTitle", "JobDesc", "ExperianceLevel_id", "Qualification", "NoOfPositions", "OnBoardingDate", "POReference", "HR_User_Name", "BH_User_Name"]
+        var arr = ["Company_id", "BusinessUnit_id", "Serviceline_id", "Industry_id", "Industry_id", "Customer_id", "Location_id", "EmploymentType", "JobTitle", "JobDesc", "ExperianceLevel_id", "Qualification", "NoOfPositions", "OnBoardingDate", "HR_User_Name", "BH_User_Name"]
         arr.forEach((i) => {
             if (!values[i]) {
                 errors[i.toString()]= "*" + i + " is required";
@@ -153,7 +153,7 @@ function CreateJobPost(props) {
                             // alert("sub mit form")
                             dispatch(createnewjobpost(values))
                         }}
-                        initialValues={{ CreatedBy: "sbatchu", Email: "sbatchu@belcan.com", FirstName: "siva", LastName: "Batchu", ModifiedBy: "sbatchu", UserName: "sbatchu", Stage_id: 1 }}
+                        initialValues={{ CreatedBy: "sbatchu",  ModifiedBy: null, UserName: "sbatchu",Duration:null }}
                         // initialValues={{ 
                         //     "UserName": "sbatchu",
                         //       "FirstName": "Siva",
@@ -310,7 +310,7 @@ function CreateJobPost(props) {
                                             name="Duration"
                                             render={({ input, meta }) => (
                                                 <div className="field">
-                                                    <label htmlFor="Duration">Duration(for other than Fulltime in Months)</label>
+                                                    <label htmlFor="Duration">Duration( in Months)</label>
                                                     <span className="p-float-label">
                                                         <InputNumber id="Duration" {...input} type={"number"} max={36} onValueChange={e => values.Duration = e.target.value} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                         <label htmlFor="Duration" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
@@ -423,7 +423,7 @@ function CreateJobPost(props) {
                                                 <div className="field fluid">
                                                     <label htmlFor="date">Expected onboarding date</label>
                                                     <span className="field fluid">
-                                                        <Calendar id="date" {...input} dateFormat="yyyy/mm/dd" mask="99/99/9999" showIcon placeholder="Select a Date" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <Calendar id="date" {...input} dateFormat="mm/dd/yy" mask="99/99/9999" showIcon placeholder="Select a Date" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                     </span>
                                                 </div>
                                             )}
@@ -434,7 +434,7 @@ function CreateJobPost(props) {
                                             name="POReference"
                                             render={({ input, meta }) => (
                                                 <div className="field fluid">
-                                                    <label htmlFor="Po Reference">Po Reference</label>
+                                                    <label htmlFor="Po Reference">PO/Opportunity Reference</label>
                                                     <span className="field fluid">
                                                         <InputText id="Po Reference" {...input} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                         <label htmlFor="Po Reference" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>

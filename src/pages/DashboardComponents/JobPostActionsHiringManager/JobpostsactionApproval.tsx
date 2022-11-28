@@ -12,8 +12,8 @@ import { getJobPostActionfromapi, IJobPost, jobpostactionssubmit } from '../../.
 import JobPostDetails from '../JobPostDetails'
 
 function JobpostsactionApproval() {
-  const jobsdata = useSelector((store:RootState) => store.JobPostAction)
-  const Logindata = useSelector((store:RootState) => store.Login)
+  const jobsdata = useSelector((store: RootState) => store.JobPostAction)
+  const Logindata = useSelector((store: RootState) => store.Login)
   const { JobCode } = useParams()
   // console.log(JobCode)
   //     const [jobpostobject,setJobpostobject]=useState()
@@ -25,7 +25,7 @@ function JobpostsactionApproval() {
   const dispatch = useDispatch()
   const [jobdata, setjobdata] = useState<IJobPost>(jobsdata.filter((i) => i.JobCode == JobCode)[0])
   useEffect(() => {
-    if(jobdata==null){
+    if (jobdata == null) {
       console.log(jobdata)
       console.log(Logindata.username)
       dispatch(getJobPostActionfromapi(Logindata.username))
@@ -45,7 +45,7 @@ function JobpostsactionApproval() {
     if (res) {
 
       payloaddata.JobPostApprovalId = jobdata?.JobPostApprovalID
-      payloaddata.JobPostId = jobdata.id
+      payloaddata.JobPostId = jobdata.JobPostID
       payloaddata.ApprovalStatus = res
       payloaddata.ApprovalComments = comments
     }
@@ -59,7 +59,7 @@ function JobpostsactionApproval() {
   }
   return (
     <div>
-<JobPostDetails JobData={jobdata}></JobPostDetails>
+      <JobPostDetails JobData={jobdata}></JobPostDetails>
 
 
 
@@ -67,11 +67,7 @@ function JobpostsactionApproval() {
 
       <Card style={{ width: '100%', marginBottom: '2em' }}>
         <div className="grid">
-          <div className="md:col-3">
-            {/* <input type="Check" aria-label='Approve'></input>
-            <input type="chekbox" aria-label='Reject'></input> */}
-            {/* <Checkbox ></Checkbox>Approve<br/> 
-            <Checkbox ></Checkbox>Reject */}
+          {/* <div className="md:col-3">
             <div className="field-radiobutton">
               <RadioButton inputId="city3" name="city" value="A" onChange={(e) => setres(e.value)} checked={res === 'A'} />
               <label htmlFor="city3">Approve</label>
@@ -84,11 +80,44 @@ function JobpostsactionApproval() {
           <div className="md:col-9">
             <InputTextarea className={res == "R" && comments == "" ? "p-invalid" : ""} aria-label='Approve' cols={80} value={comments} onChange={e => setcomments(e.target.value)}></InputTextarea>
             <small hidden={res == "R" && comments == "" ? false : true} id="username2-help" className={res == "R" && comments == "" ? "p-error block" : ""}>Comments are Required when Rejected*.</small>
+          </div> */}
+
+          <div class="md:col-12">
+            <span>Status:<label class="radio-inline mx-3">Approve
+              <RadioButton className='ml-2' inputId="city3" name="city" value="A" onChange={(e) => setres(e.value)} checked={res === 'A'} />
+              
+            </label>
+            </span>
+
+            <span><label class="radio-inline me-3">Reject
+              <RadioButton className='ml-2' inputId="city4" name="city" value="R" onChange={(e) => setres(e.value)} checked={res === 'R'} />
+            </label>
+            </span>
+
+
           </div>
+
+
+          <div class="md:col-12">
+            <div class="form-group form-floating">
+              {/* <label for="floatingTextarea2">Comments</label>
+              <textarea id="address" rows="4" class="p-inputtextarea p-inputtext p-component mt-3" style={{ width: "100%" }}></textarea> */}
+              <InputTextarea style={{width:"100%"}} className={res == "R" && comments == "" ? "p-invalid" : ""} aria-label='Approve' cols={80} value={comments} onChange={e => setcomments(e.target.value)}></InputTextarea>
+            <small hidden={res == "R" && comments == "" ? false : true} id="username2-help" className={res == "R" && comments == "" ? "p-error block" : ""}>Comments are Required when Rejected*.</small>
+            </div>
+          </div>
+
+
+
+
         </div>
 
+
+
+
+
         <Button onClick={e => navigate(-1)}> Go Back</Button><span>   </span>
-        <Button disabled={res ? false : true} onClick={e => {onsubmithandle();navigate(-1)}}> Submit</Button>
+        <Button disabled={res ? false : true} onClick={e => { onsubmithandle(); navigate(-1) }}> Submit</Button>
       </Card>
 
 
