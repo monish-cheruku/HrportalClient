@@ -54,6 +54,9 @@ export const JobPostActionSlice = createSlice({
         createnewjobpost:(state,payload:PayloadAction<any>)=>{
 console.log(payload)
         },
+        updatejobpost:(state,payload:PayloadAction<any>)=>{
+console.log(payload)
+        },
         updateIJobPostAction:(state,payload:PayloadAction<any>)=>{
 
         },
@@ -66,5 +69,5 @@ console.log(payload)
 
     },
 });
-export const {JobPostActiondata,getJobPostActionfromapi,createnewjobpost,updateIJobPostAction,jobpostactionssubmit}=JobPostActionSlice.actions
+export const {JobPostActiondata,getJobPostActionfromapi,createnewjobpost,updatejobpost,updateIJobPostAction,jobpostactionssubmit}=JobPostActionSlice.actions
 export default JobPostActionSlice.reducer

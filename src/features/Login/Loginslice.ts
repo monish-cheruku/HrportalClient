@@ -35,7 +35,14 @@ export const LocationSlice = createSlice({
             return state;
         },
         
-        
+        logout:()=>{
+console.log("logging out")
+localStorage.clear()
+window.location.href='login'
+
+
+// 
+        },
         
         
         //functions for sagas watching
@@ -46,5 +53,5 @@ export const LocationSlice = createSlice({
 
     },
 });
-export const {loginaction,setlogindetails}=LocationSlice.actions
+export const {loginaction,setlogindetails,logout}=LocationSlice.actions
 export default LocationSlice.reducer

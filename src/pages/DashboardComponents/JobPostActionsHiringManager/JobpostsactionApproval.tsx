@@ -59,29 +59,18 @@ function JobpostsactionApproval() {
   }
   return (
     <div>
-      <JobPostDetails JobData={jobdata}></JobPostDetails>
+      <Card>
 
+      <JobPostDetails JobData={jobdata}></JobPostDetails>
+      </Card>
+<br></br>
 
 
 
 
       <Card style={{ width: '100%', marginBottom: '2em' }}>
         <div className="grid">
-          {/* <div className="md:col-3">
-            <div className="field-radiobutton">
-              <RadioButton inputId="city3" name="city" value="A" onChange={(e) => setres(e.value)} checked={res === 'A'} />
-              <label htmlFor="city3">Approve</label>
-            </div>
-            <div className="field-radiobutton">
-              <RadioButton inputId="city4" name="city" value="R" onChange={(e) => setres(e.value)} checked={res === 'R'} />
-              <label htmlFor="city4">Reject</label>
-            </div>
-          </div>
-          <div className="md:col-9">
-            <InputTextarea className={res == "R" && comments == "" ? "p-invalid" : ""} aria-label='Approve' cols={80} value={comments} onChange={e => setcomments(e.target.value)}></InputTextarea>
-            <small hidden={res == "R" && comments == "" ? false : true} id="username2-help" className={res == "R" && comments == "" ? "p-error block" : ""}>Comments are Required when Rejected*.</small>
-          </div> */}
-
+        
           <div class="md:col-12">
             <span>Status:<label class="radio-inline mx-3">Approve
               <RadioButton className='ml-2' inputId="city3" name="city" value="A" onChange={(e) => setres(e.value)} checked={res === 'A'} />
@@ -117,7 +106,7 @@ function JobpostsactionApproval() {
 
 
         <Button onClick={e => navigate(-1)}> Go Back</Button><span>   </span>
-        <Button disabled={res ? false : true} onClick={e => { onsubmithandle(); navigate(-1) }}> Submit</Button>
+        <Button disabled={(res!="R"&&res!="A")||(res == "R" && comments == "") } onClick={e => { onsubmithandle(); navigate(-1) }}> Submit</Button>
       </Card>
 
 

@@ -25,6 +25,7 @@ import usersbyrolesReducer from '../features/JobPostActions/usersbyrolesslice'
 import {persistStore,persistReducer} from 'redux-persist'
 import storage  from 'redux-persist/lib/storage'
 import rolesoptions from '../features/UserRoles/rolesoptionsslice';
+import myjobpostsReducer from '../features/JobPostActions/myjobpostsslice'
 // export function useReduxStore() {
 const sagaMiddleware = createSagaMiddleware();
 const logger = createLogger();
@@ -32,7 +33,7 @@ const logger = createLogger();
 // const enhancers = applyMiddleware(logger, sagaMiddleware);
 // }
 const persistconfig={
-  key:"persist-key",
+  key:"key",
   storage
 }
 
@@ -60,8 +61,8 @@ const rootreducer = combineReducers({
 Login:LoginReducer,
 JobPostAction:jobpostactionsReducer,
 rolesoptions:rolesoptions,
-usersbyroles:usersbyrolesReducer
-
+usersbyroles:usersbyrolesReducer,
+myjobposts:myjobpostsReducer
   // band: bandReducer,
 
 })
