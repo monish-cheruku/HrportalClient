@@ -25,6 +25,7 @@ import usersbyrolesReducer from '../features/JobPostActions/usersbyrolesslice'
 import {persistStore,persistReducer} from 'redux-persist'
 import storage  from 'redux-persist/lib/storage'
 import rolesoptions from '../features/UserRoles/rolesoptionsslice';
+import CandidateActionReducer from '../features/CandidateActions/candidateactionsslice';
 // export function useReduxStore() {
 const sagaMiddleware = createSagaMiddleware();
 const logger = createLogger();
@@ -60,7 +61,9 @@ const rootreducer = combineReducers({
 Login:LoginReducer,
 JobPostAction:jobpostactionsReducer,
 rolesoptions:rolesoptions,
-usersbyroles:usersbyrolesReducer
+usersbyroles:usersbyrolesReducer,
+CandidateAction :CandidateActionReducer,
+
 
   // band: bandReducer,
 

@@ -20,6 +20,7 @@ import { watcherIndustry } from "../features/Industry/Industry.saga";
 import { watcheruserroles } from "../features/UserRoles/userrolesaga";
 import { watcherLogin } from "../features/Login/Loginsaga";
 import { watcherJobPostAction } from "../features/JobPostActions/jobpostactionssaga";
+import { watcherCandidateAction } from "../features/CandidateActions/candidateactionssaga";
 
 function* helloSaga() {
   yield console.log("sagas started");
@@ -49,4 +50,5 @@ export function* rootSaga() {
   yield fork(watcherLogin)
   yield fork(watcherJobPostAction)
   yield fork(watcheruserroles)
+  yield fork(watcherCandidateAction)
 }
