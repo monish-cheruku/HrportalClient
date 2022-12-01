@@ -209,6 +209,11 @@ export const jobpostactions={
 export const generatepdf={
   downloadpdf:(data)=>requests.post("/pdf",data),
 }
+export const candidateactions = {
+  getallcandidatedata:(data)=>requests.post("candidate/gridcandidates",data),
+  createcandidate:(data)=>requests.post("candidate/addcandidate",data)
+
+}
 
 
 

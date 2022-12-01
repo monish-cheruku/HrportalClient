@@ -52,8 +52,8 @@ import Newcomp from './Newcomp';
 import ProtectedRoute from './components/routes/ProtectedRout';
 import CreateJobPost from './pages/DashboardComponents/CreateJobPost';
 import Jobpostdetailedview from './pages/DashboardComponents/Jobpostdetailedview';
-
-
+import CreateCandidateProfile from './pages/Candidate/CreateCandidateProfile'
+import JobPostProfileUpload from "./pages/DashboardComponents/JobPostsProfileUpload"
 const App = () => {
     const toastdata = useSelector((state: RootState) => state.toaster)
     const state = useSelector((state: RootState) => state)
@@ -365,10 +365,11 @@ toastdata.id=1
 
 
 
+                                            <Route path="/jobpostsprofileupload/:JobCode"  element={<JobPostProfileUpload />} />
                                             <Route path="/jobpostsactionApproval/:JobCode"  element={<JobpostsactionApproval />} />
                                             <Route path="/myjobposts/createjobpost"  element={<CreateJobPost />} />
                                             <Route path='/jobpostdetailedview/:JobCode' element={<Jobpostdetailedview/>}/>
-
+                                            <Route path="/candidate/createcandidateprofile"  element={<CreateCandidateProfile/>} />
 
                                         </Routes>
                                     </div>
