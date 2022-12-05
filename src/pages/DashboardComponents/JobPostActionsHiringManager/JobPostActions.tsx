@@ -11,7 +11,7 @@ import { NavLink } from 'react-router-dom';
 import { Link, useNavigate } from 'react-router-dom';
 import { RootState } from '../../../app/store';
 import {  getJobPostActionfromapi, JobPostActiondata } from '../../../features/JobPostActions/jobpostactionsslice';
-
+import {generatepdf} from "../../../api/agent"
 const  JobPostActions=() =>{
 
 
@@ -152,8 +152,9 @@ const navigate=useNavigate()
 
     return (
         <div>
+           
             <DataTable value={jobpostactionsdata} showGridlines={false} responsiveLayout="scroll" paginator={true} rows={5} globalFilterFields={['JobPostID','JobCode','HiringManager','Company','BusinessUnit','ServiceLine','Customer','ExperianceLevel','NoOfPositions']} filters={filters2} header={Headercomp}>
-                <Column field="JobCode" header="Job Code" body={rowdata=>
+                <Column field="JobCode" header="Job Code" style={{ minWidth: '11rem', maxWidth : '14rem'}} body={rowdata=>
                 // <Button 
                 // // to={"dashboard/jobpostsactionApproval/"+rowdata.JobCode} 
                 //  onClick={e=>
@@ -164,22 +165,20 @@ const navigate=useNavigate()
                 
                 // }
                 //  >{rowdata.JobCode}</Button>
+                 rowdata.Stage=="BH Approval"?<Link to={"/jobpostsactionApproval/"+rowdata.JobCode} state={rowdata}  >{rowdata.JobCode}</Link>:<Link to={"/jobpostsprofileupload/"+rowdata.JobCode} state={rowdata}  >{rowdata.JobCode}</Link>
                  
-                //  <Link to={"/jobpostsactionApproval/"+rowdata.JobCode} state={rowdata}  >{rowdata.JobCode}</Link>
-               
-                rowdata.Stage!="Profiles Pending"?<Link to={"/jobpostsactionApproval/"+rowdata.JobCode} state={rowdata}  >{rowdata.JobCode}</Link>:<Link to={"/jobpostsprofileupload/"+rowdata.JobCode} state={rowdata}  >{rowdata.JobCode}</Link>                 
                  
                  
                  }></Column>                
-                <Column field="JobTitle" header="Job Title" ></Column>
+                <Column field="JobTitle" header="Job Title"  ></Column>
                 <Column field="HiringManager" header="Hiring Manager" ></Column>
                 <Column field="Industry" header="Industry" ></Column>
                 <Column field="Company" header="Company" ></Column>
-                <Column field="BusinessUnit" header="BusinessUnit" ></Column>
-                <Column field="ServiceLine" header="ServiceLine" ></Column>
+                <Column field="BusinessUnit" header="Business Unit" ></Column>
+                <Column field="ServiceLine" header="Service Line" ></Column>
                 <Column field="Customer" header="Customer" ></Column>
                 <Column field="ExperianceLevel" header="Experiance Level" ></Column>
-                <Column field="OnBoardingDate" header="Expected DOJ" ></Column>
+                <Column field="OnBoardingDate" header="Onboarding Date" ></Column>
                 <Column field="NoOfPositions" header="No Positions" ></Column>
                 <Column field="Stage" header="Status" ></Column>
  

@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface ServiceLine {
     ServiceLineId: number;
-    CompanyId:string,
+    CompanyId:number,
     BusinessUnitId: number;
     ServiceLineName: string;
     Acronym: string;

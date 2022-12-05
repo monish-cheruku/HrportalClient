@@ -51,10 +51,9 @@ import JobpostsactionApproval from './pages/DashboardComponents/JobPostActionsHi
 import Newcomp from './Newcomp';
 import ProtectedRoute from './components/routes/ProtectedRout';
 import CreateJobPost from './pages/DashboardComponents/CreateJobPost';
-import JobPostProfileUpload from './pages/DashboardComponents/JobPostActionsHiringManager/JobPostsProfileUpload';
-import CandidateDetails from './pages/DashboardComponents/CandidateDetails';
-
-
+import Jobpostdetailedview from './pages/DashboardComponents/Jobpostdetailedview';
+import CreateCandidateProfile from './pages/Candidate/CreateCandidateProfile'
+import JobPostProfileUpload from "./pages/DashboardComponents/JobPostsProfileUpload"
 const App = () => {
     const toastdata = useSelector((state: RootState) => state.toaster)
     const state = useSelector((state: RootState) => state)
@@ -90,8 +89,9 @@ const App = () => {
     }, [location]);
 
     useEffect(() => {
-        if (toast.current ? toastdata.data != "" : false) {
-
+        console.log(toastdata)
+        if (toast.current ? toastdata.data != "" : false&&toastdata.id!=1) {
+toastdata.id=1
             if (toastdata.status == "error")
                 toast.current.show({ severity: toastdata.status, summary: toastdata.status + " in " + toastdata.endpoint, detail: toastdata.data, life: 3000 });
             else
@@ -316,6 +316,7 @@ const App = () => {
 
         <Routes>
             <Route  path="/Login" element={<LoginPage />} />
+            {/* <Route path="*" element={}/> */}
             {/* <Route path="/Industry" element={<Industry />} />
             <Route path="/dashboard" element={<Dashboard />} /> */}
             {/* <Route path="/dashboard" element={<Dashboard />} /> */}
@@ -329,7 +330,7 @@ const App = () => {
           </RequireAuth>}/> */}
             <Route
                 path="*"
-                element={
+                element={Logindata.username!=""?
                     // <RequireAuth  redirectTo="/login">
                         <div className={wrapperClass} onClick={onWrapperClick}>
                             <div>
@@ -364,13 +365,13 @@ const App = () => {
 
 
 
+                                            <Route path="/jobpostsprofileupload/:JobCode"  element={<JobPostProfileUpload />} />
                                             <Route path="/jobpostsactionApproval/:JobCode"  element={<JobpostsactionApproval />} />
                                             <Route path="/jobpostsprofileupload/:JobCode"  element={<JobPostProfileUpload />} />
 
                                             <Route path="/myjobposts/createjobpost"  element={<CreateJobPost />} />
-                                            <Route path="/candidatedetails"  element={<CandidateDetails />} />
-                                        
-
+                                            <Route path='/jobpostdetailedview/:JobCode' element={<Jobpostdetailedview/>}/>
+                                            <Route path="/candidate/createcandidateprofile"  element={<CreateCandidateProfile/>} />
 
                                         </Routes>
                                     </div>
@@ -385,7 +386,7 @@ const App = () => {
                                     <div className="layout-mask p-component-overlay"></div>
                                 </CSSTransition>
                             </div>
-                        </div>
+                        </div>:<LoginPage></LoginPage>
                     // </RequireAuth>
                }
             /> 

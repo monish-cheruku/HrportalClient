@@ -3,14 +3,22 @@ import { useState } from "react";
 import ManageCompany from "./ManageCompany";
 import MyJobPosts from "./DashboardComponents/MyJobPosts";
 import JobPostActions from "./DashboardComponents/JobPostActionsHiringManager/JobPostActions";
+import { useSelector } from "react-redux";
+import { RootState } from "../app/store";
+import { useDispatch } from "react-redux";
+import { myjobpostsaction } from "../features/JobPostActions/myjobpostsslice";
 
 
 const Dashboard = () => {
-    const [openedtab, setOpenedtab] = useState("jobpostactions")
-    const [nooftabs, setnooftabs] = useState(3)
-    // useEffect(()=>{
-    //     console.log("dashboard")
-    // })
+    const [openedtab,setOpenedtab]=useState("jobpostactions")
+    const[nooftabs,setnooftabs]=useState(3)
+    const myJobPosts =useSelector((state:RootState)=>state.myjobposts);
+    const logindata=useSelector((state:RootState)=>state.Login)
+    const dispatch=useDispatch()
+    useEffect(()=>{
+        console.log("dashboard")
+        dispatch(myjobpostsaction({"UserName":logindata.username}))
+    },[])
     return (
         <div>
             <div className="grid">
@@ -51,7 +59,7 @@ const Dashboard = () => {
                         <div className="flex justify-content-between mb-3">
                             <div>
                                 <span className="block  font-medium mb-3">My JobPosts</span>
-                                <div className="text-900 font-medium text-xl">5</div>
+                                <div className="text-900 font-medium text-xl">{myJobPosts?myJobPosts.length:0}</div>
                             </div>
                             <div className="flex align-items-center justify-content-center bg-orange-100 border-round" style={{ width: "2.5rem", height: "2.5rem" }}>
                                 <i className="pi pi-file text-orange-500 text-xl" />

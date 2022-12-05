@@ -1,6 +1,6 @@
 import { connect, useDispatch, useSelector } from "react-redux";
 import { Dropdown } from 'primereact/dropdown'
-import React, { useEffect } from 'react'
+import React, { useEffect,useState } from 'react'
 import { Field, Form } from 'react-final-form'
 import { getactivebusinessunitoptions } from '../../features/BusinessUnit/businessunitselector';
 import { getactivecompanyoptions } from '../../features/Company/CompanySelector';
@@ -26,14 +26,26 @@ import { Card } from 'primereact/card';
 import { usersbyroles } from "../../features/JobPostActions/usersbyrolesslice";
 import { getBusinessHeads, getHrs } from "../../features/JobPostActions/usersbyrolesselector";
 import { Button } from "primereact/button";
-import { createnewjobpost } from "../../features/JobPostActions/jobpostactionsslice";
+import { createnewjobpost, updatejobpost } from "../../features/JobPostActions/jobpostactionsslice";
+import { useLocation, useNavigate } from "react-router-dom";
+
 
 
 function CreateJobPost(props) {
     const selectcompany = useSelector((state: RootState) => state.company);
+    const logindata = useSelector((state: RootState) => state.Login);
     const dispatch = useDispatch();
+    const location=useLocation();
+    const [editmode,setEditmode]=useState(!!location.state)
+    const [datafromprops,setdatafromprops]=useState();
+const navigate=useNavigate()
 
     useEffect(() => {
+        console.log(editmode)
+        console.log(location.state)
+        if(editmode){
+            setdatafromprops(location.state.data)
+        }
         //dispatch(getcompaniesaction());
         dispatch(getcompaniesaction());
         dispatch(getbusinessunitsaction());
@@ -61,19 +73,19 @@ function CreateJobPost(props) {
         // if (!data.JobTitle) {
         //     errors.JobTitle = "*JobDescription is required.";
         // }
-        var arr = ["Company_id", "BusinessUnit_id", "Serviceline_id", "Industry_id", "Industry_id", "Customer_id", "Location_id", "EmploymentType", "JobTitle", "JobDesc", "ExperianceLevel_id", "Qualification", "NoOfPositions", "OnBoardingDate", "POReference", "HR_User_Name", "BH_User_Name"]
+        var arr = ["Company", "BusinessUnit", "ServiceLine", "Industry", "Customer", "Location", "EmploymentType", "JobTitle", "JobDesc", "ExperianceLevel", "Qualification", "NoOfPositions", "OnBoardingDate", "HR_User_Name", "BH_User_Name"]
         arr.forEach((i) => {
             if (!values[i]) {
                 errors[i.toString()]= "*" + i + " is required";
                            }
                   })
-                  console.log(values["Duration"])
+                //   console.log(values["Duration"])
         if(!values["Duration"]&&values.EmploymentType=="Contract"){
-            console.log(values["Duration"])
+            // console.log(values["Duration"])
 
             errors["Duration"]="*This ffield is required"
         }
-      
+      console.log(errors)
         return errors;
     };
     const filterbusinessunit = (i: any, s: any) => {
@@ -116,22 +128,7 @@ function CreateJobPost(props) {
         // console.log(temp)
         return temp
     }
-    const getdropdownactiveelemns = () => {
-        var Companyoptions: ICompanyoptions[] = [];
-        selectcompany.forEach((e) => {
-            if (e.Active == true) {
-                // console.log(BusinessUnitId)
-                Companyoptions.push({
-                    key: e.CompanyId,
-                    label: e.CompanyName,
-                    value: e.CompanyId,
-                });
-            }
-        });
-
-        return Companyoptions;
-    };
-
+ 
 
     const isFormFieldValid = (meta) => !!(meta.touched && meta.error);
 
@@ -143,6 +140,7 @@ function CreateJobPost(props) {
         <>
             <div  >
                 <Card title="Create Job Post    ">
+
                     <Form
                         onSubmit={(values: any) => {
                             console.log(values)
@@ -151,9 +149,45 @@ function CreateJobPost(props) {
                             console.log( datetemp.getFullYear()+"-"+datetemp.getMonth()+"-"+datetemp.getDate())
                             values.OnBoardingDate=datetemp.getFullYear()+"-"+datetemp.getMonth()+"-"+datetemp.getDate()
                             // alert("sub mit form")
-                            dispatch(createnewjobpost(values))
-                        }}
-                        initialValues={{ CreatedBy: "sbatchu", Email: "sbatchu@belcan.com", FirstName: "siva", LastName: "Batchu", ModifiedBy: "sbatchu", UserName: "sbatchu", Stage_id: 1 }}
+                            if(editmode){
+
+                                
+                                dispatch(updatejobpost(values))
+                                navigate(-1)
+                            }
+                            else
+                            {dispatch(createnewjobpost(values))
+                                navigate(-1)
+                            }
+                            }}
+                        initialValues={editmode?{
+                            "JobPostId":datafromprops?.JobPostId,
+                            "UserName":datafromprops?.UserName,
+                            //   "FirstName": datafromprops?.FirstName,
+                            //   "LastName": datafromprops?.LastName,
+                            //   "Email": datafromprops?.Email,
+                              "EmploymentType": datafromprops?.EmploymentType,
+                              "Duration" : datafromprops?.Duration,
+                              "JobTitle": datafromprops?.JobTitle,
+                              "JobDesc": datafromprops?.JobDesc,
+                              "NoOfPositions": datafromprops?.NoOfPositions,
+                              "Qualification": datafromprops?.Qualification,
+                              "OnBoardingDate": new Date(datafromprops?.OnBoardingDate),
+                              "POReference": datafromprops?.POReference,
+                              "CreatedBy": datafromprops?.CreatedBy,
+                            //   "ModifiedBy" :datafromprops?.ModifiedBy,
+                              "Stage_id" : datafromprops?.Stage_id,
+                              "Industry" :datafromprops?.Industry,
+                              "Company" :datafromprops?.Company,
+                              "BusinessUnit" :datafromprops?.BusinessUnit,
+                              "ServiceLine" : datafromprops?.ServiceLine,
+                              "Customer" : datafromprops?.Customer ,
+                              "Location" : datafromprops?.Location ,
+                              "ExperianceLevel" : datafromprops?.ExperianceLevel,
+                              "BH_User_Name" : datafromprops?.approversDetails.filter((i)=>i.role_name=="Business Head")[0].approverName,
+                              "HR_User_Name" : datafromprops?.approversDetails.filter((i)=>i.role_name=="HR")[0].approverName,
+                              "ModifiedBy":logindata.username   
+                        }:{ UserName:logindata.username,Duration:null,ModifiedBy:null }}
                         // initialValues={{ 
                         //     "UserName": "sbatchu",
                         //       "FirstName": "Siva",
@@ -194,7 +228,7 @@ function CreateJobPost(props) {
                                 <div className="p-fluid  grid">
                                     <div className="field col-12 md:col-4">
                                         <Field
-                                            name="Company_id"
+                                            name="Company"
                                             render={({ input, meta }) => (
                                                 <div>
                                                     <div className="field">
@@ -214,12 +248,12 @@ function CreateJobPost(props) {
 
                                     <div className="field col-12 md:col-4">
                                         <Field
-                                            name="BusinessUnit_id"
+                                            name="BusinessUnit"
                                             render={({ input, meta }) => (
                                                 <div className="field">
                                                     <label htmlFor="Business unit">Business unit</label>
                                                     <span className="column">
-                                                        <Dropdown id="Business unit" {...input} options={filterbusinessunit(props.getactivebusinessunitoptionsprop, values.Company_id)} placeholder="Select a Business unit" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <Dropdown id="Business unit" {...input} options={filterbusinessunit(props.getactivebusinessunitoptionsprop, values.Company )} placeholder="Select a Business unit" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                     </span>
                                                 </div>
                                             )}
@@ -228,12 +262,12 @@ function CreateJobPost(props) {
 
                                     <div className="field col-12 md:col-4">
                                         <Field
-                                            name="Serviceline_id"
+                                            name="ServiceLine"
                                             render={({ input, meta }) => (
                                                 <div className="field">
                                                     <label htmlFor="service Line">Service Line</label>
                                                     <span className="column">
-                                                        <Dropdown id="service Line" {...input} options={filterserviceline(props.getactiveservicelineoptionsprop, values.Company_id, values.BusinessUnit_id)} optionLabel="label" placeholder="Select a service Line" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <Dropdown id="service Line" {...input} options={filterserviceline(props.getactiveservicelineoptionsprop, values.Company , values.BusinessUnit )} optionLabel="label" placeholder="Select a service Line" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                     </span>
                                                 </div>
                                             )}
@@ -244,7 +278,7 @@ function CreateJobPost(props) {
                                 <div className="p-fluid formgrid grid">
                                     <div className="field col-12 md:col-4">
                                         <Field
-                                            name="Industry_id"
+                                            name="Industry"
                                             render={({ input, meta }) => (
                                                 <div className="field">
                                                     <label htmlFor="Industry">Industry</label>
@@ -260,7 +294,7 @@ function CreateJobPost(props) {
 
                                     <div className="field col-12 md:col-4">
                                         <Field
-                                            name="Customer_id"
+                                            name="Customer"
                                             render={({ input, meta }) => (
                                                 <div className="field">
                                                     <label htmlFor="customer">customer</label>
@@ -275,7 +309,7 @@ function CreateJobPost(props) {
 
                                     <div className="field col-12 md:col-4">
                                         <Field
-                                            name="Location_id"
+                                            name="Location"
                                             render={({ input, meta }) => (
                                                 <div className="field">
                                                     <label htmlFor="Location">Location</label>
@@ -305,12 +339,12 @@ function CreateJobPost(props) {
 
 
 
-                                    <div hidden={values["EmploymentType"] == "Full-Time" ? true : false} className="field col-12 md:col-4">
+                                    <div hidden={values["EmploymentType"] != "Contract" ? true : false} className="field col-12 md:col-4">
                                         <Field
                                             name="Duration"
                                             render={({ input, meta }) => (
                                                 <div className="field">
-                                                    <label htmlFor="Duration">Duration(for other than Fulltime in Months)</label>
+                                                    <label htmlFor="Duration">Duration( in Months)</label>
                                                     <span className="p-float-label">
                                                         <InputNumber id="Duration" {...input} type={"number"} max={36} onValueChange={e => values.Duration = e.target.value} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                         <label htmlFor="Duration" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
@@ -365,7 +399,7 @@ function CreateJobPost(props) {
                                 <div className="p-fluid formgrid grid">
                                     <div className="field col-12 md:col-4">
                                         <Field
-                                            name="ExperianceLevel_id"
+                                            name="ExperianceLevel"
                                             render={({ input, meta }) => (
                                                 <div className="field">
                                                     <label htmlFor="Experience Level">Experience Level</label>
@@ -423,7 +457,7 @@ function CreateJobPost(props) {
                                                 <div className="field fluid">
                                                     <label htmlFor="date">Expected onboarding date</label>
                                                     <span className="field fluid">
-                                                        <Calendar id="date" {...input} dateFormat="yyyy/mm/dd" mask="99/99/9999" showIcon placeholder="Select a Date" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <Calendar id="date" {...input} dateFormat="mm/dd/yy" mask="99/99/9999" showIcon placeholder="Select a Date" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                     </span>
                                                 </div>
                                             )}
@@ -434,7 +468,7 @@ function CreateJobPost(props) {
                                             name="POReference"
                                             render={({ input, meta }) => (
                                                 <div className="field fluid">
-                                                    <label htmlFor="Po Reference">Po Reference</label>
+                                                    <label htmlFor="Po Reference">PO/Opportunity Reference</label>
                                                     <span className="field fluid">
                                                         <InputText id="Po Reference" {...input} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                         <label htmlFor="Po Reference" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
@@ -481,10 +515,14 @@ function CreateJobPost(props) {
                                     </div>
                                 </div>
                                 {/* <Button type="submit">save</Button> */}
-                                <Button label="Submit" className="mt-2" />
+                                {/* <Button label="Back" onClick={e=>navigate(-1)} className="mt-2" /> */}
+                               <span> </span>
+
+                               <Button label="Submit" type="submit" onClick={e=>values} className="mt-2 ml-2" />
+                               <Button label="Back"  type="button" onClick={e=>navigate(-1)} className="mt-2 ml-2" />
                             </form>
                         )
-                        }
+                    }
                     />
 
                 </Card> </div>
@@ -493,18 +531,10 @@ function CreateJobPost(props) {
 }
 
 function mapStateToProps(state) {
-    // const { todos } = state
-
-    // console.log(state);
-
     return {
         getactivecompanyoptionsprop: getactivecompanyoptions(state),
         getactivebusinessunitoptionsprop: getactivebusinessunitoptions(state),
-
-
         getactiveLocationoptionsprop: getactiveLocationoptions(state),
-
-
         getactiveservicelineoptionsprop: getactiveservicelineoptions(state),
         getactivecustomeroptionsprop: getactivecustomeroptions(state),
         getactiveIndustryoptionsprop: getactiveIndustryoptions(state),

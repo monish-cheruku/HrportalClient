@@ -200,16 +200,19 @@ export const jobpostactions={
   getalljobpostactiondata:(data)=>requests.post("jobpost/jobpostactionsdetails",data),
   jobpostactionssubmit:(data)=>requests.post("jobpost/jobpostactionssubmit",data),
   usersbyroles:(data)=>requests.post("jobpost/usersbyrole",data),
-  createjobpost:(data)=>requests.post("jobpost/addjobpost",data)
+  createjobpost:(data)=>requests.post("jobpost/addjobpost",data),
+  updatejobpost:(data)=>requests.put("jobpost/addjobpost",data),
+  myjobposts:(data)=>requests.post("jobpost/myjobposts",data)
 }
-export const candidates={
+
+export const generatepdf={
+  downloadpdf:(data)=>requests.post("/pdf",data),
+}
+export const candidateactions = {
   getallcandidatedata:(data)=>requests.post("candidate/gridcandidates",data),
-  candidatesubmit:(data)=>requests.post("jobpost/candidatessubmit",data),
-  // usersbyroles:(data)=>requests.post("jobpost/usersbyrole",data),
-  // createjobpost:(data)=>requests.post("jobpost/addjobpost",data)
+  createcandidate:(data)=>requests.post("candidate/addcandidate",data)
+
 }
-
-
 
 
 

@@ -47,6 +47,8 @@ import { getexperiencelevelsaction } from "../../features/ExperienceLevel/experi
 import { getactiveexperienceleveloptions } from "../../features/ExperienceLevel/experiencelevelselector";
 import CreateJobPost from "./CreateJobPost";
 import { useNavigate } from "react-router";
+import { myjobpostsaction } from "../../features/JobPostActions/myjobpostsslice";
+import { Link } from "react-router-dom";
 // import '../../index.css';
 const MyJobPosts = (props) => {
     const [productDialog, setProductDialog] = useState(false);
@@ -62,7 +64,8 @@ const MyJobPosts = (props) => {
     const [filters2, setFilters2] = useState({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     });
-    const [company, setcompany] = useState(data11.data);
+    const myJobPosts =useSelector((state:RootState)=>state.myjobposts);
+    const Logindata = useSelector((state: RootState) => state.Login);
 
     const companiesdata = useSelector((state: RootState) => state.company);
     const selectcompany = useSelector((state: RootState) => state.company);
@@ -72,16 +75,22 @@ const MyJobPosts = (props) => {
 
     useEffect(() => {
         //dispatch(getcompaniesaction());
-        dispatch(getcompaniesaction());
-        dispatch(getbusinessunitsaction());
-        dispatch(getservicelineaction());
-        dispatch(getLocationaction());
-        dispatch(getcustomersaction())
-        dispatch(getIndustriesaction())
-        dispatch(getexperiencelevelsaction())
+        // dispatch(getcompaniesaction());
+        // dispatch(getbusinessunitsaction());
+        // dispatch(getservicelineaction());
+        // dispatch(getLocationaction());
+        // dispatch(getcustomersaction())
+        // dispatch(getIndustriesaction())
+        // dispatch(getexperiencelevelsaction())
         // console.log(data11.data);
         //setcompany(data11;
         //fetch('./jobpostdata.json').then(res => {res.json(); console.log(res);}).then(d => setcompany(d.data));
+    
+    dispatch(myjobpostsaction({
+        "UserName":Logindata.username
+        // "ApproverName":"nkanagala"
+    }))
+    console.log(myJobPosts)
     }, []);
 
     const onGlobalFilterChange2 = (e: any) => {
@@ -170,13 +179,9 @@ const MyJobPosts = (props) => {
                     icon="pi pi-pencil"
                     className="p-button-rounded p-button-success mr-2"
                     onClick={(e) => {
-                        setEditmode(true);
-                        // console.log(rowdata)
-                        setCompanyid(data.CompanyId);
-                        setCompanydesc(data.CompanyDesc);
-                        setCompanyname(data.CompanyName);
-                        setActive(data.Active);
-                        setProductDialog(true);
+                      
+
+                        navigate("/myjobposts/createjobpost",{state:{data}})
                     }}
                 />
             </React.Fragment>
@@ -201,9 +206,9 @@ const MyJobPosts = (props) => {
                         Active: active,
                     };
                     if (editmode === false) {
-                        dispatch(createcompanyaction(c));
+                        // dispatch(createcompanyaction(c));
                     } else {
-                        dispatch(updatecompanyaction(c));
+                        // dispatch(updatecompanyaction(c));
                     }
                     setProductDialog(false);
                     // axios.post("http://10.154.155.135:8000/api/company");
@@ -220,35 +225,12 @@ const MyJobPosts = (props) => {
         form.restart();
     };
 
-    const getdropdownactiveelemns = () => {
-        var Companyoptions: ICompanyoptions[] = [];
-        selectcompany.forEach((e) => {
-            if (e.Active == true) {
-                // console.log(BusinessUnitId)
-                Companyoptions.push({
-                    key: e.CompanyId,
-                    label: e.CompanyName,
-                    value: e.CompanyId,
-                });
-            }
-        });
-
-        return Companyoptions;
-    };
-
-    const validate = (data) => {
-        let errors = {};
-
-        if (!data.JobDescription) {
-            errors.JobDescription = "*JobDescription is required.";
-        }
-
-        return errors;
-    };
-
+  
+const linkbody=rowdata=>{
+return(<Link to={"/jobpostdetailedview/"+rowdata.JobCode}>{rowdata.JobCode}</Link>)}
     //  const end = <InputText placeholder="Search" type="text" />;
     const activediv = (body: { Active: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined }) => {
-        return <div>{body.Active?.toString()}</div>;
+        return <div>{body.stage_name?.toString()}</div>;
     };
 
     const isFormFieldValid = (meta) => !!(meta.touched && meta.error);
@@ -304,18 +286,18 @@ const MyJobPosts = (props) => {
     }
     return (
         <div>
-            <DataTable value={company} showGridlines={false} responsiveLayout="scroll" paginator={true} rows={5} globalFilterFields={["CompanyName", "CompanyDesc", "Active"]} filters={filters2} header={Headercomp}>
-                <Column field="code" header="Job Code" sortable></Column>
-                <Column field="title" header="Job Title" sortable></Column>
-                <Column field="company" header="Company" sortable></Column>
-                <Column field="bu" header="Business Unit" sortable></Column>
-                <Column field="serviceline" header="Service Line" sortable></Column>
-                <Column field="customer" header="Customer" sortable></Column>
-                <Column field="explevel" header="Experience Level" sortable></Column>
-                <Column field="exponboarddate" header="On-bording Date" sortable></Column>
-                <Column field="noposts" header="No Of Posts" sortable></Column>
-                <Column field="status" header="Status" sortable></Column>
-                <Column field="Active" header="Active" sortable dataType="boolean" body={activediv}></Column>
+            <DataTable value={myJobPosts} showGridlines={false} responsiveLayout="scroll" paginator={true} rows={5} globalFilterFields={["CompanyName", "CompanyDesc", "Active"]} filters={filters2} header={Headercomp}>
+                <Column field="JobCode" header="Job Code" sortable style={{ minWidth: '11rem', maxWidth : '14rem'}} body={linkbody}>  </Column>
+                <Column field="JobTitle" header="Job Title" sortable></Column>
+                <Column field="company_name" header="Company" sortable></Column>
+                <Column field="businessunit_name" header="Business Unit" sortable></Column>
+                <Column field="serviceline_name" header="Service Line" sortable></Column>
+                <Column field="industry_name" header="Industry" sortable></Column>
+                <Column field="customer_name" header="Customer" sortable></Column>
+                <Column field="experience_Level" header="Experience Level" sortable></Column>
+                <Column field="OnBoardingDate" header="On Boarding Date" sortable></Column>
+                <Column field="NoOfPositions" header="No Of Positions" sortable></Column>
+                <Column field="stage_name" header="Status" sortable  body={activediv}></Column>
                 <Column field="edit" header="Edit" body={actionBodyTemplate} exportable={false}></Column>
             </DataTable>
 
@@ -326,323 +308,16 @@ const MyJobPosts = (props) => {
 
                 render={({ handleSubmit, values }) => (
                     <form onSubmit={handleSubmit} className="formgrid grid"> */}
-            <Dialog visible={productDialog} style={{ width: "70vw" }} header="Create Job post" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
-                <br />
+                        {/* <Dialog visible={productDialog} style={{ width: "70vw" }} header="Create Job post" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}> */}
+                            <br />
 
-                {/* <div className="p-fluid formgrid grid">
-                                <div className="field col-12 md:col-4">
-                                    <Field
-                                        name="Company"
-                                        render={({ input }) => (
-                                            <div>
-                                                <div className="field">
-                                                    <label htmlFor="Company">Company Name</label>
-                                                    <span className="column">
-                                                        <Dropdown id="Company" {...input} options={props.getactivecompanyoptionsprop} placeholder="Select a Company" />
-                                                    </span>
-                                                </div>
-                                            </div>
-
-                                        )}
-                                    />
-                                </div>
-
-                                <div className="field col-12 md:col-4">
-                                    <Field
-                                        name="Businessunit"
-                                        render={({ input }) => (
-                                            <div className="field">
-                                                <label htmlFor="Business unit">Business unit</label>
-                                                <span className="column">
-                                                    <Dropdown id="Business unit" {...input} options={filterbusinessunit(props.getactivebusinessunitoptionsprop, values.Company)} placeholder="Select a Business unit" />
-                                                </span>
-                                            </div>
-                                        )}
-                                    />
-                                </div>
-
-                                <div className="field col-12 md:col-4">
-                                    <Field
-                                        name="service Line"
-                                        render={({ input }) => (
-                                            <div className="field">
-                                                <label htmlFor="service Line">Service Line</label>
-                                                <span className="column">
-                                                    <Dropdown id="service Line" {...input} options={filterserviceline(props.getactiveservicelineoptionsprop, values.Company, values.Businessunit)} optionLabel="label" placeholder="Select a service Line" />
-                                                </span>
-                                            </div>
-                                        )}
-                                    />
-                                </div>
-                            </div>
-
-
-                            <div className="p-fluid formgrid grid">
-                                <div className="field col-12 md:col-4">
-                                    <Field
-                                        name="Industry"
-                                        render={({ input }) => (
-                                            <div className="field">
-                                                <label htmlFor="Industry">Industry</label>
-                                                <span className="p-float-label">
-                                                    <Dropdown id="Industry" {...input} options={props.getactiveIndustryoptionsprop} optionLabel="label" placeholder=" select a Industry" />
-                                                </span>
-                                            </div>
-                                        )}
-                                    />
-                                </div>
-
-
-
-                                <div className="field col-12 md:col-4">
-                                    <Field
-                                        name="customer"
-                                        render={({ input }) => (
-                                            <div className="field">
-                                                <label htmlFor="customer">customer</label>
-                                                <span className="p-float-label">
-                                                    <Dropdown id="customer" {...input} options={props.getactivecustomeroptionsprop} optionLabel="label" placeholder="Select a customer" />
-                                                </span>
-                                            </div>
-                                        )}
-                                    />
-                                </div>
-
-
-                                <div className="field col-12 md:col-4">
-                                    <Field
-                                        name="Location"
-                                        render={({ input }) => (
-                                            <div className="field">
-                                                <label htmlFor="Location">Location</label>
-                                                <span className="p-float-label">
-                                                    <Dropdown id="Location" {...input} options={props.getactiveLocationoptionsprop} optionLabel="label" placeholder="Select a Location" />
-                                                </span>
-                                            </div>
-                                        )}
-                                    />
-                                </div>
-                            </div>
-
-
-
-                            <div className="Row">
-                                <div className="Col">
-                                    <Field
-                                        name="Employement Type"
-                                        render={({ input }) => (
-                                            <div className="field">
-                                                <label htmlFor="Employement Type">Employement Type</label>
-                                                <span className="p-float-label">
-                                                    <Dropdown id="Employement Type" {...input} options={getdropdownactiveelemns()} optionLabel="name" placeholder="Select a Employement Type" />
-                                                </span>
-                                            </div>
-                                        )}
-                                    />
-                                </div>
-
-                                <div className="Col">
-
-                                    <Field
-                                        name="Duration"
-                                        render={({ input, meta }) => (
-                                            <div className="field">
-                                                <label htmlFor="Duration">Duration(for other than Fulltime)</label>
-                                                <span className="p-float-label">
-                                                    <InputText id="Duration" {...input} type={"number"} autoFocus className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
-                                                    <label htmlFor="Duration" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
-                                                </span>
-                                                {getFormErrorMessage(meta)}
-                                            </div>
-                                        )}
-                                    />
-                                </div>
-                            </div>
-
-
-
-                            <Field
-                                name="Job Title"
-                                render={({ input, meta }) => (
-                                    <div className="field">
-                                        <label htmlFor="Job Title">Job Title</label>
-                                        <span className="p-float-label">
-                                            <InputText id="Job Title" {...input} autoFocus className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
-                                            <label htmlFor="Job Title" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
-                                        </span>
-                                        {getFormErrorMessage(meta)}
-                                    </div>
-                                )}
-                            />
-
-
-
-                            <Field
-                                name="JobDescription"
-                                render={({ input, meta }) => (
-                                    <div className="field">
-                                        <label htmlFor="JobDescription">Job Descriptioon</label>
-                                        <span className="p-float-label">
-                                            <InputTextarea id="JobDescription" {...input} autoFocus className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
-                                            <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
-                                        </span>
-                                        {getFormErrorMessage(meta)}
-                                    </div>
-                                )}
-                            />
-
-
-
-
-                            <div className="p-fluid formgrid grid">
-                                <div className="field col-12 md:col-4">
-                                    <Field
-                                        name="Experience Level"
-                                        render={({ input }) => (
-                                            <div className="field">
-                                                <label htmlFor="Experience Level">Experience Level</label>
-                                                <span className="p-float-label">
-                                                    <Dropdown id="Experience Level" {...input} options={props.getactiveexperienceleveloptionsprop} optionLabel="label" placeholder="Select a Experience Level" />
-                                                </span>
-                                            </div>
-                                        )}
-                                    />
-                                </div>
-                                <div className="field col-12 md:col-4">
-
-                                    <Field
-                                        name="Highest Qualification"
-                                        render={({ input }) => (
-                                            <div className="field fluid">
-                                                <label htmlFor="Highest Qualification">Highest Qualification</label>
-                                                <span className="field fluid">
-                                                    <Dropdown id="Highest Qualification" {...input} options={getdropdownactiveelemns()} optionLabel="name" placeholder="Select a Highest Qualification" />
-                                                </span>
-                                            </div>
-                                        )}
-                                    />
-
-                                </div>
-
-
-                                <div className="field col-12 md:col-4">
-                                    <Field
-                                        name="No of openings"
-                                        render={({ input, meta }) => (
-                                            <div className="field">
-                                                <label htmlFor="No of openings">No of openings</label>
-                                                <span className="p-float-label">
-                                                    <InputNumber id="No of openings" {...input} autoFocus className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
-                                                    <label htmlFor="No of openings" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
-                                                </span>
-                                                {getFormErrorMessage(meta)}
-                                            </div>
-                                        )}
-                                    />
-                                </div>
-                            </div>
-
-
-
-                            <div className="p-fluid formgrid grid">
-                                <div className="field col-12 md:col-4">
-                                    <Field
-                                        name="date"
-                                        render={({ input }) => (
-                                            <div className="field fluid">
-                                                <label htmlFor="date">Expected onboarding date</label>
-                                                <span className="field fluid">
-                                                    <Calendar id="date" {...input} dateFormat="dd/mm/yy" mask="99/99/9999" showIcon placeholder="Select a Date" />
-                                                </span>
-                                            </div>
-                                        )}
-                                    />
-                                </div>
-                                <div className="field col-12 md:col-4">
-                                    <Field
-                                        name="Po Reference"
-                                        render={({ input, meta }) => (
-                                            <div className="field fluid">
-                                                <label htmlFor="Po Reference">Po Reference</label>
-                                                <span className="field fluid">
-                                                    <InputText id="Po Reference" {...input} autoFocus className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
-                                                    <label htmlFor="Po Reference" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
-                                                </span>
-                                                {getFormErrorMessage(meta)}
-                                            </div>
-                                        )}
-                                    />
-                                </div>
-
-
-                                <div className="field col-12 md:col-4">
-
-                                    <Field
-                                        name="Talent"
-                                        render={({ input }) => (
-                                            <div className="field">
-                                                <label htmlFor="Talent">Talent Acquisition Team</label>
-                                                <span className="p-float-label">
-                                                    <Dropdown id="Talent" {...input} options={getdropdownactiveelemns()} optionLabel="name" placeholder="Select a Member" />
-                                                </span>
-                                            </div>
-                                        )}
-                                    />
-
-                                </div>
-
-
-                            </div>
-
-                            <div className="p-fluid formgrid grid">
-                                <div className="field col-12 md:col-4">
-                                    <Field
-                                        name="Business Head"
-                                        render={({ input }) => (
-                                            <div className="field">
-                                                <label htmlFor="Business Head">Business Head</label>
-                                                <span className="p-float-label">
-                                                    <Dropdown id="Business Head" {...input} options={getdropdownactiveelemns()} optionLabel="name" placeholder="Select a Business Head" />
-                                                </span>
-                                            </div>
-                                        )}
-                                    />
-                                </div>
-                            </div> */}
-                <CreateJobPost></CreateJobPost>
-            </Dialog>
-            {/* </form>
-                )}
-            /> */}
+                           
+{/* <CreateJobPost></CreateJobPost> */}
+                   
         </div>
     );
 };
 
-function mapStateToProps(state) {
-    // const { todos } = state
-
-    // console.log(state);
-
-    return {
-        getactivecompanyoptionsprop: getactivecompanyoptions(state),
-        getactivebusinessunitoptionsprop: getactivebusinessunitoptions(state),
-
-
-        getactiveLocationoptionsprop: getactiveLocationoptions(state),
-
-
-        getactiveservicelineoptionsprop: getactiveservicelineoptions(state),
-        getactivecustomeroptionsprop: getactivecustomeroptions(state),
-        getactiveIndustryoptionsprop: getactiveIndustryoptions(state),
-        getactiveexperienceleveloptionsprop: getactiveexperienceleveloptions(state),
-    };
-}
-
-// const comparisonFn = function (prevProps, nextProps) {
-//     return prevProps.location.pathname === nextProps.location.pathname;
-// };
-
-// export default React.memo(connect(mapStateToProps)(MyJobPosts), comparisonFn);
-export default connect(mapStateToProps)(MyJobPosts)
+export default MyJobPosts
 
 
