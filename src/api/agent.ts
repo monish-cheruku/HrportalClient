@@ -13,15 +13,15 @@ import {UserRoles} from "../features/UserRoles/userroleslice"
 
 
 
-// import {Band} from "../features/Band/bandslice"
+// import {Band} from ../features/Band/bandslice"
 
-axios.defaults.baseURL = 'http://10.154.155.212:8000/api';
+axios.defaults.baseURL = 'http://10.154.20.197:8000/api';
 //http://10.154.28.148:8000/api/     monish//
 //http://10.154.155.152:8000/api      /dwaraka
 axios.interceptors.response.use(undefined, (error) => {
   if (error.message === "Network Error" && !error.response) {
     console.log("Network error - make sure API is running!");
-    alert("error : "+error)
+    // alert("error : "+error)
     store.dispatch(createtoast({
 
       id:34,
@@ -201,6 +201,12 @@ export const jobpostactions={
   jobpostactionssubmit:(data)=>requests.post("jobpost/jobpostactionssubmit",data),
   usersbyroles:(data)=>requests.post("jobpost/usersbyrole",data),
   createjobpost:(data)=>requests.post("jobpost/addjobpost",data)
+}
+export const candidates={
+  getallcandidatedata:(data)=>requests.post("candidate/gridcandidates",data),
+  candidatesubmit:(data)=>requests.post("jobpost/candidatessubmit",data),
+  // usersbyroles:(data)=>requests.post("jobpost/usersbyrole",data),
+  // createjobpost:(data)=>requests.post("jobpost/addjobpost",data)
 }
 
 

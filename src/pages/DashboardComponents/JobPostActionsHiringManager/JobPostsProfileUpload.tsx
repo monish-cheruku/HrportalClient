@@ -14,13 +14,13 @@ import { RootState } from '../../../app/store'
 import { getCandidatefromapi } from '../../../features/Candidates/candidatesslice'
 import { getJobPostActionfromapi, IJobPost, jobpostactionssubmit } from '../../../features/JobPostActions/jobpostactionsslice'
 import JobPostDetails from '../JobPostDetails'
-
+import CandidateDetails from '../CandidateDetails'
 
 
 function JobPostProfileUpload() {
     const jobsdata = useSelector((store: RootState) => store.JobPostAction)
     const Logindata = useSelector((store: RootState) => store.Login)
-    const candidatesdata=useSelector((store:RootState)=>store.Candidate)
+    const candidatesdata = useSelector((store: RootState) => store.Candidate)
     const [submitted, setSubmitted] = useState(false);
 
     const { JobCode } = useParams()
@@ -47,7 +47,7 @@ function JobPostProfileUpload() {
         console.log(Logindata)
         setjobdata(jobsdata.filter((i) => i.JobCode == JobCode)[0])
         dispatch(getCandidatefromapi({
-            "jobpostID":jobdata.JobPostID
+            "jobpostID": jobdata.JobPostID
         }))
     }, [])
     const hideDialog = () => {
@@ -106,7 +106,7 @@ function JobPostProfileUpload() {
                 icon="pi pi-check"
                 className="p-button-text"
                 onClick={() => {
-                    setissave (true);
+                    setissave(true);
                     // console.log(companyname);
                     // console.log(companydesc);
                     // console.log(active);
@@ -130,21 +130,41 @@ function JobPostProfileUpload() {
             />
         </React.Fragment>
     );
+    const nametemplate = (rowdata) => {
+        return (
+            <>{rowdata.CanFirstName + ", " + rowdata.CanLastName}</>
+        )
+    }
+    const exptemplate=(rowdata)=>{
+        return(
+            <div>{rowdata.OverallExpYear +"."+rowdata.OverallExpMonth+" Years"}</div>
+        )
+    }
+    const linktemplate=(rowdata) =>{
+        return(
+            <Link to="/candidatedetails" state={rowdata}>{rowdata.CandidateCode}</Link>
+        )
+    }
 
     return (
         <div>
             <JobPostDetails JobData={jobdata}></JobPostDetails>
             <Button>Add Candidate</Button>
-            <DataTable value={candidatesdata}  showGridlines={true} responsiveLayout="scroll" >
-                <Column field="CandidateCode" header="Code" ></Column>
-                <Column field="Name" header="Name" ></Column>
-                <Column field="OverallExpYear" header="Experience" ></Column>
+            <DataTable value={candidatesdata} showGridlines={true} responsiveLayout="scroll" >
+                <Column field="CandidateCode" header="Code" body={linktemplate} ></Column>
+
+                {/* <Column field="CandidateCode" header="Code" body={rowdata =>
+                    rowdata.Stage != "Profiles Pending" ? <Link to={"/jobpostsactionApproval/" + rowdata.JobCode} state={rowdata}  >{rowdata.JobCode}</Link> 
+                    : <Link to={"/jobpostsprofileupload/" + rowdata.JobCode} state={rowdata}  >{rowdata.JobCode}</Link>
+                }></Column> */}
+                <Column field="Name" header="Name" body={nametemplate}></Column>
+                <Column field="OverallExpYear" header="Overall Experience (in years)" body={exptemplate} ></Column>
                 <Column field="ExpectedDOJ" header="Expected DOJ" ></Column>
                 <Column field="ExpectedCTC" header="Expected CTC" ></Column>
                 <Column field="Email" header="Email" ></Column>
                 <Column field="stage_name" header="Status" ></Column>
                 {/* <Column field="Action" header="Action" ></Column> */}
-                <Column field="Action" header="Edit" body={actionBodyTemplate} exportable={false}></Column>
+                <Column field="Action" header="Action" body={actionBodyTemplate} exportable={false}></Column>
 
 
             </DataTable>

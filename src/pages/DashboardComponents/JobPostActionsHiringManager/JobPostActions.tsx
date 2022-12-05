@@ -165,8 +165,9 @@ const navigate=useNavigate()
                 // }
                 //  >{rowdata.JobCode}</Button>
                  
-                 <Link to={"/jobpostsactionApproval/"+rowdata.JobCode} state={rowdata}  >{rowdata.JobCode}</Link>
-                 
+                //  <Link to={"/jobpostsactionApproval/"+rowdata.JobCode} state={rowdata}  >{rowdata.JobCode}</Link>
+               
+                rowdata.Stage!="Profiles Pending"?<Link to={"/jobpostsactionApproval/"+rowdata.JobCode} state={rowdata}  >{rowdata.JobCode}</Link>:<Link to={"/jobpostsprofileupload/"+rowdata.JobCode} state={rowdata}  >{rowdata.JobCode}</Link>                 
                  
                  
                  }></Column>                

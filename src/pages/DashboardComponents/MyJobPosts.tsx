@@ -68,7 +68,7 @@ const MyJobPosts = (props) => {
     const selectcompany = useSelector((state: RootState) => state.company);
 
     const dispatch = useDispatch();
-    const navigate=useNavigate()
+    const navigate = useNavigate()
 
     useEffect(() => {
         //dispatch(getcompaniesaction());
@@ -326,10 +326,10 @@ const MyJobPosts = (props) => {
 
                 render={({ handleSubmit, values }) => (
                     <form onSubmit={handleSubmit} className="formgrid grid"> */}
-                        <Dialog visible={productDialog} style={{ width: "70vw" }} header="Create Job post" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
-                            <br />
+            <Dialog visible={productDialog} style={{ width: "70vw" }} header="Create Job post" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
+                <br />
 
-                            {/* <div className="p-fluid formgrid grid">
+                {/* <div className="p-fluid formgrid grid">
                                 <div className="field col-12 md:col-4">
                                     <Field
                                         name="Company"
@@ -609,9 +609,9 @@ const MyJobPosts = (props) => {
                                     />
                                 </div>
                             </div> */}
-<CreateJobPost></CreateJobPost>
-                        </Dialog>
-                    {/* </form>
+                <CreateJobPost></CreateJobPost>
+            </Dialog>
+            {/* </form>
                 )}
             /> */}
         </div>

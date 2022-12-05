@@ -51,6 +51,8 @@ import JobpostsactionApproval from './pages/DashboardComponents/JobPostActionsHi
 import Newcomp from './Newcomp';
 import ProtectedRoute from './components/routes/ProtectedRout';
 import CreateJobPost from './pages/DashboardComponents/CreateJobPost';
+import JobPostProfileUpload from './pages/DashboardComponents/JobPostActionsHiringManager/JobPostsProfileUpload';
+import CandidateDetails from './pages/DashboardComponents/CandidateDetails';
 
 
 const App = () => {
@@ -363,7 +365,10 @@ const App = () => {
 
 
                                             <Route path="/jobpostsactionApproval/:JobCode"  element={<JobpostsactionApproval />} />
+                                            <Route path="/jobpostsprofileupload/:JobCode"  element={<JobPostProfileUpload />} />
+
                                             <Route path="/myjobposts/createjobpost"  element={<CreateJobPost />} />
+                                            <Route path="/candidatedetails"  element={<CandidateDetails />} />
                                         
 
 
