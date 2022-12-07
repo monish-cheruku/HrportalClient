@@ -56,11 +56,13 @@ console.log(payload)
             console.log(payload)
         },
        
-
+        getApproversfromapi:(state,payload:PayloadAction<any>)=>{
+            console.log(payload)
+        },
     },
 }
 
 
 )
-export const {Candidatedata,getCandidatefromapi,createnewcandidate,updatenewcandidate}=CandidateActionSlice.actions
+export const {Candidatedata,getCandidatefromapi,createnewcandidate,updatenewcandidate, getApproversfromapi}=CandidateActionSlice.actions
 export default CandidateActionSlice.reducer
