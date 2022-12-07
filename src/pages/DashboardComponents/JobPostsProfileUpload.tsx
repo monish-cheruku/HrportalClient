@@ -12,6 +12,7 @@ import { useNavigate, useParams } from 'react-router'
 import { Link } from 'react-router-dom'
 import { RootState } from '../../app/store'
 import { getCandidatefromapi } from "../../features/CandidateActions/candidateactionsslice"
+import { genpdf } from '../../features/Downloadpdfs/pdfslice'
 // import { getJobPostActionfromapi, IJobPost, jobpostactionssubmit } from '../../features/JobPostActions/jobpostactionsslice'
 import { getJobPostActionfromapi, IJobPost, jobpostactionssubmit } from '../../features/JobPostActions/jobpostactionsslice'
 import JobPostDetails from '../DashboardComponents/JobPostDetails'
@@ -21,7 +22,9 @@ import JobPostDetails from '../DashboardComponents/JobPostDetails'
 function JobPostProfileUpload() {
     const jobsdata = useSelector((store: RootState) => store.JobPostAction)
     const Logindata = useSelector((store: RootState) => store.Login)
-    const candidatesdata=useSelector((store:RootState)=>store.CandidateAction)
+    const candidatesdata = useSelector((store: RootState) => store.CandidateAction)
+    const billrate = useSelector((store: RootState) => store.ManageBill)
+
     const [submitted, setSubmitted] = useState(false);
 
     const { JobCode } = useParams()
@@ -36,7 +39,6 @@ function JobPostProfileUpload() {
     const dispatch = useDispatch()
     const [issave, setissave] = useState(false);
     const [productDialog, setProductDialog] = useState(false);
-
     const [jobdata, setjobdata] = useState<IJobPost>(jobsdata.filter((i) => i.JobCode == JobCode)[0])
     useEffect(() => {
         if (jobdata == null) {
@@ -48,8 +50,14 @@ function JobPostProfileUpload() {
         console.log(Logindata)
         setjobdata(jobsdata.filter((i) => i.JobCode == JobCode)[0])
         dispatch(getCandidatefromapi({
-            "jobpostID":jobdata.JobPostID
+            "jobpostID": jobdata.JobPostID
         }))
+        console.log(jobdata.AvgApprovedCTC)
+       
+// billrate.forEach((i)=>
+// (i.BusinessUnitId==
+//     )
+        console.log(billrate)
     }, [])
     const hideDialog = () => {
         setissave(false)
@@ -87,13 +95,14 @@ function JobPostProfileUpload() {
                     icon="pi pi-pencil"
                     className="p-button-rounded p-button-success mr-2"
                     onClick={(e) => {
-                        setEditmode(true);
+                        // setEditmode(true);
                         // console.log(rowdata)
                         // setCompanyid(data.CompanyId);
                         // setCompanydesc(data.CompanyDesc);
                         // setCompanyname(data.CompanyName);
                         // setActive(data.Active);
-                        setProductDialog(true);
+                        // setProductDialog(true);
+                        navigate("/candidate/updatecandidateprofile",{state:{data}})
                     }}
                 />
             </React.Fragment>
@@ -107,7 +116,7 @@ function JobPostProfileUpload() {
                 icon="pi pi-check"
                 className="p-button-text"
                 onClick={() => {
-                    setissave (true);
+                    setissave(true);
                     // console.log(companyname);
                     // console.log(companydesc);
                     // console.log(active);
@@ -134,21 +143,42 @@ function JobPostProfileUpload() {
 
     return (
         <div>
-            <JobPostDetails JobData={jobdata}></JobPostDetails>
-            <Button  onClick={e=>navigate("/candidate/createcandidateprofile")}>Add Candidate</Button>
-            <DataTable value={candidatesdata}  showGridlines={true} responsiveLayout="scroll" >
-                <Column field="CandidateCode" header="Code" ></Column>
-                <Column field="Name" header="Name" ></Column>
-                <Column field="OverallExpYear" header="Experience" ></Column>
-                <Column field="ExpectedDOJ" header="Expected DOJ" ></Column>
-                <Column field="ExpectedCTC" header="Expected CTC" ></Column>
-                <Column field="Email" header="Email" ></Column>
-                <Column field="stage_name" header="Status" ></Column>
-                {/* <Column field="Action" header="Action" ></Column> */}
-                <Column field="Action" header="Edit" body={actionBodyTemplate} exportable={false}></Column>
+            <Card title="Job Post Details">
+
+                <div style={{textAlign:"right",marginRight:"100px"}}>
+
+                    <Button className='' style={{ }} onClick={e => {
+                        dispatch(genpdf({ "JobPostId": jobdata.JobPostID }))
 
 
-            </DataTable>
+                    }}>Generate pdf</Button>
+
+                </div>
+                <br></br>
+                <div>
+
+                    <JobPostDetails JobData={jobdata}></JobPostDetails>
+                </div>
+                <div style={{textAlign:"center"}} >
+
+                <Button onClick={e => navigate("/candidate/createcandidateprofile",{state:{"jobdata":jobdata}})}>Add New Candidate</Button>
+                </div>
+                <br></br>
+                <br></br>
+                <DataTable value={candidatesdata} showGridlines={true} responsiveLayout="scroll" style={{}}>
+                    <Column field="CandidateCode" header="Code" ></Column>
+                    <Column field="CanFirstName" header="Name" ></Column>
+                    <Column field="OverallExpYear" header="Experience" ></Column>
+                    <Column field="ExpectedDOJ" header="Expected DOJ" ></Column>
+                    <Column field="ExpectedCTC" header="Expected CTC" ></Column>
+                    <Column field="Email" header="Email" ></Column>
+                    <Column field="stage_name" header="Status" ></Column>
+                    {/* <Column field="Action" header="Action" ></Column> */}
+                    <Column field="Action" header="Edit" body={actionBodyTemplate} exportable={false}></Column>
+
+
+                </DataTable>
+            </Card>
         </div>
     )
 

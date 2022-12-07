@@ -37,10 +37,15 @@ function CreateJobPost(props) {
     const dispatch = useDispatch();
     const location=useLocation();
     const [editmode,setEditmode]=useState(!!location.state)
-    const [datafromprops,setdatafromprops]=useState();
+    const [datafromprops,setdatafromprops]=useState<any>();
 const navigate=useNavigate()
 
     useEffect(() => {
+console.log(location)
+        if(location.pathname=="/myjobposts/updatejobpost" && !editmode)
+        {
+            navigate("/dashboard")
+        }
         console.log(editmode)
         console.log(location.state)
         if(editmode){
@@ -139,7 +144,7 @@ const navigate=useNavigate()
     return (
         <>
             <div  >
-                <Card title="Create Job Post    ">
+                <Card title={editmode?"Edit Job Post":"Create Job Post    "}>
 
                     <Form
                         onSubmit={(values: any) => {

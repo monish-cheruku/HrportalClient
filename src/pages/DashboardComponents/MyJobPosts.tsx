@@ -181,7 +181,7 @@ const MyJobPosts = (props) => {
                     onClick={(e) => {
                       
 
-                        navigate("/myjobposts/createjobpost",{state:{data}})
+                        navigate("/myjobposts/updatejobpost",{state:{data}})
                     }}
                 />
             </React.Fragment>

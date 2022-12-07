@@ -60,11 +60,13 @@ const rootreducer = combineReducers({
   Industry: IndustryReducer,
   userroles: UserRolesReducer,
   userroleoptions: userroleoptions,
+  myjobposts:myjobpostsReducer,
 Login:LoginReducer,
 JobPostAction:jobpostactionsReducer,
 rolesoptions:rolesoptions,
 usersbyroles:usersbyrolesReducer,
 CandidateAction :CandidateActionReducer,
+
 
   // band: bandReducer,
 

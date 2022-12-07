@@ -91,7 +91,7 @@ const App = () => {
     useEffect(() => {
         console.log(toastdata)
         if (toast.current ? toastdata.data != "" : false&&toastdata.id!=1) {
-toastdata.id=1
+
             if (toastdata.status == "error")
                 toast.current.show({ severity: toastdata.status, summary: toastdata.status + " in " + toastdata.endpoint, detail: toastdata.data, life: 3000 });
             else
@@ -368,8 +368,10 @@ toastdata.id=1
                                             <Route path="/jobpostsprofileupload/:JobCode"  element={<JobPostProfileUpload />} />
                                             <Route path="/jobpostsactionApproval/:JobCode"  element={<JobpostsactionApproval />} />
                                             <Route path="/myjobposts/createjobpost"  element={<CreateJobPost />} />
+                                            <Route path="/myjobposts/updatejobpost"  element={<CreateJobPost />} />
                                             <Route path='/jobpostdetailedview/:JobCode' element={<Jobpostdetailedview/>}/>
                                             <Route path="/candidate/createcandidateprofile"  element={<CreateCandidateProfile/>} />
+                                            <Route path="/candidate/updatecandidateprofile"  element={<CreateCandidateProfile/>} />
 
                                         </Routes>
                                     </div>

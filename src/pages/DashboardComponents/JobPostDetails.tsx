@@ -1,16 +1,19 @@
 import { Button } from 'primereact/button'
 import { Card } from 'primereact/card'
+import { Column } from 'primereact/column'
+import { DataTable } from 'primereact/datatable'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router'
 import { generatepdf } from '../../api/agent'
 import { genpdf } from '../../features/Downloadpdfs/pdfslice'
 import { getJobPostActionfromapi, IJobPost } from '../../features/JobPostActions/jobpostactionsslice'
-
+import { Panel, PanelHeaderTemplateOptions } from 'primereact/panel';
+import { Ripple } from 'primereact/ripple';
 function JobPostDetails(props) {
 
   const jobdata = props.JobData
-  const dispatch=useDispatch()
+  const dispatch = useDispatch()
 
   return (
     <div>
@@ -33,7 +36,7 @@ function JobPostDetails(props) {
         <div className="md:col-4">
           <p >
             <span className="" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Company Name :  </span>
-            <span style={{ fontWeight: "400" }}>BE - 001</span>
+            <span style={{ fontWeight: "400" }}>{jobdata.Company}</span>
           </p>
 
           <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Customer : </span><span className="font-w400">{jobdata?.Customer}</span></p>
@@ -90,12 +93,56 @@ function JobPostDetails(props) {
 
 
             </span>
-            <Button onClick={ e => {
+            {/* <Button onClick={ e => {
               dispatch(genpdf({"JobPostId":jobdata.JobPostId}))
            
 
-            }}>Generate pdf</Button>
+            }}>Generate pdf</Button> */}
           </p>
+
+          {console.log(jobdata)}
+         {jobdata.approversDetails?
+        <>  <Panel header="Busines Head Approver">
+          <div className="grid">
+                <div className="md:col-4">
+                   Name : {jobdata.approversDetails[0].FirstName + ", " + jobdata.approversDetails[0].LastName}
+                </div>
+                <div className="md:col-2">
+                  Status : {jobdata.approversDetails[0].approvalStatus == "N" ? "Pending" : jobdata.approversDetails[0].approvalStatus == "R" ? "Rejected" : "Approved"}
+                </div>
+                <div className="md:col-2">
+                  Approval Date : {jobdata.approversDetails[0].approvalDate
+                  }
+                </div>
+                <div className="md:col-4">
+                  Comments : {jobdata.approversDetails[0].approvalComments
+                  }
+                </div>
+              </div>
+          </Panel>
+          <br></br>
+          <Panel header="HR Details">
+          <div className="grid">
+                <div className="md:col-4">
+                   Name : {jobdata.approversDetails[1].FirstName + ", " + jobdata.approversDetails[1].LastName}
+                </div>
+                <div className="md:col-2">
+                  Status : {jobdata.approversDetails[1].approvalStatus == "N" ? "Profiles Pending" : jobdata.approversDetails[0].approvalStatus == "R" ? "Rejected" : "Approved"}
+                </div>
+                {/* <div className="md:col-5">
+                  Comments : {jobdata.approversDetails[1].approvalComments
+                  }
+                </div> */}
+                
+              </div>
+            </Panel></>
+:<></>}
+          {/* <DataTable value={null} showGridlines={false} responsiveLayout="scroll" paginator={true} >
+<Column field=''></Column>
+
+</DataTable> */}
+
+
 
         </div>
       </div>

@@ -5,22 +5,58 @@ import { InputNumber } from 'primereact/inputnumber'
 import { InputText } from 'primereact/inputtext'
 import { InputTextarea } from 'primereact/inputtextarea'
 import { classNames } from 'primereact/utils'
-import React, { useRef } from 'react'
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Field, Form } from 'react-final-form'
 import { InputMask } from 'primereact/inputmask';
 import { FileUpload } from 'primereact/fileupload';
 import { Button } from "primereact/button";
 import { useDispatch } from 'react-redux'
-import { createnewcandidate } from '../../features/CandidateActions/candidateactionsslice'
+import { createnewcandidate, ICandidate, updatecandidate } from '../../features/CandidateActions/candidateactionsslice'
+import { useNavigate } from 'react-router'
+import { useLocation } from 'react-router'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../app/store'
+import { getManageBillaction } from '../../features/ManageBillRate/ManageBillRateslice'
 
 function CreateCandidateProfile() {
     const dispatch = useDispatch()
-
+    const location = useLocation()
+    // console.log(location.state)
+    const [editmode, setEditmode] = useState(!!location.state.data)
+    const [datafromprops, setdatafromprops] = useState<ICandidate>()
+    const ctcdatafromstore=useSelector((store:RootState)=>store.ManageBill)
+    const logindata = useSelector((store: RootState) => store.Login)
+    const fileref = useRef()
+    const navigate = useNavigate()
+    const isFormFieldValid = (meta) => !!(meta.touched && meta.error);
+    // useLayoutEffect(() => {
+    //     if (!location.state && editmode) {
+    //         navigate("/dashboard")
+    //     }
+    //     if (editmode) {
+    //         setdatafromprops(location.state.data)
+    //     }
+    //     console.log(datafromprops)
+    // }, [])
+    useEffect(() => {
+        if (location.pathname=="/candidate/updatecandidateprofile" && !editmode) { 
+            // console.log(location)
+            navigate("/dashboard")
+        }
+        if (editmode) {
+            setdatafromprops(location.state.data)
+        }
+        
+        // console.log(datafromprops)
+        dispatch(getManageBillaction());
+    }, [])
+    useEffect(() => {
+        // console.log(datafromprops)
+        console.log(location.state)
+    }, [])
     const getFormErrorMessage = (meta) => {
         return isFormFieldValid(meta) && <small className="p-error">{meta.error}</small>;
     };
-    const fileref=useRef()
-    const isFormFieldValid = (meta) => !!(meta.touched && meta.error);
     const validate = (values) => {
         let errors = {};
         // console.log(data)
@@ -32,67 +68,73 @@ function CreateCandidateProfile() {
         //     errors.JobTitle = "*JobDescription is required.";
         // }
         // var arr = ["CandidateFirstName", "BusinessUnit_id", "Serviceline_id", "Industry_id", "Industry_id", "Customer_id", "Location_id", "EmploymentType", "JobTitle", "JobDesc", "ExperianceLevel_id", "Qualification", "NoOfPositions", "OnBoardingDate", "HR_User_Name", "BH_User_Name"]
-        var arr = ["CandidateFirstName", "CandidateLastName",  "Qualification", "skills", "ExpectedDOJ","Email", 
-        "ContactNo", "Resume", "CurrentCTC", "ExpectedCTC", "AvgBillRate"]
+        var arr = ["CanFirstName", "CanLastName", "Qualification", "Skills", "ExpectedDOJ", "Email",
+            "ContactNo", "CurrentCTC", "ExpectedCTC", "AvgBillRate"]
         arr.forEach((i) => {
             // console.log(values["Resume"])
             if (!values[i]) {
                 // console.log(i.toString())
-                errors[i.toString()]= "* This field is required";
-                           }
-                  })
-        console.log(values["OverallYears"])          
-        if(values["OverallYears"] == undefined || values["OverallYears"] == null){
-           
-            errors["OverallYears"]="*This field is required"
-        }
-      
-        if(values["OverallMonths"] == undefined || values["OverallMonths"] == null){
-           
-            errors["OverallMonths"]="*This field is required"
+                errors[i.toString()] = "* This field is required";
+            }
+        })
+        // console.log(values["OverallExpYear"])
+        if (values["OverallExpYear"] == undefined || values["OverallExpYear"] == null) {
+
+            errors["OverallExpYear"] = "*This field is required"
         }
 
-        if(values["RelevantYears"] == undefined || values["RelevantYears"] == null){
-           
-            errors["RelevantYears"]="*This field is required"
+        if (values["OverallExpMonth"] == undefined || values["OverallExpMonth"] == null) {
+
+            errors["OverallExpMonth"] = "*This field is required"
         }
-        if(values["RelevantMonths"] == undefined || values["RelevantMonths"] == null){
-           
-            errors["RelevantMonths"]="*This field is required"
-        }        
+
+        if (values["ReleventExpYear"] == undefined || values["ReleventExpYear"] == null) {
+
+            errors["ReleventExpYear"] = "*This field is required"
+        }
+        if (values["ReleventExpMonth"] == undefined || values["ReleventExpMonth"] == null) {
+
+            errors["ReleventExpMonth"] = "*This field is required"
+        }
+        if (!editmode&&(values[ "Resume"] == undefined || values[ "Resume"] == null)) {
+
+            errors[ "Resume"] = "*This field is required"
+        }
+        // console.log(errors)
         return errors;
     };
 
     return (
         <>
+           
             <div>
-                <Card title="Create Candidate Profile">
+                <Card title={editmode ? "Update Candidate Profile" : "Create Candidate Profile"}>
                     <Form
                         onSubmit={(values: any) => {
-                            console.log(values)
-                            console.log(values.ExpectedDOJ)
-                            var datetemp=new Date(values.ExpectedDOJ)
-                            console.log( datetemp.getFullYear()+"-"+datetemp.getMonth()+"-"+datetemp.getDate())
-                            values.ExpectedDOJ=datetemp.getFullYear()+"-"+datetemp.getMonth()+"-"+datetemp.getDate()
+                            // console.log(values)
+                            // console.log(values.ExpectedDOJ)
+                            var datetemp = new Date(values.ExpectedDOJ)
+                            // console.log(datetemp.getFullYear() + "-" + datetemp.getMonth() + "-" + datetemp.getDate())
+                            values.ExpectedDOJ = datetemp.getFullYear() + "-" + (datetemp.getMonth() + 1).toString().padStart(2, '0') + "-" + datetemp.getDate().toString().padStart(2, '0')
                             const data = new FormData()
                             data.append("HRUserName", values.HRUserName)
-                            data.append("CanFirstName", values.CandidateFirstName)
-                            data.append("CanLastName", values.CandidateLastName)
+                            data.append("CanFirstName", values.CanFirstName)
+                            data.append("CanLastName", values.CanLastName)
                             data.append("Qualification", values.Qualification)
                             data.append("Job_Post_ID", values.Job_Post_ID.toString())
                             data.append("ExpectedDOJ", values.ExpectedDOJ)
-                            data.append("OverallExpYear", values.OverallYears)
-                            data.append("OverallExpMonth", values.OverallMonths)
-                            data.append("ReleventExpYear", values.RelevantYears)
-                            data.append("ReleventExpMonth", values.RelevantMonths)
+                            data.append("OverallExpYear", values.OverallExpYear)
+                            data.append("OverallExpMonth", values.OverallExpMonth)
+                            data.append("ReleventExpYear", values.ReleventExpYear)
+                            data.append("ReleventExpMonth", values.ReleventExpMonth)
                             data.append("CurrentCTC", values.CurrentCTC)
                             data.append("ExpectedCTC", values.ExpectedCTC)
                             data.append("NegotiatedCTC", values.NegotiatedCTC)
-                            data.append("CurrentOrganization", values.CurrentOrg)
-                            data.append("CurrentJobLocation", values.CurrentLoc)
+                            data.append("CurrentOrganization", values.CurrentOrganization)
+                            data.append("CurrentJobLocation", values.CurrentJobLocation)
                             data.append("Skills", values.Skills)
                             data.append("Email", values.Email)
-                            data.append("ConatctNo", values.ContactNo)
+                            data.append("ContactNo", values.ContactNo)
                             data.append("AvgApprovedCTC", values.AvgApprovedCTC)
                             data.append("AvgBillRate", values.AvgBillRate)
                             data.append("CreatedBy", values.CreatedBy)
@@ -101,9 +143,9 @@ function CreateCandidateProfile() {
                             // data.append(
 
                             //     "files",
-                      
+
                             //     idea.uploadFile[i],
-                      
+
                             //     idea.uploadFile[i].name.toString()
 
 
@@ -125,7 +167,7 @@ function CreateCandidateProfile() {
                             // "CurrentJobLocation",
                             // "Skills",
                             // "Email",
-                            // "ConatctNo",
+                            // "ContactNo",
                             // "Resume",
                             // "AvgApprovedCTC",
                             // "AvgBillRate",            
@@ -133,12 +175,64 @@ function CreateCandidateProfile() {
                             // "CreatedBy",
                             // "ModifiedBy"
 
-                            dispatch(createnewcandidate(data))
+                            if (editmode) {
+                                data.append("CandidateId", datafromprops.CandidateId.toString())
+                                data.append("ModifiedBy", logindata.username)
+                                // console.log("upda")
+                                dispatch(updatecandidate(data))
+                            }
+                            else {
+
+                                dispatch(createnewcandidate(data))
+                            }
                         }}
-                        initialValues={{ "OverallYears": 0, "OverallMonths": 0, "RelevantYears": 0, "RelevantMonths": 0, "HRUserName":"nkanagala", "Job_Post_ID" : 2,
-                         "CreatedBy":"nkanagala", "ModifiedBy": null, "AvgApprovedCTC": 1002283}}
+
+                        initialValues={editmode ? {
+                            "CanFirstName": datafromprops?.CanFirstName,
+                            // "CanLastName":  datafromprops?.CanLastName,
+                            "AvgApprovedCTC": datafromprops?.AvgApprovedCTC,
+                            "AvgBillRate": datafromprops?.AvgBillRate,
+                            "CanLastName": datafromprops?.CanLastName,
+                            "CandidateCode": datafromprops?.CandidateCode,
+                            "CandidateId": datafromprops?.CandidateId,
+                            "ContactNo": datafromprops?.ContactNo,
+                            "CreatedBy": datafromprops?.CreatedBy,
+                            "CreatedOn": datafromprops?.CreatedOn,
+                            "CurrentCTC": datafromprops?.CurrentCTC,
+                            "CurrentJobLocation": datafromprops?.CurrentJobLocation,
+                            "CurrentOrganization": datafromprops?.CurrentOrganization,
+                            "Email": datafromprops?.Email,
+                            "ExpectedCTC": datafromprops?.ExpectedCTC,
+                            "ExpectedDOJ": new Date(datafromprops?.ExpectedDOJ),
+                            "HRUserName": datafromprops?.HRUserName,
+                            "Job_Code": datafromprops?.Job_Code,
+                            "Job_Post_ID": datafromprops?.Jobpost,
+                            "ModifiedBy": logindata.username,
+                            "ModifiedOn": datafromprops?.ModifiedOn,
+                            "NegotiatedCTC": datafromprops?.NegotiatedCTC,
+                            "OverallExpMonth": datafromprops?.OverallExpMonth,
+                            "OverallExpYear": datafromprops?.OverallExpYear,
+                            "Qualification": datafromprops?.Qualification,
+                            "ReleventExpMonth": datafromprops?.ReleventExpMonth,
+                            "ReleventExpYear": datafromprops?.ReleventExpYear,
+                            "Resume": datafromprops?.Resume,
+                            "Skills": datafromprops?.Skills,
+                            "Stage": datafromprops?.Stage,
+
+                        } : {
+                            "OverallExpYear": 0,
+                            "OverallMonths": 0,
+                            "ReleventExpYear": 0,
+                            "ReleventExpMonth": 0,
+                            "HRUserName":logindata.username,
+                            "Job_Post_ID":  location.state.jobdata.JobPostID,
+                            "CreatedBy": logindata.username,
+                            "ModifiedBy": null,
+                            "AvgApprovedCTC": location.state.jobdata.AvgApprovedCTC,
+                            "AvgBillRate": location.state.jobdata.AvgBillRate,
+                        }}
                         // initialValues={{  }}
-                        validate= {validate}
+                        validate={validate}
                         render={({ handleSubmit, values, submitting,
                             submitError,
                             invalid,
@@ -150,7 +244,7 @@ function CreateCandidateProfile() {
                                 <div className="p-fluid  grid">
                                     <div className="field col-12 md:col-4">
                                         <Field
-                                            name="CandidateFirstName"
+                                            name="CanFirstName"
                                             render={({ input, meta }) => (
                                                 <div className="field fluid">
                                                     <label htmlFor="CandidateFirstName">Candidate First Name</label>
@@ -166,7 +260,7 @@ function CreateCandidateProfile() {
 
                                     <div className="field col-12 md:col-4">
                                         <Field
-                                            name="CandidateLastName"
+                                            name="CanLastName"
                                             render={({ input, meta }) => (
                                                 <div className="field fluid">
                                                     <label htmlFor="CandidateLastName">Candidate Last Name</label>
@@ -205,13 +299,13 @@ function CreateCandidateProfile() {
                                         <div className="formgrid grid">
                                             <div className="field col-12 md:col-6">
                                                 <Field
-                                                    name="OverallYears"
+                                                    name="OverallExpYear"
                                                     render={({ input, meta }) => (
                                                         <div className="field fluid">
-                                                            <label htmlFor="OverallYears">Years</label>
+                                                            <label htmlFor="OverallExpYear">Years</label>
                                                             <span className="field fluid">
-                                                                <InputNumber id="OverallYears" value={values.OverallYears} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e) } showButtons className={classNames({ "p-invalid": isFormFieldValid(meta) })} mode="decimal" min={0} max={60}  />
-                                                                <label htmlFor="OverallYears" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
+                                                                <InputNumber id="OverallExpYear" value={values.OverallExpYear} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} showButtons className={classNames({ "p-invalid": isFormFieldValid(meta) })} mode="decimal" min={0} max={60} />
+                                                                <label htmlFor="OverallExpYear" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                                             </span>
                                                             {getFormErrorMessage(meta)}
                                                         </div>
@@ -221,14 +315,14 @@ function CreateCandidateProfile() {
 
                                             <div className="field col-12 md:col-6">
                                                 <Field
-                                                    name="OverallMonths"
+                                                    name="OverallExpMonth"
                                                     render={({ input, meta }) => (
                                                         <div className="field fluid">
-                                                            <label htmlFor="OverallMonths">Months</label>
+                                                            <label htmlFor="OverallExpMonth">Months</label>
                                                             <span className="field fluid">
-                                                                <InputNumber id="OverallMonths" value={values.OverallMonths} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e) } showButtons className={classNames({ "p-invalid": isFormFieldValid(meta) })} mode="decimal" min={0} max={12} />
+                                                                <InputNumber id="OverallExpMonth" value={values.OverallExpMonth} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} showButtons className={classNames({ "p-invalid": isFormFieldValid(meta) })} mode="decimal" min={0} max={12} />
 
-                                                                <label htmlFor="OverallMonths" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
+                                                                <label htmlFor="OverallExpMonth" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                                             </span>
                                                             {getFormErrorMessage(meta)}
                                                         </div>
@@ -243,13 +337,13 @@ function CreateCandidateProfile() {
                                         <div className="formgrid grid">
                                             <div className="field col-12 md:col-6">
                                                 <Field
-                                                    name="RelevantYears"
+                                                    name="ReleventExpYear"
                                                     render={({ input, meta }) => (
                                                         <div className="field fluid">
-                                                            <label htmlFor="RelevantYears">Years</label>
+                                                            <label htmlFor="ReleventExpYear">Years</label>
                                                             <span className="field fluid">
-                                                                <InputNumber id="RelevantYears" value={values.RelevantYears} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e) } showButtons className={classNames({ "p-invalid": isFormFieldValid(meta) })} mode="decimal" min={0} max={60} />
-                                                                <label htmlFor="RelevantYears" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
+                                                                <InputNumber id="ReleventExpYear" value={values.ReleventExpYear} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} showButtons className={classNames({ "p-invalid": isFormFieldValid(meta) })} mode="decimal" min={0} max={60} />
+                                                                <label htmlFor="ReleventExpYear" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                                             </span>
                                                             {getFormErrorMessage(meta)}
                                                         </div>
@@ -259,14 +353,14 @@ function CreateCandidateProfile() {
 
                                             <div className="field col-12 md:col-6">
                                                 <Field
-                                                    name="RelevantMonths"
+                                                    name="ReleventExpMonth"
                                                     render={({ input, meta }) => (
                                                         <div className="field fluid">
-                                                            <label htmlFor="RelevantMonths">Months</label>
+                                                            <label htmlFor="ReleventExpMonth">Months</label>
                                                             <span className="field fluid">
-                                                                <InputNumber id="RelevantMonths" value={values.RelevantMonths} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e) } showButtons className={classNames({ "p-invalid": isFormFieldValid(meta) })} mode="decimal" min={0} max={12} />
+                                                                <InputNumber id="ReleventExpMonth" value={values.ReleventExpMonth} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} showButtons className={classNames({ "p-invalid": isFormFieldValid(meta) })} mode="decimal" min={0} max={12} />
 
-                                                                <label htmlFor="RelevantMonths" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
+                                                                <label htmlFor="ReleventExpMonth" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                                             </span>
                                                             {getFormErrorMessage(meta)}
                                                         </div>
@@ -278,7 +372,7 @@ function CreateCandidateProfile() {
 
                                     <div className="field col-12 md:col-4">
                                         <Field
-                                            name="skills"
+                                            name="Skills"
                                             render={({ input, meta }) => (
                                                 <div className="field">
                                                     <label htmlFor="skills">Skills</label>
@@ -297,7 +391,7 @@ function CreateCandidateProfile() {
                                 <div className="p-fluid  grid">
                                     <div className="field col-12 md:col-4">
                                         <Field
-                                            name="CurrentOrg"
+                                            name="CurrentOrganization"
                                             render={({ input, meta }) => (
                                                 <div className="field fluid">
                                                     <label htmlFor="CurrentOrg">Current Organization</label>
@@ -313,13 +407,13 @@ function CreateCandidateProfile() {
 
                                     <div className="field col-12 md:col-4">
                                         <Field
-                                            name="CurrentLoc"
+                                            name="CurrentJobLocation"
                                             render={({ input, meta }) => (
                                                 <div className="field fluid">
-                                                    <label htmlFor="CurrentLoc">Current Location</label>
+                                                    <label htmlFor="CurrentJobLocation">Current Location</label>
                                                     <span className="field fluid">
-                                                        <InputText maxLength={50} id="CurrentLoc" {...input} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
-                                                        <label htmlFor="CurrentLoc" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
+                                                        <InputText maxLength={50} id="CurrentJobLocation" {...input} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <label htmlFor="CurrentJobLocation" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                                     </span>
                                                     {getFormErrorMessage(meta)}
                                                 </div>
@@ -353,7 +447,7 @@ function CreateCandidateProfile() {
                                                 <div className="field fluid">
                                                     <label htmlFor="CurrentCTC">Current CTC</label>
                                                     <span className="field fluid">
-                                                        <InputNumber id="CurrentCTC" value={values.CurrentCTC} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e) }  mode="currency" currency="INR" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <InputNumber id="CurrentCTC" value={values.CurrentCTC} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} mode="currency" currency="INR" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                         <label htmlFor="CurrentCTC" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                                     </span>
                                                     {getFormErrorMessage(meta)}
@@ -369,7 +463,7 @@ function CreateCandidateProfile() {
                                                 <div className="field fluid">
                                                     <label htmlFor="ExpectedCTC">Expected CTC</label>
                                                     <span className="field fluid">
-                                                        <InputNumber id="ExpectedCTC" value={values.ExpectedCTC} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e) }  mode="currency" currency="INR" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <InputNumber id="ExpectedCTC" value={values.ExpectedCTC} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} mode="currency" currency="INR" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                         <label htmlFor="ExpectedCTC" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                                     </span>
                                                     {getFormErrorMessage(meta)}
@@ -385,7 +479,7 @@ function CreateCandidateProfile() {
                                                 <div className="field fluid">
                                                     <label htmlFor="NegotiatedCTC">Negotiated CTC</label>
                                                     <span className="field fluid">
-                                                        <InputNumber id="NegotiatedCTC" value={values.NegotiatedCTC} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e) }  mode="currency" currency="INR" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <InputNumber id="NegotiatedCTC" value={values.NegotiatedCTC} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} mode="currency" currency="INR" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                         <label htmlFor="NegotiatedCTC" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                                     </span>
                                                     {getFormErrorMessage(meta)}
@@ -440,7 +534,7 @@ function CreateCandidateProfile() {
                                                         <div className="field fluid">
                                                             <label htmlFor="AvgApprovedCTC">Average Approved CTC</label>
                                                             <span className="field fluid">
-                                                                <InputNumber id="AvgApprovedCTC" disabled value={values.AvgApprovedCTC} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e) }  mode="currency" currency="INR" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                                <InputNumber id="AvgApprovedCTC" disabled value={values.AvgApprovedCTC} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} mode="currency" currency="INR" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                                 <label htmlFor="AvgApprovedCTC" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                                             </span>
                                                             {getFormErrorMessage(meta)}
@@ -456,7 +550,7 @@ function CreateCandidateProfile() {
                                                         <div className="field fluid">
                                                             <label htmlFor="AvgBillRate">Average Bill rate($)</label>
                                                             <span className="field fluid">
-                                                                <InputNumber id="AvgBillRate" value={values.AvgBillRate} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e) }  mode="currency" currency="USD" min={0} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                                <InputNumber id="AvgBillRate" value={values.AvgBillRate} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} mode="currency" currency="USD" min={0} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                                 <label htmlFor="AvgBillRate" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                                             </span>
                                                             {getFormErrorMessage(meta)}
@@ -474,12 +568,18 @@ function CreateCandidateProfile() {
                                             render={({ input, meta }) => (
                                                 <div className="field fluid">
                                                     <label htmlFor="Resume">Resume</label>
-                                                    <span  className="field fluid">{console.log(values.Resume)}
-                                                        <FileUpload ref={fileref} uploadOptions={{ style: { display: 'none' } }} cancelOptions={{ style: { display: 'none' } }}  accept="*"   
-                                                        onSelect= {async (e)=> {console.log(e);  values.Resume =await e.files[0];console.log(values.Resume)}}
-                                                        // onBeforeSelect= {() => {fileref.current.clear(); console.log("before"); return false}}
-                                                         onClick={async (e)=>values.Resume?await fileref.current.clear():console.log("calling ")} 
-                                                         maxFileSize={100000000}
+                                                    <span className="field fluid">
+                                                        <FileUpload ref={fileref} value={values.Resume} uploadOptions={{ style: { display: 'none' } }} cancelOptions={{ style: { display: 'none' } }} accept="*"
+                                                            onSelect={async (e) => { console.log(e); values.Resume = await e.files[0]; console.log(values.Resume) }}
+                                                            // onBeforeSelect= {() => {fileref.current.clear(); console.log("before"); return false}}
+                                                            onClick={async (e) => values.Resume ? await fileref.current.clear() : console.log("calling ")}
+                                                            // onChange={async (e) => 
+                                                            //     if(values.Resume){
+
+                                                            //     }
+                                                            //     values.Resume ? await fileref.current.clear() : console.log("calling ")
+                                                            // }
+                                                            maxFileSize={100000000}
                                                             emptyTemplate={<p className="m-0">No Files.</p>} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                         {/* <InputNumber id="NegotiatedCTC" value={values.NegotiatedCTC} onValueChange={(e) => values.NegotiatedCTC = e.value} showButtons mode="currency" currency="INR" className={classNames({ "p-invalid": isFormFieldValid(meta) })} /> */}
                                                         <label htmlFor="Resume" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
@@ -492,7 +592,8 @@ function CreateCandidateProfile() {
                                     </div>
                                 </div>
 
-                                <Button label="Submit" className="mt-2" />
+                                <Button label="Submit" type="submit" className="mt-2" />
+                                <Button label=" Back " type="button" onClick={e => navigate(-1)} className="mt-2" />
 
 
 

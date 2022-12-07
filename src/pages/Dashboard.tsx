@@ -12,6 +12,7 @@ import { myjobpostsaction } from "../features/JobPostActions/myjobpostsslice";
 const Dashboard = () => {
     const [openedtab,setOpenedtab]=useState("jobpostactions")
     const[nooftabs,setnooftabs]=useState(3)
+    const myjobpostactions =useSelector((state:RootState)=>state.JobPostAction);
     const myJobPosts =useSelector((state:RootState)=>state.myjobposts);
     const logindata=useSelector((state:RootState)=>state.Login)
     const dispatch=useDispatch()
@@ -44,7 +45,7 @@ const Dashboard = () => {
                             
                             <div>
                                 <span className="block  font-medium mb-3">JobPosts Actions"Business Head"</span>
-                                <div className="text-900 font-medium text-xl">3</div>
+                                <div className="text-900 font-medium text-xl">{myjobpostactions?myjobpostactions.length:0}</div>
                             </div>
                             <div className="flex align-items-center justify-content-center bg-blue-100 border-round" style={{ width: "2.5rem", height: "2.5rem" }}>
                                 <i className="pi pi-user-edit text-blue-500 text-xl" />
