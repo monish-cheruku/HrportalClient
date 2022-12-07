@@ -13,11 +13,9 @@ import {UserRoles} from "../features/UserRoles/userroleslice"
 
 
 
-// import {Band} from "../features/Band/bandslice"
+// import {Band} from ../features/Band/bandslice"
 
-// axios.defaults.baseURL = 'http://10.154.20.197:8000/api';
-// axios.defaults.baseURL = 'http://127.0.0.1:8000/api';
-axios.defaults.baseURL = 'http://10.154.155.88:8000/api';
+axios.defaults.baseURL = 'http://10.154.155.49:8000/api';
 // axios.defaults.baseURL = 'http://10.154.20.121:8000/api';
 //http://10.154.28.148:8000/api/     monish//
 //http://10.154.155.152:8000/api      /dwaraka
@@ -211,12 +209,16 @@ export const jobpostactions={
 export const generatepdf={
   downloadpdf:(data)=>requests.post("/pdf",data),
 }
+export const downloadpdf={
+  downloadpdf:(data)=>requests.post("/candidate/downloadresume",data),
+}
 export const candidateactions = {
   getallcandidatedata:(data)=>requests.post("candidate/gridcandidates",data),
   createcandidate:(data)=>requests.post("candidate/addcandidate",data),
   updatecandidate:(data)=>requests.put("candidate/addcandidate",data)
 
 }
+
 
 
 

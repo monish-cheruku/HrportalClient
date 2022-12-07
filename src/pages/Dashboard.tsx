@@ -38,11 +38,11 @@ const Dashboard = () => {
 
                     </div>
                 </div> */}
-                <div className={"col-"+(12/nooftabs).toString()+" lg:col-"+(12/nooftabs).toString()+" xl:col-"+(12/nooftabs).toString()+" sm:col-6"} onClick={e=>setOpenedtab("jobpostactions")}>
+                <div className={"col-" + (12 / nooftabs).toString() + " lg:col-" + (12 / nooftabs).toString() + " xl:col-" + (12 / nooftabs).toString() + " sm:col-6"} onClick={e => setOpenedtab("jobpostactions")}>
 
-                    <div className={openedtab=="jobpostactions"?"cardaction mb-0":"cardaction1 mb-0"}>     
+                    <div className={openedtab == "jobpostactions" ? "cardaction mb-0" : "cardaction1 mb-0"}>
                         <div className="flex justify-content-between mb-3">
-                            
+
                             <div>
                                 <span className="block  font-medium mb-3">JobPosts Actions"Business Head"</span>
                                 <div className="text-900 font-medium text-xl">{myjobpostactions?myjobpostactions.length:0}</div>
@@ -54,8 +54,9 @@ const Dashboard = () => {
 
                     </div>
                 </div>
-                <div className={"col-"+(12/nooftabs).toString()+" lg:col-"+(12/nooftabs).toString()+" xl:col-"+(12/nooftabs).toString()+" sm:col-6"} onClick={e=>setOpenedtab("myjobposts")} >
-                    <div className={openedtab=="myjobposts"?"cardmyjobpost mb-0":"cardmyjobpost1 mb-0"}>
+
+                <div className={"col-" + (12 / nooftabs).toString() + " lg:col-" + (12 / nooftabs).toString() + " xl:col-" + (12 / nooftabs).toString() + " sm:col-6"} onClick={e => setOpenedtab("myjobposts")} >
+                    <div className={openedtab == "myjobposts" ? "cardmyjobpost mb-0" : "cardmyjobpost1 mb-0"}>
                         <div className="flex justify-content-between mb-3">
                             <div>
                                 <span className="block  font-medium mb-3">My JobPosts</span>
@@ -68,9 +69,9 @@ const Dashboard = () => {
 
                     </div>
                 </div>
-                <div className={"col-"+(12/nooftabs).toString()+" lg:col-"+(12/nooftabs).toString()+" xl:col-"+(12/nooftabs).toString()+" sm:col-6"} onClick={e=>setOpenedtab("selectedcandidates")}>
-                    
-                    <div className={openedtab=="selectedcandidates"?"cardselcandidates mb-0":"cardselcandidates1 mb-0"}>  
+                <div className={"col-" + (12 / nooftabs).toString() + " lg:col-" + (12 / nooftabs).toString() + " xl:col-" + (12 / nooftabs).toString() + " sm:col-6"} onClick={e => setOpenedtab("selectedcandidates")}>
+
+                    <div className={openedtab == "selectedcandidates" ? "cardselcandidates mb-0" : "cardselcandidates1 mb-0"}>
                         <div className="flex justify-content-between mb-3">
                             <div>
                                 <span className="block  font-medium mb-3">Selected Candidates</span>
@@ -100,16 +101,16 @@ const Dashboard = () => {
                 </div> */}
             </div>
             <div >
-  <div className="card mb-0">
-                        <div className="flex justify-content-between mb-3">
-                            {openedtab=="jobpostactions"&&<div style={{width:"100%"}}> <JobPostActions/>    </div>}
-                            {openedtab=="myjobposts"&&<div style={{width:"100%"}}><MyJobPosts/></div>}
-                           {openedtab=="selectedcandidates"&& <div >selectedcandidates</div>}
-                            {/* <div hidden={true}>d</div> */}
-                            
-                           
-                        </div>
+                <div className="card mb-0">
+                    <div className="flex justify-content-between mb-3">
+                        {openedtab == "jobpostactions" && <div style={{ width: "100%" }}> <JobPostActions />    </div>}
+                        {openedtab == "myjobposts" && <div style={{ width: "100%" }}><MyJobPosts /></div>}
+                        {openedtab == "selectedcandidates" && <div >selectedcandidates</div>}
+                        {/* <div hidden={true}>d</div> */}
+
+
                     </div>
+                </div>
             </div>
         </div>
     );

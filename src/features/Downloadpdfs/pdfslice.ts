@@ -6,8 +6,11 @@ const pdfdownloadSlice=createSlice({
     reducers:{
         genpdf:(state,payload:PayloadAction<any>)=>{
             console.log(payload)
+        },
+        downloadresume:(state,payload:PayloadAction<any>)=>{
+            console.log(payload)
         }
     }
 })
-export const {genpdf}=pdfdownloadSlice.actions
+export const {genpdf, downloadresume}=pdfdownloadSlice.actions
 export default pdfdownloadSlice.reducer;

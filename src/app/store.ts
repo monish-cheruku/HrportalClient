@@ -21,12 +21,14 @@ import userroleoptions from '../features/UserRoles/userroleoptionsslice';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import LoginReducer from '../features/Login/Loginslice';
 import jobpostactionsReducer from '../features/JobPostActions/jobpostactionsslice';
+import candidatesReducer from '../features/Candidates/candidatesslice';
 import usersbyrolesReducer from '../features/JobPostActions/usersbyrolesslice'
 import {persistStore,persistReducer} from 'redux-persist'
 import storage  from 'redux-persist/lib/storage'
 import rolesoptions from '../features/UserRoles/rolesoptionsslice';
 import myjobpostsReducer from '../features/JobPostActions/myjobpostsslice'
 import CandidateActionReducer from '../features/CandidateActions/candidateactionsslice';
+import { approversdetails } from '../api/agent';
 
 // export function useReduxStore() {
 const sagaMiddleware = createSagaMiddleware();
@@ -66,7 +68,6 @@ JobPostAction:jobpostactionsReducer,
 rolesoptions:rolesoptions,
 usersbyroles:usersbyrolesReducer,
 CandidateAction :CandidateActionReducer,
-
 
   // band: bandReducer,
 

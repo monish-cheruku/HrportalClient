@@ -71,7 +71,7 @@ const MyJobPosts = (props) => {
     const selectcompany = useSelector((state: RootState) => state.company);
 
     const dispatch = useDispatch();
-    const navigate=useNavigate()
+    const navigate = useNavigate()
 
     useEffect(() => {
         //dispatch(getcompaniesaction());

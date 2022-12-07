@@ -1,15 +1,19 @@
 import { Button } from 'primereact/button'
 import { Card } from 'primereact/card'
 import { Checkbox } from 'primereact/checkbox'
+import { Column } from 'primereact/column'
+import { DataTable } from 'primereact/datatable'
 import { InputTextarea } from 'primereact/inputtextarea'
 import { RadioButton } from 'primereact/radiobutton'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router'
+import { Link } from 'react-router-dom'
 import { RootState } from '../../../app/store'
 import { getJobPostActionfromapi, IJobPost, jobpostactionssubmit } from '../../../features/JobPostActions/jobpostactionsslice'
 import JobPostDetails from '../JobPostDetails'
+
 
 function JobpostsactionApproval() {
   const jobsdata = useSelector((store: RootState) => store.JobPostAction)
@@ -59,11 +63,8 @@ function JobpostsactionApproval() {
   }
   return (
     <div>
-      <Card>
-
       <JobPostDetails JobData={jobdata}></JobPostDetails>
-      </Card>
-<br></br>
+
 
 
 
@@ -112,6 +113,49 @@ function JobpostsactionApproval() {
 
     </div>
   )
+  // return (
+  //   <div>
+  //     <JobPostProfileUpload JobData={jobdata}></JobPostProfileUpload>
+  //     <button>Add Candidate</button>
+  //     <button>Generate Report</button>
+  //     <div>
+  //       <DataTable value={jobpostactionsdata} showGridlines={false} responsiveLayout="scroll" paginator={true} rows={5} globalFilterFields={['JobPostID', 'JobCode', 'HiringManager', 'Company', 'BusinessUnit', 'ServiceLine', 'Customer', 'ExperianceLevel', 'NoOfPositions']} filters={filters2} header={Headercomp}>
+  //         <Column field="JobCode" header="Job Code" body={rowdata =>
+  //           // <Button 
+  //           // // to={"dashboard/jobpostsactionApproval/"+rowdata.JobCode} 
+  //           //  onClick={e=>
+  //           //     // Redirect("dashboard/jobpostsactionApproval/"+rowdata.JobCode)
+  //           //     // handleredirect(rowdata.JobCode)
+  //           // //  usehistory.push("dashboard/jobpostsactionApproval/"+rowdata.JobCode)
+  //           // //  navigate("/jobpostsactionApproval/"+rowdata.JobCode)
+
+  //           // }
+  //           //  >{rowdata.JobCode}</Button>
+
+  //           <Link to={"/jobpostsactionApproval/" + rowdata.JobCode} state={rowdata}  >{rowdata.JobCode}</Link>
+
+
+
+  //         }></Column>
+  //         <Column field="JobTitle" header="Job Title" ></Column>
+  //         <Column field="HiringManager" header="Hiring Manager" ></Column>
+  //         <Column field="Industry" header="Industry" ></Column>
+  //         <Column field="Company" header="Company" ></Column>
+  //         <Column field="BusinessUnit" header="BusinessUnit" ></Column>
+  //         <Column field="ServiceLine" header="ServiceLine" ></Column>
+  //         <Column field="Customer" header="Customer" ></Column>
+  //         <Column field="ExperianceLevel" header="Experiance Level" ></Column>
+  //         <Column field="OnBoardingDate" header="Expected DOJ" ></Column>
+  //         <Column field="NoOfPositions" header="No Positions" ></Column>
+  //         <Column field="Stage" header="Status" ></Column>
+
+  //       </DataTable>
+
+
+  //     </div>
+  //   </div>
+  // )
+
 }
 
 export default JobpostsactionApproval

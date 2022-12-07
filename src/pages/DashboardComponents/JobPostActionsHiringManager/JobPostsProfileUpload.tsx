@@ -16,7 +16,7 @@ import { genpdf } from '../../features/Downloadpdfs/pdfslice'
 // import { getJobPostActionfromapi, IJobPost, jobpostactionssubmit } from '../../features/JobPostActions/jobpostactionsslice'
 import { getJobPostActionfromapi, IJobPost, jobpostactionssubmit } from '../../features/JobPostActions/jobpostactionsslice'
 import JobPostDetails from '../DashboardComponents/JobPostDetails'
-
+import CandidateDetails from '../CandidateDetails'
 
 
 function JobPostProfileUpload() {
@@ -140,6 +140,21 @@ function JobPostProfileUpload() {
             />
         </React.Fragment>
     );
+    const nametemplate = (rowdata) => {
+        return (
+            <>{rowdata.CanFirstName + ", " + rowdata.CanLastName}</>
+        )
+    }
+    const exptemplate=(rowdata)=>{
+        return(
+            <div>{rowdata.OverallExpYear +"."+rowdata.OverallExpMonth+" Years"}</div>
+        )
+    }
+    const linktemplate=(rowdata) =>{
+        return(
+            <Link to="/candidatedetails" state={rowdata}>{rowdata.CandidateCode}</Link>
+        )
+    }
 
     return (
         <div>
@@ -166,9 +181,9 @@ function JobPostProfileUpload() {
                 <br></br>
                 <br></br>
                 <DataTable value={candidatesdata} showGridlines={true} responsiveLayout="scroll" style={{}}>
-                    <Column field="CandidateCode" header="Code" ></Column>
-                    <Column field="CanFirstName" header="Name" ></Column>
-                    <Column field="OverallExpYear" header="Experience" ></Column>
+                    <Column field="CandidateCode" header="Code" body={linktemplate}></Column>
+                    <Column field="Name" header="Name" body={nametemplate} ></Column>
+                    <Column field="OverallExpYear" header="Overall Experience (in years)" body={exptemplate}  ></Column>
                     <Column field="ExpectedDOJ" header="Expected DOJ" ></Column>
                     <Column field="ExpectedCTC" header="Expected CTC" ></Column>
                     <Column field="Email" header="Email" ></Column>
