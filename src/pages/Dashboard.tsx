@@ -19,6 +19,7 @@ const Dashboard = () => {
     useEffect(()=>{
         console.log("dashboard")
         dispatch(myjobpostsaction({"UserName":logindata.username}))
+        dispatch(myjobpostsaction({"UserName":logindata.username}))
     },[])
     return (
         <div>
@@ -40,11 +41,11 @@ const Dashboard = () => {
                 </div> */}
                 <div className={"col-" + (12 / nooftabs).toString() + " lg:col-" + (12 / nooftabs).toString() + " xl:col-" + (12 / nooftabs).toString() + " sm:col-6"} onClick={e => setOpenedtab("jobpostactions")}>
 
-                    <div className={openedtab == "jobpostactions" ? "cardaction mb-0" : "cardaction1 mb-0"}>
+                    <div className={openedtab == "jobpostactions" ? "cardselect mb-0" : "cardunselect mb-0"}>
                         <div className="flex justify-content-between mb-3">
 
                             <div>
-                                <span className="block  font-medium mb-3">JobPosts Actions"Business Head"</span>
+                                <span className="block  font-medium mb-3">JobPosts Actions</span>
                                 <div className="text-900 font-medium text-xl">{myjobpostactions?myjobpostactions.length:0}</div>
                             </div>
                             <div className="flex align-items-center justify-content-center bg-blue-100 border-round" style={{ width: "2.5rem", height: "2.5rem" }}>
@@ -56,7 +57,7 @@ const Dashboard = () => {
                 </div>
 
                 <div className={"col-" + (12 / nooftabs).toString() + " lg:col-" + (12 / nooftabs).toString() + " xl:col-" + (12 / nooftabs).toString() + " sm:col-6"} onClick={e => setOpenedtab("myjobposts")} >
-                    <div className={openedtab == "myjobposts" ? "cardmyjobpost mb-0" : "cardmyjobpost1 mb-0"}>
+                    <div className={openedtab == "myjobposts" ? "cardselect mb-0" : "cardunselect mb-0"}>
                         <div className="flex justify-content-between mb-3">
                             <div>
                                 <span className="block  font-medium mb-3">My JobPosts</span>
@@ -71,7 +72,7 @@ const Dashboard = () => {
                 </div>
                 <div className={"col-" + (12 / nooftabs).toString() + " lg:col-" + (12 / nooftabs).toString() + " xl:col-" + (12 / nooftabs).toString() + " sm:col-6"} onClick={e => setOpenedtab("selectedcandidates")}>
 
-                    <div className={openedtab == "selectedcandidates" ? "cardselcandidates mb-0" : "cardselcandidates1 mb-0"}>
+                    <div className={openedtab == "selectedcandidates" ? "cardselect mb-0" : "cardunselect mb-0"}>
                         <div className="flex justify-content-between mb-3">
                             <div>
                                 <span className="block  font-medium mb-3">Selected Candidates</span>

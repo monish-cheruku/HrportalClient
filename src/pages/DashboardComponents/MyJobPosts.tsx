@@ -284,9 +284,22 @@ return(<Link to={"/jobpostdetailedview/"+rowdata.JobCode}>{rowdata.JobCode}</Lin
         console.log(temp)
         return temp
     }
+    
+const dateBodyTemplate = (rowData:any) => {
+    return formatDate(new Date(rowData.OnBoardingDate));
+  }
+    const formatDate = (value:any) => {
+        return value.toLocaleDateString('en-US', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+        });
+        // return value.toLocaleDateString('en-US');
+      }
     return (
         <div>
-            <DataTable value={myJobPosts} showGridlines={false} responsiveLayout="scroll" paginator={true} rows={5} globalFilterFields={["CompanyName", "CompanyDesc", "Active"]} filters={filters2} header={Headercomp}>
+            <DataTable stripedRows value={myJobPosts} showGridlines={true} responsiveLayout="scroll" paginator={true} rows={20}
+             globalFilterFields={["JobCode","JobTitle","company_name","businessunit_name","serviceline_name","industry_name" ,"customer_name","experience_Level" ,"OnBoardingDate","NoOfPositions","stage_name" ]} filters={filters2} header={Headercomp}>
                 <Column field="JobCode" header="Job Code" sortable style={{ minWidth: '11rem', maxWidth : '14rem'}} body={linkbody}>  </Column>
                 <Column field="JobTitle" header="Job Title" sortable></Column>
                 <Column field="company_name" header="Company" sortable></Column>
@@ -294,9 +307,9 @@ return(<Link to={"/jobpostdetailedview/"+rowdata.JobCode}>{rowdata.JobCode}</Lin
                 <Column field="serviceline_name" header="Service Line" sortable></Column>
                 <Column field="industry_name" header="Industry" sortable></Column>
                 <Column field="customer_name" header="Customer" sortable></Column>
-                <Column field="experience_Level" header="Experience Level" sortable></Column>
-                <Column field="OnBoardingDate" header="On Boarding Date" sortable></Column>
-                <Column field="NoOfPositions" header="No Of Positions" sortable></Column>
+                <Column field="experience_Level" header="Experience Level" sortable style={{ minWidth: '8rem', maxWidth : '8rem'}} ></Column>
+                <Column field="OnBoardingDate" header="On Boarding Date" body={dateBodyTemplate} sortable></Column>
+                <Column field="NoOfPositions" header="No Of Positions" sortable style={{ minWidth: '7rem', maxWidth : '7rem'}}></Column>
                 <Column field="stage_name" header="Status" sortable  body={activediv}></Column>
                 <Column field="edit" header="Edit" body={actionBodyTemplate} exportable={false}></Column>
             </DataTable>

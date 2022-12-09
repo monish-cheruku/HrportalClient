@@ -396,7 +396,7 @@ const UserRoleS = () => {
                                     render={({ input }) => (
                                         <div>
                                             <div className="field">
-                                                <label >Username</label>
+                                                <label >User Name</label>
                                                 <span className="column">
                                                     {editmode ? <span>: {initialValues.username}</span> :
 
@@ -416,8 +416,8 @@ const UserRoleS = () => {
                                             type="checkbox"
                                             render={({ input, meta }) => (
                                                 <div className="field-checkbox">
-                                                    <Checkbox  {...input} />
-                                                    <label htmlFor="accept">
+                                                    <Checkbox inputId={input.name} {...input} />
+                                                    <label htmlFor={input.name}style={{cursor:"pointer"}}>
                                                         {item.name}
                                                     </label>
                                                 </div>)} />
@@ -427,9 +427,9 @@ const UserRoleS = () => {
                                 <React.Fragment>
                                     <div style={{ width: "100%" }}>
                                         {/* <span style={{width:"40%"}}></span> */}
-                                        <Button style={{ width: "30%", marginLeft: "40%" }} label="Cancel" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
+                                        <Button type="button" style={{ width: "30%", marginLeft: "40%" }} label="Cancel" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
                                         <Button style={{ width: "30%" }}
-
+type="submit"
                                             disabled={(invalid && !dirtySinceLastSubmit) || pristine}
 
                                             loading={submitting}

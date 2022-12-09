@@ -30,33 +30,35 @@ function CandidateDetails(props) {
     useEffect(() => {
         console.clear()
         console.log(location.state)
+        // console.log(candidatedata?.Resume.split('/')[candidatedata?.Resume.split('/').length-1])
+        console.log(candidatedata?.Resume)
     }, [])
     const nametemplate = (rowdata) => {
         return (
             <>{rowdata.FirstName + ", " + rowdata.LastName}</>
         )
     }
-   const dispatch = useDispatch()
+    const dispatch = useDispatch()
 
-   const statustemplate = (rowdata) =>{
-    return(
-<>
-   { rowdata.approvalStatus=="N"&&<span>Pending</span>}
-   { rowdata.approvalStatus=="A"&&<span>Approved</span>}
-   { rowdata.approvalStatus=="R"&&<span>Rejected</span>}
+    const statustemplate = (rowdata) => {
+        return (
+            <>
+                {rowdata.approvalStatus == "N" && <span>Pending</span>}
+                {rowdata.approvalStatus == "A" && <span>Approved</span>}
+                {rowdata.approvalStatus == "R" && <span>Rejected</span>}
 
-</>
-    )
-   }
-   const datetemplate=(rowdata)=>{
-    var temp=rowdata.CreatedOn
-    var tempstr;
-    tempstr=new Date(temp).getFullYear().toString()+"/"+new Date(temp).getMonth().toString()+"/"+new Date(temp).getDate().toString()
-return (
-    <>{tempstr}
-    </>
-)
-   }
+            </>
+        )
+    }
+    const datetemplate = (rowdata) => {
+        var temp = rowdata.CreatedOn
+        var tempstr;
+        tempstr = new Date(temp).getFullYear().toString() + "/" + new Date(temp).getMonth().toString() + "/" + new Date(temp).getDate().toString()
+        return (
+            <>{tempstr}
+            </>
+        )
+    }
     return (
         <div>
             <Card title="Candidate Details" style={{ width: '100%', marginBottom: '2em' }}>
@@ -92,14 +94,26 @@ return (
 
                 {/* <br></br> */}
                 <div className="grid">
+                    {/* {console.log(candidatedata?.Resume.split('/'))} */}
                     <div className="md:col-4">
 
                         <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Current CTC : </span><span className="font-w400">{formatCurrency(candidatedata?.CurrentCTC)}</span></p>
 
                         {/* <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Expected CTC : </span><span className="font-w400">{candidatedata?.ExpectedCTC}</span></p> */}
-                        <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Resume : </span><span className="font-w400"><Button onClick={event =>{dispatch(downloadresume({'Resume': candidatedata?.Resume.split('/')[2]}))}} >Resume</Button></span></p>
+                        <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Resume : </span><span className="font-w400"><Button onClick={
+                            e => {
+                                dispatch(downloadresume(
+                                    {
+                                        'Resume': candidatedata?.Resume.toString().substring(1, candidatedata?.Resume.toString().length)
+                                    }
+                                )
+                                )
+                            }} >
+                            {candidatedata?.Resume.split('/')[candidatedata?.Resume.split('/').length - 1]}
+                        </Button>
+                        </span>
+                        </p>
                     </div>
-                    {/* candidatedata?.Resume.split('/')[2] */}
                     <div className="md:col-4">
                         <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Expected CTC : </span><span className="font-w400">{formatCurrency(candidatedata?.ExpectedCTC)}</span></p>
                         <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Average approved CTC : </span><span className="font-w400">{formatCurrency(candidatedata?.AvgApprovedCTC)}</span></p>
@@ -111,26 +125,26 @@ return (
                     </div>
                 </div>
                 <div>
-            <br></br>
-            <br></br>
-            <h5>Candidate Work Flow Details</h5>
-            <DataTable  value={candidatedata.approversDetails}showGridlines={true} responsiveLayout="scroll" >
-                <Column field="approverName" header="Approver Name"  ></Column>
-                <Column field="Name" header="Name" body={nametemplate} ></Column>
-                <Column field="approvalStatus" header="Approval Status" body={statustemplate}  ></Column>
-                <Column field="CreatedOn" header="Date" body={datetemplate} ></Column>
-                <Column field="role_name" header="Role Name" ></Column>      
-                <Column field="stage_name" header="Stage" ></Column>      
-                     
-            </DataTable>
-        </div>
+                    <br></br>
+                    <br></br>
+                    <h5>Candidate Work Flow Details</h5>
+                    <DataTable value={candidatedata.approversDetails} showGridlines={true} responsiveLayout="scroll" >
+                        <Column field="approverName" header="Approver Name"  ></Column>
+                        <Column field="Name" header="Name" body={nametemplate} ></Column>
+                        <Column field="approvalStatus" header="Approval Status" body={statustemplate}  ></Column>
+                        <Column field="CreatedOn" header="Date" body={datetemplate} ></Column>
+                        <Column field="role_name" header="Role Name" ></Column>
+                        <Column field="stage_name" header="Stage" ></Column>
+
+                    </DataTable>
+                </div>
 
             </Card>
-          
+
         </div>
-        
+
     )
-   
+
 }
 
 export default CandidateDetails

@@ -100,7 +100,7 @@ function JobPostDetails(props) {
             }}>Generate pdf</Button> */}
           </p>
 
-          {console.log(jobdata)}
+          {/* {console.log(jobdata)} */}
          {jobdata.approversDetails?
         <>  <Panel header="Busines Head Approver">
           <div className="grid">

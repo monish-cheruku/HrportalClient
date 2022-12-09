@@ -63,13 +63,14 @@ function JobpostsactionApproval() {
   }
   return (
     <div>
+      
+      <Card style={{ width: '100%', marginBottom: '2em' }}>
       <JobPostDetails JobData={jobdata}></JobPostDetails>
 
 
 
 
 
-      <Card style={{ width: '100%', marginBottom: '2em' }}>
         <div className="grid">
         
           <div class="md:col-12">

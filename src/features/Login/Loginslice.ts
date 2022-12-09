@@ -38,7 +38,7 @@ export const LocationSlice = createSlice({
         logout: () => {
             console.log("logging out")
             localStorage.clear()
-            window.location.href = 'login'
+            window.location.href = '/login'
 
 
             // 

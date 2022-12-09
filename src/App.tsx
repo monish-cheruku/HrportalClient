@@ -340,9 +340,9 @@ const App = () => {
                                 <Toast ref={toast} position="bottom-left" />
                                 <AppTopbar onToggleMenuClick={onToggleMenuClick} layoutColorMode={layoutColorMode}
                                     mobileTopbarMenuActive={mobileTopbarMenuActive} onMobileTopbarMenuClick={onMobileTopbarMenuClick} onMobileSubTopbarMenuClick={onMobileSubTopbarMenuClick} />
-                                <div className="layout-sidebar mw-100" onClick={onSidebarClick}>
+                                {/* <div className="layout-sidebar mw-100" onClick={onSidebarClick}>
                                     <AppMenu model={menu} onMenuItemClick={onMenuItemClick} layoutColorMode={layoutColorMode} />
-                                </div>
+                                </div> */}
                                 <div className="layout-main-container">
                                     <div className="layout-main">
 
@@ -375,6 +375,7 @@ const App = () => {
                                             <Route path='/jobpostdetailedview/:JobCode' element={<Jobpostdetailedview/>}/>
                                             <Route path="/candidate/createcandidateprofile"  element={<CreateCandidateProfile/>} />
                                             <Route path="/candidate/updatecandidateprofile"  element={<CreateCandidateProfile/>} />
+                                            <Route path="/candidate/candidatedetails"  element={<CandidateDetails/>} />
 
                                         </Routes>
                                     </div>

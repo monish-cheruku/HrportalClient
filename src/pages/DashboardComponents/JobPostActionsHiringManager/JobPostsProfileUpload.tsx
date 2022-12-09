@@ -10,12 +10,12 @@ import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router'
 import { Link } from 'react-router-dom'
-import { RootState } from '../../app/store'
-import { getCandidatefromapi } from "../../features/CandidateActions/candidateactionsslice"
-import { genpdf } from '../../features/Downloadpdfs/pdfslice'
+import { RootState } from '../../../app/store'
+import { getCandidatefromapi } from "../../../features/CandidateActions/candidateactionsslice"
+import { genpdf } from '../../../features/Downloadpdfs/pdfslice'
 // import { getJobPostActionfromapi, IJobPost, jobpostactionssubmit } from '../../features/JobPostActions/jobpostactionsslice'
-import { getJobPostActionfromapi, IJobPost, jobpostactionssubmit } from '../../features/JobPostActions/jobpostactionsslice'
-import JobPostDetails from '../DashboardComponents/JobPostDetails'
+import { getJobPostActionfromapi, IJobPost, jobpostactionssubmit } from '../../../features/JobPostActions/jobpostactionsslice'
+import JobPostDetails from '../../DashboardComponents/JobPostDetails'
 import CandidateDetails from '../CandidateDetails'
 
 
@@ -42,22 +42,22 @@ function JobPostProfileUpload() {
     const [jobdata, setjobdata] = useState<IJobPost>(jobsdata.filter((i) => i.JobCode == JobCode)[0])
     useEffect(() => {
         if (jobdata == null) {
-            console.log(jobdata)
-            console.log(Logindata.username)
+            // console.log(jobdata)
+            // console.log(Logindata.username)
             dispatch(getJobPostActionfromapi(Logindata.username))
             // dispatch(getJobPostActionfromapi("sbatchu"))
         }
-        console.log(Logindata)
+        // console.log(Logindata)
         setjobdata(jobsdata.filter((i) => i.JobCode == JobCode)[0])
         dispatch(getCandidatefromapi({
             "jobpostID": jobdata.JobPostID
         }))
-        console.log(jobdata.AvgApprovedCTC)
+        // console.log(jobdata.AvgApprovedCTC)
        
 // billrate.forEach((i)=>
 // (i.BusinessUnitId==
 //     )
-        console.log(billrate)
+        // console.log(billrate)
     }, [])
     const hideDialog = () => {
         setissave(false)
@@ -152,7 +152,7 @@ function JobPostProfileUpload() {
     }
     const linktemplate=(rowdata) =>{
         return(
-            <Link to="/candidatedetails" state={rowdata}>{rowdata.CandidateCode}</Link>
+            <Link to="/candidate/candidatedetails" state={rowdata}>{rowdata.CandidateCode}</Link>
         )
     }
 

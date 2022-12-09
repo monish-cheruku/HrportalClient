@@ -24,10 +24,32 @@ function* JobPostjobpostactionssubmitsagaworker(data) {
         // yield put({ type: "JobPostAction/JobPostActiondata", payload: res })
 
         //toast
+        yield put(createtoast({
+
+            id:454,
+
+            status:"success",
+
+            data:res.toString(),                                                //change this
+
+            endpoint:"400"
+
+        }))
     }
     catch (err) {
         console.log(err)
 
+        store.dispatch(createtoast({
+
+            id:34324,
+        
+            status:"error",
+        
+            data:err.data[0][0],                                                       //change this
+        
+            endpoint:err.config.url.toString()                                        //change this
+        
+        }))
 
 
     }
