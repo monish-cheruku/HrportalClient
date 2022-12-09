@@ -264,10 +264,13 @@ const ManageBusinessunit = () => {
     const [companyname, setCompanyname] = useState("");
     const [businessunitname, setbusinessunitname] = useState("");
     const [businessunitdesc, setbusinessunitdesc] = useState("");
+    const [BusinessUnitAcronym, SetBusinessUnitAcronym] = useState("");
+
     const [issave, setissave] = useState(false);
     const [active, setActive] = useState<boolean>(true);
     const [data, Setdata] = useState([]);
     const [editmode, setEditmode] = useState(false);
+    const [issaveeee, setissaveeee] = useState(false);
 
     const [globalFilterValue2, setGlobalFilterValue2] = useState("");
     const [filters2, setFilters2] = useState({
@@ -326,6 +329,7 @@ const ManageBusinessunit = () => {
     };
     const hideDialog = () => {
         setissave(false)
+        setissaveeee(false);
         setSubmitted(false);
         setProductDialog(false);
     };
@@ -358,6 +362,8 @@ const ManageBusinessunit = () => {
                         setEditmode(false);
                         setbusinessunitdesc("");
                         setbusinessunitname("");
+                        SetBusinessUnitAcronym("");
+
                         SetCompanyID("");
                         setActive(true);
                         setProductDialog(true);
@@ -432,6 +438,8 @@ const ManageBusinessunit = () => {
                         console.log(data)
                         setbusinessunitid(data.BusinessUnitId);
                         SetCompanyID(data.CompanyId)
+                        SetBusinessUnitAcronym(data.Acronym);
+
                         setbusinessunitdesc(data.BusinessUnitDesc);
                         setbusinessunitname(data.BusinessUnitName);
                         setCompanyname(data.CompanyName);
@@ -458,11 +466,13 @@ const ManageBusinessunit = () => {
                     var c = {
                         BusinessUnitId: businessunitid,
                         CompanyId: CompanyID,
+                        Acronym:BusinessUnitAcronym,
+
                         BusinessUnitName: businessunitname,
                         BusinessUnitDesc: businessunitdesc,
                         Active: active,
                     };
-                    if(businessunitname!="")
+                    if(businessunitname!&&BusinessUnitAcronym!="")
                     {
                     if (editmode === false) {
                         dispatch(createbusinessunitaction(
@@ -470,6 +480,7 @@ const ManageBusinessunit = () => {
                                 CompanyId: CompanyID,
                                 BusinessUnitName: businessunitname,
                                 BusinessUnitDesc: businessunitdesc,
+                                Acronym:BusinessUnitAcronym,
                                 Active: active,
                             }
                         ));
@@ -489,8 +500,8 @@ const ManageBusinessunit = () => {
     };
 
     //  const end = <InputText placeholder="Search" type="text" />;
-    const activediv = (body: { Active: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined }) => {
-        return <div>{body.Active?.toString()}</div>;
+    const activediv = (body:any) => {
+        return <div>{body.Active?"Yes":"No"}</div>;
     };
     return (
         <div className="ManageBusinessUnit">
@@ -498,10 +509,12 @@ const ManageBusinessunit = () => {
       <QuotesComp></QuotesComp> */}
             <div>
                 <div>
-                    <DataTable value={businessunitsdata} showGridlines={false} responsiveLayout="scroll" paginator={true} rows={5} globalFilterFields={["CompanyName","BusinessUnitName", "BusinessUnitDesc", "Active"]} filters={filters2} header={Headercomp}>
+                    <DataTable value={businessunitsdata} showGridlines={false} responsiveLayout="scroll" paginator={true} rows={5} globalFilterFields={["CompanyName","BusinessUnitName", "Acronym", "BusinessUnitDesc", "Active"]} filters={filters2} header={Headercomp}>
                         <Column field="CompanyId" header="Company Name" body={companytemplate} sortable></Column>
                         <Column field="BusinessUnitName" header="Business Unit Name" sortable></Column>
+                        <Column field="Acronym" header="Acronym" sortable></Column>
                         <Column field="BusinessUnitDesc" header="Business Unit Description" sortable></Column>
+
                         <Column field="Active" header="Active" sortable dataType="boolean" body={activediv}></Column>
                         <Column field="edit" header="Edit" body={actionBodyTemplate} exportable={false}></Column>
                     </DataTable>
@@ -524,11 +537,19 @@ const ManageBusinessunit = () => {
                         { issave==true&&businessunitname=="" && <small className="p-error">*Business Unit Name is required.</small>}
                         <br />
                         <br />
+
+                        <div className="field">
+                            <label htmlFor="BusinessUnitAcronym">BusinessUnit Acronym *</label>
+                            <InputText className={ issave==true&&BusinessUnitAcronym==""?"p-invalid":"p-valid"} maxLength={4} placeholder={BusinessUnitAcronym==""?"":""} id="Acronym" onChange={(e) =>  SetBusinessUnitAcronym(e.target.value)} value={BusinessUnitAcronym}></InputText>
+                        { issave==true&&BusinessUnitAcronym=="" && <small className="p-error">*BusinessUnit Acronym is Required.</small>}
+
+
+                        </div>
                         <div className="field">
                             <label htmlFor="BusinessUnitDesc">Business Unit Description</label>
                             <InputTextarea id="BusinessUnitDesc" onChange={(e) => setbusinessunitdesc(e.target.value)} value={businessunitdesc}></InputTextarea>
                         </div>
-
+                        
                         <div className="col-12">
                             <Checkbox inputId="Active" checked={active} onChange={(e) => setActive(!active)} />
                             <label htmlFor="binary"> Active</label>

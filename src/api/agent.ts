@@ -15,7 +15,7 @@ import {UserRoles} from "../features/UserRoles/userroleslice"
 
 // import {Band} from ../features/Band/bandslice"
 
-axios.defaults.baseURL = 'http://10.154.155.88:8000/api';
+axios.defaults.baseURL = 'http://10.154.155.87:8000/api';
 //http://10.154.28.148:8000/api/     monish//
 //http://10.154.155.152:8000/api      /dwaraka
 axios.interceptors.response.use(undefined, (error) => {
