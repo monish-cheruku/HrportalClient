@@ -1,4 +1,4 @@
-import React, { useEffect, useRef }  from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState }  from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 import BelcanLogo from "./assets/demo/flags/belcanLogo.JPG";
@@ -30,6 +30,107 @@ export const AppTopbar = (props) => {
     const navigate=useNavigate()
     const Logindata:ILogin = useSelector((state: RootState) => state.Login);
     const dispatch=useDispatch()
+    const [profilemenuitems,setprofilemenuitems] =useState( [
+       
+      
+        {
+            label: 'Profile',
+            icon: 'pi pi-fw pi-user',
+            items: [
+                {
+                    label: 'Settings',
+                    icon: 'pi pi-fw pi-cog'
+                },
+                {
+                    label: 'Billing',
+                    icon: 'pi pi-fw pi-file'
+                }
+            ]
+        },
+
+        {
+            label: 'Roles',
+            icon: 'pi pi-fw pi-user-plus',
+            items:[{
+                    label: 'Settings',
+                    icon: 'pi pi-fw pi-cog'
+                },
+                {
+                    label: 'Billing',
+                    icon: 'pi pi-fw pi-file'
+                }]
+            
+        },
+        {
+            label: 'Quit',
+            icon: 'pi pi-fw pi-sign-out',
+            command:()=>dispatch(logout())
+
+        }
+    ]);
+    useEffect(()=>{
+        console.log(Logindata)
+        console.log(profilemenuitems)
+        console.log( profilemenuitems.filter((i)=>i.label=="Roles")[0])
+        var temproles:any=[]
+        Logindata.groups.forEach(element => {
+            temproles.push(
+                {
+            "label": element.name,
+            "icon": 'pi pi-fw pi-user-plus',
+           
+        }
+        )
+    }
+    )
+    console.log(temproles)
+// var temptemp=JSON.parse(JSON.stringify(  profilemenuitems))
+// // var temptemp={...profilemenuitems}
+// console.log(temptemp)
+//     //  temptemp=profilemenuitems.filter((i)=>i.label=="Roles")[0].items=temproles
+//      temptemp=profilemenuitems[1].items=temproles
+
+//        setprofilemenuitems(temptemp)
+
+
+
+
+setprofilemenuitems([
+       
+      
+    {
+        label: 'Profile',
+        icon: 'pi pi-fw pi-user',
+        items: [
+            // {
+            //     label: 'Settings',
+            //     icon: 'pi pi-fw pi-cog'
+            // },
+            // {
+            //     label: 'Billing',
+            //     icon: 'pi pi-fw pi-file'
+            // },
+            {
+                label: 'Quit',
+                icon: 'pi pi-fw pi-sign-out',
+                command:()=>dispatch(logout()),
+        
+        
+            }
+        ]
+    },
+
+    {
+        label: 'Roles',
+        icon: 'pi pi-fw pi-user-plus',
+        items:temproles
+        
+    },
+    
+])
+// setprofilemenuitems(...profilemenuitems,profilemenuitems["1"].items=temproles)
+        console.log(profilemenuitems)
+    },[])
     const tieredMenuItems:Itiredmenu= {
         label: 'Profile',
         icon: 'pi pi-fw pi-user',
@@ -126,30 +227,7 @@ Logindata.groups?Logindata.groups.forEach(e => {
         
 
     ];
-    const profilemenuitems = [
-       
-      
-        {
-            label: 'Profile',
-            icon: 'pi pi-fw pi-user',
-            items: [
-                {
-                    label: 'Settings',
-                    icon: 'pi pi-fw pi-cog'
-                },
-                {
-                    label: 'Billing',
-                    icon: 'pi pi-fw pi-file'
-                }
-            ]
-        },
-        {
-            label: 'Quit',
-            icon: 'pi pi-fw pi-sign-out',
-            command:()=>dispatch(logout())
-
-        }
-    ];
+    
     return (
         <div className="layout-topbar">
             {/* <span style={{position:"fixed",left:"0px"}}> */}
@@ -183,7 +261,7 @@ Logindata.groups?Logindata.groups.forEach(e => {
 
 
 )&&<><Menu model={Adminmenuitems} popup ref={menu} id="popup_menu" />
-                <Button label="Administration" icon="pi pi-users" onClick={(event) => menu.current.toggle(event)} aria-controls="popup_menu" aria-haspopup />
+                <Button label="Administration" icon="pi pi-users" onMouseEnter={(event) => menu.current.toggle(event)}  aria-controls="popup_menu" aria-haspopup />
                 </>}
            {/* <Menubar  model={Adminmenuitems} style={{backgroundColour:"blue"}} ></Menubar> */}
 
@@ -203,7 +281,7 @@ Logindata.groups?Logindata.groups.forEach(e => {
                         </button>
                     </li> */}
                     {/* <span>{Logindata.first_name}</span>/ */}
-                    <span style={{color:"white",fontSize:20,marginTop:10,paddingRight:"20px"}}>{Logindata.first_name +" , " +Logindata.last_name}</span>
+                    <span style={{color:"white",fontSize:16,marginTop:10,paddingRight:"20px"}}>{Logindata.first_name +" , " +Logindata.last_name}</span>
                     {/* <span> , </span> */}
                     {/* <span>{Logindata.last_name}</span> */}
                     <span> </span>

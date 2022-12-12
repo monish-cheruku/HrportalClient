@@ -33,7 +33,7 @@ function JobpostsactionApproval() {
     if (jobdata == null) {
       console.log(jobdata)
       console.log(Logindata.username)
-      dispatch(getJobPostActionfromapi(Logindata.username))
+      dispatch(getJobPostActionfromapi({"ApproverName":Logindata.username}))
       // dispatch(getJobPostActionfromapi("sbatchu"))
     }
     console.log(Logindata)

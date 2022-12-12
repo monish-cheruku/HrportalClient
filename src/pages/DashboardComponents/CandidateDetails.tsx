@@ -4,6 +4,7 @@ import { Card } from 'primereact/card'
 import { Column } from 'primereact/column'
 import { DataTable } from 'primereact/datatable'
 import { InputText } from 'primereact/inputtext'
+import { Panel } from 'primereact/panel'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router'
@@ -29,6 +30,7 @@ function CandidateDetails(props) {
         return value.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
 
     }
+    const navigate=useNavigate()
     const location = useLocation()
     // const approversdata = useSelector((store: RootState) => store.approversdetails)
 
@@ -57,9 +59,9 @@ function CandidateDetails(props) {
         return (
             <div
                 className="flex flex-column md:flex-row md:justify-content-between md:align-items-center"
-                // className="flex justify-content-between"
+            // className="flex justify-content-between"
             >
-                <h2>Manage Band</h2>
+                {/* <h2>Manage Candidate</h2> */}
                 {/* <Toolbar
         //  className="mb-4"
          left={leftToolbarTemplate}
@@ -74,7 +76,7 @@ function CandidateDetails(props) {
                     <InputText value={globalFilterValue2} onChange={onGlobalFilterChange2} placeholder="Keyword Search" />
                 </span>
 
-              
+
             </div>
         );
     };
@@ -97,48 +99,61 @@ function CandidateDetails(props) {
             </>
         )
     }
+    const formatDate = (rowdata: any) => {
+        return new Date(rowdata.CreatedOn).toLocaleDateString('en-US', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+        });
+    }
     return (
         <div>
-            <Card title="Candidate Details" style={{ width: '100%', marginBottom: '2em' }}>
-                <div className="grid">
-                    <div className="md:col-4">
+            <Card>
+                <Panel header="Candidate Details" style={{ width: '100%', marginBottom: '2em' }}>
+                    <div className="grid">
+                        <div className="md:col-4">
 
 
-                        <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>First Name : </span><span className="font-w400">{candidatedata?.CanFirstName}</span></p>
-                        <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Overall Experience :</span> <span className="font-w400">{candidatedata?.OverallExpYear}.{candidatedata?.OverallExpMonth} years</span></p>
-                        <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Current Organization : </span><span className="font-w400">{candidatedata?.CurrentOrganization}</span></p>
-                        <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}> Email: </span><span className="font-w400">{candidatedata?.Email}</span></p>
+                            <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>First Name  </span><span className="font-w400">: {candidatedata?.CanFirstName}</span></p>
+                            <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Overall Experience </span> <span className="font-w400">: {candidatedata?.OverallExpYear}.{candidatedata?.OverallExpMonth} years</span></p>
+                            <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Current Organization  </span><span className="font-w400">: {candidatedata?.CurrentOrganization}</span></p>
+                            <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}> Email </span><span className="font-w400">: {candidatedata?.Email}</span></p>
+                        </div>
+
+
+                        <div className="md:col-4">
+                            <p >
+                                <span className="" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Last Name   </span> <span className="font-w400">: {candidatedata?.CanLastName}</span>
+
+                            </p>
+
+                            <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Relevant Experience  </span><span className="font-w400">: {candidatedata?.ReleventExpYear}.{candidatedata?.ReleventExpMonth} years</span></p>
+                            <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Current Location  </span><span className="font-w400">: {candidatedata?.CurrentJobLocation}</span></p>
+                            <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Contact No  </span><span className="font-w400">: {candidatedata?.ContactNo}</span></p>
+                        </div>
+
+
+                        <div className="md:col-4">
+                            <p ><span className="" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Highest Qualification  </span><span style={{ fontWeight: "400" }}>: {candidatedata?.Qualification}</span></p>
+                            <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Skills  </span><span className="font-w400">: {candidatedata?.Skills}</span></p>
+                            <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Expected DOJ  </span><span className="font-w400">: {new Date(candidatedata?.ExpectedDOJ).toLocaleDateString('en-US', {
+                                day: '2-digit',
+                                month: '2-digit',
+                                year: 'numeric',
+                            })}</span></p>
+                        </div>
                     </div>
 
+                    <br></br>
+                    <div className="grid">
+                        {/* {console.log(candidatedata?.Resume.split('/'))} */}
+                        <div className="md:col-4">
 
-                    <div className="md:col-4">
-                        <p >
-                            <span className="" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Last Name :  </span> <span className="font-w400">{candidatedata?.CanLastName}</span>
+                            <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Current CTC  </span><span className="font-w400">: {formatCurrency(candidatedata?.CurrentCTC)}</span></p>
 
-                        </p>
-
-                        <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Relevant Experience : </span><span className="font-w400">{candidatedata?.ReleventExpYear}.{candidatedata?.ReleventExpMonth} years</span></p>
-                        <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Location : </span><span className="font-w400">{candidatedata?.CurrentJobLocation}</span></p>
-                        <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Contact No : </span><span className="font-w400">{candidatedata?.ContactNo}</span></p>
-                    </div>
-
-
-                    <div className="md:col-4">
-                        <p ><span className="" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Highest Qualification : </span><span style={{ fontWeight: "400" }}>{candidatedata?.Qualification}</span></p>
-                        <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Skills : </span><span className="font-w400">{candidatedata?.Skills}</span></p>
-                        <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Expected DOJ : </span><span className="font-w400">{candidatedata?.ExpectedDOJ}</span></p>
-                    </div>
-                </div>
-
-                {/* <br></br> */}
-                <div className="grid">
-                    {/* {console.log(candidatedata?.Resume.split('/'))} */}
-                    <div className="md:col-4">
-
-                        <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Current CTC : </span><span className="font-w400">{formatCurrency(candidatedata?.CurrentCTC)}</span></p>
-
-                        {/* <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Expected CTC : </span><span className="font-w400">{candidatedata?.ExpectedCTC}</span></p> */}
-                        <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Resume : </span><span className="font-w400"><Button onClick={
+                            {/* <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Expected CTC : </span><span className="font-w400">{candidatedata?.ExpectedCTC}</span></p> */}
+                            <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Resume  </span><span className="font-w400">
+                                {/* <Button className='btn' onClick={
                             e => {
                                 dispatch(downloadresume(
                                     {
@@ -148,38 +163,57 @@ function CandidateDetails(props) {
                                 )
                             }} >
                             {candidatedata?.Resume.split('/')[candidatedata?.Resume.split('/').length - 1]}
-                        </Button>
-                        </span>
-                        </p>
-                    </div>
-                    <div className="md:col-4">
-                        <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Expected CTC : </span><span className="font-w400">{formatCurrency(candidatedata?.ExpectedCTC)}</span></p>
-                        <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Average approved CTC : </span><span className="font-w400">{formatCurrency(candidatedata?.AvgApprovedCTC)}</span></p>
-                    </div>
-                    <div className="md:col-4">
+                        </Button> */}
+                                <Link to={''} state={location.state} onClick={
+                                    e => {
+                                        dispatch(downloadresume(
+                                            {
+                                                'Resume': candidatedata?.Resume.toString().substring(1, candidatedata?.Resume.toString().length)
+                                            }
+                                        )
+                                        )
+                                    }}> {candidatedata?.Resume.split('/')[candidatedata?.Resume.split('/').length - 1]}</Link>
 
-                        <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Negotiated CTC : </span><span className="font-w400">{candidatedata?.NegotiatedCTC}</span></p>
-                        <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Avg Bill rate($): </span><span className="font-w400">{formatDollar(candidatedata?.AvgBillRate)}</span></p>
+                                
+                            </span>
+                            </p>
+                        </div>
+                        <div className="md:col-4">
+                            <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Expected CTC  </span><span className="font-w400">: {formatCurrency(candidatedata?.ExpectedCTC)}</span></p>
+                            <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Average approved CTC  </span><span className="font-w400">: {formatCurrency(candidatedata?.AvgApprovedCTC)}</span></p>
+                        </div>
+                        <div className="md:col-4">
+
+                            <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Negotiated CTC  </span><span className="font-w400">: {formatCurrency(candidatedata?.NegotiatedCTC)}</span></p>
+                            <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Avg Bill rate($) </span><span className="font-w400">: {formatDollar(candidatedata?.AvgBillRate)}</span></p>
+                        </div>
                     </div>
+                    <div>
+                        <br></br>
+                        <br></br>
+                        <h5>Candidate Work Flow Details</h5>
+                        <DataTable value={candidatedata.approversDetails} showGridlines={true} responsiveLayout="scroll"
+                            globalFilterFields={['approverName', 'FirstName', 'approvalStatus', 'CreatedOn', 'role_name', 'stage_name']} filters={filters2} emptyMessage="No ideas found."
+                        // header={Headercomp}
+                        >
+                            <Column field="approverName" header="Action By" sortable></Column>
+                            <Column field="FirstName" header="Name" body={nametemplate} sortable></Column>
+                            <Column field="approvalStatus" header="Action Status" body={statustemplate} sortable></Column>
+                            <Column field="CreatedOn" header="Date" body={formatDate} sortable></Column>
+                            <Column field="role_name" header="Role Name" sortable></Column>
+                            <Column field="stage_name" header="Stage" sortable></Column>
+
+                        </DataTable>
+                    </div>
+
+                </Panel>
+                <div style={{float:'right'}}>
+
+                <Button onClick={e=>navigate(-1)}>Cancel</Button>
                 </div>
-                <div>
-                    <br></br>
-                    <br></br>
-                    <h5>Candidate Work Flow Details</h5>
-                    <DataTable value={candidatedata.approversDetails} showGridlines={true} responsiveLayout="scroll" 
-globalFilterFields={['approverName', 'FirstName', 'approvalStatus', 'CreatedOn', 'role_name','stage_name']}filters={filters2} emptyMessage="No ideas found." header={Headercomp}>
-                        <Column field="approverName" header="Approver Name"  sortable></Column>
-                        <Column field="FirstName" header="Name" body={nametemplate} sortable></Column>
-                        <Column field="approvalStatus" header="Approval Status" body={statustemplate}  sortable></Column>
-                        <Column field="CreatedOn" header="Date" body={datetemplate} sortable></Column>
-                        <Column field="role_name" header="Role Name" sortable></Column>
-                        <Column field="stage_name" header="Stage" sortable></Column>
-
-                    </DataTable>
-                </div>
-
-            </Card>
-
+                <br>
+                </br>
+                </Card>
         </div>
 
     )

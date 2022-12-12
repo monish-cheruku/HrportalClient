@@ -45,7 +45,7 @@ const Dashboard = () => {
                         <div className="flex justify-content-between mb-3">
 
                             <div>
-                                <span className="block  font-medium mb-3">JobPosts Actions</span>
+                                <span className="block  font-medium mb-3">Job Post Actions</span>
                                 <div className="text-900 font-medium text-xl">{myjobpostactions?myjobpostactions.length:0}</div>
                             </div>
                             <div className="flex align-items-center justify-content-center bg-blue-100 border-round" style={{ width: "2.5rem", height: "2.5rem" }}>
@@ -60,7 +60,7 @@ const Dashboard = () => {
                     <div className={openedtab == "myjobposts" ? "cardselect mb-0" : "cardunselect mb-0"}>
                         <div className="flex justify-content-between mb-3">
                             <div>
-                                <span className="block  font-medium mb-3">My JobPosts</span>
+                                <span className="block  font-medium mb-3">My Job Posts</span>
                                 <div className="text-900 font-medium text-xl">{myJobPosts?myJobPosts.length:0}</div>
                             </div>
                             <div className="flex align-items-center justify-content-center bg-orange-100 border-round" style={{ width: "2.5rem", height: "2.5rem" }}>

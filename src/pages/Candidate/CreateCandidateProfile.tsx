@@ -244,33 +244,24 @@ function CreateCandidateProfile() {
                             "ModifiedBy": null,
                             "AvgApprovedCTC": location.state.jobdata.AvgApprovedCTC,
                             "AvgBillRate": location.state.jobdata.AvgBillRate,
+                            "Resume":null,
 
 
-
-                            //test data
-                            // "HRUserName": sbatchu,
-                            "CanFirstName": "qwerty",
-                            "CanLastName": "B",
-                            "Qualification": "Masters",
-                            "ExpectedDOJ": new Date("2023-12-30"),
-                            // "Job_Post_ID":1,
-                            // "OverallExpYear":4,
-                            // "OverallExpMonth":4,
-                            // "ReleventExpYear":3,
-                            // "ReleventExpMonth":6,
-                            "CurrentCTC": "100000",
-                            "ExpectedCTC": "100000",
-                            "NegotiatedCTC": "70",
-                            "CurrentOrganization": "Cyient",
-                            "CurrentJobLocation": "Hyd",
-                            "Skills": "Java",
-                            "Email": "sbatchu@belcan.com",
-                            "ConatctNo": "10-932234566",
-                            // "AvgApprovedCTC":100000,
-                            // "AvgBillRate":23,
-                            // "CreatedBy":sbatchu,
-                            // "ModifiedBy":NULL,
-                            "Resume":null
+//default default values
+                            // "CanFirstName": "akjf648",
+                            // "CanLastName": "B",
+                            // "Qualification": "Masters",
+                            // "ExpectedDOJ": new Date("2023-19-30"),
+                           
+                            // "CurrentCTC": "100000",
+                            // "ExpectedCTC": "100000",
+                            // "NegotiatedCTC": "70",
+                            // "CurrentOrganization": "Cyient",
+                            // "CurrentJobLocation": "Hyd",
+                            // "Skills": "Java",
+                            // "Email": "sbatchu@belcan.com",
+                            // "ConatctNo": "10-932234566",
+                           
                         }}
                         // initialValues={{  }}
                         validate={validate}
@@ -623,7 +614,7 @@ function CreateCandidateProfile() {
                                                         <label htmlFor="Resume" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                                     </span> */}
                                                     {true &&
-                                                        <Panel header={<><input type="file"  onChange={async (e) => {
+                                                        <Panel header={<><input type="file" accept="application/pdf"  onChange={async (e) => {
                                                              await console.log(e.target.files[0]);
                                                               values.Resume = e.target.files[0];
                                                               console.log(edoj);
@@ -683,11 +674,15 @@ function CreateCandidateProfile() {
 
                                     </div>
                                 </div>
+<div style={{float:"right"}}>
 
-                                <Button className="mr:20" label="Submit" id='submitbutton' type="submit" className="mt-2" />
-                                <Button label=" Back " type="button" onClick={e => navigate(-1)} className="mt-2" />
+                                <Button className="mr-2" label="Submit" id='submitbutton' type="submit" />
+                                <Button label=" Cancel " type="button" onClick={e => navigate(-1)} className="mt-2" />
+</div>
 
-
+<br></br>
+<br>
+</br>
 
                             </form>
 

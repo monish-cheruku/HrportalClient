@@ -10,8 +10,9 @@ function* createnewcandidatesagaworker(data) {
         console.log(data.payload)
         var res: Promise<any> = yield call(candidateactions.createcandidate,data.payload)
         // console.log(res)
-
-
+// yield Candidatedatasagaworker(data.payload={"jobpostID":data.payload.jobpostID})
+// yield call({type:"getCandidatefromapi"})
+  yield put({ type: "CandidateAction/getCandidatefromapi", payload:{"jobpostID":data.payload.get("Job_Post_ID") } })
         //toast
         yield put(createtoast({
 

@@ -18,7 +18,7 @@ function* genpdfsagaworker(payload) {
   //   console.log(blob);
   let a = document.createElement("a");
   a.href = window.URL.createObjectURL(blob);
-  a.download = "pdffile.pdf";
+  a.download = payload.payload.filename+"_JD.pdf";
   // a.href=window.URL.createObjectURL(res1)
   a.click();
 

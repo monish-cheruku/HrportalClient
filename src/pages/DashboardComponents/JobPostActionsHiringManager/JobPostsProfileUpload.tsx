@@ -60,7 +60,7 @@ function JobPostProfileUpload() {
         // if (jobdata == null) {
             // console.log(jobdata)
             // console.log(Logindata.username)
-            dispatch(getJobPostActionfromapi(Logindata.username))
+            // dispatch(getJobPostActionfromapi({"":Logindata.username))
             // dispatch(getJobPostActionfromapi("sbatchu"))
         // }
         // console.log(Logindata)
@@ -109,7 +109,7 @@ function JobPostProfileUpload() {
                 className="flex flex-column md:flex-row md:justify-content-between md:align-items-center"
                 // className="flex justify-content-between"
             >
-                <h2>Manage Band</h2>
+                <h2>Manage Candidates</h2>
                 {/* <Toolbar
         //  className="mb-4"
          left={leftToolbarTemplate}
@@ -210,10 +210,10 @@ function JobPostProfileUpload() {
                         </h4>
                 </span>
                 <Button className='' style={{ }} onClick={e => {
-                        dispatch(genpdf({ "JobPostId": jobdata.JobPostID }))
+                        dispatch(genpdf({ "JobPostId": jobdata.JobPostID,"filename":jobdata.JobTitle }))
 
 
-                    }}>Generate jd</Button>            </div>
+                    }}>Generate JD</Button>            </div>
         )
     }
     const formatDate = (rowdata:any) => {
@@ -224,6 +224,9 @@ function JobPostProfileUpload() {
         });
       }
       const formatCurrency = (rowdata:any) => {
+        return rowdata.CurrentCTC.toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits:0 });
+      }
+      const formatCurrencyectc = (rowdata:any) => {
         return rowdata.ExpectedCTC.toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits:0 });
       }
     return (
@@ -246,18 +249,19 @@ function JobPostProfileUpload() {
                     <JobPostDetails JobData={jobdata}></JobPostDetails>
                 </div>
                 <div style={{textAlign:"center"}} >
-
+<br></br>
                 <Button onClick={e => navigate("/candidate/createcandidateprofile",{state:{"jobdata":jobdata}})}>Add New Candidate</Button>
                 </div>
                 <br></br>
                 <br></br>
-                <DataTable value={candidatesdata} showGridlines={true} responsiveLayout="scroll" style={{}}
-globalFilterFields={['CandidateCode', 'CanFirstName', 'OverallExpYear', 'ExpectedDOJ', 'ExpectedCTC', 'Email','stage_name']}filters={filters2} emptyMessage="No ideas found." header={Headercomp}>
+                <DataTable value={candidatesdata} showGridlines={true} responsiveLayout="scroll" style={{}} paginator={true} rows={10}
+globalFilterFields={['CandidateCode', 'CanFirstName', 'OverallExpYear', 'ExpectedDOJ', "CurrentCTC",'ExpectedCTC', 'Email','stage_name']}filters={filters2} emptyMessage="No data found." header={Headercomp}>
                     <Column field="CandidateCode" header="Code" body={linktemplate} sortable></Column>
                     <Column field="CanFirstName" header="Name" body={nametemplate}  sortable></Column>
-                    <Column field="OverallExpYear" header="Overall Experience (in years)" body={exptemplate}   sortable></Column>
-                    <Column field="ExpectedDOJ" header="Expected DOJ" body={formatDate}  sortable></Column>
-                    <Column field="ExpectedCTC" header="Expected CTC" body={formatCurrency} sortable></Column>
+                    <Column field="OverallExpYear" header="Overall Experience (in years)" body={exptemplate}   sortable style={{ minWidth: '8rem', maxWidth : '8rem'}}></Column>
+                    <Column field="ExpectedDOJ" header="Expected DOJ" body={formatDate}  sortable style={{ minWidth: '8rem', maxWidth : '8rem'}}  dataType={"date"}  ></Column>
+                    <Column field="CurrentCTC" header="Current CTC" body={formatCurrency} sortable></Column>
+                    <Column field="ExpectedCTC" header="Expected CTC" body={formatCurrencyectc} sortable></Column>
                     <Column field="Email" header="Email"  sortable></Column>
                     <Column field="stage_name" header="Status"  sortable></Column>
                     {/* <Column field="Action" header="Action" ></Column> */}
@@ -268,7 +272,7 @@ globalFilterFields={['CandidateCode', 'CanFirstName', 'OverallExpYear', 'Expecte
                 <br></br>
                 <div style={{float:"right"}}>
 
-                <Button onClick={e=>navigate(-1)}> Back</Button>
+                <Button onClick={e=>navigate(-1)}> Cancel</Button>
                 </div>
                 <br></br>
                 <br></br>
