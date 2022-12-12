@@ -26,7 +26,7 @@ function CreateCandidateProfile() {
     const location = useLocation()
     // console.log(location.state)
     const [editmode, setEditmode] = useState(!!location.state.data)
-    const [datafromprops, setdatafromprops] = useState<ICandidate>()
+    const [datafromprops, setdatafromprops] = useState<any>()
     const ctcdatafromstore = useSelector((store: RootState) => store.ManageBill)
     const logindata = useSelector((store: RootState) => store.Login)
     const fileref = useRef()
@@ -141,16 +141,16 @@ function CreateCandidateProfile() {
                             data.append("ReleventExpMonth", values.ReleventExpMonth)
                             data.append("CurrentCTC", values.CurrentCTC)
                             data.append("ExpectedCTC", values.ExpectedCTC)
-                            data.append("NegotiatedCTC", values.NegotiatedCTC)
-                            data.append("CurrentOrganization", values.CurrentOrganization)
-                            data.append("CurrentJobLocation", values.CurrentJobLocation)
+                           values.NegotiatedCTC? data.append("NegotiatedCTC", values.NegotiatedCTC) : data.append("NegotiatedCTC", '')
+                            data.append("CurrentOrganization", values.CurrentOrganization?values.CurrentOrganization:'')
+                            data.append("CurrentJobLocation", values.CurrentJobLocation?values.CurrentJobLocation:'')
                             data.append("Skills", values.Skills)
                             data.append("Email", values.Email)
                             data.append("ContactNo", values.ContactNo.toString())
                             data.append("AvgApprovedCTC", values.AvgApprovedCTC)
                             data.append("AvgBillRate", values.AvgBillRate)
                             data.append("CreatedBy", values.CreatedBy)
-                            data.append("ModifiedBy", values.ModifiedBy)
+                            data.append("ModifiedBy", values.ModifiedBy?values.ModifiedBy:'')
                             data.append("Resume", values.Resume)
                             // data.append(
 
@@ -241,26 +241,27 @@ function CreateCandidateProfile() {
                             "HRUserName": logindata.username,
                             "Job_Post_ID": location.state.jobdata.JobPostID,
                             "CreatedBy": logindata.username,
-                            "ModifiedBy": null,
+                            "ModifiedBy": '',
                             "AvgApprovedCTC": location.state.jobdata.AvgApprovedCTC,
                             "AvgBillRate": location.state.jobdata.AvgBillRate,
                             "Resume":null,
+                            "NegotiatedCTC" :null,
+                            "CurrentOrganization": '',
+                            "CurrentJobLocation": '',
 
 
 //default default values
-                            // "CanFirstName": "akjf648",
-                            // "CanLastName": "B",
-                            // "Qualification": "Masters",
-                            // "ExpectedDOJ": new Date("2023-19-30"),
+                            "CanFirstName": "akjf648",
+                            "CanLastName": "B",
+                            "Qualification": "Masters",
+                            "ExpectedDOJ": new Date("2023-02-30"),
                            
-                            // "CurrentCTC": "100000",
-                            // "ExpectedCTC": "100000",
-                            // "NegotiatedCTC": "70",
-                            // "CurrentOrganization": "Cyient",
-                            // "CurrentJobLocation": "Hyd",
-                            // "Skills": "Java",
-                            // "Email": "sbatchu@belcan.com",
-                            // "ConatctNo": "10-932234566",
+                            "CurrentCTC": "100000",
+                            "ExpectedCTC": "100000",                           
+
+                            "Skills": "Java",
+                            "Email": "sbatchu@belcan.com",
+                            "ConatctNo": "10-932234566",
                            
                         }}
                         // initialValues={{  }}
@@ -481,7 +482,7 @@ function CreateCandidateProfile() {
                                                 <div className="field fluid">
                                                     <label htmlFor="CurrentCTC">Current CTC</label>
                                                     <span className="field fluid">
-                                                        <InputNumber id="CurrentCTC" value={values.CurrentCTC} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} mode="currency" currency="INR" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <InputNumber id="CurrentCTC" min={0} value={values.CurrentCTC} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} mode="currency" currency="INR" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                         <label htmlFor="CurrentCTC" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                                     </span>
                                                     {getFormErrorMessage(meta)}
@@ -499,7 +500,7 @@ function CreateCandidateProfile() {
                                                     
                                                     <label htmlFor="ExpectedCTC">Expected CTC</label>
                                                     <span className="field fluid">
-                                                        <InputNumber id="ExpectedCTC"  value={values.ExpectedCTC} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} mode="currency" currency="INR" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <InputNumber id="ExpectedCTC" min={0}  value={values.ExpectedCTC} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} mode="currency" currency="INR" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                         <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                                     </span>
                                                     {getFormErrorMessage(meta)}
@@ -515,7 +516,7 @@ function CreateCandidateProfile() {
                                                 <div className="field fluid">
                                                     <label htmlFor="NegotiatedCTC">Negotiated CTC</label>
                                                     <span className="field fluid">
-                                                        <InputNumber id="NegotiatedCTC" value={values.NegotiatedCTC} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} mode="currency" currency="INR" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <InputNumber id="NegotiatedCTC" min={0} value={values.NegotiatedCTC} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} mode="currency" currency="INR" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                         <label htmlFor="NegotiatedCTC" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                                     </span>
                                                     {getFormErrorMessage(meta)}

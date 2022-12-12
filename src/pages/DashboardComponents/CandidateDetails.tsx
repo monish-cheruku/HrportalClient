@@ -21,7 +21,7 @@ function CandidateDetails(props) {
     const [globalFilterValue2, setGlobalFilterValue2] = useState("");
     const formatCurrency = (value: any) => {
 
-        return value.toLocaleString('en-US', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
+        return value?value.toLocaleString('en-US', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }):'';
 
 
     }
