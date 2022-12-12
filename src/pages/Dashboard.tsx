@@ -19,7 +19,7 @@ const Dashboard = () => {
     useEffect(()=>{
         console.log("dashboard")
         dispatch(myjobpostsaction({"UserName":logindata.username}))
-        dispatch(myjobpostsaction({"UserName":logindata.username}))
+        // dispatch(myjobpostsaction({"UserName":logindata.username}))
     },[])
     return (
         <div>

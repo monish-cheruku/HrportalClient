@@ -1,7 +1,9 @@
+import { FilterMatchMode } from 'primereact/api'
 import { Button } from 'primereact/button'
 import { Card } from 'primereact/card'
 import { Column } from 'primereact/column'
 import { DataTable } from 'primereact/datatable'
+import { InputText } from 'primereact/inputtext'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router'
@@ -12,6 +14,10 @@ import { getCandidatefromapi } from '../../features/CandidateActions/candidateac
 import { downloadresume } from '../../features/Downloadpdfs/pdfslice'
 import JobPostDetails from './JobPostDetails'
 function CandidateDetails(props) {
+    const [filters2, setFilters2] = useState({
+        global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    });
+    const [globalFilterValue2, setGlobalFilterValue2] = useState("");
     const formatCurrency = (value: any) => {
 
         return value.toLocaleString('en-US', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
@@ -39,7 +45,39 @@ function CandidateDetails(props) {
         )
     }
     const dispatch = useDispatch()
+    const onGlobalFilterChange2 = (e: any) => {
+        const value = e.target.value;
+        let _filters2 = { ...filters2 };
+        _filters2["global"].value = value;
 
+        setFilters2(_filters2);
+        setGlobalFilterValue2(value);
+    };
+    const Headercomp = () => {
+        return (
+            <div
+                className="flex flex-column md:flex-row md:justify-content-between md:align-items-center"
+                // className="flex justify-content-between"
+            >
+                <h2>Manage Band</h2>
+                {/* <Toolbar
+        //  className="mb-4"
+         left={leftToolbarTemplate}
+         right={rightToolbarTemplate}
+       >
+         {" "}
+       </Toolbar> */}
+
+                <span style={{ width: "30%" }}></span>
+                <span className="p-input-icon-left">
+                    <i className="pi pi-search" />
+                    <InputText value={globalFilterValue2} onChange={onGlobalFilterChange2} placeholder="Keyword Search" />
+                </span>
+
+              
+            </div>
+        );
+    };
     const statustemplate = (rowdata) => {
         return (
             <>
@@ -128,13 +166,14 @@ function CandidateDetails(props) {
                     <br></br>
                     <br></br>
                     <h5>Candidate Work Flow Details</h5>
-                    <DataTable value={candidatedata.approversDetails} showGridlines={true} responsiveLayout="scroll" >
-                        <Column field="approverName" header="Approver Name"  ></Column>
-                        <Column field="Name" header="Name" body={nametemplate} ></Column>
-                        <Column field="approvalStatus" header="Approval Status" body={statustemplate}  ></Column>
-                        <Column field="CreatedOn" header="Date" body={datetemplate} ></Column>
-                        <Column field="role_name" header="Role Name" ></Column>
-                        <Column field="stage_name" header="Stage" ></Column>
+                    <DataTable value={candidatedata.approversDetails} showGridlines={true} responsiveLayout="scroll" 
+globalFilterFields={['approverName', 'FirstName', 'approvalStatus', 'CreatedOn', 'role_name','stage_name']}filters={filters2} emptyMessage="No ideas found." header={Headercomp}>
+                        <Column field="approverName" header="Approver Name"  sortable></Column>
+                        <Column field="FirstName" header="Name" body={nametemplate} sortable></Column>
+                        <Column field="approvalStatus" header="Approval Status" body={statustemplate}  sortable></Column>
+                        <Column field="CreatedOn" header="Date" body={datetemplate} sortable></Column>
+                        <Column field="role_name" header="Role Name" sortable></Column>
+                        <Column field="stage_name" header="Stage" sortable></Column>
 
                     </DataTable>
                 </div>

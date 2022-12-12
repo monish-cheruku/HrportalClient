@@ -4,6 +4,7 @@ import { Checkbox } from 'primereact/checkbox'
 import { Column } from 'primereact/column'
 import { DataTable } from 'primereact/datatable'
 import { InputTextarea } from 'primereact/inputtextarea'
+import { Panel } from 'primereact/panel'
 import { RadioButton } from 'primereact/radiobutton'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
@@ -63,18 +64,18 @@ function JobpostsactionApproval() {
   }
   return (
     <div>
-      
-      <Card style={{ width: '100%', marginBottom: '2em' }}>
+      <Card>
+      <Panel header={<h4>Job Post Details</h4>} style={{ width  : '100%', marginBottom: '2em' }}>
       <JobPostDetails JobData={jobdata}></JobPostDetails>
 
 
 
 
-
+<Panel header={"Approval"}>
         <div className="grid">
         
           <div class="md:col-12">
-            <span>Status:<label class="radio-inline mx-3">Approve
+            <span><label class="radio-inline mx-3">Approve
               <RadioButton className='ml-2' inputId="city3" name="city" value="A" onChange={(e) => setres(e.value)} checked={res === 'A'} />
               
             </label>
@@ -90,10 +91,11 @@ function JobpostsactionApproval() {
 
 
           <div class="md:col-12">
-            <div class="form-group form-floating">
+            <div class="ml-10">
+              Comments:
               {/* <label for="floatingTextarea2">Comments</label>
               <textarea id="address" rows="4" class="p-inputtextarea p-inputtext p-component mt-3" style={{ width: "100%" }}></textarea> */}
-              <InputTextarea style={{width:"100%"}} className={res == "R" && comments == "" ? "p-invalid" : ""} aria-label='Approve' cols={80} value={comments} onChange={e => setcomments(e.target.value)}></InputTextarea>
+              <InputTextarea style={{width:"100%"}}  className={res == "R" && comments == "" ? "p-invalid" : ""} aria-label='Approve' cols={80} value={comments} onChange={e => setcomments(e.target.value)}></InputTextarea>
             <small hidden={res == "R" && comments == "" ? false : true} id="username2-help" className={res == "R" && comments == "" ? "p-error block" : ""}>Comments are Required when Rejected*.</small>
             </div>
           </div>
@@ -103,14 +105,20 @@ function JobpostsactionApproval() {
 
         </div>
 
+        </Panel>
 
 
+<br></br>
+<div style={{float:"right"}}>
 
-
-        <Button onClick={e => navigate(-1)}> Go Back</Button><span>   </span>
-        <Button disabled={(res!="R"&&res!="A")||(res == "R" && comments == "") } onClick={e => { onsubmithandle(); navigate(-1) }}> Submit</Button>
+        <Button className='btn ' disabled={(res!="R"&&res!="A")||(res == "R" && comments == "") } onClick={e => { onsubmithandle(); navigate(-1) }}> Submit</Button>
+        <Button  className='btn  ml-4'onClick={e => navigate(-1)}> Cancel</Button><span>   </span>
+</div>
+<br>
+</br>
+<br></br>
+      </Panel>
       </Card>
-
 
     </div>
   )

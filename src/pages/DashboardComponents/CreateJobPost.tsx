@@ -359,7 +359,7 @@ console.log(location)
                                                     <span className="p-float-label">
                                                     {/* <InputNumber id="Duration" value={values.OverallExpYear} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} showButtons className={classNames({ "p-invalid": isFormFieldValid(meta) })} mode="decimal" min={0} max={60} /> */}
 
-                                                        <InputNumber id="Duration"  showButtons min={0} onBlur={input.onBlur}  onValueChange={(e) => input.onChange(e)} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <InputNumber id="Duration" value={values.Duration} showButtons min={0} onBlur={input.onBlur}  onValueChange={(e) => input.onChange(e)} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                         <label htmlFor="Duration" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                                     </span>
                                                     {getFormErrorMessage(meta)}
@@ -451,7 +451,7 @@ console.log(location)
                                                     <span className="p-float-label">
                                                         {/* <InputNumber id="No of openings" {...input} autoFocus className={classNames({ "p-invalid": isFormFieldValid(meta) })} /> */}
                                                         {/* <InputNumber inputId="integeronly" value={value1} onValueChange={(e) => setValue1(e.value)} /> */}
-                                                        <InputNumber id="noofopenings" showButtons min={1} onBlur={input.onBlur}  onValueChange={(e) => input.onChange(e)} className={classNames({ "p-invalid": isFormFieldValid(meta) })}  />
+                                                        <InputNumber id="noofopenings"  value={values.NoOfPositions} showButtons min={1} onBlur={input.onBlur}  onValueChange={(e) => input.onChange(e)} className={classNames({ "p-invalid": isFormFieldValid(meta) })}  />
 
                                                         <label htmlFor="No of openings" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                                     </span>

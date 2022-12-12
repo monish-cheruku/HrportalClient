@@ -37,7 +37,7 @@ import ManageBill from '../src/pages/ManageBillrate'
 import ManageInsurance from './pages/ManageInsurance';
 import Industry from './pages/Industry';
 
-import { createtoast, Toaster } from '../src/features/ToastSlice'
+import { createtoast, Toaster, toastreset } from '../src/features/ToastSlice'
 
 import { useDispatch } from 'react-redux';
 
@@ -69,6 +69,7 @@ const App = () => {
     const copyTooltipRef = useRef<any>();
     const location = useLocation();
     const toast = useRef(null);
+    const dispatch=useDispatch()
     PrimeReact.ripple = true;
     var Logindata: ILogin = useSelector((state: RootState) => state.Login);
 
@@ -91,13 +92,15 @@ const App = () => {
 
     useEffect(() => {
         console.log(toastdata)
-        if (toast.current ? toastdata.data != "" : false&&toastdata.id!=1) {
+        if(toastdata.id!=1)
+        if (toast.current ? toastdata.data != "" : false ) {
 
             if (toastdata.status == "error")
                 toast.current.show({ severity: toastdata.status, summary: toastdata.status + " in " + toastdata.endpoint, detail: toastdata.data, life: 3000 });
             else
                 toast.current.show({ severity: toastdata.status, summary: toastdata.status, detail: toastdata.data, life: 3000 });
-        }
+        dispatch(toastreset())
+            }
 
     }, [toastdata])
 
