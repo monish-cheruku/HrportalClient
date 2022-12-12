@@ -4,8 +4,8 @@ export interface ILogin {
     username: string;
     first_name: string;
     last_name: boolean;
-    email:string,
-    groups:any
+    email: string,
+    groups: any
 }
 const initialState: ILogin = {
     username: "",
@@ -21,37 +21,37 @@ export const LocationSlice = createSlice({
     initialState,
     reducers: {
         setlogindetails: (state, payload: any) => {
-            var temp=payload.payload
+            var temp = payload.payload
             // history.push('dashboard');
             // window.location.href='dashboard'
             // Navigate({to:'dashboard'})
             // window.location.hash("#/dashboard")
             // window.history.pushState({}, "null", '#/dashboard')
-            state=temp
-          if(state.username!=null&&state.username!="") {
-            // alert(state.username)
-        }
+            state = temp
+            if (state.username != null && state.username != "") {
+                // alert(state.username)
+            }
             console.log(state)
             return state;
         },
-        
-        logout:()=>{
-console.log("logging out")
-localStorage.clear()
-window.location.href='login'
+
+        logout: () => {
+            console.log("logging out")
+            localStorage.clear()
+            window.location.href = '/login'
 
 
-// 
+            // 
         },
-        
-        
+
+
         //functions for sagas watching
-        loginaction:(state,payload:PayloadAction<any>)=>{
+        loginaction: (state, payload: PayloadAction<any>) => {
             // console.log(state)
         },
-       
+
 
     },
 });
-export const {loginaction,setlogindetails,logout}=LocationSlice.actions
+export const { loginaction, setlogindetails, logout } = LocationSlice.actions
 export default LocationSlice.reducer

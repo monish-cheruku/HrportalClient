@@ -150,11 +150,23 @@ const navigate=useNavigate()
         return isFormFieldValid(meta) && <small className="p-error">{meta.error}</small>;
     };
 
+    const dateBodyTemplate = (rowData:any) => {
+        return formatDate(new Date(rowData.OnBoardingDate));
+      }
+        const formatDate = (value:any) => {
+            return value.toLocaleDateString('en-US', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+            });
+            // return value.toLocaleDateString('en-US');
+          }
     return (
         <div>
            
-            <DataTable value={jobpostactionsdata} showGridlines={false} responsiveLayout="scroll" paginator={true} rows={5} globalFilterFields={['JobPostID','JobCode','HiringManager','Company','BusinessUnit','ServiceLine','Customer','ExperianceLevel','NoOfPositions']} filters={filters2} header={Headercomp}>
-                <Column field="JobCode" header="Job Code" style={{ minWidth: '11rem', maxWidth : '14rem'}} body={rowdata=>
+            <DataTable value={jobpostactionsdata} showGridlines={false} responsiveLayout="scroll" paginator={true} rows={5} 
+            globalFilterFields={['JobPostID','JobCode','JobTitle','HiringManager','Industry','Company','BusinessUnit','ServiceLine','Customer','ExperianceLevel','OnBoardingDate','NoOfPositions','Stage']} filters={filters2} header={Headercomp}>
+                <Column field="JobCode"sortable header="Job Code" style={{ minWidth: '11rem', maxWidth : '14rem'}} body={rowdata=>
                 // <Button 
                 // // to={"dashboard/jobpostsactionApproval/"+rowdata.JobCode} 
                 //  onClick={e=>
@@ -170,17 +182,17 @@ const navigate=useNavigate()
                  
                  
                  }></Column>                
-                <Column field="JobTitle" header="Job Title"  ></Column>
-                <Column field="HiringManager" header="Hiring Manager" ></Column>
-                <Column field="Industry" header="Industry" ></Column>
-                <Column field="Company" header="Company" ></Column>
-                <Column field="BusinessUnit" header="Business Unit" ></Column>
-                <Column field="ServiceLine" header="Service Line" ></Column>
-                <Column field="Customer" header="Customer" ></Column>
-                <Column field="ExperianceLevel" header="Experiance Level" ></Column>
-                <Column field="OnBoardingDate" header="Onboarding Date" ></Column>
-                <Column field="NoOfPositions" header="No Positions" ></Column>
-                <Column field="Stage" header="Status" ></Column>
+                <Column field="JobTitle" header="Job Title" sortable ></Column>
+                <Column field="HiringManager" header="Hiring Manager" sortable></Column>
+                <Column field="Industry" header="Industry" sortable></Column>
+                <Column field="Company" header="Company" sortable></Column>
+                <Column field="BusinessUnit" header="Business Unit" sortable></Column>
+                <Column field="ServiceLine" header="Service Line" sortable></Column>
+                <Column field="Customer" header="Customer"sortable ></Column>
+                <Column field="ExperianceLevel" header="Experiance Level"sortable ></Column>
+                <Column field="OnBoardingDate" header="Onboarding Date" sortable dataType="date" body={dateBodyTemplate}></Column>
+                <Column field="NoOfPositions" header="No Positions" sortable dataType=''></Column>
+                <Column field="Stage" header="Status" sortable></Column>
  
             </DataTable>
 

@@ -17,7 +17,7 @@ export interface IJobPost {
         NoOfPositions: number,
         Qualification: String,
         OnBoardingDate: string,
-        POReference: number,
+        POReference: string,
         Stage: String,
         StageDesc: String,
         Industry: String,
@@ -26,7 +26,9 @@ export interface IJobPost {
         ServiceLine:  String,
         Customer: String,
         Location: String,
-        ExperianceLevel: String
+        ExperianceLevel: String,
+        AvgApprovedCTC:Number,
+        AvgBillRate:Number
 
 
 }

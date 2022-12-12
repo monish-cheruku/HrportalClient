@@ -37,7 +37,7 @@ import ManageBill from '../src/pages/ManageBillrate'
 import ManageInsurance from './pages/ManageInsurance';
 import Industry from './pages/Industry';
 
-import { createtoast, Toaster } from '../src/features/ToastSlice'
+import { createtoast, Toaster, toastreset } from '../src/features/ToastSlice'
 
 import { useDispatch } from 'react-redux';
 
@@ -69,6 +69,7 @@ const App = () => {
     const copyTooltipRef = useRef<any>();
     const location = useLocation();
     const toast = useRef(null);
+    const dispatch=useDispatch()
     PrimeReact.ripple = true;
     var Logindata: ILogin = useSelector((state: RootState) => state.Login);
 
@@ -91,13 +92,15 @@ const App = () => {
 
     useEffect(() => {
         console.log(toastdata)
-        if (toast.current ? toastdata.data != "" : false&&toastdata.id!=1) {
-toastdata.id=1
+        if(toastdata.id!=1)
+        if (toast.current ? toastdata.data != "" : false ) {
+
             if (toastdata.status == "error")
                 toast.current.show({ severity: toastdata.status, summary: toastdata.status + " in " + toastdata.endpoint, detail: toastdata.data, life: 3000 });
             else
                 toast.current.show({ severity: toastdata.status, summary: toastdata.status, detail: toastdata.data, life: 3000 });
-        }
+        dispatch(toastreset())
+            }
 
     }, [toastdata])
 
@@ -340,9 +343,9 @@ toastdata.id=1
                                 <Toast ref={toast} position="bottom-left" />
                                 <AppTopbar onToggleMenuClick={onToggleMenuClick} layoutColorMode={layoutColorMode}
                                     mobileTopbarMenuActive={mobileTopbarMenuActive} onMobileTopbarMenuClick={onMobileTopbarMenuClick} onMobileSubTopbarMenuClick={onMobileSubTopbarMenuClick} />
-                                <div className="layout-sidebar mw-100" onClick={onSidebarClick}>
+                                {/* <div className="layout-sidebar mw-100" onClick={onSidebarClick}>
                                     <AppMenu model={menu} onMenuItemClick={onMenuItemClick} layoutColorMode={layoutColorMode} />
-                                </div>
+                                </div> */}
                                 <div className="layout-main-container">
                                     <div className="layout-main">
 
@@ -371,9 +374,12 @@ toastdata.id=1
                                             <Route path="/jobpostsprofileupload/:JobCode"  element={<JobPostProfileUpload />} />
 
                                             <Route path="/myjobposts/createjobpost"  element={<CreateJobPost />} />
+                                            <Route path="/myjobposts/updatejobpost"  element={<CreateJobPost />} />
                                             <Route path='/jobpostdetailedview/:JobCode' element={<Jobpostdetailedview/>}/>
                                             <Route path="/candidate/createcandidateprofile"  element={<CreateCandidateProfile/>} />
-<Route path="/candidatedetails" element={<CandidateDetails/>}></Route>
+                                            <Route path="/candidate/updatecandidateprofile"  element={<CreateCandidateProfile/>} />
+                                            <Route path="/candidate/candidatedetails"  element={<CandidateDetails/>} />
+
                                         </Routes>
                                     </div>
 

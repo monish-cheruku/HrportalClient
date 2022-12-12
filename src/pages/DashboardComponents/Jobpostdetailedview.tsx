@@ -1,10 +1,12 @@
 import { Button } from 'primereact/button'
 import { Card } from 'primereact/card'
+import { Panel } from 'primereact/panel'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router'
 import { RootState } from '../../app/store'
 import { getJobPostActionfromapi, IJobPost } from '../../features/JobPostActions/jobpostactionsslice'
+import { Imyjobpost } from '../../features/JobPostActions/myjobpostsslice'
 import JobPostDetails from './JobPostDetails'
 
 function Jobpostdetailedview() {
@@ -13,7 +15,7 @@ function Jobpostdetailedview() {
     const navigate=useNavigate()
     const dispatch = useDispatch()
     const { JobCode } = useParams()
-    const [jobdata, setjobdata] = useState<IJobPost>(jobsdata.filter((i) => i.JobCode == JobCode)[0])
+    const [jobdata, setjobdata] = useState<IJobPost| Imyjobpost>(jobsdata.filter((i) => i.JobCode == JobCode)[0])
   useEffect(() => {
     console.log(JobCode)
     if (jobdata == null) {
@@ -28,12 +30,19 @@ function Jobpostdetailedview() {
   }, [])
   return (
     <div>
-
 <Card>
+<Panel header={<h4>Job Post Details </h4>}> 
 
 <JobPostDetails JobData={jobdata}></JobPostDetails>
 <br></br>
-        <Button onClick={e=>{navigate(-1)}}> Back</Button>
+<div>
+
+        <Button style={{float:"right",position:"relative"}} onClick={e=>{navigate(-1)}}> Cancel</Button>
+
+</div>
+<br></br>
+<br></br>
+</Panel>
 </Card>
     </div>
   )

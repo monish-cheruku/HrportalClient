@@ -37,10 +37,15 @@ function CreateJobPost(props) {
     const dispatch = useDispatch();
     const location=useLocation();
     const [editmode,setEditmode]=useState(!!location.state)
-    const [datafromprops,setdatafromprops]=useState();
+    const [datafromprops,setdatafromprops]=useState<any>();
 const navigate=useNavigate()
 
     useEffect(() => {
+console.log(location)
+        if(location.pathname=="/myjobposts/updatejobpost" && !editmode)
+        {
+            navigate("/dashboard")
+        }
         console.log(editmode)
         console.log(location.state)
         if(editmode){
@@ -76,14 +81,14 @@ const navigate=useNavigate()
         var arr = ["Company", "BusinessUnit", "ServiceLine", "Industry", "Customer", "Location", "EmploymentType", "JobTitle", "JobDesc", "ExperianceLevel", "Qualification", "NoOfPositions", "OnBoardingDate", "HR_User_Name", "BH_User_Name"]
         arr.forEach((i) => {
             if (!values[i]) {
-                errors[i.toString()]= "*" + i + " is required";
+                errors[i.toString()]= "* This field is required";
                            }
                   })
                 //   console.log(values["Duration"])
         if(!values["Duration"]&&values.EmploymentType=="Contract"){
             // console.log(values["Duration"])
 
-            errors["Duration"]="*This ffield is required"
+            errors["Duration"]="*This field is required"
         }
       console.log(errors)
         return errors;
@@ -139,7 +144,7 @@ const navigate=useNavigate()
     return (
         <>
             <div  >
-                <Card title="Create Job Post    ">
+                <Card title={editmode?"Edit Job Post":"Create Job Post    "}>
 
                     <Form
                         onSubmit={(values: any) => {
@@ -234,7 +239,7 @@ const navigate=useNavigate()
                                                     <div className="field">
                                                         <label htmlFor="Company">Company Name</label>
                                                         <span className="p-float-label">
-                                                            <Dropdown id="Company" {...input} autoFocus options={props.getactivecompanyoptionsprop} placeholder="Select a Company" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                            <Dropdown  id="Company" {...input} autoFocus options={props.getactivecompanyoptionsprop} placeholder="Select Company" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                             <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
 
                                                         </span>
@@ -253,8 +258,9 @@ const navigate=useNavigate()
                                                 <div className="field">
                                                     <label htmlFor="Business unit">Business unit</label>
                                                     <span className="column">
-                                                        <Dropdown id="Business unit" {...input} options={filterbusinessunit(props.getactivebusinessunitoptionsprop, values.Company )} placeholder="Select a Business unit" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <Dropdown id="Business unit" {...input} options={filterbusinessunit(props.getactivebusinessunitoptionsprop, values.Company )} placeholder="Select Business unit" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                     </span>
+                                                    {getFormErrorMessage(meta)}
                                                 </div>
                                             )}
                                         />
@@ -267,8 +273,9 @@ const navigate=useNavigate()
                                                 <div className="field">
                                                     <label htmlFor="service Line">Service Line</label>
                                                     <span className="column">
-                                                        <Dropdown id="service Line" {...input} options={filterserviceline(props.getactiveservicelineoptionsprop, values.Company , values.BusinessUnit )} optionLabel="label" placeholder="Select a service Line" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <Dropdown id="service Line" {...input} options={filterserviceline(props.getactiveservicelineoptionsprop, values.Company , values.BusinessUnit )} optionLabel="label" placeholder="Select Service Line" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                     </span>
+                                                    {getFormErrorMessage(meta)}
                                                 </div>
                                             )}
                                         />
@@ -283,8 +290,9 @@ const navigate=useNavigate()
                                                 <div className="field">
                                                     <label htmlFor="Industry">Industry</label>
                                                     <span className="p-float-label">
-                                                        <Dropdown id="Industry" {...input} options={props.getactiveIndustryoptionsprop} optionLabel="label" placeholder=" select a Industry" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <Dropdown id="Industry" {...input} options={props.getactiveIndustryoptionsprop} optionLabel="label" placeholder=" select Industry" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                     </span>
+                                                    {getFormErrorMessage(meta)}
                                                 </div>
                                             )}
                                         />
@@ -297,10 +305,11 @@ const navigate=useNavigate()
                                             name="Customer"
                                             render={({ input, meta }) => (
                                                 <div className="field">
-                                                    <label htmlFor="customer">customer</label>
+                                                    <label htmlFor="customer">Customer</label>
                                                     <span className="p-float-label">
-                                                        <Dropdown id="customer" {...input} options={props.getactivecustomeroptionsprop} optionLabel="label" placeholder="Select a customer" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <Dropdown id="customer" {...input} options={props.getactivecustomeroptionsprop} optionLabel="label" placeholder="Select Customer" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                     </span>
+                                                    {getFormErrorMessage(meta)}
                                                 </div>
                                             )}
                                         />
@@ -314,8 +323,9 @@ const navigate=useNavigate()
                                                 <div className="field">
                                                     <label htmlFor="Location">Location</label>
                                                     <span className="p-float-label">
-                                                        <Dropdown id="Location" {...input} options={props.getactiveLocationoptionsprop} optionLabel="label" placeholder="Select a Location" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <Dropdown id="Location" {...input} options={props.getactiveLocationoptionsprop} optionLabel="label" placeholder="Select Location" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                     </span>
+                                                    {getFormErrorMessage(meta)}
                                                 </div>
                                             )}
                                         />
@@ -329,9 +339,10 @@ const navigate=useNavigate()
                                                 <div className="field">
                                                     <label htmlFor="Employement Type">Employement Type</label>
                                                     <span className="p-float-label">
-                                                        <Dropdown id="Employement Type" {...input} options={[{ label: "Full-Time", value: "Full-Time" }, { label: "Contract", value: "Contract" }]} optionLabel="label" placeholder="Select a Employement Type" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <Dropdown id="Employement Type" {...input} options={[{ label: "Full-Time", value: "Full-Time" }, { label: "Contract", value: "Contract" }]} optionLabel="label" placeholder="Select Employement Type" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
 
                                                     </span>
+                                                    {getFormErrorMessage(meta)}
                                                 </div>
                                             )}
                                         />
@@ -346,7 +357,9 @@ const navigate=useNavigate()
                                                 <div className="field">
                                                     <label htmlFor="Duration">Duration( in Months)</label>
                                                     <span className="p-float-label">
-                                                        <InputNumber id="Duration" {...input} type={"number"} max={36} onValueChange={e => values.Duration = e.target.value} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                    {/* <InputNumber id="Duration" value={values.OverallExpYear} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} showButtons className={classNames({ "p-invalid": isFormFieldValid(meta) })} mode="decimal" min={0} max={60} /> */}
+
+                                                        <InputNumber id="Duration" value={values.Duration} showButtons min={0} onBlur={input.onBlur}  onValueChange={(e) => input.onChange(e)} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                         <label htmlFor="Duration" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                                     </span>
                                                     {getFormErrorMessage(meta)}
@@ -385,9 +398,9 @@ const navigate=useNavigate()
                                             name="JobDesc"
                                             render={({ input, meta }) => (
                                                 <div className="field">
-                                                    <label htmlFor="JobDescription">Job Descriptioon</label>
+                                                    <label htmlFor="JobDescription">Job Description</label>
                                                     <span className="p-float-label">
-                                                        <InputTextarea id="JobDescription" {...input} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <InputTextarea  rows={15} id="JobDescription" {...input} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                         <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                                     </span>
                                                     {getFormErrorMessage(meta)}
@@ -404,8 +417,9 @@ const navigate=useNavigate()
                                                 <div className="field">
                                                     <label htmlFor="Experience Level">Experience Level</label>
                                                     <span className="p-float-label">
-                                                        <Dropdown id="Experience Level" {...input} options={props.getactiveexperienceleveloptionsprop} optionLabel="label" placeholder="Select a Experience Level" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <Dropdown id="Experience Level" {...input} options={props.getactiveexperienceleveloptionsprop} optionLabel="label" placeholder="Select Experience-Level" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                     </span>
+                                                    {getFormErrorMessage(meta)}
                                                 </div>
                                             )}
                                         />
@@ -416,10 +430,11 @@ const navigate=useNavigate()
                                             name="Qualification"
                                             render={({ input, meta }) => (
                                                 <div className="field fluid">
-                                                    <label htmlFor="Highest Qualification">Highest Qualification</label>
+                                                    <label htmlFor="Highest Qualification">Minimum Education  Qualification</label>
                                                     <span className="field fluid">
-                                                        <Dropdown id="Highest Qualification" {...input} options={[{ label: "PHD", value: "PHD" }, { label: "Masters", value: "Masters" }, { label: "Graduation", value: "Graduation" }, { label: "Diploma", value: "Diploma" }]} optionLabel="label" placeholder="Select a Highest Qualification" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <Dropdown id="Highest Qualification" {...input} options={[{ label: "PHD", value: "PHD" }, { label: "Masters", value: "Masters" }, { label: "Graduation", value: "Graduation" }, { label: "Diploma", value: "Diploma" }]} optionLabel="label" placeholder="Select Min Education Qualification" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                     </span>
+                                                    {getFormErrorMessage(meta)}
                                                 </div>
                                             )}
                                         />
@@ -432,11 +447,11 @@ const navigate=useNavigate()
                                             name="NoOfPositions"
                                             render={({ input, meta }) => (
                                                 <div className="field">
-                                                    <label htmlFor="No of openings">No of openings</label>
+                                                    <label htmlFor="No of openings">No Of Openings</label>
                                                     <span className="p-float-label">
                                                         {/* <InputNumber id="No of openings" {...input} autoFocus className={classNames({ "p-invalid": isFormFieldValid(meta) })} /> */}
                                                         {/* <InputNumber inputId="integeronly" value={value1} onValueChange={(e) => setValue1(e.value)} /> */}
-                                                        <InputNumber id="noofopenings" {...input} type={"number"} min={1} onValueChange={e => { console.log(e.target.value); values.NoOfPositions = e.target.value }} autoFocus className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <InputNumber id="noofopenings"  value={values.NoOfPositions} showButtons min={1} onBlur={input.onBlur}  onValueChange={(e) => input.onChange(e)} className={classNames({ "p-invalid": isFormFieldValid(meta) })}  />
 
                                                         <label htmlFor="No of openings" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                                     </span>
@@ -455,10 +470,11 @@ const navigate=useNavigate()
                                             name="OnBoardingDate"
                                             render={({ input, meta }) => (
                                                 <div className="field fluid">
-                                                    <label htmlFor="date">Expected onboarding date</label>
+                                                    <label htmlFor="date">Expected Onboarding Date</label>
                                                     <span className="field fluid">
-                                                        <Calendar id="date" {...input} dateFormat="mm/dd/yy" mask="99/99/9999" showIcon placeholder="Select a Date" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <Calendar id="date" {...input} dateFormat="mm/dd/yy" mask="99/99/9999" showIcon placeholder="Select On-Boarding Date" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                     </span>
+                                                    {getFormErrorMessage(meta)}
                                                 </div>
                                             )}
                                         />
@@ -488,8 +504,9 @@ const navigate=useNavigate()
                                                 <div className="field">
                                                     <label htmlFor="Talent">Talent Acquisition Team</label>
                                                     <span className="p-float-label">
-                                                        <Dropdown id="Talent" {...input} options={props.getHrsprop} optionLabel="label" placeholder="Select a Member" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <Dropdown id="Talent" {...input} options={props.getHrsprop} optionLabel="label" placeholder="Select HR" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                     </span>
+                                                    {getFormErrorMessage(meta)}
                                                 </div>
                                             )}
                                         />
@@ -507,19 +524,29 @@ const navigate=useNavigate()
                                                 <div className="field">
                                                     <label htmlFor="Business Head">Business Head</label>
                                                     <span className="p-float-label">
-                                                        <Dropdown id="Business Head" {...input} options={props.getBusinessHeadsprop} optionLabel="label" placeholder="Select a Business Head" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <Dropdown id="Business Head" {...input} options={props.getBusinessHeadsprop} optionLabel="label" placeholder="Select  Business Head" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                     </span>
+                                                    {getFormErrorMessage(meta)}
                                                 </div>
                                             )}
                                         />
+                                    </div>
+                                    <div className="field col-12 md:col-4">
+                                        
+                                    </div>
+                                    <div className="field col-12 md:col-4">
+                                      <div className="grid">
+                                        <div className="col-6"> <Button label="Submit" type="submit" onClick={e=>values} style={{marginTop:"30px"}} /></div>
+                                        <div className="col-6"> <Button label="Cancel"  type="button" onClick={e=>navigate(-1)}style={{marginTop:"30px"}}/></div>
+                                      </div>
+                               {/* <Button label="Submit" type="submit" onClick={e=>values} className="mt-2 ml-2" />
+                               <Button label="cancel"  type="button" onClick={e=>navigate(-1)} className="mt-2 ml-2" /> */}
                                     </div>
                                 </div>
                                 {/* <Button type="submit">save</Button> */}
                                 {/* <Button label="Back" onClick={e=>navigate(-1)} className="mt-2" /> */}
                                <span> </span>
 
-                               <Button label="Submit" type="submit" onClick={e=>values} className="mt-2 ml-2" />
-                               <Button label="Back"  type="button" onClick={e=>navigate(-1)} className="mt-2 ml-2" />
                             </form>
                         )
                     }

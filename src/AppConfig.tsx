@@ -9,7 +9,7 @@ export const AppConfig = (props:any) => {
 
     const [active, setActive] = useState(false);
     const [scale, setScale] = useState(14);
-    const [scales] = useState([12,13,14,15,16]);
+    const [scales] = useState([8,10,12,13,14,15,16]);
     const [theme, setTheme] = useState('lara-light-indigo');
     const config = useRef<any>(null);
     let outsideClickListener = useRef<any>(null);
@@ -121,7 +121,7 @@ console.log(href)
         <>
         
         <div ref={config} className={configClassName} id={"layout-config"}>
-            <button className="layout-config-button p-link" id="layout-config-button" onClick={toggleConfigurator}>
+            <button style={{marginBottom:"1900px",top:"20",position:"absolute"}}className="layout-config-button p-link" id="layout-config-button" onClick={toggleConfigurator}>
                 <i className="pi pi-cog"></i>
             </button>
             <Button className="p-button-danger layout-config-close p-button-rounded p-button-text" icon="pi pi-times" onClick={hideConfigurator}/>

@@ -213,7 +213,8 @@ export const downloadpdf={
 }
 export const candidateactions = {
   getallcandidatedata:(data)=>requests.post("candidate/gridcandidates",data),
-  createcandidate:(data)=>requests.post("candidate/addcandidate",data)
+  createcandidate:(data)=>requests.post("candidate/addcandidate",data),
+  updatecandidate:(data)=>requests.put("candidate/addcandidate",data)
 
 }
 
