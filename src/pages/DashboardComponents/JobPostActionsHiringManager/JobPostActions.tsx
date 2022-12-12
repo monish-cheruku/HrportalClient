@@ -164,7 +164,7 @@ const navigate=useNavigate()
     return (
         <div>
            
-            <DataTable value={jobpostactionsdata} showGridlines={false} responsiveLayout="scroll" paginator={true} rows={5} 
+            <DataTable value={jobpostactionsdata} showGridlines={false} responsiveLayout="scroll" paginator={true} rows={10} 
             globalFilterFields={['JobPostID','JobCode','JobTitle','HiringManager','Industry','Company','BusinessUnit','ServiceLine','Customer','ExperianceLevel','OnBoardingDate','NoOfPositions','Stage']} filters={filters2} header={Headercomp}>
                 <Column field="JobCode"sortable header="Job Code" style={{ minWidth: '11rem', maxWidth : '14rem'}} body={rowdata=>
                 // <Button 

@@ -248,19 +248,19 @@ function CreateCandidateProfile() {
 
 
 //default default values
-                            // "CanFirstName": "akjf648",
-                            // "CanLastName": "B",
-                            // "Qualification": "Masters",
-                            // "ExpectedDOJ": new Date("2023-19-30"),
+                            "CanFirstName": "akjf648",
+                            "CanLastName": "B",
+                            "Qualification": "Masters",
+                            "ExpectedDOJ": new Date("2023-19-30"),
                            
-                            // "CurrentCTC": "100000",
-                            // "ExpectedCTC": "100000",
-                            // "NegotiatedCTC": "70",
-                            // "CurrentOrganization": "Cyient",
-                            // "CurrentJobLocation": "Hyd",
-                            // "Skills": "Java",
-                            // "Email": "sbatchu@belcan.com",
-                            // "ConatctNo": "10-932234566",
+                            "CurrentCTC": "100000",
+                            "ExpectedCTC": "100000",
+                            "NegotiatedCTC": "70",
+                            "CurrentOrganization": "Cyient",
+                            "CurrentJobLocation": "Hyd",
+                            "Skills": "Java",
+                            "Email": "sbatchu@belcan.com",
+                            "ConatctNo": "10-932234566",
                            
                         }}
                         // initialValues={{  }}

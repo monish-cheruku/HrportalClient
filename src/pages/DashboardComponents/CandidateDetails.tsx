@@ -193,7 +193,7 @@ function CandidateDetails(props) {
                         <br></br>
                         <h5>Candidate Work Flow Details</h5>
                         <DataTable value={candidatedata.approversDetails} showGridlines={true} responsiveLayout="scroll"
-                            globalFilterFields={['approverName', 'FirstName', 'approvalStatus', 'CreatedOn', 'role_name', 'stage_name']} filters={filters2} emptyMessage="No ideas found."
+                            globalFilterFields={['approverName', 'FirstName', 'approvalStatus', 'CreatedOn', 'role_name', 'stage_name']} filters={filters2} emptyMessage="No data found."
                         // header={Headercomp}
                         >
                             <Column field="approverName" header="Action By" sortable></Column>
