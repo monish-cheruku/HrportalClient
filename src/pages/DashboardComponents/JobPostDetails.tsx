@@ -26,19 +26,19 @@ function JobPostDetails(props) {
             <span style={{ fontWeight: "400" }}>: {jobdata?.JobCode}</span>
           </p>
 
-          <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Service line  </span><span className="font-w400">: {jobdata?.ServiceLine}</span></p>
+          <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Service line  </span><span className="font-w400">: {jobdata?.serviceline_name}</span></p>
           <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Employement Type  </span><span className="font-w400">: {jobdata?.EmploymentType} {jobdata?.Duration > 0 ? <>({jobdata?.Duration} months)</> : <></>}</span></p>
-          <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Experience Level </span><span className="font-w400">: {jobdata?.ExperianceLevel}</span></p>
+          <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Experience Level </span><span className="font-w400">: {jobdata?.experience_Level}</span></p>
         </div>
 
 
         <div className="md:col-4">
           <p >
             <span className="" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Company Name   </span>
-            <span style={{ fontWeight: "400" }}>: {jobdata.Company}</span>
+            <span style={{ fontWeight: "400" }}>: {jobdata.company_name}</span>
           </p>
 
-          <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Customer </span><span className="font-w400">: {jobdata?.Customer}</span></p>
+          <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Customer </span><span className="font-w400">: {jobdata?.customer_name}</span></p>
           {/* <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Job Title  </span><span className="font-w400">: {jobdata?.JobTitle}</span></p> */}
 
           <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>No. Of Positions  </span><span className="font-w400">: {jobdata?.NoOfPositions}</span></p>
@@ -53,10 +53,10 @@ function JobPostDetails(props) {
         <div className="md:col-4">
           <p >
             <span className="" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Business Unit </span>
-            <span style={{ fontWeight: "400" }}>: {jobdata?.BusinessUnit}</span>
+            <span style={{ fontWeight: "400" }}>: {jobdata?.businessunit_name}</span>
           </p>
 
-          <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Location  </span><span className="font-w400">: {jobdata?.Location}</span></p>
+          <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Location  </span><span className="font-w400">: {jobdata?.location_name}</span></p>
           <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Highest Qualification  </span><span className="font-w400">: {jobdata?.Qualification}</span></p>
           <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>PO Reference</span> <span className="font-w400">: {jobdata?.POReference}</span></p>
 

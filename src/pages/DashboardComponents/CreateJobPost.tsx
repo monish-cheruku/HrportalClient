@@ -151,8 +151,9 @@ console.log(location)
                             console.log(values)
                             console.log(values.OnBoardingDate)
                             var datetemp=new Date(values.OnBoardingDate)
-                            console.log( datetemp.getFullYear()+"-"+datetemp.getMonth()+"-"+datetemp.getDate())
-                            values.OnBoardingDate=datetemp.getFullYear()+"-"+datetemp.getMonth()+"-"+datetemp.getDate()
+                            console.log(datetemp.getMonth())
+                            console.log( datetemp.getFullYear()+"-"+(datetemp.getMonth()+1)+"-"+datetemp.getDate())
+                            values.OnBoardingDate=datetemp.getFullYear()+"-"+(datetemp.getMonth()+1)+"-"+datetemp.getDate()
                             // alert("sub mit form")
                             if(editmode){
 
@@ -192,7 +193,7 @@ console.log(location)
                               "BH_User_Name" : datafromprops?.approversDetails.filter((i)=>i.role_name=="Business Head")[0].approverName,
                               "HR_User_Name" : datafromprops?.approversDetails.filter((i)=>i.role_name=="HR")[0].approverName,
                               "ModifiedBy":logindata.username   
-                        }:{ UserName:logindata.username,Duration:null,ModifiedBy:null }}
+                        }:{ UserName:logindata.username,Duration:null,ModifiedBy:null,POReference:null }}
                         // initialValues={{ 
                         //     "UserName": "sbatchu",
                         //       "FirstName": "Siva",
@@ -400,7 +401,7 @@ console.log(location)
                                                 <div className="field">
                                                     <label htmlFor="JobDescription">Job Description</label>
                                                     <span className="p-float-label">
-                                                        <InputTextarea  rows={15} id="JobDescription" {...input} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <InputTextarea  rows={10} id="JobDescription" {...input} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                         <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                                     </span>
                                                     {getFormErrorMessage(meta)}

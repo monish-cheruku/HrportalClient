@@ -50,6 +50,7 @@ function* updatecandidatesagaworker(data) {
         console.log("Into")
         console.log(data.payload)
         var res: Promise<any> = yield call(candidateactions.updatecandidate,data.payload)
+        yield put({ type: "CandidateAction/getCandidatefromapi", payload:{"jobpostID":data.payload.get("Job_Post_ID") } })
         // console.log(res)
 
 
