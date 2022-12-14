@@ -298,9 +298,9 @@ const dateBodyTemplate = (rowData:any) => {
       }
     return (
         <div>
-            <DataTable stripedRows value={myJobPosts} showGridlines={true} responsiveLayout="scroll" paginator={true} rows={20}
+            <DataTable stripedRows value={myJobPosts} showGridlines={false} responsiveLayout="scroll" paginator={true} rows={10}
              globalFilterFields={["JobCode","JobTitle","company_name","businessunit_name","serviceline_name","industry_name" ,"customer_name","experience_Level" ,"OnBoardingDate","NoOfPositions","stage_name" ]} filters={filters2} header={Headercomp}>
-                <Column field="JobCode" header="Job Code" sortable style={{ minWidth: '11rem', maxWidth : '14rem'}} body={linkbody}>  </Column>
+                <Column field="JobCode" header="Job Code" sortable style={{ minWidth: '13rem', maxWidth : '13rem'}} body={linkbody}>  </Column>
                 <Column field="JobTitle" header="Job Title" sortable></Column>
                 <Column field="company_name" header="Company" sortable></Column>
                 <Column field="businessunit_name" header="Business Unit" sortable></Column>

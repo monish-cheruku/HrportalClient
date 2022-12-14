@@ -1,57 +1,186 @@
-import { all, fork } from "redux-saga/effects";
+import { all, call, fork,spawn } from "redux-saga/effects";
+
 import { watcherbusinessunit } from "../features/BusinessUnit/businessunitsaga";
+
 import { watchercompany } from "../features/Company/companysaga";
+
 import { watchercustomer } from "../features/Customer/customersaga";
+
 import { watcherexperiencelevel } from "../features/ExperienceLevel/experiencelevelsaga";
+
 import { watcherdesignation } from "../features/Designation/designationsaga";
+
 import { watchersubband } from "../features/SubBand/subbandsaga";
+
 // import { watcherband } from "../features/Band/bandsaga";
+
 import { watcherserviceline } from "../features/ServiceLine/ServiceLineSaga"
+
+
 
 import { watcherLocation } from "../features/Location/Locationsaga";
 
+
+
 import { watcherBand } from "../features/Band/Bandsaga";
+
+
 
 import { watcherManageBill } from "../features/ManageBillRate/ManageBillRatesaga";
 
+
+
 import { watcherInsurance } from "../features/ManageInsurance/ManageInsurancesaga"
 
+
+
 import { watcherIndustry } from "../features/Industry/Industry.saga";
+
 import { watcheruserroles } from "../features/UserRoles/userrolesaga";
+
 import { watcherLogin } from "../features/Login/Loginsaga";
+
 import { watcherJobPostAction } from "../features/JobPostActions/jobpostactionssaga";
+
 import { watcherCandidateAction } from "../features/CandidateActions/candidateactionssaga";
+
+
 
 import {watcherpdfdownload} from '../features/Downloadpdfs/downloadsaga'
 
+
+
 function* helloSaga() {
+
   yield console.log("sagas started");
+
   yield "Hello Sagas";
+
 }
 
+
+
 export function* rootSaga() {
+
   // yield all([helloSaga(), watchercounter(),watcherquote(),watchercompany(),
+
   // watcherbusinessunit(),watchercustomer(),watcherexperiencelevel(),watcherdesignation(),watchersubband()3]);
+
   // yield all([helloSaga(), watchercounter(),watcherquote(),watcherbusinessunit()]);
+
   // yield all([helloSaga(), watchercounter(),watcherquote(),watchercustomer()]);
 
-  yield fork(helloSaga)
-  yield fork(watchercompany)
-  yield fork(watcherbusinessunit)
-  yield fork(watchercustomer)
-  yield fork(watcherexperiencelevel)
-  yield fork(watcherdesignation)
-  // yield fork(watcherband)
-  yield fork(watchersubband)
-  yield fork(watcherserviceline)
-  yield fork(watcherLocation)
-  yield fork(watcherBand)
-  yield fork(watcherManageBill)
-  yield fork(watcherInsurance)
-  yield fork(watcherIndustry)
-  yield fork(watcherLogin)
-  yield fork(watcherJobPostAction)
-  yield fork(watcheruserroles)
-  yield fork(watcherpdfdownload)
-  yield fork(watcherCandidateAction)
+
+
+  // yield spawn(helloSaga)
+
+  // yield spawn(watchercompany)
+
+  // yield spawn(watcherbusinessunit)
+
+  // yield spawn(watchercustomer)
+
+  // yield spawn(watcherexperiencelevel)
+
+  // yield spawn(watcherdesignation)
+
+  // // yiespawnork(watcherband)
+
+  // yield spawn(watchersubband)
+
+  // yield spawn(watcherserviceline)
+
+  // yield spawn(watcherLocation)
+
+  // yield spawn(watcherBand)
+
+  // yield spawn(watcherManageBill)
+
+  // yield spawn(watcherInsurance)
+
+  // yield spawn(watcherIndustry)
+
+  // yield spawn(watcherLogin)
+
+  // yield spawn(watcherJobPostAction)
+
+  // yield spawn(watcheruserroles)
+
+  // yield spawn(watcherpdfdownload)
+
+  // yield spawn(watcherCandidateAction)
+
+
+
+
+
+
+  const sagas = [
+
+    helloSaga,
+
+    watchercompany,
+
+    watcherbusinessunit,
+
+    watchercustomer,
+
+    watcherexperiencelevel,
+
+    watcherdesignation,
+
+    watchersubband,
+
+    watcherserviceline,
+
+    watcherLocation,
+
+    watcherBand,
+
+    watcherManageBill,
+
+    watcherInsurance,
+
+    watcherIndustry,
+
+    watcherLogin,
+
+    watcherJobPostAction,
+
+    watcheruserroles,
+
+    watcherpdfdownload,
+
+    watcherCandidateAction
+
+  ];
+
+
+
+  yield all(sagas.map(saga =>
+
+    spawn(function* () {
+
+      while (true) {
+
+        try {
+
+          yield call(saga)
+
+          break
+
+        } catch (e) {
+
+          console.log(e)
+
+          console.log("sagas restarting")
+
+        }
+
+      }
+
+    }))
+
+  );
+
 }

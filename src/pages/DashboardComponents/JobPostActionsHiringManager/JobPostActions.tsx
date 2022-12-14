@@ -164,7 +164,7 @@ const navigate=useNavigate()
     return (
         <div>
            
-            <DataTable value={jobpostactionsdata} showGridlines={false} responsiveLayout="scroll" paginator={true} rows={5} 
+            <DataTable value={jobpostactionsdata} showGridlines={false} responsiveLayout="scroll" paginator={true} rows={10} 
             globalFilterFields={['JobPostID','JobCode','JobTitle','HiringManager','Industry','Company','BusinessUnit','ServiceLine','Customer','ExperianceLevel','OnBoardingDate','NoOfPositions','Stage']} filters={filters2} header={Headercomp}>
                 <Column field="JobCode"sortable header="Job Code" style={{ minWidth: '11rem', maxWidth : '14rem'}} body={rowdata=>
                 // <Button 
@@ -184,12 +184,12 @@ const navigate=useNavigate()
                  }></Column>                
                 <Column field="JobTitle" header="Job Title" sortable ></Column>
                 <Column field="HiringManager" header="Hiring Manager" sortable></Column>
-                <Column field="Industry" header="Industry" sortable></Column>
-                <Column field="Company" header="Company" sortable></Column>
-                <Column field="BusinessUnit" header="Business Unit" sortable></Column>
-                <Column field="ServiceLine" header="Service Line" sortable></Column>
-                <Column field="Customer" header="Customer"sortable ></Column>
-                <Column field="ExperianceLevel" header="Experiance Level"sortable ></Column>
+                <Column field="industry_name" header="Industry" sortable></Column>
+                <Column field="company_name" header="Company" sortable></Column>
+                <Column field="businessunit_name" header="Business Unit" sortable></Column>
+                <Column field="serviceline_name" header="Service Line" sortable></Column>
+                <Column field="customer_name" header="Customer"sortable ></Column>
+                <Column field="experience_Level" header="Experiance Level"sortable ></Column>
                 <Column field="OnBoardingDate" header="Onboarding Date" sortable dataType="date" body={dateBodyTemplate}></Column>
                 <Column field="NoOfPositions" header="No Positions" sortable dataType=''></Column>
                 <Column field="Stage" header="Status" sortable></Column>
