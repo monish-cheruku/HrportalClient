@@ -99,12 +99,30 @@ function* Candidatedatasagaworker(data) {
 
     }
 }
+function* getcandiatessagaworker(data) {
+    try { 
+      
+        var res: Promise<any> = yield call(candidateactions.candidateactiondetails,data.payload)
+        // console.log(res)
+        yield put({ type: "Candidates/Candidates", payload: res })
+
+        //toast
+    }
+    catch (err) {
+        console.log(err)
+
+
+
+    }
+}
+
 
 export function* watcherCandidateAction() {
 
     yield takeEvery("CandidateAction/createnewcandidate", createnewcandidatesagaworker)
     yield takeEvery("CandidateAction/updatecandidate", updatecandidatesagaworker)
     yield takeEvery("CandidateAction/getCandidatefromapi", Candidatedatasagaworker)
+    yield takeEvery("Candidateactiondetails/candidateactiondetails", getcandiatessagaworker)
     // yield takeEvery("Industry/createIndustryaction", createIndustrysagaworker)
     // yield takeEvery("Industry/updateIndustryaction", updateIndustrysagaworker)
 }

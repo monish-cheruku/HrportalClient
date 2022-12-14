@@ -7,12 +7,14 @@ import { useSelector } from "react-redux";
 import { RootState } from "../app/store";
 import { useDispatch } from "react-redux";
 import { myjobpostsaction } from "../features/JobPostActions/myjobpostsslice";
+import CandidateAction from "./DashboardComponents/CandidateActionHiringManager/CandidateAction";
 
 
 const Dashboard = () => {
     const [openedtab,setOpenedtab]=useState("jobpostactions")
     const[nooftabs,setnooftabs]=useState(3)
     const myjobpostactions =useSelector((state:RootState)=>state.JobPostAction);
+    const mycandidateactions =useSelector((state:RootState)=>state.CandidateAction);
     const myJobPosts =useSelector((state:RootState)=>state.myjobposts);
     const logindata=useSelector((state:RootState)=>state.Login)
     const dispatch=useDispatch()
@@ -85,6 +87,22 @@ const Dashboard = () => {
 
                     </div>
                 </div>
+                <div className={"col-" + (12 / nooftabs).toString() + " lg:col-" + (12 / nooftabs).toString() + " xl:col-" + (12 / nooftabs).toString() + " sm:col-6"} onClick={e => setOpenedtab("candidateactions")}>
+
+                    <div className={openedtab == "candidateactions" ? "cardselect mb-0" : "cardunselect mb-0"}>
+                        <div className="flex justify-content-between mb-3">
+
+                            <div>
+                                <span className="block  font-medium mb-3">Candidate Actions</span>
+                                <div className="text-900 font-medium text-xl">{mycandidateactions?mycandidateactions.length:0}</div>
+                            </div>
+                            <div className="flex align-items-center justify-content-center bg-blue-100 border-round" style={{ width: "2.5rem", height: "2.5rem" }}>
+                                <i className="pi pi-user-edit text-blue-500 text-xl" />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
                 {/* <div className="col-12 lg:col-6 xl:col-3">
                     <div className="card mb-0">
                         <div className="flex justify-content-between mb-3">
@@ -107,6 +125,8 @@ const Dashboard = () => {
                         {openedtab == "jobpostactions" && <div style={{ width: "100%" }}> <JobPostActions />    </div>}
                         {openedtab == "myjobposts" && <div style={{ width: "100%" }}><MyJobPosts /></div>}
                         {openedtab == "selectedcandidates" && <div >selectedcandidates</div>}
+                        {openedtab == "candidateactions" && <div style={{ width: "100%" }}> <CandidateAction />    </div>}
+
                         {/* <div hidden={true}>d</div> */}
 
 
