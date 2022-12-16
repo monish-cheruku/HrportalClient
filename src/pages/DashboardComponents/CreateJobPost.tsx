@@ -1,6 +1,6 @@
 import { connect, useDispatch, useSelector } from "react-redux";
 import { Dropdown } from 'primereact/dropdown'
-import React, { useEffect,useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Field, Form } from 'react-final-form'
 import { getactivebusinessunitoptions } from '../../features/BusinessUnit/businessunitselector';
 import { getactivecompanyoptions } from '../../features/Company/CompanySelector';
@@ -35,20 +35,19 @@ function CreateJobPost(props) {
     const selectcompany = useSelector((state: RootState) => state.company);
     const logindata = useSelector((state: RootState) => state.Login);
     const dispatch = useDispatch();
-    const location=useLocation();
-    const [editmode,setEditmode]=useState(!!location.state)
-    const [datafromprops,setdatafromprops]=useState<any>();
-const navigate=useNavigate()
+    const location = useLocation();
+    const [editmode, setEditmode] = useState(!!location.state)
+    const [datafromprops, setdatafromprops] = useState<any>();
+    const navigate = useNavigate()
 
     useEffect(() => {
-console.log(location)
-        if(location.pathname=="/myjobposts/updatejobpost" && !editmode)
-        {
+        console.log(location)
+        if (location.pathname == "/myjobposts/updatejobpost" && !editmode) {
             navigate("/dashboard")
         }
         console.log(editmode)
         console.log(location.state)
-        if(editmode){
+        if (editmode) {
             setdatafromprops(location.state.data)
         }
         //dispatch(getcompaniesaction());
@@ -64,9 +63,10 @@ console.log(location)
         //setcompany(data11;
         //fetch('./jobpostdata.json').then(res => {res.json(); console.log(res);}).then(d => setcompany(d.data));
     }, []);
+    const Employementtypeoptions=[{ label: "Full-Time", value: "Full-Time" }, { label: "Contract", value: "Contract" }]
     const getFormErrorMessage = (meta) => {
         return isFormFieldValid(meta) && <small className="p-error">{meta.error}</small>;
-    };  
+    };
 
     const validate = (values) => {
         let errors = {};
@@ -78,19 +78,22 @@ console.log(location)
         // if (!data.JobTitle) {
         //     errors.JobTitle = "*JobDescription is required.";
         // }
-        var arr = ["Company", "BusinessUnit", "ServiceLine", "Industry", "Customer", "Location", "EmploymentType", "JobTitle", "JobDesc", "ExperianceLevel", "Qualification", "NoOfPositions", "OnBoardingDate", "HR_User_Name", "BH_User_Name"]
+        var arr = ["Company", "BusinessUnit", "ServiceLine", "Industry", "Customer",
+            "Location", "EmploymentType", "JobTitle", "JobDesc", "ExperianceLevel",
+            "Qualification", "NoOfPositions", 'MaximumExperiance', 'MinimumExperiance', 'MaximumCTC',
+            "OnBoardingDate", "HR_User_Name", "BH_User_Name"]
         arr.forEach((i) => {
             if (!values[i]) {
-                errors[i.toString()]= "* This field is required";
-                           }
-                  })
-                //   console.log(values["Duration"])
-        if(!values["Duration"]&&values.EmploymentType=="Contract"){
+                errors[i.toString()] = "* This field is required";
+            }
+        })
+        //   console.log(values["Duration"])
+        if (!values["Duration"] && values.EmploymentType == "Contract") {
             // console.log(values["Duration"])
 
-            errors["Duration"]="*This field is required"
+            errors["Duration"] = "*This field is required"
         }
-      console.log(errors)
+        console.log(errors)
         return errors;
     };
     const filterbusinessunit = (i: any, s: any) => {
@@ -133,7 +136,7 @@ console.log(location)
         // console.log(temp)
         return temp
     }
- 
+
 
     const isFormFieldValid = (meta) => !!(meta.touched && meta.error);
 
@@ -144,56 +147,61 @@ console.log(location)
     return (
         <>
             <div  >
-                <Card title={editmode?"Edit Job Post":"Create Job Post    "}>
+                <Card title={editmode ? "Edit Job Post" : "Create Job Post    "}>
 
                     <Form
                         onSubmit={(values: any) => {
                             console.log(values)
                             console.log(values.OnBoardingDate)
-                            var datetemp=new Date(values.OnBoardingDate)
+                            var datetemp = new Date(values.OnBoardingDate)
                             console.log(datetemp.getMonth())
-                            console.log( datetemp.getFullYear()+"-"+(datetemp.getMonth()+1)+"-"+datetemp.getDate())
-                            values.OnBoardingDate=datetemp.getFullYear()+"-"+(datetemp.getMonth()+1)+"-"+datetemp.getDate()
+                            console.log(datetemp.getFullYear() + "-" + (datetemp.getMonth() + 1) + "-" + datetemp.getDate())
+                            values.OnBoardingDate = datetemp.getFullYear() + "-" + (datetemp.getMonth() + 1) + "-" + datetemp.getDate()
                             // alert("sub mit form")
-                            if(editmode){
+                            if (editmode) {
 
-                                
+
                                 dispatch(updatejobpost(values))
                                 navigate(-1)
                             }
-                            else
-                            {dispatch(createnewjobpost(values))
+                            else {
+                                dispatch(createnewjobpost(values))
                                 navigate(-1)
                             }
-                            }}
-                        initialValues={editmode?{
-                            "JobPostId":datafromprops?.JobPostId,
-                            "UserName":datafromprops?.UserName,
+                        }}
+                        initialValues={editmode ? {
+                            "JobPostId": datafromprops?.JobPostId,
+                            "UserName": datafromprops?.UserName,
                             //   "FirstName": datafromprops?.FirstName,
                             //   "LastName": datafromprops?.LastName,
                             //   "Email": datafromprops?.Email,
-                              "EmploymentType": datafromprops?.EmploymentType,
-                              "Duration" : datafromprops?.Duration,
-                              "JobTitle": datafromprops?.JobTitle,
-                              "JobDesc": datafromprops?.JobDesc,
-                              "NoOfPositions": datafromprops?.NoOfPositions,
-                              "Qualification": datafromprops?.Qualification,
-                              "OnBoardingDate": new Date(datafromprops?.OnBoardingDate),
-                              "POReference": datafromprops?.POReference,
-                              "CreatedBy": datafromprops?.CreatedBy,
+                            "EmploymentType": datafromprops?.EmploymentType,
+                            "Duration": datafromprops?.Duration,
+                            "JobTitle": datafromprops?.JobTitle,
+                            "JobDesc": datafromprops?.JobDesc,
+                            "NoOfPositions": datafromprops?.NoOfPositions,
+                            "minimumexperiance": datafromprops?.MinimumExperiance,
+                            "maximumexperiance": datafromprops?.MaximumExperiance,
+                            "MaximumCTC": datafromprops?.MaximumCTC,
+
+
+                            "Qualification": datafromprops?.Qualification,
+                            "OnBoardingDate": new Date(datafromprops?.OnBoardingDate),
+                            "POReference": datafromprops?.POReference,
+                            "CreatedBy": datafromprops?.CreatedBy,
                             //   "ModifiedBy" :datafromprops?.ModifiedBy,
-                              "Stage_id" : datafromprops?.Stage_id,
-                              "Industry" :datafromprops?.Industry,
-                              "Company" :datafromprops?.Company,
-                              "BusinessUnit" :datafromprops?.BusinessUnit,
-                              "ServiceLine" : datafromprops?.ServiceLine,
-                              "Customer" : datafromprops?.Customer ,
-                              "Location" : datafromprops?.Location ,
-                              "ExperianceLevel" : datafromprops?.ExperianceLevel,
-                              "BH_User_Name" : datafromprops?.approversDetails.filter((i)=>i.role_name=="Business Head")[0].approverName,
-                              "HR_User_Name" : datafromprops?.approversDetails.filter((i)=>i.role_name=="HR")[0].approverName,
-                              "ModifiedBy":logindata.username   
-                        }:{ UserName:logindata.username,Duration:null,ModifiedBy:null,POReference:null }}
+                            "Stage_id": datafromprops?.Stage_id,
+                            "Industry": datafromprops?.Industry,
+                            "Company": datafromprops?.Company,
+                            "BusinessUnit": datafromprops?.BusinessUnit,
+                            "ServiceLine": datafromprops?.ServiceLine,
+                            "Customer": datafromprops?.Customer,
+                            "Location": datafromprops?.Location,
+                            "ExperianceLevel": datafromprops?.ExperianceLevel,
+                            "BH_User_Name": datafromprops?.approversDetails.filter((i) => i.role_name == "Business Head")[0].approverName,
+                            "HR_User_Name": datafromprops?.approversDetails.filter((i) => i.role_name == "HR")[0].approverName,
+                            "ModifiedBy": logindata.username
+                        } : { UserName: logindata.username, Duration: null, ModifiedBy: null, POReference: null }}
                         // initialValues={{ 
                         //     "UserName": "sbatchu",
                         //       "FirstName": "Siva",
@@ -240,7 +248,7 @@ console.log(location)
                                                     <div className="field">
                                                         <label htmlFor="Company">Company Name</label>
                                                         <span className="p-float-label">
-                                                            <Dropdown  id="Company" {...input} autoFocus options={props.getactivecompanyoptionsprop} placeholder="Select Company" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                            <Dropdown id="Company" {...input} autoFocus options={props.getactivecompanyoptionsprop} placeholder="Select Company" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                             <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
 
                                                         </span>
@@ -259,7 +267,7 @@ console.log(location)
                                                 <div className="field">
                                                     <label htmlFor="Business unit">Business unit</label>
                                                     <span className="column">
-                                                        <Dropdown id="Business unit" {...input} options={filterbusinessunit(props.getactivebusinessunitoptionsprop, values.Company )} placeholder="Select Business unit" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <Dropdown id="Business unit" {...input} options={filterbusinessunit(props.getactivebusinessunitoptionsprop, values.Company)} placeholder="Select Business unit" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                     </span>
                                                     {getFormErrorMessage(meta)}
                                                 </div>
@@ -274,7 +282,7 @@ console.log(location)
                                                 <div className="field">
                                                     <label htmlFor="service Line">Service Line</label>
                                                     <span className="column">
-                                                        <Dropdown id="service Line" {...input} options={filterserviceline(props.getactiveservicelineoptionsprop, values.Company , values.BusinessUnit )} optionLabel="label" placeholder="Select Service Line" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <Dropdown id="service Line" {...input} options={filterserviceline(props.getactiveservicelineoptionsprop, values.Company, values.BusinessUnit)} optionLabel="label" placeholder="Select Service Line" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                     </span>
                                                     {getFormErrorMessage(meta)}
                                                 </div>
@@ -340,7 +348,7 @@ console.log(location)
                                                 <div className="field">
                                                     <label htmlFor="Employement Type">Employement Type</label>
                                                     <span className="p-float-label">
-                                                        <Dropdown id="Employement Type" {...input} options={[{ label: "Full-Time", value: "Full-Time" }, { label: "Contract", value: "Contract" }]} optionLabel="label" placeholder="Select Employement Type" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <Dropdown id="Employement Type" {...input} options={Employementtypeoptions} optionLabel="label" placeholder="Select Employement Type" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
 
                                                     </span>
                                                     {getFormErrorMessage(meta)}
@@ -358,9 +366,9 @@ console.log(location)
                                                 <div className="field">
                                                     <label htmlFor="Duration">Duration( in Months)</label>
                                                     <span className="p-float-label">
-                                                    {/* <InputNumber id="Duration" value={values.OverallExpYear} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} showButtons className={classNames({ "p-invalid": isFormFieldValid(meta) })} mode="decimal" min={0} max={60} /> */}
+                                                        {/* <InputNumber id="Duration" value={values.OverallExpYear} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} showButtons className={classNames({ "p-invalid": isFormFieldValid(meta) })} mode="decimal" min={0} max={60} /> */}
 
-                                                        <InputNumber id="Duration" value={values.Duration} showButtons min={0} onBlur={input.onBlur}  onValueChange={(e) => input.onChange(e)} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <InputNumber id="Duration" value={values.Duration} showButtons min={0} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                         <label htmlFor="Duration" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                                     </span>
                                                     {getFormErrorMessage(meta)}
@@ -401,7 +409,7 @@ console.log(location)
                                                 <div className="field">
                                                     <label htmlFor="JobDescription">Job Description</label>
                                                     <span className="p-float-label">
-                                                        <InputTextarea  rows={10} id="JobDescription" {...input} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <InputTextarea rows={10} id="JobDescription" {...input} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                         <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                                     </span>
                                                     {getFormErrorMessage(meta)}
@@ -452,7 +460,7 @@ console.log(location)
                                                     <span className="p-float-label">
                                                         {/* <InputNumber id="No of openings" {...input} autoFocus className={classNames({ "p-invalid": isFormFieldValid(meta) })} /> */}
                                                         {/* <InputNumber inputId="integeronly" value={value1} onValueChange={(e) => setValue1(e.value)} /> */}
-                                                        <InputNumber id="noofopenings"  value={values.NoOfPositions} showButtons min={1} onBlur={input.onBlur}  onValueChange={(e) => input.onChange(e)} className={classNames({ "p-invalid": isFormFieldValid(meta) })}  />
+                                                        <InputNumber id="noofopenings" value={values.NoOfPositions} showButtons min={1} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
 
                                                         <label htmlFor="No of openings" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                                     </span>
@@ -463,7 +471,62 @@ console.log(location)
                                     </div>
                                 </div>
 
+                                <div className="p-fluid formgrid grid">
+                                    <div className="field col-12 md:col-4">
+                                        <Field
+                                            name="MinimumExperiance"
+                                            render={({ input, meta }) => (
+                                                <div className="field">
+                                                    <label htmlFor="minimumexperiance">Minimum Experiance(in Years)</label>
+                                                    <span className="p-float-label">
+                                                        <InputNumber id="minimumexperiance" value={values.minimumexperiance} showButtons min={0} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
 
+                                                        <label htmlFor="minimumexperiance" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
+                                                    </span>
+                                                    {getFormErrorMessage(meta)}
+                                                </div>
+                                            )}
+                                        />
+                                    </div>
+                                    <div className="field col-12 md:col-4">
+
+                                        <Field
+                                            name="MaximumExperiance"
+                                            render={({ input, meta }) => (
+                                                <div className="field fluid">
+                                                    <label htmlFor="maximumexperiance">Maximum Experiance(in Years)</label>
+                                                    <span className="field fluid">
+                                                        <InputNumber id="maximumexperiance" value={values.maximumexperiance} showButtons min={0} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+
+                                                        <label htmlFor="maximumexperiance" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
+                                                    </span>
+                                                    {getFormErrorMessage(meta)}
+                                                </div>
+                                            )}
+                                        />
+
+                                    </div>
+
+
+                                    <div className="field col-12 md:col-4">
+                                        <Field
+                                            name="MaximumCTC"
+                                            render={({ input, meta }) => (
+                                                <div className="field">
+                                                    <label htmlFor="maximumctc">Maximum CTC</label>
+                                                    <span className="p-float-label">
+                                                        {/* <InputNumber id="No of openings" {...input} autoFocus className={classNames({ "p-invalid": isFormFieldValid(meta) })} /> */}
+                                                        {/* <InputNumber inputId="integeronly" value={value1} onValueChange={(e) => setValue1(e.value)} /> */}
+                                                        <InputNumber id="maximumctc" min={0} value={values.MaximumCTC} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} mode="currency" currency="INR" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+
+                                                        <label htmlFor="maximumctc" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
+                                                    </span>
+                                                    {getFormErrorMessage(meta)}
+                                                </div>
+                                            )}
+                                        />
+                                    </div>
+                                </div>
 
                                 <div className="p-fluid formgrid grid">
                                     <div className="field col-12 md:col-4">
@@ -533,24 +596,24 @@ console.log(location)
                                         />
                                     </div>
                                     <div className="field col-12 md:col-4">
-                                        
+
                                     </div>
                                     <div className="field col-12 md:col-4">
-                                      <div className="grid">
-                                        <div className="col-6"> <Button label="Submit" type="submit" onClick={e=>values} style={{marginTop:"30px"}} /></div>
-                                        <div className="col-6"> <Button label="Cancel"  type="button" onClick={e=>navigate(-1)}style={{marginTop:"30px"}}/></div>
-                                      </div>
-                               {/* <Button label="Submit" type="submit" onClick={e=>values} className="mt-2 ml-2" />
+                                        <div className="grid">
+                                            <div className="col-6"> <Button label="Submit" type="submit" onClick={e => values} style={{ marginTop: "30px" }} /></div>
+                                            <div className="col-6"> <Button label="Cancel" type="button" onClick={e => navigate(-1)} style={{ marginTop: "30px" }} /></div>
+                                        </div>
+                                        {/* <Button label="Submit" type="submit" onClick={e=>values} className="mt-2 ml-2" />
                                <Button label="cancel"  type="button" onClick={e=>navigate(-1)} className="mt-2 ml-2" /> */}
                                     </div>
                                 </div>
                                 {/* <Button type="submit">save</Button> */}
                                 {/* <Button label="Back" onClick={e=>navigate(-1)} className="mt-2" /> */}
-                               <span> </span>
+                                <span> </span>
 
                             </form>
                         )
-                    }
+                        }
                     />
 
                 </Card> </div>

@@ -400,7 +400,7 @@ const UserRoleS = () => {
                                                 <span className="column">
                                                     {editmode ? <span>: {initialValues.username}</span> :
 
-                                                        <Dropdown  {...input} options={selectadusernames} placeholder="Last Name, First Name" />
+                                                        <Dropdown filter  {...input} options={selectadusernames} placeholder="Last Name, First Name" />
                                                     }
                                                 </span>
                                             </div>

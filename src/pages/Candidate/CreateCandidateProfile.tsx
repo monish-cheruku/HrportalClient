@@ -32,7 +32,7 @@ function CreateCandidateProfile() {
     const fileref = useRef()
     const navigate = useNavigate()
     const isFormFieldValid = (meta) => !!(meta.touched && meta.error);
-    const edoj=useRef()
+    const edoj = useRef()
     // useLayoutEffect(() => {
     //     if (!location.state && editmode) {
     //         navigate("/dashboard")
@@ -62,7 +62,7 @@ function CreateCandidateProfile() {
         return isFormFieldValid(meta) && <small className="p-error">{meta.error}</small>;
     };
     const validate = (values) => {
-        values["CurrentCTC"]=values["CurrentCTC"]
+        values["CurrentCTC"] = values["CurrentCTC"]
         let errors = {};
         // console.log(data)
 
@@ -101,7 +101,7 @@ function CreateCandidateProfile() {
 
             errors["ReleventExpMonth"] = "*This field is required"
         }
-        if (!editmode && ( values["Resume"] == null)) {
+        if (!editmode && (values["Resume"] == null)) {
 
             errors["Resume"] = "*This field is required"
         }
@@ -118,8 +118,7 @@ function CreateCandidateProfile() {
                         onSubmit={(values: any) => {
                             console.log(values)
 
-                            if( values.Resume ==null)
-                            {
+                            if (values.Resume == null) {
 
                                 validate(values)
                                 return
@@ -141,17 +140,18 @@ function CreateCandidateProfile() {
                             data.append("ReleventExpMonth", values.ReleventExpMonth)
                             data.append("CurrentCTC", values.CurrentCTC)
                             data.append("ExpectedCTC", values.ExpectedCTC)
-                           values.NegotiatedCTC? data.append("NegotiatedCTC", values.NegotiatedCTC) : data.append("NegotiatedCTC", '')
-                            data.append("CurrentOrganization", values.CurrentOrganization?values.CurrentOrganization:'')
-                            data.append("CurrentJobLocation", values.CurrentJobLocation?values.CurrentJobLocation:'')
+                            values.NegotiatedCTC ? data.append("NegotiatedCTC", values.NegotiatedCTC) : data.append("NegotiatedCTC", '')
+                            data.append("CurrentOrganization", values.CurrentOrganization ? values.CurrentOrganization : '')
+                            data.append("CurrentJobLocation", values.CurrentJobLocation ? values.CurrentJobLocation : '')
                             data.append("Skills", values.Skills)
                             data.append("Email", values.Email)
                             data.append("ContactNo", values.ContactNo.toString())
                             data.append("AvgApprovedCTC", values.AvgApprovedCTC)
                             data.append("AvgBillRate", values.AvgBillRate)
                             data.append("CreatedBy", values.CreatedBy)
-                            data.append("ModifiedBy", values.ModifiedBy?values.ModifiedBy:'')
+                            data.append("ModifiedBy", values.ModifiedBy ? values.ModifiedBy : '')
                             data.append("Resume", values.Resume)
+                            data.append("Comments", values.Comments)
                             // data.append(
 
                             //     "files",
@@ -232,6 +232,7 @@ function CreateCandidateProfile() {
                             "Resume": datafromprops?.Resume,
                             "Skills": datafromprops?.Skills,
                             "Stage": datafromprops?.Stage,
+                            "Comments": datafromprops?.Comments,
 
                         } : {
                             "OverallExpYear": 0,
@@ -244,25 +245,25 @@ function CreateCandidateProfile() {
                             "ModifiedBy": '',
                             "AvgApprovedCTC": location.state.jobdata.AvgApprovedCTC,
                             "AvgBillRate": location.state.jobdata.AvgBillRate,
-                            "Resume":null,
-                            "NegotiatedCTC" :null,
+                            "Resume": null,
+                            "NegotiatedCTC": null,
                             "CurrentOrganization": '',
                             "CurrentJobLocation": '',
 
 
-//default default values
+                            //default default values
                             // "CanFirstName": "akjf648",
                             // "CanLastName": "B",
                             // "Qualification": "Masters",
                             // "ExpectedDOJ": new Date("2023-02-30"),
-                           
+
                             // "CurrentCTC": "100000",
                             // "ExpectedCTC": "100000",                           
 
                             // "Skills": "Java",
                             // "Email": "sbatchu@belcan.com",
                             // "ConatctNo": "10-932234566",
-                           
+
                         }}
                         // initialValues={{  }}
                         validate={validate}
@@ -440,13 +441,13 @@ function CreateCandidateProfile() {
 
                                     <div className="field col-12 md:col-4">
                                         <Field
-                                        
+
                                             name="CurrentJobLocation"
                                             render={({ input, meta }) => (
                                                 <div className="field fluid">
                                                     <label htmlFor="CurrentJobLocation">Current Location</label>
                                                     <span className="field fluid">
-                                                        <InputText   maxLength={50} id="CurrentJobLocation" {...input} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <InputText maxLength={50} id="CurrentJobLocation" {...input} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                         <label htmlFor="CurrentJobLocation" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                                     </span>
                                                     {getFormErrorMessage(meta)}
@@ -458,12 +459,12 @@ function CreateCandidateProfile() {
                                     <div className="field col-12 md:col-4">
                                         <Field
                                             name="ExpectedDOJ"
-                                           
+
                                             render={({ input, meta }) => (
                                                 <div className="field fluid">
                                                     <label htmlFor="ExpectedDOJ">Expected DOJ</label>
                                                     <span className="field fluid">
-                                                        <Calendar ref={edoj}  id="ExpectedDOJ" {...input} dateFormat="mm/dd/yy" mask="99/99/9999" showIcon placeholder="Select a Date" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <Calendar ref={edoj} id="ExpectedDOJ" {...input} dateFormat="mm/dd/yy" mask="99/99/9999" showIcon placeholder="Select a Date" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                         <label htmlFor="ExpectedDOJ" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                                     </span>
                                                     {getFormErrorMessage(meta)}
@@ -493,14 +494,14 @@ function CreateCandidateProfile() {
 
                                     <div className="field col-12 md:col-4">
                                         <Field
-                                       
+
                                             name="ExpectedCTC"
                                             render={({ input, meta }) => (
                                                 <div className="field fluid" >
-                                                    
+
                                                     <label htmlFor="ExpectedCTC">Expected CTC</label>
                                                     <span className="field fluid">
-                                                        <InputNumber id="ExpectedCTC" min={0}  value={values.ExpectedCTC} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} mode="currency" currency="INR" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <InputNumber id="ExpectedCTC" min={0} value={values.ExpectedCTC} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} mode="currency" currency="INR" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                         <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                                     </span>
                                                     {getFormErrorMessage(meta)}
@@ -615,44 +616,44 @@ function CreateCandidateProfile() {
                                                         <label htmlFor="Resume" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                                     </span> */}
                                                     {true &&
-                                                        <Panel header={<><input type="file" accept="application/pdf"  onChange={async (e) => {
-                                                             await console.log(e.target.files[0]);
-                                                              values.Resume = e.target.files[0];
-                                                              console.log(edoj);
+                                                        <Panel header={<><input type="file" onChange={async (e) => {
+                                                            await console.log(e.target.files[0]);
+                                                            values.Resume = e.target.files[0];
+                                                            console.log(edoj);
                                                             //   edoj.current.show();
                                                             // document.getElementsByName("ExpectedDOJ")[0].focus()
                                                             // setTimeout(()=>{ 
-                                                                
-                                                                // console.log(document.getElementById("ExpectedCTC")?.getElementsByTagName("input")[0])
-                                                                // document.getElementById("ExpectedCTC")?.getElementsByTagName("input")[0]?.click()
-                                                                
-                                                        // },1000)
-                                                           
-                                                              setTimeout(()=>{ 
+
+                                                            // console.log(document.getElementById("ExpectedCTC")?.getElementsByTagName("input")[0])
+                                                            // document.getElementById("ExpectedCTC")?.getElementsByTagName("input")[0]?.click()
+
+                                                            // },1000)
+
+                                                            setTimeout(() => {
                                                                 // document.getElementsByName("ExpectedDOJ")[0].blur()
                                                                 // document.getElementById("ExpectedCTC")?.getElementsByTagName("input")[0]?.click()
                                                                 // document.getElementById("Email")?.click()
                                                                 // document.getElementById('submitbutton')?.focus()
                                                                 // edoj.current.hide(); 
                                                                 // validate(values) 
-                                                            },1000);
+                                                            }, 1000);
 
 
 
 
                                                         }
-                                                    
-                                                    
-                                                    
-                                                    }
-                                                            // onBlur={e=>validate(values)}
-                                                          
+
+
+
+                                                        }
+                                                        // onBlur={e=>validate(values)}
+
                                                         >
 
                                                         </input>
-                                                        {/* <label htmlFor="AvgBillRate" className={classNames({ "p-error": isFormFieldValid(meta) })}></label> */}
+                                                            {/* <label htmlFor="AvgBillRate" className={classNames({ "p-error": isFormFieldValid(meta) })}></label> */}
                                                         </>
-                                                    }>
+                                                        }>
 
                                                             {/* Uploaded File: {values.Resume.split("/")[values.Resume.split("/").length-1]} */}
                                                             {typeof values.Resume == typeof "abc" && <>Uploaded File: <Link onClick={e => dispatch(downloadresume(
@@ -675,15 +676,40 @@ function CreateCandidateProfile() {
 
                                     </div>
                                 </div>
-<div style={{float:"right"}}>
+                                <Field
+                                    name="Comments"
+                                    render={({ input, meta }) => (
+                                        <div className="field fluid">
+                                            <label htmlFor="Comments">Comments : </label>
+                                            <br></br>
+                                            <span className="field fluid">
+                                              
+                                            {/* <InputTextarea maxLength={200} id="skills" {...input} className={classNames({ "p-invalid": isFormFieldValid(meta) })} /> */}
 
-                                <Button className="mr-2" label="Submit" id='submitbutton' type="submit" />
-                                <Button label=" Cancel " type="button" onClick={e => navigate(-1)} className="mt-2" />
-</div>
+                                                
+                                                <InputTextarea style={{ width: "80%" }} maxLength={200} id="Comments" {...input} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
 
-<br></br>
-<br>
-</br>
+                                            </span>
+                                                <label htmlFor="Comments" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
+                                            {getFormErrorMessage(meta)}
+                                        </div>
+                                    )}
+                                />
+
+
+
+
+
+                                <div style={{ float: "right" }}>
+
+
+                                    <Button className="mr-2" label="Submit" id='submitbutton' type="submit" />
+                                    <Button label=" Cancel " type="button" onClick={e => navigate(-1)} className="mt-2" />
+                                </div>
+
+                                <br></br>
+                                <br>
+                                </br>
 
                             </form>
 

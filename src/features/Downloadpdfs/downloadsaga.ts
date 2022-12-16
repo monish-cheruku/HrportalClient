@@ -39,21 +39,21 @@ function* downloadpdfsagaworker(payload) {
   }
   const byteArray = new Uint8Array(byteNumbers);
   //for download
-  // const blob = new Blob([byteArray]);
+  const blob = new Blob([byteArray]);
   //for opening in new tab
-  const blob = new Blob([byteArray], { type: "application/pdf" });
+  // const blob = new Blob([byteArray], { type: "application/pdf" });
 
   //   console.log(blob);
   let a = document.createElement("a");
   a.href = window.URL.createObjectURL(blob);
   //for download
-  // a.download = "pdffile.pdf";
-  // a.download = filename.substring(filename.lastIndexOf("/") + 1, filename.toString().length)
-  // a.click();
+  a.download = "pdffile.pdf";
+  a.download = filename.substring(filename.lastIndexOf("/") + 1, filename.toString().length)
+  a.click();
 
   //for opening in new tab
-  const pdfWindow = window.open();
-  pdfWindow.location.href = a.href;    
+  // const pdfWindow = window.open();
+  // pdfWindow.location.href = a.href;    
 
 
   console.log(res)
