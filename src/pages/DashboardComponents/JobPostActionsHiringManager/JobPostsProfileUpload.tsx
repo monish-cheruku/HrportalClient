@@ -18,7 +18,7 @@ import { genpdf } from '../../../features/Downloadpdfs/pdfslice'
 // import { getJobPostActionfromapi, IJobPost, jobpostactionssubmit } from '../../features/JobPostActions/jobpostactionsslice'
 import { getJobPostActionfromapi, IJobPost, jobpostactionssubmit } from '../../../features/JobPostActions/jobpostactionsslice'
 import JobPostDetails from '../../DashboardComponents/JobPostDetails'
-import CandidateDetails from '../CandidateDetails'
+import CandidateDetails from '../CandidateDetailsview'
 import { PanelHeaderTemplateOptions } from 'primereact/panel';
 import { FilterMatchMode } from 'primereact/api'
 import { InputText } from 'primereact/inputtext'
@@ -26,7 +26,7 @@ import { InputText } from 'primereact/inputtext'
 function JobPostProfileUpload() {
     const jobsdata = useSelector((store: RootState) => store.JobPostAction)
     const Logindata = useSelector((store: RootState) => store.Login)
-    const candidatesdata = useSelector((store: RootState) => store.CandidateAction)
+    const candidatesdata = useSelector((store: RootState) => store.Candidates)
     const billrate = useSelector((store: RootState) => store.ManageBill)
 
     const [submitted, setSubmitted] = useState(false);
@@ -193,7 +193,7 @@ function JobPostProfileUpload() {
     }
     const linktemplate=(rowdata) =>{
         return(
-            <Link to="/candidate/candidatedetails" state={rowdata}>{rowdata.CandidateCode}</Link>
+            <Link to="/candidate/candidatedetailsview" state={rowdata}>{rowdata.CandidateCode}</Link>
         )
     }
     const template = (options: PanelHeaderTemplateOptions) => {

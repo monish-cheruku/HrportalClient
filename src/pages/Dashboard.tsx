@@ -14,7 +14,7 @@ const Dashboard = () => {
     const [openedtab,setOpenedtab]=useState("jobpostactions")
     const[nooftabs,setnooftabs]=useState(3)
     const myjobpostactions =useSelector((state:RootState)=>state.JobPostAction);
-    const mycandidateactions =useSelector((state:RootState)=>state.CandidateAction);
+    const mycandidateactions =useSelector((state:RootState)=>state.Candidateactiondetails);
     const myJobPosts =useSelector((state:RootState)=>state.myjobposts);
     const logindata=useSelector((state:RootState)=>state.Login)
     const dispatch=useDispatch()

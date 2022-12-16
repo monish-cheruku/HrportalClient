@@ -11,8 +11,8 @@ import { NavLink } from 'react-router-dom';
 import { Link, useNavigate } from 'react-router-dom';
 import { RootState } from '../../../app/store';
 // import {  getJobPostActionfromapi, JobPostActiondata } from '../../../features/JobPostActions/jobpostactionsslice';
-import {candidateaction} from '../../../features/CandidateActions/candidateactiondetailsslice'
 import {generatepdf} from "../../../api/agent"
+import { candidateactionsdetailsaction } from '../../../features/CandidateActions/candidateactiondetailsslice';
 const  CandidateAction=() =>{
 
 
@@ -31,11 +31,12 @@ const  CandidateAction=() =>{
     });
     const [company, setcompany] = useState();
 
-    const candidateactionsdata = useSelector((state: RootState) => state.Candidates);
+    const candidateactionsdata = useSelector((state: RootState) => state.Candidateactiondetails);
     const Logindata = useSelector((state: RootState) => state.Login);
+    
 // const navigate=useNavigate()
 // // const useRedirect=
-//     const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
 //     useEffect(() => {
 // // alert("rerendering")
@@ -51,7 +52,14 @@ const  CandidateAction=() =>{
 //         //fetch('./jobpostdata.json').then(res => {res.json(); console.log(res);}).then(d => setcompany(d.data));
 //     }, []);
 useEffect(()=>{
+    dispatch(candidateactionsdetailsaction({
+
+        "ApproverName":"sbatchu"
+    
+    }))
 console.log("working")
+console.log(candidateactionsdata)
+
 },[])
     const onGlobalFilterChange2 = (e: any) => {
         const value = e.target.value;
@@ -111,24 +119,36 @@ console.log("working")
     };
 
     const isFormFieldValid = (meta) => !!(meta.touched && meta.error);
-    
+    const nametemplate = (rowdata) => {
+        return (
+            <>{rowdata.CanFirstName + ", " + rowdata.CanLastName}</>
+        )
+    }
 
     
-        
+    const exptemplate=(rowdata)=>{
+        return(
+            <div>{rowdata.OverallExpYear +"."+rowdata.OverallExpMonth+" Years"}</div>
+        )
+    }
     return (
         <div>
            
             <DataTable value={candidateactionsdata} showGridlines={false} responsiveLayout="scroll" paginator={true} rows={5} 
-            globalFilterFields={['JobPostID','JobCode','JobTitle','HiringManager','Industry','Company','BusinessUnit','ServiceLine','Customer','ExperianceLevel','OnBoardingDate','NoOfPositions','Stage']} filters={filters2} header={Headercomp}>
+            globalFilterFields={['CandidateCode','CanFirstName','JobCode','JobTitle','OverallExpYear','ExpectedCTC','OnBoardingDate','stage_name']} filters={filters2} header={Headercomp}>
                
-                <Column field=" CandidateID" header="Candiate ID" sortable ></Column>
-                <Column field=" CandidateName" header="Candidate Name" sortable></Column>
-                <Column field=" JobCode" header="Job Code" sortable></Column>
+                <Column field="CandidateCode" header="Candiate Code" sortable style={{ minWidth: '11rem', maxWidth : '14rem'}} body={rowdata=>
+                
+                rowdata.Stage=="Candidate Review"?<Link to={"/candidatereview/"+rowdata.CandidateCode} state={rowdata}  >{rowdata.CandidateCode}</Link>:
+                <Link to={"/candidatereview/"+rowdata.CandidateCode} state={rowdata}  >{rowdata.CandidateCode}</Link>                                  
+                }></Column>
+                <Column field="CanFirstName" body ={nametemplate} header="Candidate Name" sortable></Column>
+                <Column field="JobCode" header="Job Code" sortable></Column>
                 <Column field="JobTitle" header="Job Title" sortable></Column>
-                <Column field="ExperianceLevel" header="Experiance"sortable ></Column>
-                <Column field="BusinessUnit" header="Expected CTC" sortable></Column>
-                <Column field="ServiceLine" header="Expected DOJ" sortable></Column>
-                <Column field="Stage" header="Status" sortable></Column>
+                <Column field="OverallExpYear" body={exptemplate} header="Experiance"sortable ></Column>
+                <Column field="ExpectedCTC" header="Expected CTC" sortable></Column>
+                <Column field="OnBoardingDate" header="Expected DOJ" sortable></Column>
+                <Column field="stage_name" header="Status" sortable></Column>
  
             </DataTable>
 

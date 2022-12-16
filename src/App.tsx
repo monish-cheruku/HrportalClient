@@ -54,7 +54,8 @@ import CreateJobPost from './pages/DashboardComponents/CreateJobPost';
 import Jobpostdetailedview from './pages/DashboardComponents/Jobpostdetailedview';
 import CreateCandidateProfile from './pages/Candidate/CreateCandidateProfile'
 import JobPostProfileUpload from "./pages/DashboardComponents/JobPostActionsHiringManager/JobPostsProfileUpload"
-import CandidateDetails from './pages/DashboardComponents/CandidateDetails';
+import CandidateDetailsview from './pages/DashboardComponents/CandidateDetailsview';
+import CandidateReview from './pages/DashboardComponents/CandidateActionHiringManager/CandidateReview';
 const App = () => {
     const toastdata = useSelector((state: RootState) => state.toaster)
     const state = useSelector((state: RootState) => state)
@@ -378,8 +379,8 @@ const App = () => {
                                             <Route path='/jobpostdetailedview/:JobCode' element={<Jobpostdetailedview/>}/>
                                             <Route path="/candidate/createcandidateprofile"  element={<CreateCandidateProfile/>} />
                                             <Route path="/candidate/updatecandidateprofile"  element={<CreateCandidateProfile/>} />
-                                            <Route path="/candidate/candidatedetails"  element={<CandidateDetails/>} />
-
+                                            <Route path="/candidate/candidatedetailsview"  element={<CandidateDetailsview/>} />
+                                            <Route path="/candidatereview/:CandidateCode"  element={<CandidateReview/>} />
                                         </Routes>
                                     </div>
 

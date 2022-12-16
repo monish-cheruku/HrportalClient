@@ -27,6 +27,7 @@ import storage  from 'redux-persist/lib/storage'
 import rolesoptions from '../features/UserRoles/rolesoptionsslice';
 import myjobpostsReducer from '../features/JobPostActions/myjobpostsslice'
 import CandidatesReducer from '../features/CandidateActions/candidateactionsslice';
+import CandidateactiondetailsReducer from '../features/CandidateActions/candidateactiondetailsslice';
 
 // export function useReduxStore() {
 const sagaMiddleware = createSagaMiddleware();
@@ -62,6 +63,7 @@ Login:LoginReducer,
 JobPostAction:jobpostactionsReducer,
 rolesoptions:rolesoptions,
 usersbyroles:usersbyrolesReducer,
+Candidateactiondetails:CandidateactiondetailsReducer
 // CandidateAction :CandidateActionReducer,
 
   // band: bandReducer,

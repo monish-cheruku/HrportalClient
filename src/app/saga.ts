@@ -162,17 +162,11 @@ export function* rootSaga() {
     spawn(function* () {
 
       while (true) {
-
         try {
-
           yield call(saga)
-
           break
-
         } catch (e) {
-
           console.log(e)
-
           console.log("sagas restarting")
 
         }

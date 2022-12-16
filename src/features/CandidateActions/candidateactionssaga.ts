@@ -91,7 +91,24 @@ function* Candidatedatasagaworker(data) {
        
         var res: Promise<any> = yield call(candidateactions.getallcandidatedata, data.payload)
         console.log(res)
-        yield put({ type: "CandidateAction/Candidatedata", payload: res })
+        yield put({ type: "Candidateactiondetails/Candidates", payload: res })
+    }
+    catch (err) {
+        console.log(err)
+
+
+
+    }
+}
+function* candidateactionsdetailsactionsagaworker(data) {
+    try { 
+      
+        var res: Promise<any> = yield call(candidateactions.candidateactiondetails,data.payload)
+        console.log(res)
+        // Candidatedatasagaworker(res)
+        yield put({ type: "Candidateactiondetails/Candidates", payload: res })
+
+        //toast
     }
     catch (err) {
         console.log(err)
@@ -124,6 +141,7 @@ export function* watcherCandidateAction() {
     yield takeEvery("CandidateAction/updatecandidate", updatecandidatesagaworker)
     yield takeEvery("CandidateAction/getCandidatefromapi", Candidatedatasagaworker)
     yield takeEvery("Candidateactiondetails/candidateactiondetails", getcandiatessagaworker)
+    yield takeEvery("Candidateactiondetails/candidateactionsdetailsaction",candidateactionsdetailsactionsagaworker)
     // yield takeEvery("Industry/createIndustryaction", createIndustrysagaworker)
     // yield takeEvery("Industry/updateIndustryaction", updateIndustrysagaworker)
 }

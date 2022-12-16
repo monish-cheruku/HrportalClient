@@ -167,20 +167,9 @@ const navigate=useNavigate()
             <DataTable value={jobpostactionsdata} showGridlines={false} responsiveLayout="scroll" paginator={true} rows={10} 
             globalFilterFields={['JobPostID','JobCode','JobTitle','HiringManager','Industry','Company','BusinessUnit','ServiceLine','Customer','ExperianceLevel','OnBoardingDate','NoOfPositions','Stage']} filters={filters2} header={Headercomp}>
                 <Column field="JobCode"sortable header="Job Code" style={{ minWidth: '11rem', maxWidth : '14rem'}} body={rowdata=>
-                // <Button 
-                // // to={"dashboard/jobpostsactionApproval/"+rowdata.JobCode} 
-                //  onClick={e=>
-                //     // Redirect("dashboard/jobpostsactionApproval/"+rowdata.JobCode)
-                //     // handleredirect(rowdata.JobCode)
-                // //  usehistory.push("dashboard/jobpostsactionApproval/"+rowdata.JobCode)
-                // //  navigate("/jobpostsactionApproval/"+rowdata.JobCode)
                 
-                // }
-                //  >{rowdata.JobCode}</Button>
-                 rowdata.Stage=="BH Approval"?<Link to={"/jobpostsactionApproval/"+rowdata.JobCode} state={rowdata}  >{rowdata.JobCode}</Link>:<Link to={"/jobpostsprofileupload/"+rowdata.JobCode} state={rowdata}  >{rowdata.JobCode}</Link>
-                 
-                 
-                 
+                 rowdata.Stage=="BH Approval"?<Link to={"/jobpostsactionApproval/"+rowdata.JobCode} state={rowdata}  >{rowdata.JobCode}</Link>:
+                 <Link to={"/jobpostsprofileupload/"+rowdata.JobCode} state={rowdata}  >{rowdata.JobCode}</Link>                                  
                  }></Column>                
                 <Column field="JobTitle" header="Job Title" sortable ></Column>
                 <Column field="HiringManager" header="Hiring Manager" sortable></Column>

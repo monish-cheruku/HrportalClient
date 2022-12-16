@@ -13,8 +13,11 @@ import { Ripple } from 'primereact/ripple';
 function JobPostDetails(props) {
 
   const jobdata = props.JobData
+  
   const dispatch = useDispatch()
-
+useEffect(()=>{
+console.log(jobdata)
+},[])
   return (
     <div>
       {/* <Card title="Job Post Details" style={{ width: '100%', marginBottom: '2em' }}> */}
