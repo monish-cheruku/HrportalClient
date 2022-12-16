@@ -14,6 +14,7 @@ import {UserRoles} from "../features/UserRoles/userroleslice"
 
 
 // import {Band} from ../features/Band/bandslice"
+axios.defaults.baseURL = 'http://10.154.155.160:8000/api';
 
 axios.defaults.baseURL = 'http://10.154.155.169:8000/api';
 //http://10.154.28.148:8000/api/     monish//
@@ -202,7 +203,9 @@ export const jobpostactions={
   usersbyroles:(data)=>requests.post("jobpost/usersbyrole",data),
   createjobpost:(data)=>requests.post("jobpost/addjobpost",data),
   updatejobpost:(data)=>requests.put("jobpost/addjobpost",data),
-  myjobposts:(data)=>requests.post("jobpost/myjobposts",data)
+  myjobposts:(data)=>requests.post("jobpost/myjobposts",data),
+  
+
 }
 
 export const generatepdf={
@@ -214,7 +217,9 @@ export const downloadpdf={
 export const candidateactions = {
   getallcandidatedata:(data)=>requests.post("candidate/gridcandidates",data),
   createcandidate:(data)=>requests.post("candidate/addcandidate",data),
-  updatecandidate:(data)=>requests.put("candidate/addcandidate",data)
+  updatecandidate:(data)=>requests.put("candidate/addcandidate",data),
+  candidateactiondetails:(data)=>requests.post("candidate/candidateactionsdetails",data)
+
 
 }
 

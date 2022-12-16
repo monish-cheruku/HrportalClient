@@ -26,7 +26,8 @@ import {persistStore,persistReducer} from 'redux-persist'
 import storage  from 'redux-persist/lib/storage'
 import rolesoptions from '../features/UserRoles/rolesoptionsslice';
 import myjobpostsReducer from '../features/JobPostActions/myjobpostsslice'
-import CandidateActionReducer from '../features/CandidateActions/candidateactionsslice';
+import CandidatesReducer from '../features/CandidateActions/candidateactionsslice';
+import CandidateactiondetailsReducer from '../features/CandidateActions/candidateactiondetailsslice';
 
 // export function useReduxStore() {
 const sagaMiddleware = createSagaMiddleware();
@@ -49,23 +50,21 @@ const rootreducer = combineReducers({
   subband: subbandReducer,
   toaster: toastReducer,
   serviceline: servicelineReducer,
-
   Location: LocationReducer,
-
   Band: BandReducer,
-
   ManageBill: ManageBillReducer,
-
   Insurance: InsuranceReducer,
   Industry: IndustryReducer,
   userroles: UserRolesReducer,
   userroleoptions: userroleoptions,
   myjobposts:myjobpostsReducer,
+  Candidates:CandidatesReducer,
 Login:LoginReducer,
 JobPostAction:jobpostactionsReducer,
 rolesoptions:rolesoptions,
 usersbyroles:usersbyrolesReducer,
-CandidateAction :CandidateActionReducer,
+Candidateactiondetails:CandidateactiondetailsReducer
+// CandidateAction :CandidateActionReducer,
 
   // band: bandReducer,
 

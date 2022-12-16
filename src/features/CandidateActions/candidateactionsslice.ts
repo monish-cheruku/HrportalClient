@@ -33,7 +33,7 @@ export interface ICandidate {
 
     Jobpost:String
     Job_Code:String
-    HRUserName: String,
+    HRUserName: String
 
 CanFirstName: String
 CanLastName: String

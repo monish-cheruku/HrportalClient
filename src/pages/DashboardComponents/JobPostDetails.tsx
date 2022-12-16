@@ -13,10 +13,13 @@ import { Ripple } from 'primereact/ripple';
 function JobPostDetails(props) {
 
   const jobdata = props.JobData
+  
   const dispatch = useDispatch()
 console.log(jobdata)
 const formatCurrency = (value: any) => {
-
+useEffect(()=>{
+console.log(jobdata)
+},[])
   return value?value.toLocaleString('en-US', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }):'';
 
 
