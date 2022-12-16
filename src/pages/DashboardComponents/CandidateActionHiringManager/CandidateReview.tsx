@@ -41,7 +41,7 @@ function CandidateReview() {
             </label>
             </span>
             <br></br>
-            <span><label class="radio-inline me-3">Rejected
+            <span><label className="radio-inline me-3">Rejected
               <RadioButton className='ml-2' inputId="city4" name="city" value="R"  />
             </label>
             </span>
