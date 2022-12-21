@@ -95,10 +95,13 @@ console.log("updating cand")
         getApproversfromapi:(state,payload:PayloadAction<any>)=>{
             console.log(payload)
         },
+        candidatereviewsubmitaction:(state,payload:PayloadAction<any>)=>{
+            console.log(payload)
+        },
     },
 }
 
 
 )
-export const {Candidatedata,getCandidatefromapi,createnewcandidate,updatecandidate, getApproversfromapi}=CandidateActionSlice.actions
+export const {Candidatedata,getCandidatefromapi,createnewcandidate,updatecandidate, getApproversfromapi, candidatereviewsubmitaction}=CandidateActionSlice.actions
 export default CandidateActionSlice.reducer

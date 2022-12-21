@@ -26,7 +26,7 @@ import { InputText } from 'primereact/inputtext'
 function JobPostProfileUpload() {
     const jobsdata = useSelector((store: RootState) => store.JobPostAction)
     const Logindata = useSelector((store: RootState) => store.Login)
-    const candidatesdata = useSelector((store: RootState) => store.Candidates)
+    const candidatesdata = useSelector((store: RootState) => store.Candidateactiondetails)
     const billrate = useSelector((store: RootState) => store.ManageBill)
 
     const [submitted, setSubmitted] = useState(false);

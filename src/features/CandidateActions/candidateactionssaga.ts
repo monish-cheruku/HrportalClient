@@ -133,11 +133,53 @@ function* getcandiatessagaworker(data) {
 
     }
 }
+function* candidatereviewsubmitactionsagaworker(data) {
+    try { 
+      
+        var res: Promise<any> = yield call(candidateactions.candidatesreviewsubmit,data.payload)
+        // console.log(res)
+        yield put({ type: "Candidates/Candidates", payload: res })
+
+        //toast
+        yield put(createtoast({
+
+            id:454,
+
+            status:"success",
+
+            data:res.toString(),                                                //change this
+
+            endpoint:"400"
+
+        }))
+    }
+    catch (err) {
+        console.log(err)
+//toast
+
+yield put(createtoast({
+
+
+    id:34324,
+
+    status:"error",
+
+    data:err.data[0][0],                                                       //change this
+
+    endpoint:err.config.url.toString()                                        //change this
+
+}))
+
+
+
+    }
+}
 
 
 export function* watcherCandidateAction() {
 
     yield takeEvery("CandidateAction/createnewcandidate", createnewcandidatesagaworker)
+    yield takeEvery("CandidateAction/candidatereviewsubmitaction", candidatereviewsubmitactionsagaworker)
     yield takeEvery("CandidateAction/updatecandidate", updatecandidatesagaworker)
     yield takeEvery("CandidateAction/getCandidatefromapi", Candidatedatasagaworker)
     yield takeEvery("Candidateactiondetails/candidateactiondetails", getcandiatessagaworker)
