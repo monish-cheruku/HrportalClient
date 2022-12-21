@@ -219,7 +219,8 @@ export const candidateactions = {
   getallcandidatedata:(data)=>requests.post("candidate/gridcandidates",data),
   createcandidate:(data)=>requests.post("candidate/addcandidate",data),
   updatecandidate:(data)=>requests.put("candidate/addcandidate",data),
-  candidateactiondetails:(data)=>requests.post("candidate/candidateactionsdetails",data)
+  candidateactiondetails:(data)=>requests.post("candidate/candidateactionsdetails",data),
+  candidatesreviewsubmit:(data)=>requests.post("candidate/candidatesreviewsubmit",data)
 
 
 }

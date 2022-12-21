@@ -153,6 +153,21 @@ const CandidateAction = () => {
             </>
         )
     }
+    const datetemplate = (rowdata: any) => {
+        console.log(rowdata.OnBoardingDate)
+        console.log(formatDate(new Date(rowdata.OnBoardingDate)))
+       return <>{formatDate(new Date(rowdata.OnBoardingDate))}</>;
+
+        
+    }
+    const formatDate = (value:any) => {
+        return value.toLocaleDateString('en-US', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+        });
+        // return value.toLocaleDateString('en-US');
+      }
     return (
         <div>
 
@@ -165,7 +180,7 @@ const CandidateAction = () => {
                 <Column field="JobTitle" header="Job Title" sortable></Column>
                 <Column field="OverallExpYear" body={exptemplate} header="Experiance" sortable ></Column>
                 <Column field="ExpectedCTC" header="Expected CTC" sortable></Column>
-                <Column field="OnBoardingDate" header="Expected DOJ" sortable></Column>
+                <Column field="OnBoardingDate" header="Expected DOJ" body={datetemplate}  sortable></Column>
                 <Column field="stage_name" header="Status" sortable></Column>
 
             </DataTable>
