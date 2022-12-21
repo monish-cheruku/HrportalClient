@@ -31,17 +31,17 @@ function CandidateReview() {
             <JobPostDetails JobData={jobdata}></JobPostDetails>
             <br></br>
             <br></br>
-            <span><label class="radio-inline me-3">Selected for Interview
+            <span><label className="radio-inline me-3">Selected for Interview
               <RadioButton className='ml-2' inputId="city4" name="city" value="R"  />
             </label>
             </span>
             <br></br>
-            <span><label class="radio-inline me-3">Shortlist (No Interview Required)
+            <span><label className="radio-inline me-3">Shortlist (No Interview Required)
               <RadioButton className='ml-2' inputId="city4" name="city" value="R"  />
             </label>
             </span>
             <br></br>
-            <span><label class="radio-inline me-3">Rejected
+            <span><label className="radio-inline me-3">Rejected
               <RadioButton className='ml-2' inputId="city4" name="city" value="R"  />
             </label>
             </span>

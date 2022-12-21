@@ -26,9 +26,13 @@ import {persistStore,persistReducer} from 'redux-persist'
 import storage  from 'redux-persist/lib/storage'
 import rolesoptions from '../features/UserRoles/rolesoptionsslice';
 import myjobpostsReducer from '../features/JobPostActions/myjobpostsslice'
-import CandidatesReducer from '../features/CandidateActions/candidateactionsslice';
+import CandidatesforjobpostReducer from '../features/CandidateActions/candidateactionsslice';
 import CandidateactiondetailsReducer from '../features/CandidateActions/candidateactiondetailsslice';
-
+import qualificationReducer from '../features/Dropdownoptions/qualificationtypeslice';
+import employementtypeReducer from '../features/Dropdownoptions/employementtypeslice';
+import feedbackfieldsReducer from '../features/Feedback/feedbackfieldsslice';
+import  prevfeedbackReducer from "../features/Feedback/prevfeedbacks"
+import  globalReducer from "../features/Misc/globalslice"
 // export function useReduxStore() {
 const sagaMiddleware = createSagaMiddleware();
 const logger = createLogger();
@@ -58,12 +62,18 @@ const rootreducer = combineReducers({
   userroles: UserRolesReducer,
   userroleoptions: userroleoptions,
   myjobposts:myjobpostsReducer,
-  Candidates:CandidatesReducer,
+  Candidatesforjobpost:CandidatesforjobpostReducer,
 Login:LoginReducer,
 JobPostAction:jobpostactionsReducer,
 rolesoptions:rolesoptions,
 usersbyroles:usersbyrolesReducer,
-Candidateactiondetails:CandidateactiondetailsReducer
+Candidateactions:CandidateactiondetailsReducer,
+qualification:qualificationReducer,
+employementtype:employementtypeReducer,
+feedbackfields:feedbackfieldsReducer,
+prevfeedback:prevfeedbackReducer,
+global:globalReducer,
+
 // CandidateAction :CandidateActionReducer,
 
   // band: bandReducer,

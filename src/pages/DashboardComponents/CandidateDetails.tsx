@@ -68,7 +68,7 @@ function CandidateDetails(props: any) {
                     {/* <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Expected CTC : </span><span className="font-w400">{candidatedata?.ExpectedCTC}</span></p> */}
                     <p ><span className="custom-label-2" style={{ minWidth: "180px", display: "inline-block", fontWeight: "600" }}>Resume  </span><span className="font-w400">
                         
-                        <Link to={''}  onClick={
+                        <a style={{cursor:"pointer"}}  onClick={
                             e => {
                                 dispatch(downloadresume(
                                     {
@@ -76,7 +76,16 @@ function CandidateDetails(props: any) {
                                     }
                                 )
                                 )
-                            }}> {candidatedata?.Resume.split('/')[candidatedata?.Resume.split('/').length - 1]}</Link>
+                            }} > {candidatedata?.Resume.split('/')[candidatedata?.Resume.split('/').length - 1]}</a>
+                        {/* <link   onClick={
+                            e => {
+                                dispatch(downloadresume(
+                                    {
+                                        'Resume': candidatedata?.Resume.toString().substring(1, candidatedata?.Resume.toString().length)
+                                    }
+                                )
+                                )
+                            }}> {candidatedata?.Resume.split('/')[candidatedata?.Resume.split('/').length - 1]}</link> */}
 
 
                     </span>

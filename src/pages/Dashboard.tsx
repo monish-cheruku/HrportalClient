@@ -8,19 +8,26 @@ import { RootState } from "../app/store";
 import { useDispatch } from "react-redux";
 import { myjobpostsaction } from "../features/JobPostActions/myjobpostsslice";
 import CandidateAction from "./DashboardComponents/CandidateActionHiringManager/CandidateAction";
+import { candidateactionsdetailsaction } from "../features/CandidateActions/candidateactiondetailsslice";
+import { setdashboardactivetab } from "../features/Misc/globalslice";
 
 
 const Dashboard = () => {
     const [openedtab,setOpenedtab]=useState("jobpostactions")
     const[nooftabs,setnooftabs]=useState(3)
     const myjobpostactions =useSelector((state:RootState)=>state.JobPostAction);
-    const mycandidateactions =useSelector((state:RootState)=>state.Candidateactiondetails);
+    const mycandidateactions =useSelector((state:RootState)=>state.Candidateactions);
+    const globaldata =useSelector((state:RootState)=>state.global);
     const myJobPosts =useSelector((state:RootState)=>state.myjobposts);
     const logindata=useSelector((state:RootState)=>state.Login)
     const dispatch=useDispatch()
     useEffect(()=>{
-        console.log("dashboard")
         dispatch(myjobpostsaction({"UserName":logindata.username}))
+        dispatch(candidateactionsdetailsaction({
+
+            "ApproverName":logindata.username
+        
+        }))
         // dispatch(myjobpostsaction({"UserName":logindata.username}))
     },[])
     return (
@@ -41,9 +48,9 @@ const Dashboard = () => {
 
                     </div>
                 </div> */}
-                <div className={"col-" + (12 / nooftabs).toString() + " lg:col-" + (12 / nooftabs).toString() + " xl:col-" + (12 / nooftabs).toString() + " sm:col-6"} onClick={e => setOpenedtab("jobpostactions")}>
+                <div className={"col-" + (12 / nooftabs).toString() + " lg:col-" + (12 / nooftabs).toString() + " xl:col-" + (12 / nooftabs).toString() + " sm:col-6"} onClick={e => dispatch(setdashboardactivetab("jobpostactions"))}>
 
-                    <div className={openedtab == "jobpostactions" ? "cardselect mb-0" : "cardunselect mb-0"}>
+                    <div className={globaldata.dashboardactivetab  == "jobpostactions" ? "cardselect mb-0" : "cardunselect mb-0"}>
                         <div className="flex justify-content-between mb-3">
 
                             <div>
@@ -58,8 +65,8 @@ const Dashboard = () => {
                     </div>
                 </div>
 
-                <div className={"col-" + (12 / nooftabs).toString() + " lg:col-" + (12 / nooftabs).toString() + " xl:col-" + (12 / nooftabs).toString() + " sm:col-6"} onClick={e => setOpenedtab("myjobposts")} >
-                    <div className={openedtab == "myjobposts" ? "cardselect mb-0" : "cardunselect mb-0"}>
+                <div className={"col-" + (12 / nooftabs).toString() + " lg:col-" + (12 / nooftabs).toString() + " xl:col-" + (12 / nooftabs).toString() + " sm:col-6"} onClick={e =>  dispatch(setdashboardactivetab("myjobposts"))} >
+                    <div className={globaldata.dashboardactivetab  == "myjobposts" ? "cardselect mb-0" : "cardunselect mb-0"}>
                         <div className="flex justify-content-between mb-3">
                             <div>
                                 <span className="block  font-medium mb-3">My Job Posts</span>
@@ -72,9 +79,9 @@ const Dashboard = () => {
 
                     </div>
                 </div>
-                <div className={"col-" + (12 / nooftabs).toString() + " lg:col-" + (12 / nooftabs).toString() + " xl:col-" + (12 / nooftabs).toString() + " sm:col-6"} onClick={e => setOpenedtab("selectedcandidates")}>
+                <div className={"col-" + (12 / nooftabs).toString() + " lg:col-" + (12 / nooftabs).toString() + " xl:col-" + (12 / nooftabs).toString() + " sm:col-6"} onClick={e =>  dispatch(setdashboardactivetab("selectedcandidates"))}>
 
-                    <div className={openedtab == "selectedcandidates" ? "cardselect mb-0" : "cardunselect mb-0"}>
+                    <div className={globaldata.dashboardactivetab  == "selectedcandidates" ? "cardselect mb-0" : "cardunselect mb-0"}>
                         <div className="flex justify-content-between mb-3">
                             <div>
                                 <span className="block  font-medium mb-3">Selected Candidates</span>
@@ -87,9 +94,9 @@ const Dashboard = () => {
 
                     </div>
                 </div>
-                <div className={"col-" + (12 / nooftabs).toString() + " lg:col-" + (12 / nooftabs).toString() + " xl:col-" + (12 / nooftabs).toString() + " sm:col-6"} onClick={e => setOpenedtab("candidateactions")}>
+                <div className={"col-" + (12 / nooftabs).toString() + " lg:col-" + (12 / nooftabs).toString() + " xl:col-" + (12 / nooftabs).toString() + " sm:col-6"} onClick={e =>  dispatch(setdashboardactivetab("candidateactions"))}>
 
-                    <div className={openedtab == "candidateactions" ? "cardselect mb-0" : "cardunselect mb-0"}>
+                    <div className={globaldata.dashboardactivetab  == "candidateactions" ? "cardselect mb-0" : "cardunselect mb-0"}>
                         <div className="flex justify-content-between mb-3">
 
                             <div>
@@ -122,10 +129,10 @@ const Dashboard = () => {
             <div >
                 <div className="card mb-0">
                     <div className="flex justify-content-between mb-3">
-                        {openedtab == "jobpostactions" && <div style={{ width: "100%" }}> <JobPostActions />    </div>}
-                        {openedtab == "myjobposts" && <div style={{ width: "100%" }}><MyJobPosts /></div>}
-                        {openedtab == "selectedcandidates" && <div >selectedcandidates</div>}
-                        {openedtab == "candidateactions" && <div style={{ width: "100%" }}> <CandidateAction />    </div>}
+                        {globaldata.dashboardactivetab == "jobpostactions" && <div style={{ width: "100%" }}> <JobPostActions />    </div>}
+                        {globaldata.dashboardactivetab == "myjobposts" && <div style={{ width: "100%" }}><MyJobPosts /></div>}
+                        {globaldata.dashboardactivetab == "selectedcandidates" && <div >selectedcandidates</div>}
+                        {globaldata.dashboardactivetab == "candidateactions" && <div style={{ width: "100%" }}> <CandidateAction />    </div>}
 
                         {/* <div hidden={true}>d</div> */}
 

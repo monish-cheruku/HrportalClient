@@ -1,11 +1,11 @@
 import {createSlice,PayloadAction} from '@reduxjs/toolkit'
-export  interface Qualification{
+export  interface IQualification{
     QualificationId: Number
     Qualification: String
     Active:Boolean
 }
 
-const initialState:Qualification[]=[]
+const initialState:IQualification[]=[]
 export const QualificationSlice=createSlice({
     name:'Qualifications',
     initialState,
@@ -14,6 +14,11 @@ export const QualificationSlice=createSlice({
             var temp=payload.payload
             state=[...temp]
             return state
+        },
+        qualificationaction:(state)=>{
+
         }
     }
 })
+export const{qualificationdata,qualificationaction}=QualificationSlice.actions
+export default QualificationSlice.reducer

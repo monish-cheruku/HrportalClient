@@ -26,7 +26,7 @@ import { InputText } from 'primereact/inputtext'
 function JobPostProfileUpload() {
     const jobsdata = useSelector((store: RootState) => store.JobPostAction)
     const Logindata = useSelector((store: RootState) => store.Login)
-    const candidatesdata = useSelector((store: RootState) => store.Candidates)
+    const candidatesdata = useSelector((store: RootState) => store.Candidatesforjobpost)
     const billrate = useSelector((store: RootState) => store.ManageBill)
 
     const [submitted, setSubmitted] = useState(false);
@@ -63,7 +63,7 @@ function JobPostProfileUpload() {
             // dispatch(getJobPostActionfromapi({"":Logindata.username))
             // dispatch(getJobPostActionfromapi("sbatchu"))
         // }
-        // console.log(Logindata)
+        console.log(candidatesdata)
         setjobdata(jobsdata.filter((i) => i.JobCode == JobCode)[0])
         dispatch(getCandidatefromapi({
             "jobpostID": jobdata.JobPostID
@@ -136,13 +136,6 @@ function JobPostProfileUpload() {
                     icon="pi pi-pencil"
                     className="p-button-rounded p-button-success mr-2"
                     onClick={(e) => {
-                        // setEditmode(true);
-                        // console.log(rowdata)
-                        // setCompanyid(data.CompanyId);
-                        // setCompanydesc(data.CompanyDesc);
-                        // setCompanyname(data.CompanyName);
-                        // setActive(data.Active);
-                        // setProductDialog(true);
                         navigate("/candidate/updatecandidateprofile",{state:{data}})
                     }}
                 />
@@ -158,25 +151,7 @@ function JobPostProfileUpload() {
                 className="p-button-text"
                 onClick={() => {
                     setissave(true);
-                    // console.log(companyname);
-                    // console.log(companydesc);
-                    // console.log(active);
-                    // var c = {
-                    //     CompanyId: companyid,
-                    //     CompanyName: companyname,
-                    //     CompanyDesc: companydesc,
-                    //     Active: active,
-                    // };
-                    // if(companyname!="")
-                    // {
-                    // if (editmode === false) {
-                    //     dispatch(createcompanyaction(c));
-                    // } else {
-                    //     dispatch(updatecompanyaction(c));
-                    // }
-                    // setProductDialog(false);}
-                    // axios.post("http://10.154.155.135:8000/api/company");
-                    // hideDialog();
+                   
                 }}
             />
         </React.Fragment>

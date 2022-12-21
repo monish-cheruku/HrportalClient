@@ -69,9 +69,9 @@ export const AppTopbar = (props) => {
         }
     ]);
     useEffect(()=>{
-        console.log(Logindata)
-        console.log(profilemenuitems)
-        console.log( profilemenuitems.filter((i)=>i.label=="Roles")[0])
+        // console.log(Logindata)
+        // console.log(profilemenuitems)
+        // console.log( profilemenuitems.filter((i)=>i.label=="Roles")[0])
         var temproles:any=[]
         Logindata.groups.forEach(element => {
             temproles.push(
@@ -83,7 +83,7 @@ export const AppTopbar = (props) => {
         )
     }
     )
-    console.log(temproles)
+    // console.log(temproles)
 // var temptemp=JSON.parse(JSON.stringify(  profilemenuitems))
 // // var temptemp={...profilemenuitems}
 // console.log(temptemp)
@@ -129,7 +129,7 @@ setprofilemenuitems([
     
 ])
 // setprofilemenuitems(...profilemenuitems,profilemenuitems["1"].items=temproles)
-        console.log(profilemenuitems)
+        // console.log(profilemenuitems)
     },[])
     const tieredMenuItems:Itiredmenu= {
         label: 'Profile',

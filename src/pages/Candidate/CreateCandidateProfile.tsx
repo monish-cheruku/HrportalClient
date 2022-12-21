@@ -32,7 +32,6 @@ function CreateCandidateProfile() {
     const fileref = useRef()
     const navigate = useNavigate()
     const isFormFieldValid = (meta) => !!(meta.touched && meta.error);
-    const edoj = useRef()
     // useLayoutEffect(() => {
     //     if (!location.state && editmode) {
     //         navigate("/dashboard")
@@ -464,7 +463,7 @@ function CreateCandidateProfile() {
                                                 <div className="field fluid">
                                                     <label htmlFor="ExpectedDOJ">Expected DOJ</label>
                                                     <span className="field fluid">
-                                                        <Calendar ref={edoj} id="ExpectedDOJ" {...input} dateFormat="mm/dd/yy" mask="99/99/9999" showIcon placeholder="Select a Date" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <Calendar  id="ExpectedDOJ" {...input} dateFormat="mm/dd/yy" mask="99/99/9999" showIcon placeholder="Select a Date" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                         <label htmlFor="ExpectedDOJ" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                                     </span>
                                                     {getFormErrorMessage(meta)}
@@ -619,8 +618,6 @@ function CreateCandidateProfile() {
                                                         <Panel header={<><input type="file" onChange={async (e) => {
                                                             await console.log(e.target.files[0]);
                                                             values.Resume = e.target.files[0];
-                                                            console.log(edoj);
-                                                            //   edoj.current.show();
                                                             // document.getElementsByName("ExpectedDOJ")[0].focus()
                                                             // setTimeout(()=>{ 
 
@@ -634,7 +631,6 @@ function CreateCandidateProfile() {
                                                                 // document.getElementById("ExpectedCTC")?.getElementsByTagName("input")[0]?.click()
                                                                 // document.getElementById("Email")?.click()
                                                                 // document.getElementById('submitbutton')?.focus()
-                                                                // edoj.current.hide(); 
                                                                 // validate(values) 
                                                             }, 1000);
 
@@ -656,12 +652,12 @@ function CreateCandidateProfile() {
                                                         }>
 
                                                             {/* Uploaded File: {values.Resume.split("/")[values.Resume.split("/").length-1]} */}
-                                                            {typeof values.Resume == typeof "abc" && <>Uploaded File: <Link onClick={e => dispatch(downloadresume(
+                                                            {typeof values.Resume == typeof "abc" && <>Uploaded File: <a  onClick={e => dispatch(downloadresume(
                                                                 {
                                                                     'Resume': values?.Resume.toString().substring(1, values?.Resume.toString().length)
                                                                 }
                                                             )
-                                                            )} to={''} state={location.state} >{values.Resume.split("/")[values.Resume.split("/").length - 1]}</Link>
+                                                            )}  >{values.Resume.split("/")[values.Resume.split("/").length - 1]}</a>
                                                                 <br></br>
 
                                                             </>}

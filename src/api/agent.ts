@@ -14,9 +14,10 @@ import {UserRoles} from "../features/UserRoles/userroleslice"
 
 
 // import {Band} from ../features/Band/bandslice"
-axios.defaults.baseURL = 'http://10.154.155.160:8000/api';
+axios.defaults.baseURL = 'http://10.154.155.173:8000/api';
 
-axios.defaults.baseURL = 'http://10.154.155.169:8000/api';
+// axios.defaults.baseURL = 'http://127.0.0.1:8000/api';
+// axios.defaults.baseURL = 'http://10.154.155.169:8000/api';
 //http://10.154.28.148:8000/api/     monish//
 //http://10.154.155.152:8000/api      /dwaraka
 axios.interceptors.response.use(undefined, (error) => {
@@ -223,6 +224,18 @@ export const candidateactions = {
 
 }
 
+export const employementtypeapis={
+  getallemployementtypes:()=>requests.get("Employementtype"),
+}
 
 
+export const qualificationapis={
+  getallqualifications:()=>requests.get("Qualification"),
+}
 
+
+export const feedbackapis={
+  getfeedbackfields:(data)=>requests.post("candidateFeedback/getfeedbackfields",data),
+  sendfeedback:(data)=>requests.post("candidateFeedback/addfeedback",data),
+  getprevfeedbacks:(data)=>requests.post("candidateFeedback/getcandidatefeedbacks",data)
+}

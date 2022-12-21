@@ -24,10 +24,14 @@ import { Calendar } from "primereact/calendar";
 import { RootState } from "../../app/store";
 import { Card } from 'primereact/card';
 import { usersbyroles } from "../../features/JobPostActions/usersbyrolesslice";
-import { getBusinessHeads, getHrs } from "../../features/JobPostActions/usersbyrolesselector";
+import { getBusinessHeads,  getRecruiters } from "../../features/JobPostActions/usersbyrolesselector";
 import { Button } from "primereact/button";
 import { createnewjobpost, updatejobpost } from "../../features/JobPostActions/jobpostactionsslice";
 import { useLocation, useNavigate } from "react-router-dom";
+import { employementaction } from "../../features/Dropdownoptions/employementtypeslice";
+import { qualificationaction } from "../../features/Dropdownoptions/qualificationtypeslice";
+import { getemplyementtypes } from "../../features/Dropdownoptions/Employementtypeselector";
+import { getallqualification } from "../../features/Dropdownoptions/qualificationselector";
 
 
 
@@ -59,11 +63,13 @@ function CreateJobPost(props) {
         dispatch(getIndustriesaction())
         dispatch(getexperiencelevelsaction())
         dispatch(usersbyroles())
+        dispatch(employementaction())
+        dispatch(qualificationaction())
+
         // console.log(data11.data);
         //setcompany(data11;
         //fetch('./jobpostdata.json').then(res => {res.json(); console.log(res);}).then(d => setcompany(d.data));
     }, []);
-    const Employementtypeoptions=[{ label: "Full-Time", value: "Full-Time" }, { label: "Contract", value: "Contract" }]
     const getFormErrorMessage = (meta) => {
         return isFormFieldValid(meta) && <small className="p-error">{meta.error}</small>;
     };
@@ -88,12 +94,12 @@ function CreateJobPost(props) {
             }
         })
         //   console.log(values["Duration"])
-        if (!values["Duration"] && values.EmploymentType == "Contract") {
+        if (!values["Duration"] && values.EmploymentType != "Full-Time") {
             // console.log(values["Duration"])
 
             errors["Duration"] = "*This field is required"
         }
-        console.log(errors)
+        // console.log(errors)
         return errors;
     };
     const filterbusinessunit = (i: any, s: any) => {
@@ -199,7 +205,7 @@ function CreateJobPost(props) {
                             "Location": datafromprops?.Location,
                             "ExperianceLevel": datafromprops?.ExperianceLevel,
                             "BH_User_Name": datafromprops?.approversDetails.filter((i) => i.role_name == "Business Head")[0].approverName,
-                            "HR_User_Name": datafromprops?.approversDetails.filter((i) => i.role_name == "HR")[0].approverName,
+                            "HR_User_Name": datafromprops?.approversDetails.filter((i) => i.role_name == "Recruiter")[0].approverName,
                             "ModifiedBy": logindata.username
                         } : { UserName: logindata.username, Duration: null, ModifiedBy: null, POReference: null }}
                         // initialValues={{ 
@@ -348,7 +354,7 @@ function CreateJobPost(props) {
                                                 <div className="field">
                                                     <label htmlFor="Employement Type">Employement Type</label>
                                                     <span className="p-float-label">
-                                                        <Dropdown id="Employement Type" {...input} options={Employementtypeoptions} optionLabel="label" placeholder="Select Employement Type" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <Dropdown id="Employement Type" {...input} options={props.getemplyementtypesprop} optionLabel="label" placeholder="Select Employement Type" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
 
                                                     </span>
                                                     {getFormErrorMessage(meta)}
@@ -359,7 +365,7 @@ function CreateJobPost(props) {
 
 
 
-                                    <div hidden={values["EmploymentType"] != "Contract" ? true : false} className="field col-12 md:col-4">
+                                    <div hidden={values["EmploymentType"] == "Full-Time" ? true : false} className="field col-12 md:col-4">
                                         <Field
                                             name="Duration"
                                             render={({ input, meta }) => (
@@ -441,7 +447,7 @@ function CreateJobPost(props) {
                                                 <div className="field fluid">
                                                     <label htmlFor="Highest Qualification">Minimum Education  Qualification</label>
                                                     <span className="field fluid">
-                                                        <Dropdown id="Highest Qualification" {...input} options={[{ label: "PHD", value: "PHD" }, { label: "Masters", value: "Masters" }, { label: "Graduation", value: "Graduation" }, { label: "Diploma", value: "Diploma" }]} optionLabel="label" placeholder="Select Min Education Qualification" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <Dropdown id="Highest Qualification" {...input} options={props.getallqualificationprop} optionLabel="label" placeholder="Select Min Education Qualification" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                     </span>
                                                     {getFormErrorMessage(meta)}
                                                 </div>
@@ -566,9 +572,9 @@ function CreateJobPost(props) {
                                             name="HR_User_Name"
                                             render={({ input, meta }) => (
                                                 <div className="field">
-                                                    <label htmlFor="Talent">Talent Acquisition Team</label>
+                                                    <label htmlFor="Talent">Recruiter Name</label>
                                                     <span className="p-float-label">
-                                                        <Dropdown id="Talent" {...input} options={props.getHrsprop} optionLabel="label" placeholder="Select HR" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <Dropdown id="Talent" {...input} options={props.getRecruitersprop} optionLabel="label" placeholder="Select Recruiter Name" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                     </span>
                                                     {getFormErrorMessage(meta)}
                                                 </div>
@@ -630,8 +636,10 @@ function mapStateToProps(state) {
         getactivecustomeroptionsprop: getactivecustomeroptions(state),
         getactiveIndustryoptionsprop: getactiveIndustryoptions(state),
         getactiveexperienceleveloptionsprop: getactiveexperienceleveloptions(state),
-        getHrsprop: getHrs(state),
+        getRecruitersprop: getRecruiters(state),
         getBusinessHeadsprop: getBusinessHeads(state),
+        getemplyementtypesprop:getemplyementtypes(state),
+        getallqualificationprop:getallqualification(state)
     };
 }
 

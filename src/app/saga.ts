@@ -1,4 +1,4 @@
-import { all, call, fork,spawn } from "redux-saga/effects";
+import { all, call, fork, spawn } from "redux-saga/effects";
 
 import { watcherbusinessunit } from "../features/BusinessUnit/businessunitsaga";
 
@@ -43,124 +43,66 @@ import { watcherLogin } from "../features/Login/Loginsaga";
 import { watcherJobPostAction } from "../features/JobPostActions/jobpostactionssaga";
 
 import { watcherCandidateAction } from "../features/CandidateActions/candidateactionssaga";
-
-
-
-import {watcherpdfdownload} from '../features/Downloadpdfs/downloadsaga'
-
-
+import { watcherpdfdownload } from '../features/Downloadpdfs/downloadsaga'
+import { watcherdropdownoptions } from "../features/Dropdownoptions/dropdownoptionssaga";
+import { watcherfeedback } from "../features/Feedback/feedbacksaga";
 
 function* helloSaga() {
-
   yield console.log("sagas started");
-
   yield "Hello Sagas";
-
 }
 
-
-
 export function* rootSaga() {
-
   // yield all([helloSaga(), watchercounter(),watcherquote(),watchercompany(),
-
   // watcherbusinessunit(),watchercustomer(),watcherexperiencelevel(),watcherdesignation(),watchersubband()3]);
-
   // yield all([helloSaga(), watchercounter(),watcherquote(),watcherbusinessunit()]);
-
   // yield all([helloSaga(), watchercounter(),watcherquote(),watchercustomer()]);
-
-
-
   // yield spawn(helloSaga)
-
   // yield spawn(watchercompany)
-
   // yield spawn(watcherbusinessunit)
-
   // yield spawn(watchercustomer)
-
   // yield spawn(watcherexperiencelevel)
-
   // yield spawn(watcherdesignation)
-
   // // yiespawnork(watcherband)
-
   // yield spawn(watchersubband)
-
   // yield spawn(watcherserviceline)
-
   // yield spawn(watcherLocation)
-
   // yield spawn(watcherBand)
-
   // yield spawn(watcherManageBill)
-
   // yield spawn(watcherInsurance)
-
   // yield spawn(watcherIndustry)
-
   // yield spawn(watcherLogin)
-
   // yield spawn(watcherJobPostAction)
-
   // yield spawn(watcheruserroles)
-
   // yield spawn(watcherpdfdownload)
-
   // yield spawn(watcherCandidateAction)
 
-
-
-
-
-
   const sagas = [
-
     helloSaga,
-
     watchercompany,
-
     watcherbusinessunit,
-
     watchercustomer,
-
     watcherexperiencelevel,
-
     watcherdesignation,
-
     watchersubband,
-
     watcherserviceline,
-
     watcherLocation,
-
     watcherBand,
-
     watcherManageBill,
-
     watcherInsurance,
-
     watcherIndustry,
-
     watcherLogin,
-
     watcherJobPostAction,
-
     watcheruserroles,
-
     watcherpdfdownload,
-
-    watcherCandidateAction
+    watcherCandidateAction,
+    watcherdropdownoptions,
+    watcherfeedback
 
   ];
 
-
-
   yield all(sagas.map(saga =>
-
     spawn(function* () {
-
       while (true) {
         try {
           yield call(saga)
@@ -168,13 +110,8 @@ export function* rootSaga() {
         } catch (e) {
           console.log(e)
           console.log("sagas restarting")
-
         }
-
       }
-
     }))
-
   );
-
 }

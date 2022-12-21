@@ -6,13 +6,12 @@ import { createtoast } from "../ToastSlice"
 
 function* createnewcandidatesagaworker(data) {
     try { 
-        console.log("Into")
-        console.log(data.payload)
+        // console.log(data.payload)
         var res: Promise<any> = yield call(candidateactions.createcandidate,data.payload)
         // console.log(res)
 // yield Candidatedatasagaworker(data.payload={"jobpostID":data.payload.jobpostID})
 // yield call({type:"getCandidatefromapi"})
-  yield put({ type: "CandidateAction/getCandidatefromapi", payload:{"jobpostID":data.payload.get("Job_Post_ID") } })
+  yield put({ type: "Candidatesforjobpost/getCandidatefromapi", payload:{"jobpostID":data.payload.get("Job_Post_ID") } })
         //toast
         yield put(createtoast({
 
@@ -47,10 +46,9 @@ function* createnewcandidatesagaworker(data) {
 }
 function* updatecandidatesagaworker(data) {
     try { 
-        console.log("Into")
-        console.log(data.payload)
+        // console.log(data.payload)
         var res: Promise<any> = yield call(candidateactions.updatecandidate,data.payload)
-        yield put({ type: "CandidateAction/getCandidatefromapi", payload:{"jobpostID":data.payload.get("Job_Post_ID") } })
+        yield put({ type: "Candidatesforjobpost/getCandidatefromapi", payload:{"jobpostID":data.payload.get("Job_Post_ID") } })
         // console.log(res)
 
 
@@ -90,8 +88,8 @@ function* Candidatedatasagaworker(data) {
     try {
        
         var res: Promise<any> = yield call(candidateactions.getallcandidatedata, data.payload)
-        console.log(res)
-        yield put({ type: "Candidateactiondetails/Candidates", payload: res })
+        // console.log(res)
+        yield put({ type: "Candidatesforjobpost/Candidatesdata", payload: res })
     }
     catch (err) {
         console.log(err)
@@ -104,7 +102,7 @@ function* candidateactionsdetailsactionsagaworker(data) {
     try { 
       
         var res: Promise<any> = yield call(candidateactions.candidateactiondetails,data.payload)
-        console.log(res)
+        // console.log(res)
         // Candidatedatasagaworker(res)
         yield put({ type: "Candidateactiondetails/Candidates", payload: res })
 
@@ -137,9 +135,10 @@ function* getcandiatessagaworker(data) {
 
 export function* watcherCandidateAction() {
 
-    yield takeEvery("CandidateAction/createnewcandidate", createnewcandidatesagaworker)
-    yield takeEvery("CandidateAction/updatecandidate", updatecandidatesagaworker)
-    yield takeEvery("CandidateAction/getCandidatefromapi", Candidatedatasagaworker)
+    yield takeEvery("Candidatesforjobpost/createnewcandidate", createnewcandidatesagaworker)
+    yield takeEvery("Candidatesforjobpost/updatecandidate", updatecandidatesagaworker)
+    yield takeEvery("Candidatesforjobpost/getCandidatefromapi", Candidatedatasagaworker)
+    
     yield takeEvery("Candidateactiondetails/candidateactiondetails", getcandiatessagaworker)
     yield takeEvery("Candidateactiondetails/candidateactionsdetailsaction",candidateactionsdetailsactionsagaworker)
     // yield takeEvery("Industry/createIndustryaction", createIndustrysagaworker)

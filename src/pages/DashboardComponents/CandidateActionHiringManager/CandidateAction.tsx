@@ -11,9 +11,9 @@ import { NavLink } from 'react-router-dom';
 import { Link, useNavigate } from 'react-router-dom';
 import { RootState } from '../../../app/store';
 // import {  getJobPostActionfromapi, JobPostActiondata } from '../../../features/JobPostActions/jobpostactionsslice';
-import {generatepdf} from "../../../api/agent"
+import { generatepdf } from "../../../api/agent"
 import { candidateactionsdetailsaction } from '../../../features/CandidateActions/candidateactiondetailsslice';
-const  CandidateAction=() =>{
+const CandidateAction = () => {
 
 
     const [productDialog, setProductDialog] = useState(false);
@@ -31,36 +31,36 @@ const  CandidateAction=() =>{
     });
     const [company, setcompany] = useState();
 
-    const candidateactionsdata = useSelector((state: RootState) => state.Candidateactiondetails);
+    const candidateactionsdata = useSelector((state: RootState) => state.Candidateactions);
     const Logindata = useSelector((state: RootState) => state.Login);
-    
-// const navigate=useNavigate()
-// // const useRedirect=
+
+    // const navigate=useNavigate()
+    // // const useRedirect=
     const dispatch = useDispatch();
 
-//     useEffect(() => {
-// // alert("rerendering")
-//         dispatch(getJobPostActionfromapi({
-//             "ApproverName":Logindata.username
-//             // "ApproverName":"nkanagala"
-//         }))
-//         // console.log(jobpostactionsdata)
-//         //dispatch(getcompaniesaction());
-       
-//         // console.log(data11.data);
-//         //setcompany(data11;
-//         //fetch('./jobpostdata.json').then(res => {res.json(); console.log(res);}).then(d => setcompany(d.data));
-//     }, []);
-useEffect(()=>{
-    dispatch(candidateactionsdetailsaction({
+    //     useEffect(() => {
+    // // alert("rerendering")
+    //         dispatch(getJobPostActionfromapi({
+    //             "ApproverName":Logindata.username
+    //             // "ApproverName":"nkanagala"
+    //         }))
+    //         // console.log(jobpostactionsdata)
+    //         //dispatch(getcompaniesaction());
 
-        "ApproverName":"sbatchu"
-    
-    }))
-console.log("working")
-console.log(candidateactionsdata)
+    //         // console.log(data11.data);
+    //         //setcompany(data11;
+    //         //fetch('./jobpostdata.json').then(res => {res.json(); console.log(res);}).then(d => setcompany(d.data));
+    //     }, []);
+    useEffect(() => {
+        dispatch(candidateactionsdetailsaction({
 
-},[])
+            "ApproverName": Logindata.username
+
+        }))
+        // console.log("working")
+        console.log(candidateactionsdata)
+
+    }, [])
     const onGlobalFilterChange2 = (e: any) => {
         const value = e.target.value;
         let _filters2 = { ...filters2 };
@@ -73,7 +73,7 @@ console.log(candidateactionsdata)
         setSubmitted(false);
         setProductDialog(false);
     };
-    const handleredirect=(s:string)=>{
+    const handleredirect = (s: string) => {
         console.log(s)
         // Redirect()
     }
@@ -102,7 +102,7 @@ console.log(candidateactionsdata)
             </div>
         );
     };
-    
+
     const leftToolbarTemplate = () => {
         return (
             <React.Fragment>
@@ -110,7 +110,7 @@ console.log(candidateactionsdata)
             </React.Fragment>
         );
     };
-   
+
 
 
     //  const end = <InputText placeholder="Search" type="text" />;
@@ -125,31 +125,49 @@ console.log(candidateactionsdata)
         )
     }
 
-    
-    const exptemplate=(rowdata)=>{
-        return(
-            <div>{rowdata.OverallExpYear +"."+rowdata.OverallExpMonth+" Years"}</div>
+
+    const exptemplate = (rowdata) => {
+        return (
+            <div>{rowdata.OverallExpYear + "." + rowdata.OverallExpMonth + " Years"}</div>
+        )
+    }
+    const linktemplate = (rowdata) => {
+        var temp: String = rowdata.stage_name.toString()
+        return (
+            <>
+                {temp == "Candidate Review" &&
+                    <Link to={"/candidatereview/" + rowdata.CandidateCode} state={rowdata}  >{rowdata.CandidateCode}</Link>}
+
+                {/* {emp == "Candidate Interview" &&<Link to={"/candidatefeedback/" + rowdata.CandidateCode} state={rowdata}  >{rowdata.CandidateCode}</Link>
+                }                      */}
+                {temp == "Candidate Interview" &&<Link to={"/Interview/Hiringmanagerinterview"} state={rowdata}  >{rowdata.CandidateCode}</Link>
+                } {temp == "Further Review" &&<Link to={"/Interview/Hiringmanagerinterviewi2"} state={rowdata}  >{rowdata.CandidateCode}</Link>
+                } {temp == "HR Interview" &&<Link to={"/Interview/HRinterview"} state={rowdata}  >{rowdata.CandidateCode}</Link>
+                }
+                {temp == "HM Hold" &&<Link to={"/Interview/HRinterview"} state={rowdata}  >{rowdata.CandidateCode}</Link>
+                }
+
+                   
+                   
+                
+            </>
         )
     }
     return (
         <div>
-           
-            <DataTable value={candidateactionsdata} showGridlines={false} responsiveLayout="scroll" paginator={true} rows={5} 
-            globalFilterFields={['CandidateCode','CanFirstName','JobCode','JobTitle','OverallExpYear','ExpectedCTC','OnBoardingDate','stage_name']} filters={filters2} header={Headercomp}>
-               
-                <Column field="CandidateCode" header="Candiate Code" sortable style={{ minWidth: '11rem', maxWidth : '14rem'}} body={rowdata=>
-                
-                rowdata.Stage=="Candidate Review"?<Link to={"/candidatereview/"+rowdata.CandidateCode} state={rowdata}  >{rowdata.CandidateCode}</Link>:
-                <Link to={"/candidatereview/"+rowdata.CandidateCode} state={rowdata}  >{rowdata.CandidateCode}</Link>                                  
-                }></Column>
-                <Column field="CanFirstName" body ={nametemplate} header="Candidate Name" sortable></Column>
+
+            <DataTable value={candidateactionsdata} showGridlines={false} responsiveLayout="scroll" paginator={true} rows={5}
+                globalFilterFields={['CandidateCode', 'CanFirstName', 'JobCode', 'JobTitle', 'OverallExpYear', 'ExpectedCTC', 'OnBoardingDate', 'stage_name']} filters={filters2} header={Headercomp}>
+
+                <Column field="CandidateCode" header="Candiate Code" sortable style={{ minWidth: '11rem', maxWidth: '14rem' }} body={linktemplate}></Column>
+                <Column field="CanFirstName" body={nametemplate} header="Candidate Name" sortable></Column>
                 <Column field="JobCode" header="Job Code" sortable></Column>
                 <Column field="JobTitle" header="Job Title" sortable></Column>
-                <Column field="OverallExpYear" body={exptemplate} header="Experiance"sortable ></Column>
+                <Column field="OverallExpYear" body={exptemplate} header="Experiance" sortable ></Column>
                 <Column field="ExpectedCTC" header="Expected CTC" sortable></Column>
                 <Column field="OnBoardingDate" header="Expected DOJ" sortable></Column>
                 <Column field="stage_name" header="Status" sortable></Column>
- 
+
             </DataTable>
 
 

@@ -61,7 +61,7 @@ const candidateactiondetailsSlice=createSlice({
     initialState,
     reducers:{
         Candidates:(state,payload:PayloadAction<any>)=>{
-            console.log("setting candidate details")
+            // console.log("setting candidate details")
             var temp=payload.payload
             state=[...temp]
           

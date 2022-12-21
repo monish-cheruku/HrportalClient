@@ -16,10 +16,10 @@ function JobPostDetails(props) {
   
   const dispatch = useDispatch()
 console.log(jobdata)
-const formatCurrency = (value: any) => {
 useEffect(()=>{
-console.log(jobdata)
+  console.log(jobdata)
 },[])
+const formatCurrency = (value: any) => {
   return value?value.toLocaleString('en-US', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }):'';
 
 

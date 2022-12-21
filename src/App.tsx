@@ -56,6 +56,10 @@ import CreateCandidateProfile from './pages/Candidate/CreateCandidateProfile'
 import JobPostProfileUpload from "./pages/DashboardComponents/JobPostActionsHiringManager/JobPostsProfileUpload"
 import CandidateDetailsview from './pages/DashboardComponents/CandidateDetailsview';
 import CandidateReview from './pages/DashboardComponents/CandidateActionHiringManager/CandidateReview';
+import CandidateShortlist from './pages/DashboardComponents/CandidateActionHiringManager/CandidateShortlist';
+import HiringmanagerInterview from './pages/InterviewComponents/HiringmanagerInterview';
+import HiringManagerin2 from './pages/InterviewComponents/HiringManagerin2';
+import HRInterview from './pages/InterviewComponents/HRInterview';
 const App = () => {
     const toastdata = useSelector((state: RootState) => state.toaster)
     const state = useSelector((state: RootState) => state)
@@ -92,7 +96,7 @@ const App = () => {
     }, [location]);
 
     useEffect(() => {
-        console.log(toastdata)
+        // console.log(toastdata)
         if(toastdata.id!=1)
         if (toast.current ? toastdata.data != "" : false ) {
 
@@ -370,6 +374,7 @@ const App = () => {
 
 
 
+
                                             <Route path="/jobpostsprofileupload/:JobCode"  element={<JobPostProfileUpload />} />
                                             <Route path="/jobpostsactionApproval/:JobCode"  element={<JobpostsactionApproval />} />
                                             <Route path="/jobpostsprofileupload/:JobCode"  element={<JobPostProfileUpload />} />
@@ -381,6 +386,11 @@ const App = () => {
                                             <Route path="/candidate/updatecandidateprofile"  element={<CreateCandidateProfile/>} />
                                             <Route path="/candidate/candidatedetailsview"  element={<CandidateDetailsview/>} />
                                             <Route path="/candidatereview/:CandidateCode"  element={<CandidateReview/>} />
+                                            <Route path="/candidatefeedback/:CandidateCode"  element={<CandidateShortlist/>} />
+                                            
+                                            <Route path="/Interview/Hiringmanagerinterview" element={<HiringmanagerInterview></HiringmanagerInterview>}/>
+                                            <Route path="/Interview/Hiringmanagerinterviewi2" element={<HiringManagerin2></HiringManagerin2>}/>
+                                            <Route path="/Interview/HRinterview" element={<HRInterview></HRInterview>}/>
                                         </Routes>
                                     </div>
 

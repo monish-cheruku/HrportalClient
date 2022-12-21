@@ -3,11 +3,11 @@ import IOptions from "../../models/Ioptions";
 
 
 export const getusersbyroles=(store)=>store.usersbyroles
-export const getHrs=createSelector(
+export const getRecruiters=createSelector(
 [getusersbyroles],(usersbyroles)=>{
 var temp:IOptions[]=[]
     usersbyroles.forEach(element => {
-        if(element.RoleName=="HR"){
+        if(element.RoleName=="Recruiter"){
            
 temp.push(
     {

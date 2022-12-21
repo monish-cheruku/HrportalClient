@@ -68,11 +68,11 @@ CreatedOn:Date
 }
 
 const initialState: ICandidate[] = [];
-export const CandidateActionSlice = createSlice({
-    name: 'CandidateAction',
+export const CandidatesforjobpostSlice = createSlice({
+    name: 'Candidatesforjobpost',
     initialState:initialState,
     reducers: {
-        Candidatedata:  (state, payload: any) => {
+        Candidatesdata:  (state, payload: any) => {
            
             var temp=payload.payload
             state=[...temp]
@@ -100,5 +100,5 @@ console.log("updating cand")
 
 
 )
-export const {Candidatedata,getCandidatefromapi,createnewcandidate,updatecandidate, getApproversfromapi}=CandidateActionSlice.actions
-export default CandidateActionSlice.reducer
+export const {Candidatesdata,getCandidatefromapi,createnewcandidate,updatecandidate, getApproversfromapi}=CandidatesforjobpostSlice.actions
+export default CandidatesforjobpostSlice.reducer
