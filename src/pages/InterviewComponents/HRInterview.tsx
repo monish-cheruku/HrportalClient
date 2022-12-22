@@ -10,8 +10,11 @@ import { Field, Form } from 'react-final-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router'
 import { RootState } from '../../app/store'
-import { feedbackfieldaction, sendfeedbackaction } from '../../features/Feedback/feedbackfieldsslice'
-import { prevfeedbacksaction } from '../../features/Feedback/prevfeedbacks'
+import { candidateworkflowsubmitaction } from '../../features/CandidateActions/candidateactiondetailsslice'
+import { feedbackfieldaction } from '../../features/CandidateActions/feedbackfieldsslice'
+import { prevfeedbacksaction } from '../../features/CandidateActions/prevfeedbacks'
+// import { feedbackfieldaction, sendfeedbackaction } from '../../features/Feedback/feedbackfieldsslice'
+// import { prevfeedbacksaction } from '../../features/Feedback/prevfeedbacks'
 import CandidatePrevFeedbacks from '../DashboardComponents/CandidateActionHiringManager/CandidatePrevFeedbacks'
 import CandidateDetails from '../DashboardComponents/CandidateDetails'
 import JobPostDetails from '../DashboardComponents/JobPostDetails'
@@ -113,7 +116,7 @@ function HRInterview() {
                 req.comments = values.comments
                 req.status = values.status
                 console.log(req)
-                dispatch(sendfeedbackaction(req))
+                dispatch(candidateworkflowsubmitaction(req))
 
 
               }}

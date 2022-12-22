@@ -30,8 +30,8 @@ import CandidatesforjobpostReducer from '../features/CandidateActions/candidatea
 import CandidateactiondetailsReducer from '../features/CandidateActions/candidateactiondetailsslice';
 import qualificationReducer from '../features/Dropdownoptions/qualificationtypeslice';
 import employementtypeReducer from '../features/Dropdownoptions/employementtypeslice';
-import feedbackfieldsReducer from '../features/Feedback/feedbackfieldsslice';
-import  prevfeedbackReducer from "../features/Feedback/prevfeedbacks"
+import feedbackfieldsReducer from '../features/CandidateActions/feedbackfieldsslice';
+import  prevfeedbackReducer from "../features/CandidateActions/prevfeedbacks"
 import  globalReducer from "../features/Misc/globalslice"
 // export function useReduxStore() {
 const sagaMiddleware = createSagaMiddleware();

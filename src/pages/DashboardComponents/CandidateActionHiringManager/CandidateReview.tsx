@@ -11,7 +11,7 @@ import JobpostsactionApproval from '../JobPostActionsHiringManager/Jobpostsactio
 import { Button } from 'primereact/button'
 import { RadioButton } from 'primereact/radiobutton'
 import { InputTextarea } from 'primereact/inputtextarea'
-import { candidatereviewsubmitaction } from '../../../features/CandidateActions/candidateactionsslice'
+import { candidateworkflowsubmitaction } from '../../../features/CandidateActions/candidateactiondetailsslice'
 import { useDispatch } from 'react-redux'
 import { Card } from 'primereact/card'
 import { Panel } from 'primereact/panel'
@@ -42,16 +42,18 @@ function CandidateReview() {
   const handlesubmit = () => {
     console.log(comments)
     console.log(status)
-    dispatch(candidatereviewsubmitaction({
+    dispatch(candidateworkflowsubmitaction({
 
 
-      "CandidateApprovalId": candidatedata.CandidateApprovalID,
+      "candidateapprovalid": candidatedata.CandidateApprovalID,
 
-      "CandidateId": candidatedata.CandidateId,
+      "candidateid": candidatedata.CandidateId,
 
-      "reviewStatus": status,
+      "status": status,
 
-      "reviewComments": comments
+      "comments": comments,
+
+      "feedback" : null
 
 
     }))
@@ -92,7 +94,7 @@ navigate(-1)
               <br></br>
 
 
-              <RadioButton className='ml-2' name="city" value="Rejected at Review" onChange={(e) => setstatus(e.value)} checked={status === 'Rejected at Review'} />
+              <RadioButton className='ml-2' name="city" value="Rejected" onChange={(e) => setstatus(e.value)} checked={status === 'Rejected'} />
               <span><label className="radio-inline me-3">Rejected
               </label>
               </span>

@@ -14,7 +14,7 @@ import { setdashboardactivetab } from "../features/Misc/globalslice";
 
 const Dashboard = () => {
     const [openedtab,setOpenedtab]=useState("jobpostactions")
-    const[nooftabs,setnooftabs]=useState(3)
+    const[nooftabs,setnooftabs]=useState(4)
     const myjobpostactions =useSelector((state:RootState)=>state.JobPostAction);
     const mycandidateactions =useSelector((state:RootState)=>state.Candidateactions);
     const globaldata =useSelector((state:RootState)=>state.global);

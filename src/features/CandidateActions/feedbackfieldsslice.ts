@@ -18,10 +18,8 @@ export const feedbackfieldSlice=createSlice({
         feedbackfieldaction:(state,payload:PayloadAction<any>)=>{
 
         },
-        sendfeedbackaction:(state,payload:PayloadAction<any>)=>{
-
-        },
+  
     }
 })
-export const{feedbackfielddata,feedbackfieldaction,sendfeedbackaction}=feedbackfieldSlice.actions
+export const{feedbackfielddata,feedbackfieldaction}=feedbackfieldSlice.actions
 export default feedbackfieldSlice.reducer

@@ -115,28 +115,28 @@ function* candidateactionsdetailsactionsagaworker(data) {
 
     }
 }
-function* getcandiatessagaworker(data) {
+// function* getcandiatessagaworker(data) {
+//     try { 
+      
+//         var res: Promise<any> = yield call(candidateactions.candidateactiondetails,data.payload)
+//         // console.log(res)
+//         yield put({ type: "Candidates/Candidates", payload: res })
+
+//         //toast
+//     }
+//     catch (err) {
+//         console.log(err)
+
+
+
+//     }
+// }
+function* candidateworkflowsubmitactionsagaworker(data) {
     try { 
       
-        var res: Promise<any> = yield call(candidateactions.candidateactiondetails,data.payload)
+        var res: Promise<any> = yield call(candidateactions.candidateworkflowsubmit,data.payload)
         // console.log(res)
-        yield put({ type: "Candidates/Candidates", payload: res })
-
-        //toast
-    }
-    catch (err) {
-        console.log(err)
-
-
-
-    }
-}
-function* candidatereviewsubmitactionsagaworker(data) {
-    try { 
-      
-        var res: Promise<any> = yield call(candidateactions.candidatesreviewsubmit,data.payload)
-        // console.log(res)
-        yield put({ type: "Candidates/Candidates", payload: res })
+        // yield put({ type: "Candidateactiondetails/Candidates", payload: res })
 
         //toast
         yield put(createtoast({
@@ -174,15 +174,49 @@ yield put(createtoast({
 }
 
 
+function* feedbackfieldactionsagaworker(data){
+    try{
+        var res: Promise<any>=yield call(candidateactions.getfeedbackfields,data.payload)
+        // console.log(res)
+        
+        yield put({type:"feedbackfield/feedbackfielddata",payload:res})
+    }
+    catch(err){
+console.log(err)
+
+
+
+    }
+}
+
+function* prevfeedbacksactionsagaworker(data){
+    try{
+        var res: Promise<any>=yield call(candidateactions.getprevfeedbacks,data.payload)
+        // console.log(res)
+        
+        yield put({type:"prevfeedback/prevfeedbackdata",payload:res})
+    }
+    catch(err){
+console.log(err)
+
+
+
+    }
+}
+
+
 export function* watcherCandidateAction() {
 
     yield takeEvery("Candidatesforjobpost/createnewcandidate", createnewcandidatesagaworker)
     yield takeEvery("Candidatesforjobpost/updatecandidate", updatecandidatesagaworker)
     yield takeEvery("Candidatesforjobpost/getCandidatefromapi", Candidatedatasagaworker)
-    yield takeEvery("Candidatesforjobpost/candidatereviewsubmitaction", candidatereviewsubmitactionsagaworker)
+    yield takeEvery("Candidateactiondetails/candidateworkflowsubmitaction", candidateworkflowsubmitactionsagaworker)
 
-    yield takeEvery("Candidateactiondetails/candidateactiondetails", getcandiatessagaworker)
+    // yield takeEvery("Candidateactiondetails/candidateactiondetails", getcandiatessagaworker)
     yield takeEvery("Candidateactiondetails/candidateactionsdetailsaction",candidateactionsdetailsactionsagaworker)
     // yield takeEvery("Industry/createIndustryaction", createIndustrysagaworker)
     // yield takeEvery("Industry/updateIndustryaction", updateIndustrysagaworker)
+    yield takeEvery("feedbackfield/feedbackfieldaction",feedbackfieldactionsagaworker)
+    yield takeEvery("prevfeedback/prevfeedbacksaction",prevfeedbacksactionsagaworker)
+    
 }

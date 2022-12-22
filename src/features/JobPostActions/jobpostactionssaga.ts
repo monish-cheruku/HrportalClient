@@ -160,22 +160,22 @@ function* getmyjobpostssagaworker(data) {
 
     }
 }
-function* getcandiatessagaworker(data) {
-    try { 
+// function* getcandiatessagaworker(data) {
+//     try { 
       
-        var res: Promise<any> = yield call(jobpostactions.candidates,data.payload)
-        // console.log(res)
-        yield put({ type: "Candidates/Candidates", payload: res })
+//         var res: Promise<any> = yield call(jobpostactions.candidates,data.payload)
+//         // console.log(res)
+//         yield put({ type: "Candidates/Candidates", payload: res })
 
-        //toast
-    }
-    catch (err) {
-        console.log(err)
+//         //toast
+//     }
+//     catch (err) {
+//         console.log(err)
 
 
 
-    }
-}
+//     }
+// }
 
 export function* watcherJobPostAction() {
     yield takeEvery("JobPostAction/getJobPostActionfromapi", JobPostActiondatasagaworker)
@@ -184,7 +184,7 @@ export function* watcherJobPostAction() {
     yield takeEvery("JobPostAction/createnewjobpost", createnewjobpostsagaworker)
     yield takeEvery("JobPostAction/updatejobpost", updatejobpostsagaworker)
     yield takeEvery("myjobposts/myjobpostsaction", getmyjobpostssagaworker)
-    yield takeEvery("Candidates/candidateaction", getcandiatessagaworker)
+    // yield takeEvery("Candidates/candidateaction", getcandiatessagaworker)
 
     // yield takeEvery("Industry/createIndustryaction", createIndustrysagaworker)
     // yield takeEvery("Industry/updateIndustryaction", updateIndustrysagaworker)

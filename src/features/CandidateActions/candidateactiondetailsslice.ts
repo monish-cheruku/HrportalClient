@@ -73,8 +73,12 @@ const candidateactiondetailsSlice=createSlice({
 
     candidateactionsdetailsaction:(state,payload:PayloadAction<any>)=>{
 
-    }
+    },
+ 
+    candidateworkflowsubmitaction:(state,payload:PayloadAction<any>)=>{
+        console.log(payload)
+    },
 },
 })
-export const{Candidates,candidateactionsdetailsaction}=candidateactiondetailsSlice.actions
+export const{Candidates,candidateactionsdetailsaction,candidateworkflowsubmitaction }=candidateactiondetailsSlice.actions
 export default candidateactiondetailsSlice.reducer

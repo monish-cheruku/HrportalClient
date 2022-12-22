@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { RootState } from '../../../app/store'
-import { feedbackfieldaction, sendfeedbackaction } from '../../../features/Feedback/feedbackfieldsslice'
+// import { feedbackfieldaction, sendfeedbackaction } from '../../../features/Feedback/feedbackfieldsslice'
 import CandidateDetails from '../CandidateDetails'
 import JobPostDetails from '../JobPostDetails'
 import { Accordion, AccordionTab } from 'primereact/accordion';
@@ -13,9 +13,12 @@ import { Panel } from 'primereact/panel'
 import { Card } from 'primereact/card'
 import { Rating } from 'primereact/rating';
 import { InputTextarea } from 'primereact/inputtextarea'
-import { prevfeedbacksaction } from '../../../features/Feedback/prevfeedbacks'
+// import { prevfeedbacksaction } from '../../../features/Feedback/prevfeedbacks'
 import { Field, Form } from 'react-final-form'
 import CandidatePrevFeedbacks from './CandidatePrevFeedbacks'
+import { feedbackfieldaction } from '../../../features/CandidateActions/feedbackfieldsslice'
+import { prevfeedbacksaction } from '../../../features/CandidateActions/prevfeedbacks'
+import { candidateworkflowsubmitaction } from '../../../features/CandidateActions/candidateactiondetailsslice'
 
 function CandidateShortlist() {
   const location = useLocation()
@@ -112,7 +115,7 @@ function CandidateShortlist() {
                   req.comments = values.comments
                   req.status = values.status
                   console.log(req)
-                  dispatch(sendfeedbackaction(req))
+                  dispatch(candidateworkflowsubmitaction(req))
 
 
                 }}
