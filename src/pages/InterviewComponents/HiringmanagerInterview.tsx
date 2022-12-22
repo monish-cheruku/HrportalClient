@@ -180,7 +180,7 @@ function HiringmanagerInterview() {
                         <Field
                           name="status"
                           render={({ input, meta }) => (
-                            <RadioButton  {...input} className='ml-2' inputId="city4" name="city" value="Shortlisted" checked={values.status == "Shortlisted"} />
+                            <RadioButton  {...input} className='ml-2' inputId="city4" name="city" value="HM Shortlisted" checked={values.status == "HM Shortlisted"} />
                           )} />
                         <label className="radio-inline me-3">Shortlist
                         </label>
@@ -200,7 +200,7 @@ function HiringmanagerInterview() {
                         <Field
                           name="status"
                           render={({ input, meta }) => (
-                            <RadioButton {...input} className='ml-2' inputId="city4" name="city" value="Hold at HM Interview" checked={values.status == "Hold at HM Interview"} />
+                            <RadioButton {...input} className='ml-2' inputId="city4" name="city" value="HM Hold" checked={values.status == "HM Hold"} />
                           )} />
                         <label className="radio-inline me-3">Hold
                         </label>

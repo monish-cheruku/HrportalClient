@@ -154,8 +154,7 @@ const CandidateAction = () => {
         )
     }
     const datetemplate = (rowdata: any) => {
-        console.log(rowdata.OnBoardingDate)
-        console.log(formatDate(new Date(rowdata.OnBoardingDate)))
+      
        return <>{formatDate(new Date(rowdata.OnBoardingDate))}</>;
 
         

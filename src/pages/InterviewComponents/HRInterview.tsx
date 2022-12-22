@@ -180,8 +180,8 @@ function HRInterview() {
                         <Field
                           name="status"
                           render={({ input, meta }) => (
-                            <RadioButton {...input} className='ml-2' inputId="city4" name="city" value="Selected" checked={values.status == "Selected"} />
-                          )} /><label className="radio-inline me-3">Selected
+                            <RadioButton {...input} className='ml-2' inputId="city4" name="city" value="HR Shortlisted" checked={values.status == "HR Shortlisted"} />
+                          )} /><label className="radio-inline me-3">Shortlist
                         </label>
 
                       </span>
