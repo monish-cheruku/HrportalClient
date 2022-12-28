@@ -14,11 +14,11 @@ import {UserRoles} from "../features/UserRoles/userroleslice"
 
 
 // import {Band} from ../features/Band/bandslice"
-// axios.defaults.baseURL = 'http://10.154.155.219:8000/api';
+axios.defaults.baseURL = 'http://10.154.155.50:8000/api';
 
 // axios.defaults.baseURL = 'http://10.154.28.135:8000/api';
 
-axios.defaults.baseURL = 'http://127.0.0.1:8000/api';
+// axios.defaults.baseURL = 'http://127.0.0.1:8000/api';
 // axios.defaults.baseURL = 'http://10.154.155.169:8000/api';
 //http://10.154.28.135:8000/api/     monish//
 //http://10.154.155.152:8000/api      /dwaraka

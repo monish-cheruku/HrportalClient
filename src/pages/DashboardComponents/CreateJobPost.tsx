@@ -186,8 +186,8 @@ function CreateJobPost(props) {
                             "JobTitle": datafromprops?.JobTitle,
                             "JobDesc": datafromprops?.JobDesc,
                             "NoOfPositions": datafromprops?.NoOfPositions,
-                            "minimumexperiance": datafromprops?.MinimumExperiance,
-                            "maximumexperiance": datafromprops?.MaximumExperiance,
+                            "MinimumExperiance": datafromprops?.MinimumExperiance,
+                            "MaximumExperiance": datafromprops?.MaximumExperiance,
                             "MaximumCTC": datafromprops?.MaximumCTC,
 
 
@@ -483,11 +483,11 @@ function CreateJobPost(props) {
                                             name="MinimumExperiance"
                                             render={({ input, meta }) => (
                                                 <div className="field">
-                                                    <label htmlFor="minimumexperiance">Minimum Experiance(in Years)</label>
+                                                    <label htmlFor="MinimumExperiance">Minimum Experiance(in Years)</label>
                                                     <span className="p-float-label">
-                                                        <InputNumber id="minimumexperiance" value={values.minimumexperiance} showButtons min={0} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <InputNumber id="MinimumExperiance" value={values.MinimumExperiance} showButtons min={0} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
 
-                                                        <label htmlFor="minimumexperiance" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
+                                                        <label htmlFor="MinimumExperiance" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                                     </span>
                                                     {getFormErrorMessage(meta)}
                                                 </div>
@@ -500,11 +500,11 @@ function CreateJobPost(props) {
                                             name="MaximumExperiance"
                                             render={({ input, meta }) => (
                                                 <div className="field fluid">
-                                                    <label htmlFor="maximumexperiance">Maximum Experiance(in Years)</label>
+                                                    <label htmlFor="MaximumExperiance">Maximum Experiance(in Years)</label>
                                                     <span className="field fluid">
-                                                        <InputNumber id="maximumexperiance" value={values.maximumexperiance} showButtons min={0} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <InputNumber id="MaximumExperiance" value={values.MaximumExperiance} showButtons min={0} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
 
-                                                        <label htmlFor="maximumexperiance" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
+                                                        <label htmlFor="MaximumExperiance" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                                     </span>
                                                     {getFormErrorMessage(meta)}
                                                 </div>
@@ -519,13 +519,13 @@ function CreateJobPost(props) {
                                             name="MaximumCTC"
                                             render={({ input, meta }) => (
                                                 <div className="field">
-                                                    <label htmlFor="maximumctc">Maximum CTC</label>
+                                                    <label htmlFor="MaximumCTC">Maximum CTC</label>
                                                     <span className="p-float-label">
                                                         {/* <InputNumber id="No of openings" {...input} autoFocus className={classNames({ "p-invalid": isFormFieldValid(meta) })} /> */}
                                                         {/* <InputNumber inputId="integeronly" value={value1} onValueChange={(e) => setValue1(e.value)} /> */}
-                                                        <InputNumber id="maximumctc" min={0} value={values.MaximumCTC} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} mode="currency" currency="INR" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <InputNumber id="MaximumCTC" min={0} value={values.MaximumCTC} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} mode="currency" currency="INR" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
 
-                                                        <label htmlFor="maximumctc" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
+                                                        <label htmlFor="MaximumCTC" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                                     </span>
                                                     {getFormErrorMessage(meta)}
                                                 </div>

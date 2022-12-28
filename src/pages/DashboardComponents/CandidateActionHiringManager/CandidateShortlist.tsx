@@ -34,7 +34,7 @@ function CandidateShortlist() {
     console.log(candidatedata)
     console.log(prevfeedbacks)
     dispatch(feedbackfieldaction({
-      "Interview_Round": "TechnicalRound_1"
+      "stagename": candidatedata.stage_name
       // "Interview_Round": "TechnicalRound_2"
       // "Interview_Round": "HRRound"
     }))
@@ -64,7 +64,7 @@ function CandidateShortlist() {
             </AccordionTab>
 
           </Accordion>
-          <CandidatePrevFeedbacks feedbacks={prevfeedbacks}></CandidatePrevFeedbacks>
+          <CandidatePrevFeedbacks feedbacks={prevfeedbacks}  comments={candidatedata.Comments}></CandidatePrevFeedbacks>
           <br></br>
           <br></br>
 
@@ -174,7 +174,7 @@ function CandidateShortlist() {
 
 
 
-                    <div className="p-fluid  grid">
+                    {/* <div className="p-fluid  grid">
                       <div className="field col-12 md:col-3">
 
 
@@ -253,8 +253,200 @@ function CandidateShortlist() {
                         </div>
 
                       </div>
-                    </div>
+                    </div> */}
+                    {candidatedata.stage_name == "Candidate Interview" &&
+                      <div className="p-fluid  grid">
+                        <div className="field col-12 md:col-3">
 
+
+
+                          <span>
+                            <Field
+                              name="status"
+                              render={({ input, meta }) => (
+                                <RadioButton  {...input} className='ml-2' inputId="city4" name="city" value="HM Shortlisted" checked={values.status == "HM Shortlisted"} />
+                              )} />
+                            <label className="radio-inline me-3">Shortlist
+                            </label>
+                          </span>
+                          <br></br>
+                          <span>
+                            <Field
+                              name="status"
+                              render={({ input, meta }) => (
+                                <RadioButton  {...input} className='ml-2' inputId="city4" name="city" value="Further Review" checked={values.status == "Further Review"} />
+                              )} />
+                            <label className="radio-inline me-3">Further Review
+                            </label>
+                          </span>
+                          <br></br>
+                          <span>
+                            <Field
+                              name="status"
+                              render={({ input, meta }) => (
+                                <RadioButton {...input} className='ml-2' inputId="city4" name="city" value="HM Hold" checked={values.status == "HM Hold"} />
+                              )} />
+                            <label className="radio-inline me-3">Hold
+                            </label>
+                          </span>
+                          <br></br>
+                          <span>
+                            <Field
+                              name="status"
+                              id="r"
+                              render={({ input, meta }) => (
+                                <RadioButton {...input} id="r" className='ml-2' name="city" value="Rejected" checked={values.status == "Rejected"} />
+                              )} />
+                            <label className="radio-inline me-3" htmlFor={'r'}>Rejected
+                            </label>
+                          </span>
+
+
+
+
+                        </div>
+                        <div className="field col-12 md:col-7">
+                          <Field
+                            name="comments"
+                            render={({ input, meta }) => (
+                              <>
+                                <label>Comments : </label>
+                                <InputTextarea {...input}>
+                                </InputTextarea>
+                              </>
+                            )}
+                          />
+                        </div>
+                        <div className="field col-12 md:col-2">
+                          <div style={{ float: "right", position: "relative", display: "flex" }}>
+
+                            <Button type="button" className="mr-4" onClick={e => { navigate(-1) }}> Cancel</Button>
+                            <Button >Submit</Button>
+                          </div>
+
+                        </div>
+                      </div>
+                    }
+                    {
+                      candidatedata.stage_name == "Further Review" &&
+                      <div className="p-fluid  grid">
+                        <div className="field col-12 md:col-3">
+
+
+
+                          <span>
+                            <Field
+                              name="status"
+                              render={({ input, meta }) => (
+                                <RadioButton  {...input} className='ml-2' inputId="city4" name="city" value="HM Shortlisted" checked={values.status == "HM Shortlisted"} />
+                              )} />
+                            <label className="radio-inline me-3">Shortlist
+                            </label>
+                          </span>
+                          <br></br>
+
+
+                          <span>
+                            <Field
+                              name="status"
+                              id="r"
+                              render={({ input, meta }) => (
+                                <RadioButton {...input} id="r" className='ml-2' name="city" value="Rejected" checked={values.status == "Rejected"} />
+                              )} />
+                            <label className="radio-inline me-3" htmlFor={'r'}>Rejected
+                            </label>
+                          </span>
+
+
+
+
+                        </div>
+                        <div className="field col-12 md:col-7">
+                          <Field
+                            name="comments"
+                            render={({ input, meta }) => (
+                              <>
+                                <label>Comments : </label>
+                                <InputTextarea {...input}>
+                                </InputTextarea>
+                              </>
+                            )}
+                          />
+                        </div>
+                        <div className="field col-12 md:col-2">
+                          <div style={{ float: "right", position: "relative", display: "flex" }}>
+
+                            <Button type="button" className="mr-4" onClick={e => { navigate(-1) }}> Cancel</Button>
+                            <Button >Submit</Button>
+                          </div>
+
+                        </div>
+                      </div>
+                    }
+                    {
+                      candidatedata.stage_name == "HR Interview" &&
+                      <div className="p-fluid  grid">
+                        <div className="field col-12 md:col-3">
+
+
+                          <span>
+                            <Field
+                              name="status"
+                              render={({ input, meta }) => (
+                                <RadioButton {...input} className='ml-2' inputId="city4" name="city" value="HR Shortlisted" checked={values.status == "HR Shortlisted"} />
+                              )} /><label className="radio-inline me-3">Shortlist
+                            </label>
+
+                          </span>
+                          <br></br>
+
+                          <span>
+                            <Field
+                              name="status"
+                              render={({ input, meta }) => (
+                                <RadioButton {...input} className='ml-2' inputId="city4" name="city" value="H" checked={values.status == "H"} />
+                              )} />
+                            <label className="radio-inline me-3">Hold
+                            </label>
+                          </span>
+                          <br></br>
+                          <span>
+                            <Field
+                              name="status"
+                              id="r"
+                              render={({ input, meta }) => (
+                                <RadioButton {...input} id="r" className='ml-2' name="city" value="Rejected" checked={values.status == "Rejected"} />
+                              )} />
+                            <label className="radio-inline me-3" htmlFor={'r'}>Rejected
+                            </label>
+                          </span>
+
+
+
+
+                        </div>
+                        <div className="field col-12 md:col-7">
+                          <Field
+                            name="comments"
+                            render={({ input, meta }) => (
+                              <>
+                                <label>Comments : </label>
+                                <InputTextarea {...input}>
+                                </InputTextarea>
+                              </>
+                            )}
+                          />
+                        </div>
+                        <div className="field col-12 md:col-2">
+                          <div style={{ float: "right", position: "relative", display: "flex" }}>
+
+                            <Button type="button" className="mr-4" onClick={e => { navigate(-1) }}> Cancel</Button>
+                            <Button >Submit</Button>
+                          </div>
+
+                        </div>
+                      </div>
+                    }
 
                   </form>
                 )

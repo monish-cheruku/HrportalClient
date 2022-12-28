@@ -84,10 +84,10 @@ function CandidateDetailsView(props) {
     const statustemplate = (rowdata) => {
         return (
             <>
-                {rowdata.approvalStatus == "N" && <span>Pending</span>}
+                {/* {rowdata.approvalStatus == "N" && <span>Pending</span>}
                 {rowdata.approvalStatus == "A" && <span>Approved</span>}
-                {rowdata.approvalStatus == "R" && <span>Rejected</span>}
-
+                {rowdata.approvalStatus == "R" && <span>Rejected</span>} */}
+               { rowdata.approvalStatus}
             </>
         )
     }

@@ -50,12 +50,57 @@ function HRInterview() {
   const valuebuilder = (i, j) => {
     return i.toString() + "~" + j.toString()
   }
+  const validate = (values) => {
+
+    let errors = {}
+    console.log(values)
+    var arr = []
+    var tempc
+    var tempr
+    feedbackfields.map((i) => {
+      tempc = valuebuilder(i.FeedbackCategoryID.toString(), "Comments")
+      tempr = valuebuilder(i.FeedbackCategoryID.toString(), "Rating")
+      // arr.push(valuebuilder(i.FeedbackCategoryID.toString(), "Comments"))
+      if (!values[tempc]) {
+        errors[tempc] = "* Comment is Required";
+      }
+      if (!values[tempr]) {
+        errors[tempr] = "* Rating is required";
+      }
+
+
+    }
+    )
+
+    if (values.status == "")
+      errors["status"] = "Check one of the radio button"
+
+    if (values.status == "Rejected" && (values.comments == "" || values.comments == undefined)) {
+      console.log(values)
+      errors["comments"] = "Comments cant be empty"
+    }
+
+
+
+
+
+    return errors
+  }
+  const isFormFieldValid = (meta) => !!(meta.touched && meta.error);
+  const getFormErrorMessage = (meta) => {
+    console.log(meta)
+    return isFormFieldValid(meta) && <small className="p-error">{meta.error}</small>;
+  };
   return (
     <div>
     <Card>
-      <Panel header="Candidate Interview">
+      <Panel header="HR Interview">
+<Accordion  activeIndex={0}>
+  <AccordionTab  header={<label>Candidate Details</label>}>
 
         <CandidateDetails data={candidatedata}></CandidateDetails>
+  </AccordionTab>
+</Accordion>
         <hr></hr>
         <br></br>
         <br></br>
@@ -65,7 +110,7 @@ function HRInterview() {
           </AccordionTab>
 
         </Accordion>
-        <CandidatePrevFeedbacks feedbacks={prevfeedbacks}></CandidatePrevFeedbacks>
+        <CandidatePrevFeedbacks feedbacks={prevfeedbacks}  comments={candidatedata.Comments}></CandidatePrevFeedbacks>
         <br></br>
         <br></br>
 
@@ -193,9 +238,9 @@ function HRInterview() {
                       <span>
                         <Field
                           name="status"
-                          render={({ input, meta }) => (
+                          render={({ input, meta }) => (<>
                             <RadioButton {...input} className='ml-2' inputId="city4" name="city" value="H" checked={values.status == "H"} />
-                          )} />
+                            {getFormErrorMessage(meta)} </>)} />
                         <label className="radio-inline me-3">Hold
                         </label>
                       </span>
@@ -204,9 +249,10 @@ function HRInterview() {
                         <Field
                           name="status"
                           id="r"
-                          render={({ input, meta }) => (
+                          render={({ input, meta }) => (<>
                             <RadioButton {...input} id="r" className='ml-2' name="city" value="Rejected" checked={values.status == "Rejected"} />
-                          )} />
+                            {getFormErrorMessage(meta)}
+                          </>)} />
                         <label className="radio-inline me-3" htmlFor={'r'}>Rejected
                         </label>
                       </span>
@@ -223,6 +269,7 @@ function HRInterview() {
                             <label>Comments : </label>
                             <InputTextarea {...input}>
                             </InputTextarea>
+                            {getFormErrorMessage(meta)}
                           </>
                         )}
                       />

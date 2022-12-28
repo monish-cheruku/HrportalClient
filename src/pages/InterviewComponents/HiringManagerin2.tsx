@@ -51,6 +51,47 @@ function HiringManagerin2() {
   const valuebuilder = (i, j) => {
     return i.toString() + "~" + j.toString()
   }
+  const validate = (values) => {
+
+    let errors = {}
+    console.log(values)
+    var arr = []
+    var tempc
+    var tempr
+    feedbackfields.map((i) => {
+      tempc = valuebuilder(i.FeedbackCategoryID.toString(), "Comments")
+      tempr = valuebuilder(i.FeedbackCategoryID.toString(), "Rating")
+      // arr.push(valuebuilder(i.FeedbackCategoryID.toString(), "Comments"))
+      if (!values[tempc]) {
+        errors[tempc] = "* Comment is Required";
+      }
+      if (!values[tempr]) {
+        errors[tempr] = "* Rating is required";
+      }
+
+
+    }
+    )
+
+    if (values.status == "")
+      errors["status"] = "Check one of the radio button"
+
+    if (values.status == "Rejected" && (values.comments == "" || values.comments == undefined)) {
+      console.log(values)
+      errors["comments"] = "Comments cant be empty"
+    }
+
+
+
+
+
+    return errors
+  }
+  const isFormFieldValid = (meta) => !!(meta.touched && meta.error);
+  const getFormErrorMessage = (meta) => {
+    console.log(meta)
+    return isFormFieldValid(meta) && <small className="p-error">{meta.error}</small>;
+  };
   return (
     <div>
     <Card>
@@ -66,7 +107,7 @@ function HiringManagerin2() {
           </AccordionTab>
 
         </Accordion>
-        <CandidatePrevFeedbacks feedbacks={prevfeedbacks}></CandidatePrevFeedbacks>
+        <CandidatePrevFeedbacks feedbacks={prevfeedbacks}  comments={candidatedata.Comments}></CandidatePrevFeedbacks>
         <br></br>
         <br></br>
 
@@ -122,7 +163,7 @@ function HiringManagerin2() {
 
               }}
               // initialValues={ }
-              // validate={validate}
+              validate={validate}
 
               render={({ handleSubmit, values, submitting,
                 submitError,
@@ -157,7 +198,7 @@ function HiringManagerin2() {
                       <div className="field col-12 md:col-3">
                         <Field
                           name={valuebuilder(i.FeedbackCategoryID.toString(), "Rating")}
-                          render={({ input, meta }) => (
+                          render={({ input, meta }) => (<>
                             <Rating
                               // value={values[valuebuilder(i.FeedbackCategorID,"Rating")]}
                               {...input}
@@ -166,6 +207,8 @@ function HiringManagerin2() {
                               //   values[valuebuilder(i.FeedbackCategorID,"Rating")]=e.value}} 
                               style={{ marginTop: "5rem", marginLeft: "10%", fontSize: "50px" }}
                               size={80} cancel={false} />
+                               {getFormErrorMessage(meta)}
+                              </>
                           )
                           }
                         />
@@ -184,9 +227,10 @@ function HiringManagerin2() {
                       <span>
                         <Field
                           name="status"
-                          render={({ input, meta }) => (
+                          render={({ input, meta }) => (<>
                             <RadioButton  {...input} className='ml-2' inputId="city4" name="city" value="HM Shortlisted" checked={values.status == "HM Shortlisted"} />
-                          )} />
+                            {getFormErrorMessage(meta)}
+                          </>)} />
                         <label className="radio-inline me-3">Shortlist
                         </label>
                       </span>
@@ -216,6 +260,7 @@ function HiringManagerin2() {
                             <label>Comments : </label>
                             <InputTextarea {...input}>
                             </InputTextarea>
+                            {getFormErrorMessage(meta)}
                           </>
                         )}
                       />
