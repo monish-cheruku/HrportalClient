@@ -60,6 +60,10 @@ import CandidateShortlist from './pages/DashboardComponents/CandidateActionHirin
 import HiringmanagerInterview from './pages/InterviewComponents/HiringmanagerInterview';
 import HiringManagerin2 from './pages/InterviewComponents/HiringManagerin2';
 import HRInterview from './pages/InterviewComponents/HRInterview';
+import BusinessHeadApproval from './pages/DashboardComponents/BusinessHeadApproval';
+import GeneralManagerApproval from './pages/DashboardComponents/GeneralManagerApproval';
+import FinanceControllerApproval from './pages/DashboardComponents/FinanceControllerApproval';
+import SelectedCandidatesHold from './pages/DashboardComponents/SelectedCandidatesHold';
 const App = () => {
     const toastdata = useSelector((state: RootState) => state.toaster)
     const state = useSelector((state: RootState) => state)
@@ -391,6 +395,11 @@ const App = () => {
                                             <Route path="/Interview/Hiringmanagerinterview" element={<HiringmanagerInterview></HiringmanagerInterview>}/>
                                             <Route path="/Interview/Hiringmanagerinterviewi2" element={<HiringManagerin2></HiringManagerin2>}/>
                                             <Route path="/Interview/HRinterview" element={<HRInterview></HRInterview>}/>
+                                            <Route path="/BusinessHeadApproval" element={<BusinessHeadApproval></BusinessHeadApproval>}/>
+                                            <Route path="/GeneralManagerApproval" element={<GeneralManagerApproval></GeneralManagerApproval>}/>
+                                            <Route path="/FinanceControllerApproval" element={<FinanceControllerApproval></FinanceControllerApproval>}/>
+                                            <Route path="/SelectedCandidatesHold" element={<SelectedCandidatesHold></SelectedCandidatesHold>}/>
+
                                         </Routes>
                                     </div>
 

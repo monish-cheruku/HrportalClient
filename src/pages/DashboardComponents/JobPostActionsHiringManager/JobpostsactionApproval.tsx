@@ -55,7 +55,7 @@ function JobpostsactionApproval() {
       payloaddata.ApprovalComments = comments
     }
     if (res) {
-      if (!(res == "R" && comments == "")) {
+      if (!(res == "Rejected" && comments == "")) {
 
         console.log(payloaddata)
         dispatch(jobpostactionssubmit(payloaddata))

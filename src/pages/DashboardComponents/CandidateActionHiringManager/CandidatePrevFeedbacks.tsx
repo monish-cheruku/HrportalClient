@@ -2,6 +2,9 @@ import React, { useEffect } from 'react'
 import { Rating } from 'primereact/rating'
 import { Accordion, AccordionTab } from 'primereact/accordion'
 
+
+
+
 function CandidatePrevFeedbacks(props) {
   const feedbackdata = props.feedbacks
   const comments = props.comments
@@ -36,92 +39,96 @@ function CandidatePrevFeedbacks(props) {
   }, [])
   return (
     <div>
-      <br></br>
-      <Accordion >
-        <AccordionTab header={<label>Previous Interview Feedbacks</label>}>
-          {
-            groupedfeedbackdata ? Object.keys(groupedfeedbackdata).map((i) =>
-              <>
-                <h4>{i}</h4>
-                <br></br>
-                <div>
-                  <h4>
-                    <div className="p-fluid  grid">
-                      <div className="field col-12 md:col-4">Category
-                      </div>
-                      <div className="field col-12 md:col-4">Comments
-                      </div>
-                      <div className="field col-12 md:col-4">Rating
-                      </div>
+    <br></br>
+    <Accordion >
+      <AccordionTab header={<label>Previous Interview Feedbacks</label>}>
+        {
+          groupedfeedbackdata ? Object.keys(groupedfeedbackdata).map((i) =>
+            <>
+              <h4>{i}</h4>
+              <br></br>
+              <div>
+                <h4>
+                  <div className="p-fluid  grid">
+                    <div className="field col-12 md:col-4">Category
                     </div>
+                    <div className="field col-12 md:col-4">Comments
+                    </div>
+                    <div className="field col-12 md:col-4">Rating
+                    </div>
+                  </div>
 
-                  </h4>
-                  {groupedfeedbackdata[i].map((j) =>
-                    <>
+                </h4>
+                {groupedfeedbackdata[i].map((j) =>
+                  <>
 
-                      {/* <label>{j.interviewtype}</label> */}
-                      <div className="p-fluid  grid">
-                        <div className="field col-12 md:col-4">
-                          <label>{j.feedbackcategory}</label>
-                        </div>
-                        <div className="field col-12 md:col-4">
+                    {/* <label>{j.interviewtype}</label> */}
+                    <div className="p-fluid  grid">
+                      <div className="field col-12 md:col-4">
+                        <label>{j.feedbackcategory}</label>
+                      </div>
+                      <div className="field col-12 md:col-4">
 
-                          <label>{j.Comments}</label>
-                        </div>
-                        <div className="field col-12 md:col-4">
+                        <label>{j.Comments}</label>
+                      </div>
+                      <div className="field col-12 md:col-4">
 
-
-                          <Rating cancel={false} value={j.Rating}></Rating>
-
-
-                        </div>
                       </div>
 
-                      <br></br>
-                    </>
-                  )}
+                        <Rating cancel={false} value={j.Rating}></Rating>
+
+
+                      </div>
+                    
+
+                    <br></br>
+                  </>
+                )}
 
 
 
 
 
 
-                </div>
-              </>
-            ) : <></>
+              </div>
+            </>
+          ) : <></>
 
 
-          }
-        </AccordionTab>
-      </Accordion>
-      <br>
-      </br>
-    
-Comments
-            {
-              comments ?
-                Object.keys(comments).map((i) =>
-                  <>
-          <Accordion >
+        }
+      </AccordionTab>
+    </Accordion>
+    <br>
+    </br>
+  
+    Comments
+          {
+            comments ?
+              Object.keys(comments).map((i) =>
+                <>
+        <Accordion >
 
-                        <AccordionTab header={<label>{comments[i].stage_name} Comments</label>}>
-                     
-
-                        {comments[i].approvalComments}
-                      </AccordionTab>
+                      <AccordionTab header={<label>{comments[i].stage_name} Comments</label>}>
                    
-                      </Accordion>
-                </>
-          )
+
+                      {comments[i].approvalComments}
+                    </AccordionTab>
+                 
+                    </Accordion>
+              </>
+        )
 
 
-          : <></>
-            }
+        : <></>
+          }
 
 
 
-    </div >
+  </div >
   )
+
 }
+
+
 
 export default CandidatePrevFeedbacks

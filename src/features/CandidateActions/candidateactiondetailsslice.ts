@@ -78,7 +78,19 @@ const candidateactiondetailsSlice=createSlice({
     candidateworkflowsubmitaction:(state,payload:PayloadAction<any>)=>{
         console.log(payload)
     },
+    businessheadapprovalsubmitaction:(state,payload:PayloadAction<any>)=>{
+        console.log(payload)
+    },
+    selectedcandidatesholdsubmitaction:(state,payload:PayloadAction<any>)=>{
+        console.log(payload)
+    },
+    financecontrollerapprovalsubmitaction:(state,payload:PayloadAction<any>)=>{
+        console.log(payload)
+    },
+    generalmanagerapprovalsubmitaction:(state,payload:PayloadAction<any>)=>{
+        console.log(payload)
+    },
 },
 })
-export const{Candidates,candidateactionsdetailsaction,candidateworkflowsubmitaction }=candidateactiondetailsSlice.actions
+export const{Candidates,candidateactionsdetailsaction,candidateworkflowsubmitaction,businessheadapprovalsubmitaction, financecontrollerapprovalsubmitaction, generalmanagerapprovalsubmitaction, selectedcandidatesholdsubmitaction }=candidateactiondetailsSlice.actions
 export default candidateactiondetailsSlice.reducer
