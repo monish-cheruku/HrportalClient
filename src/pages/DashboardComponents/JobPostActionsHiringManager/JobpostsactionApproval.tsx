@@ -55,7 +55,7 @@ function JobpostsactionApproval() {
       payloaddata.ApprovalComments = comments
     }
     if (res) {
-      if (!(res == "R" && comments == "")) {
+      if (!(res == "Rejected" && comments == "")) {
 
         console.log(payloaddata)
         dispatch(jobpostactionssubmit(payloaddata))
@@ -76,13 +76,13 @@ function JobpostsactionApproval() {
         
           <div class="md:col-12">
             <span><label class="radio-inline mx-3">Approve
-              <RadioButton className='ml-2' inputId="city3" name="city" value="A" onChange={(e) => setres(e.value)} checked={res === 'A'} />
+              <RadioButton className='ml-2' inputId="city3" name="city" value="Approved" onChange={(e) => setres(e.value)} checked={res === 'A'} />
               
             </label>
             </span>
 
             <span><label class="radio-inline me-3">Reject
-              <RadioButton className='ml-2' inputId="city4" name="city" value="R" onChange={(e) => setres(e.value)} checked={res === 'R'} />
+              <RadioButton className='ml-2' inputId="city4" name="city" value="Rejected" onChange={(e) => setres(e.value)} checked={res === 'R'} />
             </label>
             </span>
 
@@ -95,8 +95,8 @@ function JobpostsactionApproval() {
               Comments:
               {/* <label for="floatingTextarea2">Comments</label>
               <textarea id="address" rows="4" class="p-inputtextarea p-inputtext p-component mt-3" style={{ width: "100%" }}></textarea> */}
-              <InputTextarea style={{width:"100%"}}  className={res == "R" && comments == "" ? "p-invalid" : ""} aria-label='Approve' cols={80} value={comments} onChange={e => setcomments(e.target.value)}></InputTextarea>
-            <small hidden={res == "R" && comments == "" ? false : true} id="username2-help" className={res == "R" && comments == "" ? "p-error block" : ""}>Comments are Required when Rejected*.</small>
+              <InputTextarea style={{width:"100%"}}  className={res == "Rejected" && comments == "" ? "p-invalid" : ""} aria-label='Approve' cols={80} value={comments} onChange={e => setcomments(e.target.value)}></InputTextarea>
+            <small hidden={res == "Rejected" && comments == "" ? false : true} id="username2-help" className={res == "Rejected" && comments == "" ? "p-error block" : ""}>Comments are Required when Rejected*.</small>
             </div>
           </div>
 
@@ -111,7 +111,7 @@ function JobpostsactionApproval() {
 <br></br>
 <div style={{float:"right"}}>
 
-        <Button className='btn ' disabled={(res!="R"&&res!="A")||(res == "R" && comments == "") } onClick={e => { onsubmithandle(); navigate(-1) }}> Submit</Button>
+        <Button className='btn ' disabled={(res!="Rejected"&&res!="Approved")||(res == "Rejected" && comments == "") } onClick={e => { onsubmithandle(); navigate(-1) }}> Submit</Button>
         <Button  className='btn  ml-4'onClick={e => navigate(-1)}> Cancel</Button><span>   </span>
 </div>
 <br>

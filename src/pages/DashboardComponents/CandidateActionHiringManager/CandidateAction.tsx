@@ -140,33 +140,36 @@ const CandidateAction = () => {
 
                 {/* {emp == "Candidate Interview" &&<Link to={"/candidatefeedback/" + rowdata.CandidateCode} state={rowdata}  >{rowdata.CandidateCode}</Link>
                 }                      */}
-                {temp == "Candidate Interview" &&<Link to={"/Interview/Hiringmanagerinterview"} state={rowdata}  >{rowdata.CandidateCode}</Link>
-                } {temp == "Further Review" &&<Link to={"/Interview/Hiringmanagerinterviewi2"} state={rowdata}  >{rowdata.CandidateCode}</Link>
-                } {temp == "HR Interview" &&<Link to={"/Interview/HRinterview"} state={rowdata}  >{rowdata.CandidateCode}</Link>
+                {temp == "Candidate Interview" && <Link to={"/Interview/Hiringmanagerinterview"} state={rowdata}  >{rowdata.CandidateCode}</Link>
+                } {temp == "Further Review" && <Link to={"/Interview/Hiringmanagerinterviewi2"} state={rowdata}  >{rowdata.CandidateCode}</Link>
+                } {temp == "HR Interview" && <Link to={"/Interview/HRinterview"} state={rowdata}  >{rowdata.CandidateCode}</Link>
                 }
-                {temp == "HM Hold" &&<Link to={"/Interview/HRinterview"} state={rowdata}  >{rowdata.CandidateCode}</Link>
+                {temp == "HM Hold" && <Link to={"/SelectedCandidatesHold"} state={rowdata}  >{rowdata.CandidateCode}</Link>
+                }
+                {temp == "BH Candidate Approval" && <Link to={"/BusinessHeadApproval"} state={rowdata}  >{rowdata.CandidateCode}</Link>
+                }
+                {temp == "FC Approval" && <Link to={"/FinanceControllerApproval"} state={rowdata}  >{rowdata.CandidateCode}</Link>
+                }
+                {temp == "GM Approval" && <Link to={"/GeneralManagerApproval"} state={rowdata}  >{rowdata.CandidateCode}</Link>
                 }
 
-                   
-                   
-                
             </>
         )
     }
     const datetemplate = (rowdata: any) => {
-      
-       return <>{formatDate(new Date(rowdata.OnBoardingDate))}</>;
 
-        
+        return <>{formatDate(new Date(rowdata.OnBoardingDate))}</>;
+
+
     }
-    const formatDate = (value:any) => {
+    const formatDate = (value: any) => {
         return value.toLocaleDateString('en-US', {
             day: '2-digit',
             month: '2-digit',
             year: 'numeric',
         });
         // return value.toLocaleDateString('en-US');
-      }
+    }
     return (
         <div>
 
@@ -179,7 +182,7 @@ const CandidateAction = () => {
                 <Column field="JobTitle" header="Job Title" sortable></Column>
                 <Column field="OverallExpYear" body={exptemplate} header="Experiance" sortable ></Column>
                 <Column field="ExpectedCTC" header="Expected CTC" sortable></Column>
-                <Column field="OnBoardingDate" header="Expected DOJ" body={datetemplate}  sortable></Column>
+                <Column field="OnBoardingDate" header="Expected DOJ" body={datetemplate} sortable></Column>
                 <Column field="stage_name" header="Status" sortable></Column>
 
             </DataTable>
