@@ -156,6 +156,7 @@ function GeneralManagerApproval() {
           <div className="md:col-8">
             <h5>Comments:</h5>
             <InputTextarea cols={60} value={comments} onChange={e => setcomments(e.target.value)}></InputTextarea>
+            <small hidden={res == "Rejected" && comments == "" ? false : true} id="username2-help" className={status == "Rejected" && comments == "" ? "p-error block" : ""}>Comments are Required when Rejected*.</small>
 
           </div>
           <div className="md:col-1">
@@ -163,7 +164,7 @@ function GeneralManagerApproval() {
               <div style={{ float: "right", position: "relative", display: "flex" }}>
 
                 <Button className="mr-4" onClick={e => { navigate(-1) }}> Cancel</Button>
-                <Button className='btn ' disabled={(res!="Rejected"&&res!="Approved")||(res == "Rejected" && comments == "") } onClick={e => { handlesubmit(); navigate(-1) }}> Submit</Button>
+                <Button className='btn ' disabled={(status!="Rejected"&&status!="Approved")||(status == "Rejected" && comments == "") } onClick={e => { handlesubmit(); navigate(-1) }}> Submit</Button>
               </div>
 
             </div>
