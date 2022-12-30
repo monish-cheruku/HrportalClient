@@ -45,15 +45,16 @@ const [res, setres] = useState("")
   };
   const handlesubmit = () => {
     var payloaddata: any = {}
-    if (res) {
+    if (status) {
 
       payloaddata.JobPostApprovalId = jobdata?.JobPostApprovalID
       payloaddata.JobPostId = jobdata.JobPostID
-      payloaddata.ApprovalStatus = res
+      payloaddata.ApprovalStatus = status
       payloaddata.ApprovalComments = comments
     }
-    if (res) {
-      if (!(res == "Rejected" && comments == "")) {
+    if (status) {
+      console.log("working")
+      if (!(status == "Rejected" && comments == "")) {
 
         console.log(payloaddata)
         dispatch(businessheadapprovalsubmitaction({
@@ -121,7 +122,7 @@ const [res, setres] = useState("")
         <div className="grid">
           <div className="md:col-3">
 
-            <RadioButton className='ml-2' name="selectforinterview" value="BH Candidate Approval" onChange={(e) => setstatus(e.value)} checked={status === 'BH Candidate Approval'} id='selectforinterview' />
+            <RadioButton className='ml-2' name="selectforinterview" value="BH Candidate Approved" onChange={(e) => setstatus(e.value)} checked={status === "BH Candidate Approved"} id='selectforinterview' />
             <span><label className="radio-inline me-3" htmlFor='selectforinterview'>Approve
             </label>
             </span>
@@ -150,7 +151,7 @@ const [res, setres] = useState("")
               <div style={{ float: "right", position: "relative", display: "flex" }}>
 
                 <Button className="mr-4" onClick={e => { navigate(-1) }}> Cancel</Button>
-                <Button className='btn ' disabled={(status!="BH Candidate Approval"&&status!="Rejected")||(status=="Rejected"&& comments=="")} onClick={e => { handlesubmit(); navigate(-1) }}> Submit</Button>
+                <Button className='btn ' disabled={(status!="BH Candidate Approved"&&status!="Rejected")||(status=="Rejected"&& comments=="")} onClick={e => { handlesubmit(); navigate(-1) }}> Submit</Button>
               </div>
 
             </div>
