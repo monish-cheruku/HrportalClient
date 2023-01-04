@@ -64,6 +64,8 @@ import BusinessHeadApproval from './pages/DashboardComponents/BusinessHeadApprov
 import GeneralManagerApproval from './pages/DashboardComponents/GeneralManagerApproval';
 import FinanceControllerApproval from './pages/DashboardComponents/FinanceControllerApproval';
 import SelectedCandidatesHold from './pages/DashboardComponents/SelectedCandidatesHold';
+import SelectedCandidates from './pages/DashboardComponents/SelectedCandidatesHiringManager/SelectedCandidates';
+import SelectedCandidatesHRHold from './pages/DashboardComponents/SelectedCandidatesHRHold';
 const App = () => {
     const toastdata = useSelector((state: RootState) => state.toaster)
     const state = useSelector((state: RootState) => state)
@@ -399,6 +401,8 @@ const App = () => {
                                             <Route path="/GeneralManagerApproval" element={<GeneralManagerApproval></GeneralManagerApproval>}/>
                                             <Route path="/FinanceControllerApproval" element={<FinanceControllerApproval></FinanceControllerApproval>}/>
                                             <Route path="/SelectedCandidatesHold" element={<SelectedCandidatesHold></SelectedCandidatesHold>}/>
+                                            <Route path="/SelectedCandidates" element={<SelectedCandidates></SelectedCandidates>}/>
+                                            <Route path="/SelectedCandidatesHRHold" element={<SelectedCandidatesHRHold></SelectedCandidatesHRHold>}/>
 
                                         </Routes>
                                     </div>

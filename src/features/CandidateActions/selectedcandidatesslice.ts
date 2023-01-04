@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export interface ICandidateactiondetails {
+export interface ISelectedCandidates {
     
         id: Number
         CandidateApprovalID: Number,
@@ -54,13 +54,13 @@ export interface ICandidateactiondetails {
     
 
 }
-const initialState: ICandidateactiondetails[] = [];
+const initialState: ISelectedCandidates[] = [];
 
-const candidateactiondetailsSlice=createSlice({
-    name: 'Candidateactiondetails',
+const selectedcandidatesSlice=createSlice({
+    name: 'selectedcandidates',
     initialState,
     reducers:{
-        Candidates:(state,payload:PayloadAction<any>)=>{
+        selectedandidatesdata:(state,payload:PayloadAction<any>)=>{
             // console.log("setting candidate details")
             var temp=payload.payload
             state=[...temp]
@@ -71,29 +71,12 @@ const candidateactiondetailsSlice=createSlice({
 
 
 
-    candidateactionsdetailsaction:(state,payload:PayloadAction<any>)=>{
+    selectedcandidatesaction:(state,payload:PayloadAction<any>)=>{
 
     },
  
-    candidateworkflowsubmitaction:(state,payload:PayloadAction<any>)=>{
-        console.log(payload)
-    },
-    businessheadapprovalsubmitaction:(state,payload:PayloadAction<any>)=>{
-        console.log(payload)
-    },
-    selectedcandidatesholdsubmitaction:(state,payload:PayloadAction<any>)=>{
-        console.log(payload)
-    },
-    selectedcandidateshrholdsubmitaction:(state,payload:PayloadAction<any>)=>{
-        console.log(payload)
-    },
-    financecontrollerapprovalsubmitaction:(state,payload:PayloadAction<any>)=>{
-        console.log(payload)
-    },
-    generalmanagerapprovalsubmitaction:(state,payload:PayloadAction<any>)=>{
-        console.log(payload)
-    },
+    
 },
 })
-export const{Candidates,candidateactionsdetailsaction,candidateworkflowsubmitaction,businessheadapprovalsubmitaction, financecontrollerapprovalsubmitaction, generalmanagerapprovalsubmitaction, selectedcandidatesholdsubmitaction, selectedcandidateshrholdsubmitaction }=candidateactiondetailsSlice.actions
-export default candidateactiondetailsSlice.reducer
+export const{selectedandidatesdata,selectedcandidatesaction }=selectedcandidatesSlice.actions
+export default selectedcandidatesSlice.reducer

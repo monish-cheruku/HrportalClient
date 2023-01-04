@@ -104,6 +104,9 @@ console.log("updating cand")
         selectedcandidatesholdsubmit:(state,payload:PayloadAction<any>)=>{
             console.log(payload)
         },
+        selectedcandidateshrholdsubmit:(state,payload:PayloadAction<any>)=>{
+            console.log(payload)
+        },
         financecontrollerapprovalsubmit:(state,payload:PayloadAction<any>)=>{
             console.log(payload)
         },
@@ -115,5 +118,5 @@ console.log("updating cand")
 
 
 )
-export const {Candidatesdata,getCandidatefromapi,createnewcandidate,updatecandidate, getApproversfromapi,candidatereviewsubmitaction, businessheadapprovalsubmit, financecontrollerapprovalsubmit, generalmanagerapprovalsubmit, selectedcandidatesholdsubmit}=CandidatesforjobpostSlice.actions
+export const {Candidatesdata,getCandidatefromapi,createnewcandidate,updatecandidate, getApproversfromapi,candidatereviewsubmitaction, businessheadapprovalsubmit, financecontrollerapprovalsubmit, generalmanagerapprovalsubmit, selectedcandidatesholdsubmit, selectedcandidateshrholdsubmit}=CandidatesforjobpostSlice.actions
 export default CandidatesforjobpostSlice.reducer

@@ -32,7 +32,8 @@ import qualificationReducer from '../features/Dropdownoptions/qualificationtypes
 import employementtypeReducer from '../features/Dropdownoptions/employementtypeslice';
 import feedbackfieldsReducer from '../features/CandidateActions/feedbackfieldsslice';
 import  prevfeedbackReducer from "../features/CandidateActions/prevfeedbacks"
-import  globalReducer from "../features/Misc/globalslice"
+import  globalReducer from "../features/Misc/globalslice" 
+import  selectedcandidatesReducer from "../features/CandidateActions/selectedcandidatesslice" 
 // export function useReduxStore() {
 const sagaMiddleware = createSagaMiddleware();
 const logger = createLogger();
@@ -68,6 +69,7 @@ JobPostAction:jobpostactionsReducer,
 rolesoptions:rolesoptions,
 usersbyroles:usersbyrolesReducer,
 Candidateactions:CandidateactiondetailsReducer,
+Selectedcandidates:selectedcandidatesReducer,
 qualification:qualificationReducer,
 employementtype:employementtypeReducer,
 feedbackfields:feedbackfieldsReducer,

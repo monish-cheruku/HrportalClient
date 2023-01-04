@@ -13,7 +13,8 @@ import { RootState } from '../../../app/store';
 // import {  getJobPostActionfromapi, JobPostActiondata } from '../../../features/JobPostActions/jobpostactionsslice';
 import { generatepdf } from "../../../api/agent"
 import { candidateactionsdetailsaction } from '../../../features/CandidateActions/candidateactiondetailsslice';
-const CandidateAction = () => {
+import { selectedcandidatesaction } from '../../../features/CandidateActions/selectedcandidatesslice';
+const SelectedCandidates = () => {
 
 
     const [productDialog, setProductDialog] = useState(false);
@@ -31,7 +32,7 @@ const CandidateAction = () => {
     });
     const [company, setcompany] = useState();
 
-    const candidateactionsdata = useSelector((state: RootState) => state.Candidateactions);
+    const selectedcandidatesdata = useSelector((state: RootState) => state.Selectedcandidates);
     const Logindata = useSelector((state: RootState) => state.Login);
 
     // const navigate=useNavigate()
@@ -52,13 +53,14 @@ const CandidateAction = () => {
     //         //fetch('./jobpostdata.json').then(res => {res.json(); console.log(res);}).then(d => setcompany(d.data));
     //     }, []);
     useEffect(() => {
-        dispatch(candidateactionsdetailsaction({
+        dispatch(selectedcandidatesaction({
 
-            "ApproverName": Logindata.username
-
+            "RoleName":["Hiring Manager","Administrator"],
+        
+            "username":Logindata.username
+        
         }))
         // console.log("working")
-        console.log(candidateactionsdata)
 
     }, [])
     const onGlobalFilterChange2 = (e: any) => {
@@ -83,7 +85,7 @@ const CandidateAction = () => {
                 className="flex flex-column md:flex-row md:justify-content-between md:align-items-center"
             // className="flex justify-content-between"
             >
-                <h5>Candidate Actions</h5>
+                <h5>Selected Candidates </h5>
                 {/* <Toolbar
         //  className="mb-4"
          left={leftToolbarTemplate}
@@ -103,13 +105,13 @@ const CandidateAction = () => {
         );
     };
 
-    const leftToolbarTemplate = () => {
-        return (
-            <React.Fragment>
-                <h4>My Job Posts</h4>
-            </React.Fragment>
-        );
-    };
+    // const leftToolbarTemplate = () => {
+    //     return (
+    //         <React.Fragment>
+    //             <h4>My Job Posts</h4>
+    //         </React.Fragment>
+    //     );
+    // };
 
 
 
@@ -121,43 +123,41 @@ const CandidateAction = () => {
     const isFormFieldValid = (meta) => !!(meta.touched && meta.error);
     const nametemplate = (rowdata) => {
         return (
-            <>{rowdata.CanFirstName + ", " + rowdata.CanLastName}</>
+            <>{rowdata.candidate.CanFirstName + ", " + rowdata.candidate.CanLastName}</>
         )
     }
 
 
     const exptemplate = (rowdata) => {
         return (
-            <div>{rowdata.OverallExpYear + "." + rowdata.OverallExpMonth + " Years"}</div>
+            <div>{rowdata.candidate.OverallExpYear + "." + rowdata.candidate.OverallExpMonth + " Years"}</div>
         )
     }
-    const linktemplate = (rowdata) => {
-        var temp: String = rowdata.stage_name.toString()
-        return (
-            <>
-                {temp == "Candidate Review" &&
-                    <Link to={"/candidatereview/" + rowdata.CandidateCode} state={rowdata}  >{rowdata.CandidateCode}</Link>}
+    // const linktemplate = (rowdata) => {
+    //     var temp: String = rowdata.stage_name.toString()
+    //     return (
+    //         <>
+    //             {temp == "Candidate Review" &&
+    //                 <Link to={"/candidatereview/" + rowdata.CandidateCode} state={rowdata}  >{rowdata.CandidateCode}</Link>}
 
-                {/* {emp == "Candidate Interview" &&<Link to={"/candidatefeedback/" + rowdata.CandidateCode} state={rowdata}  >{rowdata.CandidateCode}</Link>
-                }                      */}
-                {temp == "Candidate Interview" && <Link to={"/Interview/Hiringmanagerinterview"} state={rowdata}  >{rowdata.CandidateCode}</Link>
-                } {temp == "Further Review" && <Link to={"/Interview/Hiringmanagerinterviewi2"} state={rowdata}  >{rowdata.CandidateCode}</Link>
-                } {temp == "HR Interview" && <Link to={"/Interview/HRinterview"} state={rowdata}  >{rowdata.CandidateCode}</Link>
-                }
-                {temp == "HM Hold" && <Link to={"/SelectedCandidatesHold"} state={rowdata}  >{rowdata.CandidateCode}</Link>
-                }
-                {temp == "HR Hold" && <Link to={"/SelectedCandidatesHRHold"} state={rowdata}  >{rowdata.CandidateCode}</Link>
-                }
-                {temp == "BH Candidate Approval" && <Link to={"/BusinessHeadApproval"} state={rowdata}  >{rowdata.CandidateCode}</Link>
-                }
-                {temp == "FC Approval" && <Link to={"/FinanceControllerApproval"} state={rowdata}  >{rowdata.CandidateCode}</Link>
-                }
-                {temp == "GM Approval" && <Link to={"/GeneralManagerApproval"} state={rowdata}  >{rowdata.CandidateCode}</Link>
-                }
+    //             {/* {emp == "Candidate Interview" &&<Link to={"/candidatefeedback/" + rowdata.CandidateCode} state={rowdata}  >{rowdata.CandidateCode}</Link>
+    //             }                      */}
+    //             {temp == "Candidate Interview" && <Link to={"/Interview/Hiringmanagerinterview"} state={rowdata}  >{rowdata.CandidateCode}</Link>
+    //             } {temp == "Further Review" && <Link to={"/Interview/Hiringmanagerinterviewi2"} state={rowdata}  >{rowdata.CandidateCode}</Link>
+    //             } {temp == "HR Interview" && <Link to={"/Interview/HRinterview"} state={rowdata}  >{rowdata.CandidateCode}</Link>
+    //             }
+    //             {temp == "HM Hold" && <Link to={"/SelectedCandidatesHold"} state={rowdata}  >{rowdata.CandidateCode}</Link>
+    //             }
+    //             {temp == "BH Candidate Approval" && <Link to={"/BusinessHeadApproval"} state={rowdata}  >{rowdata.CandidateCode}</Link>
+    //             }
+    //             {temp == "FC Approval" && <Link to={"/FinanceControllerApproval"} state={rowdata}  >{rowdata.CandidateCode}</Link>
+    //             }
+    //             {temp == "GM Approval" && <Link to={"/GeneralManagerApproval"} state={rowdata}  >{rowdata.CandidateCode}</Link>
+    //             }
 
-            </>
-        )
-    }
+    //         </>
+    //     )
+    // }
     const datetemplate = (rowdata: any) => {
 
         return <>{formatDate(new Date(rowdata.OnBoardingDate))}</>;
@@ -175,17 +175,18 @@ const CandidateAction = () => {
     return (
         <div>
 
-            <DataTable value={candidateactionsdata} showGridlines={false} responsiveLayout="scroll" paginator={true} rows={5}
-                globalFilterFields={['CandidateCode', 'CanFirstName', 'JobCode', 'JobTitle', 'OverallExpYear', 'ExpectedCTC', 'OnBoardingDate', 'stage_name']} filters={filters2} header={Headercomp}>
+            <DataTable value={selectedcandidatesdata} showGridlines={false} responsiveLayout="scroll" paginator={true} rows={5}
+                globalFilterFields={['candidate.CandidateCode', 'candidate.CanFirstName', 'candidate.Jobpost.JobCode', 'candidate.Jobpost.JobTitle', 'candidate.OverallExpYear', 'candidate.CurrentCTC', 'candidate.ExpectedCTC', 'Jobpost.NegotiatedCTC', 'candidate.ExpectedDOJ']} filters={filters2} header={Headercomp}>
 
-                <Column field="CandidateCode" header="Candiate Code" sortable style={{ minWidth: '11rem', maxWidth: '14rem' }} body={linktemplate}></Column>
-                <Column field="CanFirstName" body={nametemplate} header="Candidate Name" sortable></Column>
-                <Column field="JobCode" header="Job Code" sortable></Column>
-                <Column field="JobTitle" header="Job Title" sortable></Column>
-                <Column field="OverallExpYear" body={exptemplate} header="Experiance" sortable ></Column>
-                <Column field="ExpectedCTC" header="Expected CTC" sortable></Column>
-                <Column field="OnBoardingDate" header="Expected DOJ" body={datetemplate} sortable></Column>
-                <Column field="stage_name" header="Status" sortable></Column>
+                <Column field="candidate.CandidateCode" header="Candiate Code" sortable style={{ minWidth: '11rem', maxWidth: '14rem' }} ></Column>
+                <Column field="candidate.CanFirstName" body={nametemplate} header="Candidate Name" sortable></Column>
+                <Column field="candidate.Jobpost.JobCode" header="Job Code" sortable></Column>
+                <Column field="candidate.Jobpost.JobTitle" header="Job Title" sortable></Column>
+                <Column field="candidate.OverallExpYear" body={exptemplate} header="Experiance" sortable ></Column>
+                <Column field="candidate.CurrentCTC" header="CurrentCTC " sortable></Column>
+                <Column field="candidate.ExpectedCTC" header="Expected CTC" sortable></Column>
+                <Column field="Jobpost.NegotiatedCTC" header="Negotiated CTC" sortable></Column>
+                <Column field="candidate.ExpectedDOJ" header="Expected DOJ"  sortable></Column>
 
             </DataTable>
 
@@ -197,4 +198,4 @@ const CandidateAction = () => {
 
 }
 
-export default CandidateAction
+export default SelectedCandidates

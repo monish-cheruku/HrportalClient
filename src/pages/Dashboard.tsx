@@ -10,6 +10,7 @@ import { myjobpostsaction } from "../features/JobPostActions/myjobpostsslice";
 import CandidateAction from "./DashboardComponents/CandidateActionHiringManager/CandidateAction";
 import { candidateactionsdetailsaction } from "../features/CandidateActions/candidateactiondetailsslice";
 import { setdashboardactivetab } from "../features/Misc/globalslice";
+import SelectedCandidates from "./DashboardComponents/SelectedCandidatesHiringManager/SelectedCandidates";
 
 
 const Dashboard = () => {
@@ -17,6 +18,7 @@ const Dashboard = () => {
     const[nooftabs,setnooftabs]=useState(4)
     const myjobpostactions =useSelector((state:RootState)=>state.JobPostAction);
     const mycandidateactions =useSelector((state:RootState)=>state.Candidateactions);
+    const myselectedcandidates =useSelector((state:RootState)=>state.Selectedcandidates);
     const globaldata =useSelector((state:RootState)=>state.global);
     const myJobPosts =useSelector((state:RootState)=>state.myjobposts);
     const logindata=useSelector((state:RootState)=>state.Login)
@@ -85,7 +87,7 @@ const Dashboard = () => {
                         <div className="flex justify-content-between mb-3">
                             <div>
                                 <span className="block  font-medium mb-3">Selected Candidates</span>
-                                <div className="text-900 font-medium text-xl">4</div>
+                                <div className="text-900 font-medium text-xl">{myselectedcandidates?myselectedcandidates.length:0}</div>
                             </div>
                             <div className="flex align-items-center justify-content-center bg-cyan-100 border-round" style={{ width: "2.5rem", height: "2.5rem" }}>
                                 <i className="pi pi-inbox text-cyan-500 text-xl" />
@@ -131,7 +133,7 @@ const Dashboard = () => {
                     <div className="flex justify-content-between mb-3">
                         {globaldata.dashboardactivetab == "jobpostactions" && <div style={{ width: "100%" }}> <JobPostActions />    </div>}
                         {globaldata.dashboardactivetab == "myjobposts" && <div style={{ width: "100%" }}><MyJobPosts /></div>}
-                        {globaldata.dashboardactivetab == "selectedcandidates" && <div >selectedcandidates</div>}
+                        {globaldata.dashboardactivetab == "selectedcandidates" && <div style={{ width: "100%" }}><SelectedCandidates/></div>}
                         {globaldata.dashboardactivetab == "candidateactions" && <div style={{ width: "100%" }}> <CandidateAction />    </div>}
 
                         {/* <div hidden={true}>d</div> */}

@@ -255,6 +255,47 @@ yield put(createtoast({
 
     }
 }
+function* selectedcandidateshrholdsubmitactionsagaworker(data) {
+    try { 
+      console.log("buhapp seb")
+        var res: Promise<any> = yield call(candidateactions.selectedcandidateshrholdsubmit,data.payload)
+        // console.log(res)
+        // yield put({ type: "Candidateactiondetails/Candidates", payload: res })
+
+        //toast
+        yield put(createtoast({
+
+            id:454,
+
+            status:"success",
+
+            data:res.toString(),                                                //change this
+
+            endpoint:"400"
+
+        }))
+    }
+    catch (err) {
+        console.log(err)
+//toast
+
+yield put(createtoast({
+
+
+    id:34324,
+
+    status:"error",
+
+    data:err.data[0][0],                                                       //change this
+
+    endpoint:err.config.url.toString()                                        //change this
+
+}))
+
+
+
+    }
+}
 
 function* financecontrollerapprovalsubmitactionsagaworker(data) {
     try { 
@@ -369,6 +410,20 @@ console.log(err)
 
     }
 }
+function* selectedcandidatesactionsagaworker(data){
+    try{
+        var res: Promise<any>=yield call(candidateactions.selectedcandidates,data.payload)
+        // console.log(res)
+        
+        yield put({type:"selectedcandidates/selectedandidatesdata",payload:res})
+    }
+    catch(err){
+console.log(err)
+
+
+
+    }
+}
 
 
 export function* watcherCandidateAction() {
@@ -379,8 +434,10 @@ export function* watcherCandidateAction() {
     yield takeEvery("Candidateactiondetails/candidateworkflowsubmitaction", candidateworkflowsubmitactionsagaworker)
     yield takeEvery("Candidateactiondetails/businessheadapprovalsubmitaction", businessheadapprovalsubmitactionsagaworker)
     yield takeEvery("Candidateactiondetails/selectedcandidatesholdsubmitaction", selectedcandidatesholdsubmitactionsagaworker)
+    yield takeEvery("Candidateactiondetails/selectedcandidateshrholdsubmitaction", selectedcandidateshrholdsubmitactionsagaworker)
     yield takeEvery("Candidateactiondetails/generalmanagerapprovalsubmitaction", generalmanagerapprovalsubmitactionsagaworker)
     yield takeEvery("Candidateactiondetails/financecontrollerapprovalsubmitaction", financecontrollerapprovalsubmitactionsagaworker)
+    yield takeEvery("selectedcandidates/selectedcandidatesaction",selectedcandidatesactionsagaworker)
     // yield takeEvery("Candidateactiondetails/candidateactiondetails", getcandiatessagaworker)
     yield takeEvery("Candidateactiondetails/candidateactionsdetailsaction",candidateactionsdetailsactionsagaworker)
     // yield takeEvery("Industry/createIndustryaction", createIndustrysagaworker)
