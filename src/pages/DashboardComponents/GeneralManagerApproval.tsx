@@ -70,7 +70,8 @@ function GeneralManagerApproval() {
           "feedback": null
     
     
-        }))      
+        }))  
+        navigate(-1)    
     }
   }
    
@@ -123,7 +124,8 @@ function GeneralManagerApproval() {
           <div className="md:col-8">
             <h5>Comments:</h5>
             <InputTextarea cols={60} value={comments} onChange={e => setcomments(e.target.value)}></InputTextarea>
-            <small hidden={res == "Rejected" && comments == "" ? false : true} id="username2-help" className={status == "Rejected" && comments == "" ? "p-error block" : ""}>Comments are Required when Rejected*.</small>
+            <br></br>
+            <small hidden={status == "Rejected" && comments == "" } id="username2-help" className={status == "Rejected" && comments == "" ? "p-error block" : ""}>Comments are Required when Rejected*.</small>
 
           </div>
           <div className="md:col-1">

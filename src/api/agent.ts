@@ -14,7 +14,8 @@ import {UserRoles} from "../features/UserRoles/userroleslice"
 
 
 // import {Band} from ../features/Band/bandslice"
-axios.defaults.baseURL = 'http://10.154.155.45:8000/api';
+axios.defaults.baseURL = 'http://10.154.155.105:8000/api';
+// axios.defaults.baseURL = 'http://10.154.20.198:8000/api';
 
 // axios.defaults.baseURL = 'http://10.154.155.32:8000/api';
 // axios.defaults.baseURL = 'http://10.154.28.135:8000/api';

@@ -72,10 +72,10 @@ function HRInterview() {
     }
     )
 
-    if (values.status == "")
+    if (values.status == ""|| values.status==null)
       errors["status"] = "Check one of the radio button"
 
-    if (values.status == "Rejected" && (values.comments == "" || values.comments == undefined)) {
+    if ((values.status == "Rejected" || values.status=="HR Hold")&& (values.comments == "" || values.comments == null)) {
       console.log(values)
       errors["comments"] = "Comments cant be empty"
     }
@@ -88,7 +88,7 @@ function HRInterview() {
   }
   const isFormFieldValid = (meta) => !!(meta.touched && meta.error);
   const getFormErrorMessage = (meta) => {
-    console.log(meta)
+    // console.log(meta)
     return isFormFieldValid(meta) && <small className="p-error">{meta.error}</small>;
   };
   return (
@@ -162,11 +162,11 @@ function HRInterview() {
                 req.status = values.status
                 console.log(req)
                 dispatch(candidateworkflowsubmitaction(req))
-
+navigate(-1)
 
               }}
               // initialValues={ }
-              // validate={validate}
+              validate={validate}
 
               render={({ handleSubmit, values, submitting,
                 submitError,
@@ -188,11 +188,13 @@ function HRInterview() {
                       <div className="field col-12 md:col-7">
                         <Field
                           name={valuebuilder(i.FeedbackCategoryID.toString(), "Comments")}
-                          render={({ input, meta }) => (
+                          render={({ input, meta }) => (<>
                             <InputTextarea rows={8}
                               {...input}
                             >
                             </InputTextarea>
+                                                            {getFormErrorMessage(meta)}
+                                                            </>
                           )
                           }
                         />
@@ -201,7 +203,7 @@ function HRInterview() {
                       <div className="field col-12 md:col-3">
                         <Field
                           name={valuebuilder(i.FeedbackCategoryID.toString(), "Rating")}
-                          render={({ input, meta }) => (
+                          render={({ input, meta }) => (<>
                             <Rating
                               // value={values[valuebuilder(i.FeedbackCategorID,"Rating")]}
                               {...input}
@@ -210,6 +212,8 @@ function HRInterview() {
                               //   values[valuebuilder(i.FeedbackCategorID,"Rating")]=e.value}} 
                               style={{ marginTop: "5rem", marginLeft: "10%", fontSize: "50px" }}
                               size={80} cancel={false} />
+                              {getFormErrorMessage(meta)}
+                              </>
                           )
                           }
                         />
@@ -239,8 +243,8 @@ function HRInterview() {
                         <Field
                           name="status"
                           render={({ input, meta }) => (<>
-                            <RadioButton {...input} className='ml-2' inputId="city4" name="city" value="H" checked={values.status == "H"} />
-                            {getFormErrorMessage(meta)} </>)} />
+                            <RadioButton {...input} className='ml-2' inputId="city4" name="city" value="HR Hold" checked={values.status == "HR Hold"} />
+                             </>)} />
                         <label className="radio-inline me-3">Hold
                         </label>
                       </span>
@@ -251,11 +255,21 @@ function HRInterview() {
                           id="r"
                           render={({ input, meta }) => (<>
                             <RadioButton {...input} id="r" className='ml-2' name="city" value="Rejected" checked={values.status == "Rejected"} />
-                            {getFormErrorMessage(meta)}
-                          </>)} />
+                            
                         <label className="radio-inline me-3" htmlFor={'r'}>Rejected
                         </label>
+                        <br></br>
+                        {getFormErrorMessage(meta)}
+                          </>)} />
                       </span>
+                      <span>
+                          <Field
+                            name="comments"
+                            id="r"
+                            render={({ input, meta }) => (
+                              <>{getFormErrorMessage(meta)}</>
+                            )} />
+                        </span>
 
 
 

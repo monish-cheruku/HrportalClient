@@ -223,8 +223,8 @@ function HiringmanagerInterview() {
                   req.comments = values.comments
                   req.status = values.status
                   console.log(req)
-                  // dispatch(candidateworkflowsubmitaction(req))
-
+                  dispatch(candidateworkflowsubmitaction(req))
+navigate(-1)
 
                 }}
                 initialValues={{ status: "" }}
