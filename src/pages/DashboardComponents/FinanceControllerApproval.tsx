@@ -106,7 +106,7 @@ navigate(-1)
           <div className="grid">
             <div className="md:col-3">
 
-              <RadioButton className='ml-2' name="selectforinterview" value="FC Approval" onChange={(e) => setstatus(e.value)} checked={status === 'FC Approval'} id='selectforinterview' />
+              <RadioButton className='ml-2' name="selectforinterview" value="FC Approved" onChange={(e) => setstatus(e.value)} checked={status === 'FC Approved'} id='selectforinterview' />
               <span><label className="radio-inline me-3" htmlFor='selectforinterview'>Approve
               </label>
               </span>
@@ -135,7 +135,7 @@ navigate(-1)
                 <div style={{ float: "right", position: "relative", display: "flex" }}>
 
                   <Button className="mr-4" onClick={e => { navigate(-1) }}> Cancel</Button>
-                  <Button className='btn ' disabled={(status!="BH Candidate Approval"&&status!="Rejected")||(status=="Rejected"&& comments=="")} onClick={e => { handlesubmit(); navigate(-1) }}> Submit</Button>
+                  <Button className='btn ' disabled={(status!="FC Approved"&&status!="Rejected")||(status=="Rejected"&& comments=="")} onClick={e => { handlesubmit(); navigate(-1) }}> Submit</Button>
                 </div>
 
               </div>

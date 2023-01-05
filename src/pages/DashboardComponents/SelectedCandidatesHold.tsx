@@ -121,7 +121,7 @@ const [res, setres] = useState("")
         <div className="grid">
           <div className="md:col-3">
 
-            <RadioButton className='ml-2' name="selectforinterview" value="BH Candidate Approval" onChange={(e) => setstatus(e.value)} checked={status === 'BH Candidate Approval'} id='selectforinterview' />
+            <RadioButton className='ml-2' name="selectforinterview" value="HM Shortlisted" onChange={(e) => setstatus(e.value)} checked={status === 'HM Shortlisted'} id='selectforinterview' />
             <span><label className="radio-inline me-3" htmlFor='selectforinterview'>Select
             </label>
             </span>
@@ -129,7 +129,7 @@ const [res, setres] = useState("")
             <br></br>
 
 
-            <RadioButton className='ml-2' name="city" value="BH Candidate Rejected" onChange={(e) => setstatus(e.value)} checked={status === 'BH Candidate Rejected'} />
+            <RadioButton className='ml-2' name="city" value="Rejected" onChange={(e) => setstatus(e.value)} checked={status === 'Rejected'} />
             <span><label className="radio-inline me-3">Reject
             </label>
             </span>
@@ -150,7 +150,7 @@ const [res, setres] = useState("")
               <div style={{ float: "right", position: "relative", display: "flex" }}>
 
                 <Button className="mr-4" onClick={e => { navigate(-1) }}> Cancel</Button>
-                <Button className='btn ' disabled={(res!="Rejected"&&res!="Approved")||(res == "Rejected" && comments == "") } onClick={e => { handlesubmit(); navigate(-1) }}> Submit</Button>
+                <Button className='btn ' disabled={(status!="Rejected"&&status!="HM Shortlisted")||(status == "Rejected" && comments == "") } onClick={e => { handlesubmit(); navigate(-1) }}> Submit</Button>
               </div>
 
             </div>
