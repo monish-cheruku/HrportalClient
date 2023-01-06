@@ -292,7 +292,7 @@ function SelectedCandidatesHRHold() {
                           <Field
                             name="status"
                             render={({ input, meta }) => (
-                              <RadioButton  {...input} className='ml-2' inputId="city4" name="city" value="HM Shortlisted" checked={values.status == "HM Shortlisted"} />
+                              <RadioButton  {...input} className='ml-2' inputId="city4" name="city" value="HR Shortlisted" checked={values.status == "HR Shortlisted"} />
                             )} />
                           <label className="radio-inline me-3">HR Shortlisted
                           </label>
@@ -310,7 +310,7 @@ function SelectedCandidatesHRHold() {
                                 <RadioButton {...input} id="r" className='ml-2' name="city" value="Rejected" checked={values.status == "Rejected"} />
                               </>
                             )} />
-                          <label className="radio-inline me-3" htmlFor={'r'}>Rejected
+                          <label className="radio-inline me-3" htmlFor={'r'}>Reject
                           </label>
                           <br></br>
                         </span>

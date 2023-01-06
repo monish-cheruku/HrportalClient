@@ -86,7 +86,7 @@ function CreateJobPost(props) {
         // }
         var arr = ["Company", "BusinessUnit", "ServiceLine", "Industry", "Customer",
             "Location", "EmploymentType", "JobTitle", "JobDesc", "ExperianceLevel",
-            "Qualification", "NoOfPositions", 'MaximumExperiance', 'MinimumExperiance', 'MaximumCTC',
+            "Qualification", "NoOfPositions", 'MaximumCTC',
             "OnBoardingDate", "HR_User_Name", "BH_User_Name"]
         arr.forEach((i) => {
             if (!values[i]) {
@@ -94,6 +94,14 @@ function CreateJobPost(props) {
             }
         })
         //   console.log(values["Duration"])
+        if (values["MinimumExperiance"] == undefined || values["MinimumExperiance"] == null) {
+
+            errors["MinimumExperiance"] = "*This field is required"
+        }
+        if (values["MaximumExperiance"] == undefined || values["MaximumExperiance"] == null) {
+
+            errors["MaximumExperiance"] = "*This field is required"
+        }
         if (!values["Duration"] && values.EmploymentType != "Full-Time") {
             // console.log(values["Duration"])
 

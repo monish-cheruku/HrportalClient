@@ -87,7 +87,7 @@ function CandidateDetailsView(props) {
                 {/* {rowdata.approvalStatus == "N" && <span>Pending</span>}
                 {rowdata.approvalStatus == "A" && <span>Approved</span>}
                 {rowdata.approvalStatus == "R" && <span>Rejected</span>} */}
-               { rowdata.approvalStatus}
+               {rowdata.approvalStatus == "N" ? <span>Pending</span> : <span>{rowdata.approvalStatus}</span>}
             </>
         )
     }

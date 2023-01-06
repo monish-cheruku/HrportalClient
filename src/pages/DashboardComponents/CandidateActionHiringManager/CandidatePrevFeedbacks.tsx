@@ -22,7 +22,7 @@ function CandidatePrevFeedbacks(props) {
     }, {});
   }
   const groupedfeedbackdata = groupBy(feedbackdata, 'interviewtype');
-  // console.log(groupedfeedbackdata)
+   console.log(groupedfeedbackdata)
   // console.log(comments)
 
 
@@ -40,6 +40,7 @@ function CandidatePrevFeedbacks(props) {
   return (
     <div>
     <br></br>
+    {Object.keys(groupedfeedbackdata).length > 0 ?
     <Accordion >
       <AccordionTab header={<label>Previous Interview Feedbacks</label>}>
         {
@@ -48,7 +49,7 @@ function CandidatePrevFeedbacks(props) {
               <h4>{i}</h4>
               <br></br>
               <div>
-                <h4>
+                <h5>
                   <div className="p-fluid  grid">
                     <div className="field col-12 md:col-4">Category
                     </div>
@@ -58,7 +59,7 @@ function CandidatePrevFeedbacks(props) {
                     </div>
                   </div>
 
-                </h4>
+                </h5>
                 {groupedfeedbackdata[i].map((j) =>
                   <>
 
@@ -72,10 +73,10 @@ function CandidatePrevFeedbacks(props) {
                         <label>{j.Comments}</label>
                       </div>
                       <div className="field col-12 md:col-4">
+                        <Rating cancel={false} value={j.Rating}></Rating>
 
                       </div>
 
-                        <Rating cancel={false} value={j.Rating}></Rating>
 
 
                       </div>
@@ -98,10 +99,12 @@ function CandidatePrevFeedbacks(props) {
         }
       </AccordionTab>
     </Accordion>
+    : <div></div>
+}
     <br>
     </br>
   
-    Comments
+ 
           {
             comments ?
               Object.keys(comments).map((i) =>

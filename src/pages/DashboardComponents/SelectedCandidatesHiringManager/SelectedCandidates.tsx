@@ -187,12 +187,12 @@ const SelectedCandidates = () => {
 
                 <Column field="candidate.CandidateCode" header="Candiate Code" sortable style={{ minWidth: '11rem', maxWidth: '14rem' }} body={linktemplate}></Column>
                 <Column field="candidate.CanFirstName" body={nametemplate} header="Candidate Name" sortable></Column>
-                <Column field="candidate.Jobpost.JobCode" header="Job Code" sortable></Column>
-                <Column field="candidate.Jobpost.JobTitle" header="Job Title" sortable></Column>
+                <Column field="jobpost.JobCode" header="Job Code" sortable></Column>
+                <Column field="jobpost.JobTitle" header="Job Title" sortable></Column>
                 <Column field="candidate.OverallExpYear" body={exptemplate} header="Experiance" sortable ></Column>
                 <Column field="candidate.CurrentCTC" header="CurrentCTC " sortable></Column>
                 <Column field="candidate.ExpectedCTC" header="Expected CTC" sortable></Column>
-                <Column field="Jobpost.NegotiatedCTC" header="Negotiated CTC" sortable></Column>
+                <Column field="candidate.NegotiatedCTC" header="Negotiated CTC" sortable></Column>
                 <Column field="candidate.ExpectedDOJ" header="Expected DOJ"  sortable></Column>
 
             </DataTable>
