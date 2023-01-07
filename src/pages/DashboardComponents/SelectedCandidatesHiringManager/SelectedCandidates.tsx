@@ -160,9 +160,32 @@ const SelectedCandidates = () => {
     //         </>
     //     )
     // }
+    const formatCurrencycctc=(rowdata)=>{
+        var  value1=rowdata.candidate.CurrentCTC
+        // console.log(  (rowdata.candidate.CurrentCTC.toString()).toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 2 }))
+return(<>{
+    value1? value1.toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 2 }):""
+    }</>)
+    }
+    const formatCurrencyEctc=(rowdata)=>{
+        var  value1=rowdata.candidate.ExpectedCTC
+return(<>{
+    value1? value1.toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 2 }):""
+    }</>)
+    }
+    const formatCurrencyNctc=(rowdata)=>{
+      var  value1=rowdata.candidate.NegotiatedCTC
+return(<>{
+    //  (rowdata.candidate.NegotiatedCTC?.toString()).toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 2 })
+    value1? value1.toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 2 }):""
+}</>)
+    }
+    const formatCurrency = (value: any) => {
+        return value.toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 2 });
+    }
     const datetemplate = (rowdata: any) => {
 
-        return <>{formatDate(new Date(rowdata.OnBoardingDate))}</>;
+        return <>{formatDate(new Date(rowdata.candidate.ExpectedDOJ))}</>;
 
 
     }
@@ -190,10 +213,10 @@ const SelectedCandidates = () => {
                 <Column field="jobpost.JobCode" header="Job Code" sortable></Column>
                 <Column field="jobpost.JobTitle" header="Job Title" sortable></Column>
                 <Column field="candidate.OverallExpYear" body={exptemplate} header="Experiance" sortable ></Column>
-                <Column field="candidate.CurrentCTC" header="CurrentCTC " sortable></Column>
-                <Column field="candidate.ExpectedCTC" header="Expected CTC" sortable></Column>
-                <Column field="candidate.NegotiatedCTC" header="Negotiated CTC" sortable></Column>
-                <Column field="candidate.ExpectedDOJ" header="Expected DOJ"  sortable></Column>
+                <Column field="candidate.CurrentCTC" header="CurrentCTC "  body={formatCurrencycctc}sortable > </Column>
+                <Column field="candidate.ExpectedCTC" header="Expected CTC" body={formatCurrencyEctc} sortable></Column>
+                <Column field="candidate.NegotiatedCTC" header="Negotiated CTC" body={formatCurrencyNctc} sortable></Column>
+                <Column field="candidate.ExpectedDOJ" header="Expected DOJ" body={datetemplate} sortable></Column>
 
             </DataTable>
 

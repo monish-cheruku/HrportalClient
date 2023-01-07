@@ -145,7 +145,7 @@ function HiringmanagerInterview() {
     if (values.status == "")
       errors["status"] = "Check one of the radio button"
 
-    if (values.status == "Rejected" && (values.comments == "" || values.comments == undefined)) {
+    if (values.status == "Rejected" && (values.comments == "" || values.comments == undefined)||values.status == "Further Review" && (values.comments == "" || values.comments == undefined) ) {
       console.log(values)
       errors["comments"] = "Comments cant be empty"
     }

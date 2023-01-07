@@ -109,7 +109,7 @@ navigate(-1)
               <h5>Comments:</h5>
               <InputTextarea cols={60} value={comments} onChange={e => setcomments(e.target.value)}></InputTextarea>
               <br></br>
-              
+              {(status=="Rejected"&&comments=="")?<span className='p-error'>Comments are required*</span>:<></>}
             </div>
             <div className="md:col-1">
               <div className="field col-12 md:col-4">

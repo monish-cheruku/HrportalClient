@@ -11,7 +11,7 @@ function* Loginsagaworker(payload){
     }
     catch(err){
 console.log(err)
-
+yield put({type:"Login/setloginerror",payload:err})
 
 
     }

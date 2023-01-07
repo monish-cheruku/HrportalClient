@@ -233,7 +233,7 @@ navigate(-1)
                           name="status"
                           render={({ input, meta }) => (
                             <RadioButton {...input} className='ml-2' inputId="city4" name="city" value="HR Shortlisted" checked={values.status == "HR Shortlisted"} />
-                          )} /><label className="radio-inline me-3">Shortlist
+                          )} /><label className="radio-inline mr-3">Shortlist
                         </label>
 
                       </span>
@@ -245,7 +245,7 @@ navigate(-1)
                           render={({ input, meta }) => (<>
                             <RadioButton {...input} className='ml-2' inputId="city4" name="city" value="HR Hold" checked={values.status == "HR Hold"} />
                              </>)} />
-                        <label className="radio-inline me-3">Hold
+                        <label className="radio-inline mr-3">Hold
                         </label>
                       </span>
                       <br></br>
@@ -256,7 +256,7 @@ navigate(-1)
                           render={({ input, meta }) => (<>
                             <RadioButton {...input} id="r" className='ml-2' name="city" value="Rejected" checked={values.status == "Rejected"} />
                             
-                        <label className="radio-inline me-3" htmlFor={'r'}>Rejected
+                        <label className="radio-inline mr-3" htmlFor={'r'}>Rejected
                         </label>
                         <br></br>
                         {getFormErrorMessage(meta)}
@@ -264,7 +264,7 @@ navigate(-1)
                       </span>
                       <span>
                           <Field
-                            name="comments"
+                            name="status"
                             id="r"
                             render={({ input, meta }) => (
                               <>{getFormErrorMessage(meta)}</>

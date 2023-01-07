@@ -185,11 +185,13 @@ function HiringManagerin2() {
                       <div className="field col-12 md:col-6">
                         <Field
                           name={valuebuilder(i.FeedbackCategoryID.toString(), "Comments")}
-                          render={({ input, meta }) => (
+                          render={({ input, meta }) => (<>
                             <InputTextarea rows={8}
                               {...input}
                             >
                             </InputTextarea>
+                            {getFormErrorMessage(meta)}
+                            </>
                           )
                           }
                         />
@@ -246,6 +248,16 @@ function HiringManagerin2() {
                           )} />
                         <label className="radio-inline me-3" htmlFor={'r'}>Rejected
                         </label>
+                      </span>
+                      <br></br>
+                      <span>
+                        <Field
+                          name="status"
+                          id="r"
+                          render={({ input, meta }) => (<>
+                            {getFormErrorMessage(meta)}
+                            </> )} />
+                       
                       </span>
 
 

@@ -13,6 +13,7 @@ import CandidateDetails from './CandidateDetails'
 import JobPostDetails from './JobPostDetails'
 import { RootState } from '../../app/store'
 import { prevfeedbacksaction } from '../../features/CandidateActions/prevfeedbacks'
+import CandidatePrevFeedbacks from './CandidateActionHiringManager/CandidatePrevFeedbacks'
 
 
 function GeneralManagerApproval() {
@@ -94,6 +95,8 @@ function GeneralManagerApproval() {
         </Accordion>
         <br></br>
         <br></br>
+
+        <CandidatePrevFeedbacks  feedbacks={prevfeedbacks} comments={candidatedata.Comments}></CandidatePrevFeedbacks>
 
 
 
