@@ -139,6 +139,7 @@ const ManageExperiencelevel = () => {
                         setexperiencelevelid(data.ExperienceLevelId);
                         // setexperiencelevelrange(data.ExperienceRange);
                         setRangeValues([data.Min_ExperienceRange,data.Max_ExperienceRange])
+                        // setRangeValues([0,35])
                         setexperiencelevel(data.ExperienceLevel);
                         setActive(data.Active);
                         setProductDialog(true);
@@ -213,7 +214,7 @@ const ManageExperiencelevel = () => {
 
                 <Dialog visible={productDialog} style={{ width: "450px" }} header={editmode?"Edit Experience Levels Information ":"Add Experience Levels Information "} modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
                     <div className="field">
-                        <label htmlFor="ExperienceLevel<">ExperienceLevel </label>
+                        <label htmlFor="ExperienceLevel<">Experience Level </label>
                         {/* <InputText id=" ExperienceLevel" onChange={(e) => setexperiencelevel(e.target.value)} value={experiencelevel}></InputText> */}
                         <InputText className={issave == true && experiencelevel == "" ? "p-invalid" : "p-valid"} placeholder={experiencelevel == "" ? "" : ""} id=" ExperienceLevel" onChange={(e) => setexperiencelevel(e.target.value)} value={experiencelevel}></InputText>
                         {issave == true && experiencelevel == "" && <small className="p-error">Experience Level is required.</small>}
@@ -225,7 +226,7 @@ const ManageExperiencelevel = () => {
                             {/* <InputText value={rangeValues as number} onChange={(e) => setRangeValues(parseInt(e.target.value))} /> */}
                             {"["+rangeValues[0]+","+rangeValues[1]+"]"}
                             {/* <Slider value={sliderValue as number} onChange={(e) => setSliderValue(e.value as number)} /> */}
-                            <Slider min={0} max={35} step={3} value={rangeValues} onChange={(e) => { setRangeValues(e.value) }} range />
+                            <Slider min={0} max={35} step={1} value={rangeValues} onChange={(e) => { setRangeValues(e.value) }} range />
                         </div>
 
                         <div className="col-12">
