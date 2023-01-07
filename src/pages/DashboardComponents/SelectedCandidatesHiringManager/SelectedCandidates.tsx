@@ -53,9 +53,11 @@ const SelectedCandidates = () => {
     //         //fetch('./jobpostdata.json').then(res => {res.json(); console.log(res);}).then(d => setcompany(d.data));
     //     }, []);
     useEffect(() => {
+        var w:any=[]
+        Logindata.groups.forEach((i)=>w.push(i["name"].toString()))
         dispatch(selectedcandidatesaction({
 
-            "RoleName":["Hiring Manager","Administrator"],
+            "RoleName":w,
         
             "username":Logindata.username
         
@@ -172,20 +174,25 @@ const SelectedCandidates = () => {
         });
         // return value.toLocaleDateString('en-US');
     }
+    const linktemplate=(rowdata)=>{
+        return(
+            <Link to={'/SelectedCandidatesdetails'} state={rowdata}>{rowdata.candidate.CandidateCode}</Link>
+        )
+    }
     return (
         <div>
 
             <DataTable value={selectedcandidatesdata} showGridlines={false} responsiveLayout="scroll" paginator={true} rows={5}
                 globalFilterFields={['candidate.CandidateCode', 'candidate.CanFirstName', 'candidate.Jobpost.JobCode', 'candidate.Jobpost.JobTitle', 'candidate.OverallExpYear', 'candidate.CurrentCTC', 'candidate.ExpectedCTC', 'Jobpost.NegotiatedCTC', 'candidate.ExpectedDOJ']} filters={filters2} header={Headercomp}>
 
-                <Column field="candidate.CandidateCode" header="Candiate Code" sortable style={{ minWidth: '11rem', maxWidth: '14rem' }} ></Column>
+                <Column field="candidate.CandidateCode" header="Candiate Code" sortable style={{ minWidth: '11rem', maxWidth: '14rem' }} body={linktemplate}></Column>
                 <Column field="candidate.CanFirstName" body={nametemplate} header="Candidate Name" sortable></Column>
-                <Column field="candidate.Jobpost.JobCode" header="Job Code" sortable></Column>
-                <Column field="candidate.Jobpost.JobTitle" header="Job Title" sortable></Column>
+                <Column field="jobpost.JobCode" header="Job Code" sortable></Column>
+                <Column field="jobpost.JobTitle" header="Job Title" sortable></Column>
                 <Column field="candidate.OverallExpYear" body={exptemplate} header="Experiance" sortable ></Column>
                 <Column field="candidate.CurrentCTC" header="CurrentCTC " sortable></Column>
                 <Column field="candidate.ExpectedCTC" header="Expected CTC" sortable></Column>
-                <Column field="Jobpost.NegotiatedCTC" header="Negotiated CTC" sortable></Column>
+                <Column field="candidate.NegotiatedCTC" header="Negotiated CTC" sortable></Column>
                 <Column field="candidate.ExpectedDOJ" header="Expected DOJ"  sortable></Column>
 
             </DataTable>

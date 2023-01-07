@@ -114,7 +114,7 @@ navigate(-1)
               <br></br>
 
 
-              <RadioButton className='ml-2' name="city" value="FC Approval Rejected" onChange={(e) => setstatus(e.value)} checked={status === 'FC Approval Rejected'} />
+              <RadioButton className='ml-2' name="city" value="Rejected" onChange={(e) => setstatus(e.value)} checked={status === 'Rejected'} />
               <span><label className="radio-inline me-3">Reject
               </label>
               </span>
@@ -135,7 +135,7 @@ navigate(-1)
                 <div style={{ float: "right", position: "relative", display: "flex" }}>
 
                   <Button className="mr-4" onClick={e => { navigate(-1) }}> Cancel</Button>
-                  <Button className='btn ' disabled={(status!="FC Approved"&&status!="Rejected")||(status=="Rejected"&& comments=="")} onClick={e => { handlesubmit(); navigate(-1) }}> Submit</Button>
+                  <Button className='btn ' disabled={(status!="FC Approved"&&status!="Rejected")||(status=="Rejected"&& comments=="")} onClick={e => { handlesubmit()}}> Submit</Button>
                 </div>
 
               </div>

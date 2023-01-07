@@ -175,12 +175,12 @@ function HiringmanagerInterview() {
           <br></br>
           <br></br>
 
-        </Panel>
+
 
         <br></br>
         <div className="container ">
 
-          <Card >
+          <Card title='Technical Interview Feedback'>
 
             <div className="">
               <Form style={{ width: "100%" }}
@@ -223,8 +223,8 @@ function HiringmanagerInterview() {
                   req.comments = values.comments
                   req.status = values.status
                   console.log(req)
-                  // dispatch(candidateworkflowsubmitaction(req))
-
+                  dispatch(candidateworkflowsubmitaction(req))
+navigate(-1)
 
                 }}
                 initialValues={{ status: "" }}
@@ -242,13 +242,13 @@ function HiringmanagerInterview() {
 
                     {feedbackfields.map((i) =>
                       <div className="p-fluid  grid">
-                        <div className="field col-12 md:col-2">
-                          <h4 style={{ marginTop: "5rem", marginLeft: "10%" }}>
+                        <div className="field col-12 md:col-4">
+                          <h5 style={{ marginTop: "5rem", marginLeft: "10%" }}>
 
                             {i.FeedbackCategory}
-                          </h4>
+                          </h5>
                         </div>
-                        <div className="field col-12 md:col-7">
+                        <div className="field col-12 md:col-6">
                           <Field
 
                             name={valuebuilder(i.FeedbackCategoryID.toString(), "Comments")}
@@ -276,7 +276,7 @@ function HiringmanagerInterview() {
                           />
 
                         </div>
-                        <div className="field col-12 md:col-3">
+                        <div className="field col-12 md:col-2">
                           <Field
                             name={valuebuilder(i.FeedbackCategoryID.toString(), "Rating")}
                             render={({ input, meta }) => (
@@ -311,42 +311,42 @@ function HiringmanagerInterview() {
                           <Field
                             name="status"
                             render={({ input, meta }) => (
-                              <RadioButton  {...input} className='ml-2' inputId="city4" name="city" value="HM Shortlisted" checked={values.status == "HM Shortlisted"} />
+                              <RadioButton  {...input} className='ml-2 mr-2' inputId="city4" name="city" value="HM Shortlisted" checked={values.status == "HM Shortlisted"} />
                             )} />
                           <label className="radio-inline me-3">Shortlist
                           </label>
                         </span>
-                        <br></br>
+                        <br></br><br></br>
                         <span>
                           <Field
                             name="status"
                             render={({ input, meta }) => (
-                              <RadioButton  {...input} className='ml-2' inputId="city4" name="city" value="Further Review" checked={values.status == "Further Review"} />
+                              <RadioButton  {...input} className='ml-2 mr-2' inputId="city4" name="city" value="Further Review" checked={values.status == "Further Review"} />
                             )} />
                           <label className="radio-inline me-3">Further Review
                           </label>
                         </span>
-                        <br></br>
+                        <br></br><br></br>
                         <span>
                           <Field
                             name="status"
                             render={({ input, meta }) => (
-                              <RadioButton {...input} className='ml-2' inputId="city4" name="city" value="HM Hold" checked={values.status == "HM Hold"} />
+                              <RadioButton {...input} className='ml-2 mr-2' inputId="city4" name="city" value="HM Hold" checked={values.status == "HM Hold"} />
                             )} />
                           <label className="radio-inline me-3">Hold
                           </label>
                         </span>
-                        <br></br>
+                        <br></br><br></br>
                         <span>
                           <Field
                             name="status"
                             id="r"
                             render={({ input, meta }) => (
                               <>
-                                <RadioButton {...input} id="r" className='ml-2' name="city" value="Rejected" checked={values.status == "Rejected"} />
+                                <RadioButton {...input} id="r" className='ml-2 mr-2' name="city" value="Rejected" checked={values.status == "Rejected"} />
                               </>
                             )} />
-                          <label className="radio-inline me-3" htmlFor={'r'}>Rejected
+                          <label className="radio-inline me-3" htmlFor={'r'}>Reject
                           </label>
                           <br></br>
                         </span>
@@ -412,7 +412,7 @@ function HiringmanagerInterview() {
         </div>
 
 
-
+      </Panel>          
       </Card>
     </div>
   )

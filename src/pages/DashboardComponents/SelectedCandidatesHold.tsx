@@ -45,17 +45,33 @@ const [res, setres] = useState("")
   };
   const handlesubmit = () => {
     var payloaddata: any = {}
-    if (res) {
+    if (status) {
 
       payloaddata.JobPostApprovalId = jobdata?.JobPostApprovalID
       payloaddata.JobPostId = jobdata.JobPostID
-      payloaddata.ApprovalStatus = res
+      payloaddata.ApprovalStatus = status
       payloaddata.ApprovalComments = comments
     }
-    if (res) {
-      if (!(res == "Rejected" && comments == "")) {
+    if (status) {
+      if (!(status == "Rejected" && comments == "")) {
 
         console.log(payloaddata)
+        console.log(
+          {
+    
+    
+            "candidateapprovalid": candidatedata.CandidateApprovalID,
+    
+            "candidateid": candidatedata.CandidateId,
+    
+            "status": status,
+    
+            "comments": comments,
+    
+    
+    
+          }
+        )
         dispatch(selectedcandidatesholdsubmitaction({
 
 
@@ -70,29 +86,15 @@ const [res, setres] = useState("")
           "feedback": null
     
     
-        }))      }
+        }))     
+      navigate(-1)
+      }
     }
   }
     console.log(comments)
     console.log(status)
-    console.log(
-      {
-
-
-        "candidateapprovalid": candidatedata.CandidateApprovalID,
-
-        "candidateid": candidatedata.CandidateId,
-
-        "status": status,
-
-        "comments": comments,
-
-
-
-      }
-    )
+    
   
-    navigate(-1)
   
 
   return (
@@ -142,7 +144,8 @@ const [res, setres] = useState("")
           <div className="md:col-8">
             <h5>Comments:</h5>
             <InputTextarea cols={60} value={comments} onChange={e => setcomments(e.target.value)}></InputTextarea>
-            <small hidden={res == "Rejected" && comments == "" ? false : true} id="username2-help" className={res == "Rejected" && comments == "" ? "p-error block" : ""}>Comments are Required when Rejected*.</small>
+            <br></br>
+            <small hidden={res == "Rejected" && comments == "" ? false : true} id="username2-help" className={status == "Rejected" && comments == "" ? "p-error block" : ""}>Comments are Required when Rejected*.</small>
 
           </div>
           <div className="md:col-1">
@@ -150,7 +153,7 @@ const [res, setres] = useState("")
               <div style={{ float: "right", position: "relative", display: "flex" }}>
 
                 <Button className="mr-4" onClick={e => { navigate(-1) }}> Cancel</Button>
-                <Button className='btn ' disabled={(status!="Rejected"&&status!="HM Shortlisted")||(status == "Rejected" && comments == "") } onClick={e => { handlesubmit(); navigate(-1) }}> Submit</Button>
+                <Button className='btn' disabled={(status!="Rejected"&&status!="HM Shortlisted")||(status == "Rejected" && comments == "") } onClick={e => handlesubmit() }> Submit</Button>
               </div>
 
             </div>

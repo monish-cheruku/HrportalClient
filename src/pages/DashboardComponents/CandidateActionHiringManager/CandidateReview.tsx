@@ -39,6 +39,7 @@ function CandidateReview() {
     setSubmitted(false);
     // setProductDialog(false);
   };
+  
   const handlesubmit = () => {
     console.log(comments)
     console.log(status)
@@ -86,16 +87,16 @@ navigate(-1)
           <div className="grid">
             <div className="md:col-3">
 
-              <RadioButton className='ml-2' name="selectforinterview" value="Select For Interview" onChange={(e) => setstatus(e.value)} checked={status === 'Select For Interview'} id='selectforinterview' />
-              <span><label className="radio-inline me-3" htmlFor='selectforinterview'>Selected for Interview
+              <RadioButton className='ml-2 mr-2' name="selectforinterview" value="Select For Interview" onChange={(e) => setstatus(e.value)} checked={status === 'Select For Interview'} id='selectforinterview' />
+              <span><label className="radio-inline me-3" htmlFor='selectforinterview'><b>Selected for Interview</b>
               </label>
               </span>
               <br></br>
               <br></br>
 
 
-              <RadioButton className='ml-2' name="city" value="Rejected" onChange={(e) => setstatus(e.value)} checked={status === 'Rejected'} />
-              <span><label className="radio-inline me-3">Rejected
+              <RadioButton className='ml-2 mr-2' name="city" value="Rejected" onChange={(e) => setstatus(e.value)} checked={status === 'Rejected'} />
+              <span><label className="radio-inline me-3"><b>Reject</b>
               </label>
               </span>
             </div>
@@ -107,7 +108,8 @@ navigate(-1)
             <div className="md:col-8">
               <h5>Comments:</h5>
               <InputTextarea cols={60} value={comments} onChange={e => setcomments(e.target.value)}></InputTextarea>
-
+              <br></br>
+              
             </div>
             <div className="md:col-1">
               <div className="field col-12 md:col-4">

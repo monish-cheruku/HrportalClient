@@ -116,7 +116,7 @@ function HiringManagerin2() {
       <br></br>
       <div className="container ">
 
-        <Card >
+        <Card title='Technical Interview Feedback'>
 
           <div className="">
             <Form style={{ width: "100%" }}
@@ -159,7 +159,7 @@ function HiringManagerin2() {
                 req.status = values.status
                 console.log(req)
                 dispatch(candidateworkflowsubmitaction(req))
-
+                navigate(-1)
 
               }}
               // initialValues={ }
@@ -176,13 +176,13 @@ function HiringManagerin2() {
 
                   {feedbackfields.map((i) =>
                     <div className="p-fluid  grid">
-                      <div className="field col-12 md:col-2">
-                        <h4 style={{ marginTop: "5rem", marginLeft: "10%" }}>
+                      <div className="field col-12 md:col-4">
+                        <h5 style={{ marginTop: "5rem", marginLeft: "10%" }}>
 
                           {i.FeedbackCategory}
-                        </h4>
+                        </h5>
                       </div>
-                      <div className="field col-12 md:col-7">
+                      <div className="field col-12 md:col-6">
                         <Field
                           name={valuebuilder(i.FeedbackCategoryID.toString(), "Comments")}
                           render={({ input, meta }) => (
@@ -195,7 +195,7 @@ function HiringManagerin2() {
                         />
 
                       </div>
-                      <div className="field col-12 md:col-3">
+                      <div className="field col-12 md:col-2">
                         <Field
                           name={valuebuilder(i.FeedbackCategoryID.toString(), "Rating")}
                           render={({ input, meta }) => (<>
