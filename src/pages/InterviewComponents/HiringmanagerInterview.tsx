@@ -71,49 +71,7 @@ function HiringmanagerInterview() {
   const valuebuilder = (i, j) => {
     return i.toString() + "~" + j.toString()
   }
-  const handlevalidate = (values) => {
-    // seterrors(null)
-    setemptyerrors()
-    var flag = 0
-    // if (values.status == undefined) {
-
-    //   seterrors([...errors,{ status: "please select a status" }])
-    //   flag = 1
-    // }
-    // if (values.status == "Rejected" && values.comments == undefined) {
-    //   seterrors([...errors,{ status: "please give rejection comments" }])
-
-    //   flag = 1
-    // }
-    // console.log(values)
-    // console.log(errors)
-    for (var i in errors) {
-      // if(Object.values(values[i])[0]==undefined || Object.values(values[i])[0]==""){
-      // if(Object.values(values[i])[0]){
-      // if (errors[i] == "") {
-      if (!values.hasOwnProperty(Object.keys(errors[i])[0])) {
-        // Object.values(errors[i])[0]="this field is required"
-        // seterrors(errors[i]="this field is required")
-        // console.log(Object.keys(values[i]))
-        // console.log(Object.keys(errors[i])[0])
-        errors[i][Object.keys(errors[i])[0]] = "this field is required"
-        console.log(errors[i])
-        flag += 1
-      }
-    }
-
-
-
-    console.log("flag", flag)
-    if (flag > 0) {
-      console.log(errors)
-      return true
-    }
-    else {
-
-      return false
-    }
-  }
+  
   const isFormFieldValid = (meta) => !!(meta.touched && meta.error);
 
   const getFormErrorMessage = (meta) => {
@@ -147,7 +105,7 @@ function HiringmanagerInterview() {
 
     if (values.status == "Rejected" && (values.comments == "" || values.comments == undefined)||values.status == "Further Review" && (values.comments == "" || values.comments == undefined) ) {
       console.log(values)
-      errors["comments"] = "Comments cant be empty"
+      errors["comments"] = "Comments cant be empty * "
     }
 
 
@@ -290,7 +248,10 @@ navigate(-1)
                                   //   values[valuebuilder(i.FeedbackCategorID,"Rating")]=e.value}} 
                                   style={{ marginLeft: "10%", fontSize: "50px" }}
                                   size={80} cancel={false} />
+                                  <div style={{}} className="ml-5">
+
                                 {getFormErrorMessage(meta)}
+                                  </div>
                               </>
                             )
                             }

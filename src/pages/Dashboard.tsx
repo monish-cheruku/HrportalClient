@@ -11,6 +11,8 @@ import CandidateAction from "./DashboardComponents/CandidateActionHiringManager/
 import { candidateactionsdetailsaction } from "../features/CandidateActions/candidateactiondetailsslice";
 import { setdashboardactivetab } from "../features/Misc/globalslice";
 import SelectedCandidates from "./DashboardComponents/SelectedCandidatesHiringManager/SelectedCandidates";
+import { selectedcandidatesaction } from "../features/CandidateActions/selectedcandidatesslice";
+import { getJobPostActionfromapi } from "../features/JobPostActions/jobpostactionsslice";
 
 
 const Dashboard = () => {
@@ -30,19 +32,32 @@ const Dashboard = () => {
     useEffect(() => {
         // logindata.groups.forEach((i)=>rolesarr.push(i["name"].toString()))   
         setrolesarr([])
+        var w:any=[]
+        logindata.groups.forEach((i)=>w.push(i["name"].toString()))
         logindata.groups.forEach((i)=>setrolesarr(rolesarr=>[...rolesarr,i["name"].toString()]))
-
+        dispatch(getJobPostActionfromapi({
+            "ApproverName":logindata.username
+            // "ApproverName":"nkanagala"
+        }))
         dispatch(myjobpostsaction({ "UserName": logindata.username }))
         dispatch(candidateactionsdetailsaction({
 
             "ApproverName": logindata.username
 
         }))
+
+        dispatch(selectedcandidatesaction({
+
+            "RoleName":w,
+        
+            "username":logindata.username
+        
+        }))
         console.log(rolesarr)
         // dispatch(myjobpostsaction({"UserName":logindata.username}))
         setTimeout(()=>{
-
-            document.querySelector(".tabs")?.click()
+            globaldata.dashboardactivetab==""?
+            document.querySelector(".tabs")?.click():console.log()
             // console.log(document.getElementById("parentfortabs")?.children.length)
             setnooftabs(document.getElementById("parentfortabs")?.children.length.toString())
         },1000)

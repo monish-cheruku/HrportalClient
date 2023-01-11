@@ -3,7 +3,7 @@ export interface Iglobalstore{
     dashboardactivetab:String
 }
 const initialState:Iglobalstore={
-    dashboardactivetab: "jobpostactions"
+    dashboardactivetab: ""
 }
 
 

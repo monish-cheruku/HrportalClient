@@ -132,14 +132,14 @@ function GeneralManagerApproval() {
               <div className="grid">
                 <InputTextarea cols={60} value={comments} onChange={e => setcomments(e.target.value)}></InputTextarea>
                 <br></br>
-                <small hidden={status == "Rejected" && comments == ""} id="username2-help" className={status == "Rejected" && comments == "" ? "p-error block" : ""}>Comments are Required when Rejected*.</small>
-
+               {status == "GM Approval Rejected" && comments == ""? <small  id="username2-help" className= "p-error" >Comments are Required when Rejected*</small>
+:<></>}
               </div>
               </div>
               <div className="md:col-3">
 
                 <div style={{ paddingTop: "2rem", float: "right", position: "relative", display: "flex" }}>
-                  <Button className='btn mr-4' disabled={(status != "Rejected" && status != "GM Approved") || (status == "Rejected" && comments == "")} onClick={e => { handlesubmit(); navigate(-1) }}> Submit</Button>
+                  <Button className='btn mr-4' disabled={(status != "GM Approval Rejected" && status != "GM Approved") || (status == "GM Approval Rejected" && comments == "")} onClick={e => { handlesubmit(); navigate(-1) }}> Submit</Button>
                   <Button className="mr-4" onClick={e => { navigate(-1) }}> Cancel</Button>
 
                 </div>

@@ -278,7 +278,7 @@ const ManageSubband = () => {
                     <Column field="BandID" header="Band" body={bandtemplate} sortable></Column>  
                         
                         <Column field="SubBandName" header="Sub Band Name" sortable></Column>
-                        <Column field="BandName" header="Band Name" sortable></Column>
+                        {/* <Column field="BandName" header="Band Name" sortable></Column> */}
                         <Column field="SubBandDesc" header="Sub Band Description" sortable></Column>
                         <Column field="Active" header="Active" sortable dataType="boolean" body={activediv}></Column>
                         <Column field="edit" header="Edit" body={actionBodyTemplate} exportable={false}></Column>

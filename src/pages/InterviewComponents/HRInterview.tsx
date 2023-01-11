@@ -260,9 +260,10 @@ navigate(-1)
                         <label className="radio-inline mr-3" htmlFor={'r'}><b>Reject</b>
                         </label>
                         <br></br>
-                        {getFormErrorMessage(meta)}
+                        
                           </>)} />
                       </span>
+                      <br></br>
                       <span>
                           <Field
                             name="status"

@@ -111,7 +111,7 @@ navigate(-1)
             </div>
             <br></br>
             <div className="grid">
-              <InputTextarea cols={60} value={comments} onChange={e => setcomments(e.target.value)}></InputTextarea>
+              <InputTextarea cols={120} value={comments} onChange={e => setcomments(e.target.value)}></InputTextarea>
               <br></br>
               {(status=="Rejected"&&comments=="")?<span className='p-error'>Comments are required*</span>:<></>}
               </div>  
@@ -119,8 +119,8 @@ navigate(-1)
             
             <div className="md:col-3">
               {/* <div className="field col-12 md:col-4"> */}
-                <div style={{ float: "right", position: "relative", display: "flex" }}>
-                  <Button className="mr-4" onClick={e => handlesubmit()} >Submit</Button>
+                <div style={{ float: "right",paddingTop:"2rem", position: "relative", display: "flex" }}>
+                  <Button  disabled={status==""?true:false} className="mr-4" onClick={e => handlesubmit()} >Submit</Button>
                   <Button  onClick={e => { navigate(-1) }}> Cancel</Button>
                   
                 </div>
