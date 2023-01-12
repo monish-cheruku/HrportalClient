@@ -21,8 +21,14 @@ function LoginPage() {
 const navigate=useNavigate()
     useEffect(()=>{
         console.log("login page")
-        if(Logindata.username!="")
-        navigate("/dashboard")
+        var w:any=[]
+        Logindata.groups != undefined?Logindata.groups.forEach((i)=>w.push(i["name"].toString())):console.log("")
+        if (w.includes("Candidate")){
+            navigate("/candidateinfo")
+        }
+        else if (Logindata.username!="") {
+            navigate("/dashboard")
+        }
     },[Logindata.username])
     async function handlesubmit(){
         

@@ -35,21 +35,6 @@ if(activeIndex==null)setcandidateinfotab(0)
 
                       <Steps model={wizardItems} activeIndex={activeIndex} onSelect={(e) => dispatch(setcandidateinfotab(e.index))} readOnly={false} />
 
-                    <Routes>
-
-                    {/* <Route  path={'/candidateinfo/PersonalDetails'} element={<PersonalDetails></PersonalDetails>} />
-                    <Route path={'/candidateinfo/FamilyDetails'} element={<FamilyDetails></FamilyDetails>} />
-                    <Route path={'/candidateinfo/Education'} element={<Education></Education>} />
-                    <Route path={'/candidateinfo/Employement'} element={<Employement></Employement>} />
-                    <Route path={'/candidateinfo/PFDetails'} element={<PFDetails></PFDetails>} />
-                  <Route path={'/candidateinfo/Documents'} element={<Documents></Documents>} /> */}
-                    {/* <Route  path={'/candidateinfo/PersonalDetails'} element={<>perso</>} />
-                    <Route path={'/candidateinfo/FamilyDetails'} element={<>famil</>} />
-                    <Route path={'/candidateinfo/Education'} element={<>educa</>} />
-                    <Route path={'/candidateinfo/Employement'} element={<>employe</>} />
-                    <Route path={'/candidateinfo/PFDetails'} element={<>pdfde</>} />
-                    <Route path={'/candidateinfo/Documents'} element={<>docum</>} /> */}
-                    </Routes>
 
                     <div>
 {
