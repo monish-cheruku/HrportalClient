@@ -13,6 +13,7 @@ import CandidateDetails from './CandidateDetails'
 import JobPostDetails from './JobPostDetails'
 import { RootState } from '../../app/store'
 import { prevfeedbacksaction } from '../../features/CandidateActions/prevfeedbacks'
+import CandidatePrevFeedbacks from './CandidateActionHiringManager/CandidatePrevFeedbacks'
 
 
 function GeneralManagerApproval() {
@@ -60,99 +61,106 @@ function GeneralManagerApproval() {
 
 
           "candidateapprovalid": candidatedata.CandidateApprovalID,
-    
+
           "candidateid": candidatedata.CandidateId,
-    
+
           "status": status,
-    
+
           "comments": comments,
-    
+
           "feedback": null
-    
-    
-        }))  
-        navigate(-1)    
+
+
+        }))
+        navigate(-1)
+      }
     }
-  }
-   
+
   }
 
   return (
     <div>
 
       <Card>
+        <Panel header="General Manager Approval">
+          <CandidateDetails data={candidatedata}></CandidateDetails>
+          <hr></hr>
+          <br></br>
+          <br></br>
+          <Accordion >
+            <AccordionTab header="Job Post Details">
+              <JobPostDetails JobData={jobdata}></JobPostDetails>
 
-        <CandidateDetails data={candidatedata}></CandidateDetails>
-        <hr></hr>
-        <br></br>
-        <br></br>
-        <Accordion >
-          <AccordionTab header="Job Post Details">
-            <JobPostDetails JobData={jobdata}></JobPostDetails>
+            </AccordionTab>
+          </Accordion>
+          <br></br>
+          <br></br>
 
-          </AccordionTab>
-        </Accordion>
-        <br></br>
-        <br></br>
-
-
-
-
+          <CandidatePrevFeedbacks feedbacks={prevfeedbacks} comments={candidatedata.Comments}></CandidatePrevFeedbacks>
 
 
-        <div className="grid">
-          <div className="md:col-3">
-
-            <RadioButton className='ml-2' name="selectforinterview" value="GM Approved" onChange={(e) => setstatus(e.value)} checked={status === 'GM Approved'} id='selectforinterview' />
-            <span><label className="radio-inline me-3" htmlFor='selectforinterview'>Approve
-            </label>
-            </span>
-            <br></br>
-            <br></br>
-
-
-            <RadioButton className='ml-2' name="city" value="GM Approval Rejected" onChange={(e) => setstatus(e.value)} checked={status === 'GM Approval Rejected'} />
-            <span><label className="radio-inline me-3">Reject
-            </label>
-            </span>
-          </div>
+          <br />
 
 
 
+          <div className="grid">
+            <div className="md:col-3">
+
+              <RadioButton className='ml-2 mr-2' name="selectforinterview" value="GM Approved" onChange={(e) => setstatus(e.value)} checked={status === 'GM Approved'} id='selectforinterview' />
+              <span><label className="radio-inline me-3" htmlFor='selectforinterview'><b>Approve</b>
+              </label>
+              </span>
+              <br></br>
+              <br></br>
 
 
-          <div className="md:col-8">
-            <h5>Comments:</h5>
-            <InputTextarea cols={60} value={comments} onChange={e => setcomments(e.target.value)}></InputTextarea>
-            <br></br>
-            <small hidden={status == "Rejected" && comments == "" } id="username2-help" className={status == "Rejected" && comments == "" ? "p-error block" : ""}>Comments are Required when Rejected*.</small>
-
-          </div>
-          <div className="md:col-1">
-            <div className="field col-12 md:col-4">
-              <div style={{ float: "right", position: "relative", display: "flex" }}>
-
-                <Button className="mr-4" onClick={e => { navigate(-1) }}> Cancel</Button>
-                <Button className='btn ' disabled={(status!="Rejected"&&status!="GM Approved")||(status == "Rejected" && comments == "") } onClick={e => { handlesubmit(); navigate(-1) }}> Submit</Button>
-              </div>
-
+              <RadioButton className='ml-2 mr-2' name="city" value="GM Approval Rejected" onChange={(e) => setstatus(e.value)} checked={status === 'GM Approval Rejected'} />
+              <span><label className="radio-inline me-3"><b>Reject</b>
+              </label>
+              </span>
             </div>
 
 
 
-          </div>
+
+
+            <div className="md:col-6">
+              <div className="grid">
+                <span><label>Comments:</label></span>
+              </div>
+              <br></br>
+              <div className="grid">
+                <InputTextarea cols={60} value={comments} onChange={e => setcomments(e.target.value)}></InputTextarea>
+                <br></br>
+               {status == "GM Approval Rejected" && comments == ""? <small  id="username2-help" className= "p-error" >Comments are Required when Rejected*</small>
+:<></>}
+              </div>
+              </div>
+              <div className="md:col-3">
+
+                <div style={{ paddingTop: "2rem", float: "right", position: "relative", display: "flex" }}>
+                  <Button className='btn mr-4' disabled={(status != "GM Approval Rejected" && status != "GM Approved") || (status == "GM Approval Rejected" && comments == "")} onClick={e => { handlesubmit(); navigate(-1) }}> Submit</Button>
+                  <Button className="mr-4" onClick={e => { navigate(-1) }}> Cancel</Button>
+
+                </div>
 
 
 
 
 
-        </div>
+              </div>
 
+
+
+
+
+            </div>
+        </Panel>
       </Card>
     </div>
 
   )
-  }
+}
 
 export default GeneralManagerApproval
 

@@ -11,6 +11,8 @@ import CandidateAction from "./DashboardComponents/CandidateActionHiringManager/
 import { candidateactionsdetailsaction } from "../features/CandidateActions/candidateactiondetailsslice";
 import { setdashboardactivetab } from "../features/Misc/globalslice";
 import SelectedCandidates from "./DashboardComponents/SelectedCandidatesHiringManager/SelectedCandidates";
+import { selectedcandidatesaction } from "../features/CandidateActions/selectedcandidatesslice";
+import { getJobPostActionfromapi } from "../features/JobPostActions/jobpostactionsslice";
 
 
 const Dashboard = () => {
@@ -29,20 +31,41 @@ const Dashboard = () => {
     const [rolesarr,setrolesarr]=useState<any>([])
     useEffect(() => {
         // logindata.groups.forEach((i)=>rolesarr.push(i["name"].toString()))   
+        setrolesarr([])
+        var w:any=[]
+        logindata.groups.forEach((i)=>w.push(i["name"].toString()))
         logindata.groups.forEach((i)=>setrolesarr(rolesarr=>[...rolesarr,i["name"].toString()]))
-
+        dispatch(getJobPostActionfromapi({
+            "ApproverName":logindata.username
+            // "ApproverName":"nkanagala"
+        }))
         dispatch(myjobpostsaction({ "UserName": logindata.username }))
         dispatch(candidateactionsdetailsaction({
 
             "ApproverName": logindata.username
 
         }))
+
+        dispatch(selectedcandidatesaction({
+
+            "RoleName":w,
+        
+            "username":logindata.username
+        
+        }))
         console.log(rolesarr)
         // dispatch(myjobpostsaction({"UserName":logindata.username}))
-    }, [])
+        setTimeout(()=>{
+            globaldata.dashboardactivetab==""?
+            document.querySelector(".tabs")?.click():console.log()
+            // console.log(document.getElementById("parentfortabs")?.children.length)
+            setnooftabs(document.getElementById("parentfortabs")?.children.length.toString())
+        },1000)
+        // document.getElementsByClassName(".tabs").click()
+        }, [])
     return (
         <div>
-            <div className="grid justify-content-between  d-flex  flex-row align-items-stretch" style={{gap:"40px"}}>    
+            <div className="grid justify-content-between  d-flex  flex-row align-items-stretch" id="parentfortabs" style={{gap:"40px"}}>    
                 {/* <div className={"col-"+(12/nooftabs).toString()+" lg:col-"+(12/nooftabs).toString()+" xl:col-"+(12/nooftabs).toString()+" sm:col-6"} onClick={e=>setOpenedtab("candidateaction")}>
 
                     <div className={openedtab=="candidateaction"?"cardaction mb-0":"cardaction1 mb-0"}>     
@@ -59,7 +82,7 @@ const Dashboard = () => {
                     </div>
                 </div> */}
                 {/* {(rolesarr.includes("Recruiter")||rolesarr.includes("Business Head"))&&<div className={"col-" + (12 / nooftabs).toString() + " lg:col-" + (12 / nooftabs).toString() + " xl:col-" + (12 / nooftabs).toString() + " sm:col-6"} onClick={e => dispatch(setdashboardactivetab("jobpostactions"))}> */}
-                {(rolesarr.includes("Recruiter")||rolesarr.includes("Business Head"))&&<div className={""} style={{flexGrow: 1,gap:"40px"}} onClick={e => dispatch(setdashboardactivetab("jobpostactions"))}>
+                {(rolesarr.includes("Recruiter")||rolesarr.includes("Business Head"))&&<div className={"tabs"} style={{flexGrow: 1,gap:"40px"}} onClick={e => dispatch(setdashboardactivetab("jobpostactions"))}>
 
                     <div className={globaldata.dashboardactivetab == "jobpostactions" ? "cardselect mb-0" : "cardunselect mb-0"}>
                         <div className="flex justify-content-between mb-3">
@@ -75,7 +98,7 @@ const Dashboard = () => {
 
                     </div>
                 </div>}
-                {(rolesarr.includes("Hiring Manager")|| rolesarr.includes("Business Head")|| rolesarr.includes("HR")|| rolesarr.includes("Finance Controller")|| rolesarr.includes("General Manager"))&&<div className={""}  style={{flexGrow: 1}} onClick={e => dispatch(setdashboardactivetab("candidateactions"))}>
+                {(rolesarr.includes("Hiring Manager")|| rolesarr.includes("Business Head")|| rolesarr.includes("HR")|| rolesarr.includes("Finance Controller")|| rolesarr.includes("General Manager"))&&<div className={"tabs"}  style={{flexGrow: 1}} onClick={e => dispatch(setdashboardactivetab("candidateactions"))}>
 
                     <div className={globaldata.dashboardactivetab == "candidateactions" ? "cardselect mb-0" : "cardunselect mb-0"}>
                         <div className="flex justify-content-between mb-3">
@@ -105,7 +128,7 @@ const Dashboard = () => {
 
                     </div>
                 </div>}
-                {(rolesarr.includes("Recruiter")|| rolesarr.includes("Business Head")|| rolesarr.includes("Hiring Manager")|| rolesarr.includes("HR"))&&<div className={""}   style={{flexGrow: 1}} onClick={e => dispatch(setdashboardactivetab("selectedcandidates"))}>
+                {(rolesarr.includes("Recruiter")|| rolesarr.includes("Business Head")|| rolesarr.includes("Hiring Manager")|| rolesarr.includes("HR"))&&<div className={"tabs"}   style={{flexGrow: 1}} onClick={e => dispatch(setdashboardactivetab("selectedcandidates"))}>
 
                     <div className={globaldata.dashboardactivetab == "selectedcandidates" ? "cardselect mb-0" : "cardunselect mb-0"}>
                         <div className="flex justify-content-between mb-3">

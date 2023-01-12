@@ -5,6 +5,7 @@ import { InputTextarea } from 'primereact/inputtextarea'
 import { Panel } from 'primereact/panel'
 import { RadioButton } from 'primereact/radiobutton'
 import { Rating } from 'primereact/rating'
+import { classNames } from 'primereact/utils'
 import React, { useEffect } from 'react'
 import { Field, Form } from 'react-final-form'
 import { useDispatch, useSelector } from 'react-redux'
@@ -78,7 +79,7 @@ function HiringManagerin2() {
 
     if (values.status == "Rejected" && (values.comments == "" || values.comments == undefined)) {
       console.log(values)
-      errors["comments"] = "Comments cant be empty"
+      errors["comments"] = "Comments cant be empty *"
     }
 
 
@@ -176,42 +177,49 @@ function HiringManagerin2() {
 
                   {feedbackfields.map((i) =>
                     <div className="p-fluid  grid">
-                      <div className="field col-12 md:col-4">
-                        <h5 style={{ marginTop: "5rem", marginLeft: "10%" }}>
-
-                          {i.FeedbackCategory}
-                        </h5>
+                      <div className="field col-12 md:col-3" style={{paddingTop : "3rem" }}>
+                        
+                        <span  >
+                         <label > {i.FeedbackCategory}</label>
+                         </span>
                       </div>
                       <div className="field col-12 md:col-6">
                         <Field
                           name={valuebuilder(i.FeedbackCategoryID.toString(), "Comments")}
-                          render={({ input, meta }) => (
-                            <InputTextarea rows={8}
+                          render={({ input, meta }) => (<>
+                            <InputTextarea rows={3} maxLength={500} 
                               {...input}
                             >
                             </InputTextarea>
+                            {getFormErrorMessage(meta)}
+                            </>
                           )
                           }
                         />
 
                       </div>
                       <div className="field col-12 md:col-2">
-                        <Field
-                          name={valuebuilder(i.FeedbackCategoryID.toString(), "Rating")}
-                          render={({ input, meta }) => (<>
-                            <Rating
-                              // value={values[valuebuilder(i.FeedbackCategorID,"Rating")]}
-                              {...input}
-                              // onClick={(e) =>{console.log(values);
-                              //   console.log(e.value);
-                              //   values[valuebuilder(i.FeedbackCategorID,"Rating")]=e.value}} 
-                              style={{ marginTop: "5rem", marginLeft: "10%", fontSize: "50px" }}
-                              size={80} cancel={false} />
-                               {getFormErrorMessage(meta)}
+                      <Field
+                            name={valuebuilder(i.FeedbackCategoryID.toString(), "Rating")}
+                            render={({ input, meta }) => (
+                              <>
+                                <Rating
+                                  className={classNames({ "p-error": isFormFieldValid(meta) })}
+                                  // value={values[valuebuilder(i.FeedbackCategorID,"Rating")]}
+                                  {...input}
+                                  // onClick={(e) =>{console.log(values);
+                                  //   console.log(e.value);
+                                  //   values[valuebuilder(i.FeedbackCategorID,"Rating")]=e.value}} 
+                                  style={{ marginLeft: "10%", fontSize: "50px" }}
+                                  size={80} cancel={false} />
+                                  <div style={{}} className="ml-5">
+
+                                {getFormErrorMessage(meta)}
+                                  </div>
                               </>
-                          )
-                          }
-                        />
+                            )
+                            }
+                          />
                       </div>
                     </div>
                   )
@@ -219,21 +227,22 @@ function HiringManagerin2() {
 
 
 
+                     <br></br>
                   <div className="p-fluid  grid">
-                    <div className="field col-12 md:col-3">
+                    <div className="field col-12 md:col-3" style={{paddingTop:"2rem"}}>
 
 
-                     
                       <span>
                         <Field
                           name="status"
                           render={({ input, meta }) => (<>
-                            <RadioButton  {...input} className='ml-2' inputId="city4" name="city" value="HM Shortlisted" checked={values.status == "HM Shortlisted"} />
+                            <RadioButton  {...input} className='ml-2 mr-2' inputId="city4" name="city" value="HM Shortlisted" checked={values.status == "HM Shortlisted"} />
                             {getFormErrorMessage(meta)}
                           </>)} />
-                        <label className="radio-inline me-3">Shortlist
+                        <label className="radio-inline me-3"><b>Shortlist</b>
                         </label>
                       </span>
+                      <br></br>
                       <br></br>
                      
                      
@@ -242,17 +251,27 @@ function HiringManagerin2() {
                           name="status"
                           id="r"
                           render={({ input, meta }) => (
-                            <RadioButton {...input} id="r" className='ml-2' name="city" value="Rejected" checked={values.status == "Rejected"} />
+                            <RadioButton {...input} id="r" className='ml-2 mr-2' name="city" value="Rejected" checked={values.status == "Rejected"} />
                           )} />
-                        <label className="radio-inline me-3" htmlFor={'r'}>Rejected
+                        <label className="radio-inline me-3" htmlFor={'r'}><b>Reject</b>
                         </label>
+                      </span>
+                      <br></br>
+                      <span>
+                        <Field
+                          name="status"
+                          id="r"
+                          render={({ input, meta }) => (<>
+                            {getFormErrorMessage(meta)}
+                            </> )} />
+                       
                       </span>
 
 
 
 
                     </div>
-                    <div className="field col-12 md:col-7">
+                    <div className="field col-12 md:col-6">
                       <Field
                         name="comments"
                         render={({ input, meta }) => (
@@ -265,11 +284,12 @@ function HiringManagerin2() {
                         )}
                       />
                     </div>
-                    <div className="field col-12 md:col-2">
-                      <div style={{ float: "right", position: "relative", display: "flex" }}>
+                    <div className="field col-12 md:col-3">
+                      <div style={{ float: "right", position: "relative",paddingTop:"2rem", display: "flex" }}>
+
+                        <Button    className="mr-4">Submit</Button>
 
                         <Button type="button" className="mr-4" onClick={e => { navigate(-1) }}> Cancel</Button>
-                        <Button >Submit</Button>
                       </div>
 
                     </div>

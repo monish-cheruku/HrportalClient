@@ -71,49 +71,7 @@ function HiringmanagerInterview() {
   const valuebuilder = (i, j) => {
     return i.toString() + "~" + j.toString()
   }
-  const handlevalidate = (values) => {
-    // seterrors(null)
-    setemptyerrors()
-    var flag = 0
-    // if (values.status == undefined) {
-
-    //   seterrors([...errors,{ status: "please select a status" }])
-    //   flag = 1
-    // }
-    // if (values.status == "Rejected" && values.comments == undefined) {
-    //   seterrors([...errors,{ status: "please give rejection comments" }])
-
-    //   flag = 1
-    // }
-    // console.log(values)
-    // console.log(errors)
-    for (var i in errors) {
-      // if(Object.values(values[i])[0]==undefined || Object.values(values[i])[0]==""){
-      // if(Object.values(values[i])[0]){
-      // if (errors[i] == "") {
-      if (!values.hasOwnProperty(Object.keys(errors[i])[0])) {
-        // Object.values(errors[i])[0]="this field is required"
-        // seterrors(errors[i]="this field is required")
-        // console.log(Object.keys(values[i]))
-        // console.log(Object.keys(errors[i])[0])
-        errors[i][Object.keys(errors[i])[0]] = "this field is required"
-        console.log(errors[i])
-        flag += 1
-      }
-    }
-
-
-
-    console.log("flag", flag)
-    if (flag > 0) {
-      console.log(errors)
-      return true
-    }
-    else {
-
-      return false
-    }
-  }
+  
   const isFormFieldValid = (meta) => !!(meta.touched && meta.error);
 
   const getFormErrorMessage = (meta) => {
@@ -145,9 +103,9 @@ function HiringmanagerInterview() {
     if (values.status == "")
       errors["status"] = "Check one of the radio button"
 
-    if (values.status == "Rejected" && (values.comments == "" || values.comments == undefined)) {
+    if (values.status == "Rejected" && (values.comments == "" || values.comments == undefined)||values.status == "Further Review" && (values.comments == "" || values.comments == undefined) ) {
       console.log(values)
-      errors["comments"] = "Comments cant be empty"
+      errors["comments"] = "Comments cant be empty * "
     }
 
 
@@ -180,7 +138,7 @@ function HiringmanagerInterview() {
         <br></br>
         <div className="container ">
 
-          <Card title='Technical Interview Feedback'>
+          <Panel header='Technical Interview Feedback'>
 
             <div className="">
               <Form style={{ width: "100%" }}
@@ -242,11 +200,11 @@ navigate(-1)
 
                     {feedbackfields.map((i) =>
                       <div className="p-fluid  grid">
-                        <div className="field col-12 md:col-4">
-                          <h5 style={{ marginTop: "5rem", marginLeft: "10%" }}>
-
-                            {i.FeedbackCategory}
-                          </h5>
+                        <div className="field col-12 md:col-3" style={{paddingTop : "3rem" }}>
+                        
+                          <span  >
+                           <label > {i.FeedbackCategory}</label>
+                           </span>
                         </div>
                         <div className="field col-12 md:col-6">
                           <Field
@@ -254,7 +212,7 @@ navigate(-1)
                             name={valuebuilder(i.FeedbackCategoryID.toString(), "Comments")}
                             render={({ input, meta }) => (
                               <>
-                                <InputTextarea rows={8} className={classNames({ "p-invalid": isFormFieldValid(meta) })}
+                                <InputTextarea rows={3} maxLength={500} className={classNames({ "p-invalid": isFormFieldValid(meta) })}
                                   {...input}
                                 >
                                 </InputTextarea>
@@ -276,7 +234,7 @@ navigate(-1)
                           />
 
                         </div>
-                        <div className="field col-12 md:col-2">
+                        <div className="field col-12 md:col-3">
                           <Field
                             name={valuebuilder(i.FeedbackCategoryID.toString(), "Rating")}
                             render={({ input, meta }) => (
@@ -288,9 +246,12 @@ navigate(-1)
                                   // onClick={(e) =>{console.log(values);
                                   //   console.log(e.value);
                                   //   values[valuebuilder(i.FeedbackCategorID,"Rating")]=e.value}} 
-                                  style={{ marginTop: "5rem", marginLeft: "10%", fontSize: "50px" }}
+                                  style={{ marginLeft: "10%", fontSize: "50px" }}
                                   size={80} cancel={false} />
+                                  <div style={{}} className="ml-5">
+
                                 {getFormErrorMessage(meta)}
+                                  </div>
                               </>
                             )
                             }
@@ -300,7 +261,7 @@ navigate(-1)
                     )
                     }
 
-
+                    <hr></hr>
 
                     <div className="p-fluid  grid">
                       <div className="field col-12 md:col-3">
@@ -313,7 +274,7 @@ navigate(-1)
                             render={({ input, meta }) => (
                               <RadioButton  {...input} className='ml-2 mr-2' inputId="city4" name="city" value="HM Shortlisted" checked={values.status == "HM Shortlisted"} />
                             )} />
-                          <label className="radio-inline me-3">Shortlist
+                          <label className="radio-inline me-3"><b>Shortlist</b>
                           </label>
                         </span>
                         <br></br><br></br>
@@ -323,7 +284,7 @@ navigate(-1)
                             render={({ input, meta }) => (
                               <RadioButton  {...input} className='ml-2 mr-2' inputId="city4" name="city" value="Further Review" checked={values.status == "Further Review"} />
                             )} />
-                          <label className="radio-inline me-3">Further Review
+                          <label className="radio-inline me-3"><b>Further Review</b>
                           </label>
                         </span>
                         <br></br><br></br>
@@ -333,7 +294,7 @@ navigate(-1)
                             render={({ input, meta }) => (
                               <RadioButton {...input} className='ml-2 mr-2' inputId="city4" name="city" value="HM Hold" checked={values.status == "HM Hold"} />
                             )} />
-                          <label className="radio-inline me-3">Hold
+                          <label className="radio-inline me-3"><b>Hold</b>
                           </label>
                         </span>
                         <br></br><br></br>
@@ -346,22 +307,15 @@ navigate(-1)
                                 <RadioButton {...input} id="r" className='ml-2 mr-2' name="city" value="Rejected" checked={values.status == "Rejected"} />
                               </>
                             )} />
-                          <label className="radio-inline me-3" htmlFor={'r'}>Reject
+                          <label className="radio-inline me-3" htmlFor={'r'}><b>Reject</b>
                           </label>
                           <br></br>
                         </span>
-                        <span>
-                          <Field
-                            name="comments"
-                            id="r"
-                            render={({ input, meta }) => (
-                              <>{getFormErrorMessage(meta)}</>
-                            )} />
-                        </span>
+
 
 
                       </div>
-                      <div className="field col-12 md:col-7">
+                      <div className="field col-12 md:col-6">
                         <Field
                           name="comments"
                           render={({ input, meta }) => (
@@ -374,11 +328,11 @@ navigate(-1)
                           )}
                         />
                       </div>
-                      <div className="field col-12 md:col-2">
-                        <div style={{ float: "right", position: "relative", display: "flex" }}>
-
-                          <Button type="button" className="mr-4" onClick={e => { navigate(-1) }}> Cancel</Button>
-                          <Button >Submit</Button>
+                      <div className="field col-12 md:col-3">
+                        <div style={{paddingTop:"4rem", float: "right", position: "relative", display: "flex" }}>
+                          <Button className="mr-4">Submit</Button>
+                          <Button type="button"  onClick={e => { navigate(-1) }}> Cancel</Button>
+                          
                         </div>
 
                       </div>
@@ -395,7 +349,7 @@ navigate(-1)
             </div>
 
 
-          </Card>
+          </Panel>
         </div>
         <br></br>
 

@@ -101,7 +101,6 @@ function HRInterview() {
         <CandidateDetails data={candidatedata}></CandidateDetails>
   </AccordionTab>
 </Accordion>
-        <hr></hr>
         <br></br>
         <br></br>
         <Accordion >
@@ -114,12 +113,12 @@ function HRInterview() {
         <br></br>
         <br></br>
 
-      </Panel>
+      
 
       <br></br>
       <div className="container ">
 
-        <Card >
+        <Panel header="HR Interview Feedback">
 
           <div className="">
             <Form style={{ width: "100%" }}
@@ -179,17 +178,17 @@ navigate(-1)
 
                   {feedbackfields.map((i) =>
                     <div className="p-fluid  grid">
-                      <div className="field col-12 md:col-2">
-                        <h4 style={{ marginTop: "5rem", marginLeft: "10%" }}>
+                      <div className="field col-12 md:col-3" style={{paddingTop : "3rem"}}>
+                        
 
-                          {i.FeedbackCategory}
-                        </h4>
+                        <label>{i.FeedbackCategory}</label>  
+                        
                       </div>
-                      <div className="field col-12 md:col-7">
+                      <div className="field col-12 md:col-6">
                         <Field
                           name={valuebuilder(i.FeedbackCategoryID.toString(), "Comments")}
                           render={({ input, meta }) => (<>
-                            <InputTextarea rows={8}
+                            <InputTextarea rows={3}
                               {...input}
                             >
                             </InputTextarea>
@@ -210,7 +209,7 @@ navigate(-1)
                               // onClick={(e) =>{console.log(values);
                               //   console.log(e.value);
                               //   values[valuebuilder(i.FeedbackCategorID,"Rating")]=e.value}} 
-                              style={{ marginTop: "5rem", marginLeft: "10%", fontSize: "50px" }}
+                              style={{ marginLeft: "10%", fontSize: "50px" }}
                               size={80} cancel={false} />
                               {getFormErrorMessage(meta)}
                               </>
@@ -221,6 +220,7 @@ navigate(-1)
                     </div>
                   )
                   }
+                  <hr></hr>
 
 
 
@@ -232,39 +232,41 @@ navigate(-1)
                         <Field
                           name="status"
                           render={({ input, meta }) => (
-                            <RadioButton {...input} className='ml-2' inputId="city4" name="city" value="HR Shortlisted" checked={values.status == "HR Shortlisted"} />
-                          )} /><label className="radio-inline me-3">Shortlist
+                            <RadioButton {...input} className='ml-2 mr-2' inputId="city4" name="city" value="HR Shortlisted" checked={values.status == "HR Shortlisted"} />
+                          )} /><label className="radio-inline mr-3"><b>Shortlist</b>
                         </label>
 
                       </span>
                       <br></br>
-                                    
+                      <br></br>             
                       <span>
                         <Field
                           name="status"
                           render={({ input, meta }) => (<>
-                            <RadioButton {...input} className='ml-2' inputId="city4" name="city" value="HR Hold" checked={values.status == "HR Hold"} />
+                            <RadioButton {...input} className='ml-2 mr-2' inputId="city4" name="city" value="HR Hold" checked={values.status == "HR Hold"} />
                              </>)} />
-                        <label className="radio-inline me-3">Hold
+                        <label className="radio-inline mr-3"><b>Hold</b>
                         </label>
                       </span>
+                      <br></br>
                       <br></br>
                       <span>
                         <Field
                           name="status"
                           id="r"
                           render={({ input, meta }) => (<>
-                            <RadioButton {...input} id="r" className='ml-2' name="city" value="Rejected" checked={values.status == "Rejected"} />
+                            <RadioButton {...input} id="r" className='ml-2 mr-2' name="city" value="Rejected" checked={values.status == "Rejected"} />
                             
-                        <label className="radio-inline me-3" htmlFor={'r'}>Rejected
+                        <label className="radio-inline mr-3" htmlFor={'r'}><b>Reject</b>
                         </label>
                         <br></br>
-                        {getFormErrorMessage(meta)}
+                        
                           </>)} />
                       </span>
+                      <br></br>
                       <span>
                           <Field
-                            name="comments"
+                            name="status"
                             id="r"
                             render={({ input, meta }) => (
                               <>{getFormErrorMessage(meta)}</>
@@ -275,7 +277,7 @@ navigate(-1)
 
 
                     </div>
-                    <div className="field col-12 md:col-7">
+                    <div className="field col-12 md:col-6">
                       <Field
                         name="comments"
                         render={({ input, meta }) => (
@@ -288,11 +290,11 @@ navigate(-1)
                         )}
                       />
                     </div>
-                    <div className="field col-12 md:col-2">
-                      <div style={{ float: "right", position: "relative", display: "flex" }}>
-
-                        <Button type="button" className="mr-4" onClick={e => { navigate(-1) }}> Cancel</Button>
-                        <Button >Submit</Button>
+                    <div className="field col-12 md:col-3">
+                      <div style={{paddingTop:"4rem", float: "right", position: "relative", display: "flex" }}>
+                        <Button className="mr-4" >Submit</Button>
+                        <Button type="button" onClick={e => { navigate(-1) }}> Cancel</Button>
+                        
                       </div>
 
                     </div>
@@ -309,7 +311,7 @@ navigate(-1)
           </div>
 
 
-        </Card>
+        </Panel>
       </div>
       <br></br>
 
@@ -326,7 +328,7 @@ navigate(-1)
       </div>
 
 
-
+</Panel>
     </Card>
   </div>
   )

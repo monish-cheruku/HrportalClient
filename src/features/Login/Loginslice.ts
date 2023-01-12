@@ -5,18 +5,20 @@ export interface ILogin {
     first_name: string;
     last_name: boolean;
     email: string,
-    groups: any
+    groups: any,
+    error:string
 }
 const initialState: ILogin = {
     username: "",
     first_name: "",
     last_name: false,
     email: "",
-    groups: undefined
+    groups: undefined,
+    error:""
 };
-// console.log(Location)
 
-export const LocationSlice = createSlice({
+
+export const LoginSlice = createSlice({
     name: "Login",
     initialState,
     reducers: {
@@ -43,6 +45,15 @@ export const LocationSlice = createSlice({
 
             // 
         },
+        setloginerror:(state,payload:PayloadAction<any>)=>{
+            console.log(payload.payload.data)
+            // var temp=payload.payload
+// state.error=payload.payload.data.toString()
+var temp=state
+temp.error=payload.payload.data
+state=temp
+return state;
+        },
 
 
         //functions for sagas watching
@@ -53,5 +64,5 @@ export const LocationSlice = createSlice({
 
     },
 });
-export const { loginaction, setlogindetails, logout } = LocationSlice.actions
-export default LocationSlice.reducer
+export const { loginaction, setlogindetails, logout } = LoginSlice.actions
+export default LoginSlice.reducer

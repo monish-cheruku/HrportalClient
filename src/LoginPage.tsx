@@ -10,11 +10,12 @@ import '../src/assets/layout/sass/App.scss';
 import { RootState } from './app/store';
 import ErrorMessage from '../src/components/form/ErrorMessage';
 import { useNavigate } from 'react-router';
-
+import { Message } from 'primereact/message';
 
 function LoginPage() {
     const [username,setusername]=useState("")
     const [password,setpassword]=useState("")
+    const[hidep,sethidep]=useState(true)
     const dispatch = useDispatch();
     const Logindata:ILogin = useSelector((state: RootState) => state.Login);
 const navigate=useNavigate()
@@ -50,7 +51,7 @@ const navigate=useNavigate()
                             </div>
 <div style={{height:"20px"}}></div>
                             <div className="field"><span className="p-float-label p-input-icon-right">
-                                <i className="pi pi-eye"></i><input type="password" name="password" className="p-inputtext p-component" value={password} onChange={e=>setpassword(e.target.value)} /><label className="">Password*</label></span>
+                                <i className="pi pi-eye"  style={{cursor:"pointer"}}onClick={e=>sethidep(!hidep)}></i><input type={!hidep?"text":"password"}  name="password"   className="p-inputtext p-component" value={password} onChange={e=>setpassword(e.target.value)} /><label className="">Password*</label></span>
                             </div>
 
                             {/* <div className="field-checkbox" style={{color:'#fff'}}>
@@ -62,9 +63,11 @@ const navigate=useNavigate()
                                 </div>
                                 <label className="">Remember Me</label>
                             </div> */}
+                           <h4>
+                           { Logindata.error?<Message severity="error" text={Logindata.error.toString()} />:<></>}
+                            </h4> 
 
                             <button aria-label="Submit" type="submit" onClick={e=>handlesubmit()} className="p-button p-component" ><span className="p-button-label p-c">Submit</span><span role="presentation" className="p-ink"></span></button>
-                        
                         </div>
                         {/* <ErrorMessage error={}></ErrorMessage> */}
                 </div>

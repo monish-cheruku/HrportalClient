@@ -172,6 +172,13 @@ const CandidateAction = () => {
         });
         // return value.toLocaleDateString('en-US');
     }
+    const formatCurrency=(rowdata)=>{
+        var  value1=rowdata.ExpectedCTC
+        // console.log(  (rowdata.candidate.CurrentCTC.toString()).toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 2 }))
+return(<>{
+    value1? value1.toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 2 }):""
+    }</>)
+    }
     return (
         <div>
 
@@ -183,7 +190,7 @@ const CandidateAction = () => {
                 <Column field="JobCode" header="Job Code" sortable></Column>
                 <Column field="JobTitle" header="Job Title" sortable></Column>
                 <Column field="OverallExpYear" body={exptemplate} header="Experiance" sortable ></Column>
-                <Column field="ExpectedCTC" header="Expected CTC" sortable></Column>
+                <Column field="ExpectedCTC" header="Expected CTC"  body={formatCurrency}sortable></Column>
                 <Column field="OnBoardingDate" header="Expected DOJ" body={datetemplate} sortable></Column>
                 <Column field="stage_name" header="Status" sortable></Column>
 
