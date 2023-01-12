@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit'
 import { RootState,  } from "../../app/store";
-import IOptions from '../../models/Ioptions';
+import { IExperienceLeveloptions } from './experiencelevelslice';
 import { IBandoptions } from '../Band/Bandslice';
 // import {store} from '../../app/store'
 // var selectbands=useSelector((state:RootState)=>state.Band)
@@ -11,7 +11,7 @@ import { IBandoptions } from '../Band/Bandslice';
 export const getactiveexperienceleveloptions=createSelector(
     [getexperiencelevel],
     (experiencelevel) => { 
-   var temp:IOptions[]  =[]
+   var temp:IExperienceLeveloptions[]  =[]
    experiencelevel.forEach((e)=>{
     // console.log(e)
     if(e.Active===true){
@@ -33,7 +33,7 @@ export const getactiveexperienceleveloptions=createSelector(
   export const getallIndustryoptions=createSelector(
     [getexperiencelevel],
     (experiencelevel) => { 
-        var temp:IOptions[]  =[]
+        var temp:IExperienceLeveloptions[]  =[]
         experiencelevel.forEach((e)=>{
        
              temp.push({

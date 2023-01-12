@@ -29,7 +29,7 @@ function* createexperiencelevelsagaworker(payload){
 
             status:"success",
 
-            data:"Added succesfully",
+            data:res.toString(),
 
             endpoint:"400"
 
@@ -45,9 +45,9 @@ store.dispatch(createtoast({
 
     status:"error",
 
-    data:" Company Name already exists",
+    data:err.data[0][0],
 
-    endpoint:"400"
+    endpoint:err.config.url.toString()
 
 }))
 
@@ -67,7 +67,7 @@ function* updateexperiencelevelsagaworker(payload){
 
             status:"success",
 
-            data:"updated succesfully",
+            data:res.toString(),
 
             endpoint:"400"
 
@@ -79,8 +79,8 @@ if(err.data!=undefined)
 yield store.dispatch(createtoast({
     id:987878,
     status:"error",
-    data:"failed to update",
-    endpoint:"400"
+    data:err.data[0][0],
+    endpoint:err.config.url.toString()
 }))
 
 
