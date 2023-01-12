@@ -26,7 +26,7 @@ export interface IJobPost {
         ServiceLine:  String,
         Customer: String,
         Location: String,
-        ExperianceLevel: String,
+        ExperienceLevel: String,
         AvgApprovedCTC:Number,
         AvgBillRate:Number
 

@@ -182,7 +182,7 @@ const CandidateAction = () => {
                 <Column field="CanFirstName" body={nametemplate} header="Candidate Name" sortable></Column>
                 <Column field="JobCode" header="Job Code" sortable></Column>
                 <Column field="JobTitle" header="Job Title" sortable></Column>
-                <Column field="OverallExpYear" body={exptemplate} header="Experiance" sortable ></Column>
+                <Column field="OverallExpYear" body={exptemplate} header="Experience" sortable ></Column>
                 <Column field="ExpectedCTC" header="Expected CTC" sortable></Column>
                 <Column field="OnBoardingDate" header="Expected DOJ" body={datetemplate} sortable></Column>
                 <Column field="stage_name" header="Status" sortable></Column>

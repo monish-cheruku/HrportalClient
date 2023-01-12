@@ -41,10 +41,12 @@ const ManageCompany = () => {
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     });
     const companiesdata = useSelector((state: RootState) => state.company);
+    const toastdata = useSelector((state: RootState) => state.toaster);
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(getcompaniesaction());
+       
     }, []);
 
     const onGlobalFilterChange2 = (e: any) => {
@@ -169,7 +171,10 @@ const ManageCompany = () => {
                     } else {
                         dispatch(updatecompanyaction(c));
                     }
-                    setProductDialog(false);}
+                    // console.log(toastdata.status)
+                    toastdata.status!="error"?
+                    setProductDialog(false):console.log();
+                }
                     // axios.post("http://10.154.155.135:8000/api/company");
                     // hideDialog();
                 }}

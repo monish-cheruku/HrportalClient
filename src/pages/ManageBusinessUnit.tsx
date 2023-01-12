@@ -277,6 +277,7 @@ const ManageBusinessunit = () => {
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     });
     const selectcompanynames=useSelector((state:RootState)=>state.company)
+    const toastdata = useSelector((state: RootState) => state.toaster);
 
 
     const getdropdownelems=()=>{
@@ -487,7 +488,9 @@ const ManageBusinessunit = () => {
                     } else {
                         dispatch(updatebusinessunitaction(c));
                     }
-                    setProductDialog(false);
+
+                    toastdata.status!="error"?
+                    setProductDialog(false):console.log();
                     // axios.post("http://10.154.155.135:8000/api/company");
                     // hideDialog();
                 }}

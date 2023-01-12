@@ -178,7 +178,7 @@ const navigate=useNavigate()
                 <Column field="businessunit_name" header="Business Unit" sortable></Column>
                 <Column field="serviceline_name" header="Service Line" sortable></Column>
                 <Column field="customer_name" header="Customer"sortable ></Column>
-                <Column field="experience_Level" header="Experiance Level"sortable ></Column>
+                <Column field="experience_Level" header="Experience Level"sortable ></Column>
                 <Column field="OnBoardingDate" header="Onboarding Date" sortable dataType="date" body={dateBodyTemplate}></Column>
                 <Column field="NoOfPositions" header="No Positions" sortable dataType=''></Column>
                 <Column field="Stage" header="Status" sortable></Column>

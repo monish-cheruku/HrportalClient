@@ -212,7 +212,7 @@ return(<>{
                 <Column field="candidate.CanFirstName" body={nametemplate} header="Candidate Name" sortable></Column>
                 <Column field="jobpost.JobCode" header="Job Code" sortable></Column>
                 <Column field="jobpost.JobTitle" header="Job Title" sortable></Column>
-                <Column field="candidate.OverallExpYear" body={exptemplate} header="Experiance" sortable ></Column>
+                <Column field="candidate.OverallExpYear" body={exptemplate} header="Experience" sortable ></Column>
                 <Column field="candidate.CurrentCTC" header="CurrentCTC "  body={formatCurrencycctc}sortable > </Column>
                 <Column field="candidate.ExpectedCTC" header="Expected CTC" body={formatCurrencyEctc} sortable></Column>
                 <Column field="candidate.NegotiatedCTC" header="Negotiated CTC" body={formatCurrencyNctc} sortable></Column>

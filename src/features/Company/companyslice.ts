@@ -39,7 +39,16 @@ console.log(payload)
         },
         updatecompanyaction:(state,payload:PayloadAction<any>)=>{
 
-        }
+        },
+        // seterror:(state, payload: any)=>{
+        //         console.log(payload.payload.data[0][0])
+        // //     var temp=payload.payload
+        // //     state=[...temp]
+            
+        // //   state=payload.payload.data[0][0]
+        //     // console.log(state)
+        //     return  payload.payload.data[0][0];
+        // }
 
     },
 });

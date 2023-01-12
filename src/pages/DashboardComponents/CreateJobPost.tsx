@@ -491,7 +491,7 @@ function CreateJobPost(props) {
                                             name="MinimumExperiance"
                                             render={({ input, meta }) => (
                                                 <div className="field">
-                                                    <label htmlFor="MinimumExperiance">Minimum Experiance(in Years)</label>
+                                                    <label htmlFor="MinimumExperiance">Minimum Experience(in Years)</label>
                                                     <span className="p-float-label">
                                                         <InputNumber id="MinimumExperiance" value={values.MinimumExperiance} showButtons min={0} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
 
@@ -508,7 +508,7 @@ function CreateJobPost(props) {
                                             name="MaximumExperiance"
                                             render={({ input, meta }) => (
                                                 <div className="field fluid">
-                                                    <label htmlFor="MaximumExperiance">Maximum Experiance(in Years)</label>
+                                                    <label htmlFor="MaximumExperiance">Maximum Experience(in Years)</label>
                                                     <span className="field fluid">
                                                         <InputNumber id="MaximumExperiance" value={values.MaximumExperiance} showButtons min={0} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
 

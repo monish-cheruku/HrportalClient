@@ -44,6 +44,7 @@ function* createcompanysagaworker(payload){
         console.log(err)
         //var temp:any=Object.values(err.data)[0]
 //console.log(temp[0])
+// yield put({type:"company/seterror",payload:err})
 if(err.data!=undefined)
 
 store.dispatch(createtoast({

@@ -67,6 +67,8 @@ import SelectedCandidatesHold from './pages/DashboardComponents/SelectedCandidat
 import SelectedCandidates from './pages/DashboardComponents/SelectedCandidatesHiringManager/SelectedCandidates';
 import SelectedCandidatesHRHold from './pages/DashboardComponents/SelectedCandidatesHRHold';
 import SelectedCandidateDetails from './pages/DashboardComponents/SelectedCandidatesHiringManager/SelectedCandidateDetails';
+import Candidateinfo from './pages/candidateinfo/Candidateinfo';
+import PersonalDetails from './pages/candidateinfo/candidateinfocomponents/PersonalDetails';
 const App = () => {
     const toastdata = useSelector((state: RootState) => state.toaster)
     const state = useSelector((state: RootState) => state)
@@ -81,7 +83,7 @@ const App = () => {
     const copyTooltipRef = useRef<any>();
     const location = useLocation();
     const toast = useRef(null);
-    const dispatch=useDispatch()
+    const dispatch = useDispatch()
     PrimeReact.ripple = true;
     var Logindata: ILogin = useSelector((state: RootState) => state.Login);
 
@@ -104,14 +106,14 @@ const App = () => {
 
     useEffect(() => {
         // console.log(toastdata)
-        if(toastdata.id!=1)
-        if (toast.current ? toastdata.data != "" : false ) {
+        if (toastdata.id != 1)
+            if (toast.current ? toastdata.data != "" : false) {
 
-            if (toastdata.status == "error")
-                toast.current.show({ severity: toastdata.status, summary: toastdata.status + " in " + toastdata.endpoint, detail: toastdata.data, life: 3000 });
-            else
-                toast.current.show({ severity: toastdata.status, summary: toastdata.status, detail: toastdata.data, life: 3000 });
-        dispatch(toastreset())
+                if (toastdata.status == "error")
+                    toast.current.show({ severity: toastdata.status, summary: toastdata.status + " in " + toastdata.endpoint, detail: toastdata.data, life: 3000 });
+                else
+                    toast.current.show({ severity: toastdata.status, summary: toastdata.status, detail: toastdata.data, life: 3000 });
+                dispatch(toastreset())
             }
 
     }, [toastdata])
@@ -319,19 +321,19 @@ const App = () => {
     //         </LayoutProvider>
     //     )
     // } else {
-        function RequireAuth({ children, redirectTo }) {
-            let isAuthenticated = true;
-            return isAuthenticated ? children : <Navigate to={redirectTo} />;
-          }
+    function RequireAuth({ children, redirectTo }) {
+        let isAuthenticated = true;
+        return isAuthenticated ? children : <Navigate to={redirectTo} />;
+    }
     return (
         //         <Switch>
         // <HashRouter>
-//React protected router?
+        //React protected router?
 
 
 
         <Routes>
-            <Route  path="/Login" element={<LoginPage />} />
+            <Route path="/Login" element={<LoginPage />} />
             {/* <Route path="*" element={}/> */}
             {/* <Route path="/Industry" element={<Industry />} />
             <Route path="/dashboard" element={<Dashboard />} /> */}
@@ -346,83 +348,84 @@ const App = () => {
           </RequireAuth>}/> */}
             <Route
                 path="*"
-                element={Logindata.username!=""?
+                element={Logindata.username != "" ?
                     // <RequireAuth  redirectTo="/login">
-                        <div className={wrapperClass} onClick={onWrapperClick}>
-                            <div>
+                    <div className={wrapperClass} onClick={onWrapperClick}>
+                        <div>
 
-                                <Tooltip ref={copyTooltipRef} target=".block-action-copy" position="bottom" content="Copied to clipboard" event="focus" />
-                                <Toast ref={toast} position="bottom-left" />
-                                <AppTopbar onToggleMenuClick={onToggleMenuClick} layoutColorMode={layoutColorMode}
-                                    mobileTopbarMenuActive={mobileTopbarMenuActive} onMobileTopbarMenuClick={onMobileTopbarMenuClick} onMobileSubTopbarMenuClick={onMobileSubTopbarMenuClick} />
-                                {/* <div className="layout-sidebar mw-100" onClick={onSidebarClick}>
+                            <Tooltip ref={copyTooltipRef} target=".block-action-copy" position="bottom" content="Copied to clipboard" event="focus" />
+                            <Toast ref={toast} position="bottom-left" />
+                            <AppTopbar onToggleMenuClick={onToggleMenuClick} layoutColorMode={layoutColorMode}
+                                mobileTopbarMenuActive={mobileTopbarMenuActive} onMobileTopbarMenuClick={onMobileTopbarMenuClick} onMobileSubTopbarMenuClick={onMobileSubTopbarMenuClick} />
+                            {/* <div className="layout-sidebar mw-100" onClick={onSidebarClick}>
                                     <AppMenu model={menu} onMenuItemClick={onMenuItemClick} layoutColorMode={layoutColorMode} />
                                 </div> */}
-                                <div className="layout-main-container">
-                                    <div className="layout-main">
+                            <div className="layout-main-container">
+                                <div className="layout-main">
 
-                                        <Routes>
-                                            <Route path="/dashboard" element={<Dashboard />} />
-                                            <Route path="/Industry" element={<Industry />} />
-                                            <Route path="/Managecompany" element={<ManageCompany />} />
-                                            <Route path="/ManageBusinessUnit" element={<ManageBusinessUnit />} />
-                                            <Route path="/Managecustomer" element={<ManageCustomer />} />
-                                            <Route path="/ManageExperienceLevel" element={<ManageExperienceLevel />} />
-                                            <Route path="/ManageDesignation" element={<ManageDesignation />} />
-                                            <Route path="/ManageSubBand" element={<ManageSubBand />} />
-                                            <Route path="/serviceline" element={<ServiceLine />} />
-                                            <Route path="/Location" element={<Location />} />
-                                            <Route path="/Band" element={<ManageBand />} />
-                                            <Route path="/AvgCTC" element={<ManageBill />} />
-                                            <Route path="/Insurance" element={<ManageInsurance />} />
-                                            <Route path="/userroles" element={<UserRoles />} />
-
-
+                                    <Routes>
+                                        <Route path="/dashboard" element={<Dashboard />} />
+                                        <Route path="/Industry" element={<Industry />} />
+                                        <Route path="/Managecompany" element={<ManageCompany />} />
+                                        <Route path="/ManageBusinessUnit" element={<ManageBusinessUnit />} />
+                                        <Route path="/Managecustomer" element={<ManageCustomer />} />
+                                        <Route path="/ManageExperienceLevel" element={<ManageExperienceLevel />} />
+                                        <Route path="/ManageDesignation" element={<ManageDesignation />} />
+                                        <Route path="/ManageSubBand" element={<ManageSubBand />} />
+                                        <Route path="/serviceline" element={<ServiceLine />} />
+                                        <Route path="/Location" element={<Location />} />
+                                        <Route path="/Band" element={<ManageBand />} />
+                                        <Route path="/AvgCTC" element={<ManageBill />} />
+                                        <Route path="/Insurance" element={<ManageInsurance />} />
+                                        <Route path="/userroles" element={<UserRoles />} />
 
 
 
 
-                                            <Route path="/jobpostsprofileupload/:JobCode"  element={<JobPostProfileUpload />} />
-                                            <Route path="/jobpostsactionApproval/:JobCode"  element={<JobpostsactionApproval />} />
-                                            <Route path="/jobpostsprofileupload/:JobCode"  element={<JobPostProfileUpload />} />
-
-                                            <Route path="/myjobposts/createjobpost"  element={<CreateJobPost />} />
-                                            <Route path="/myjobposts/updatejobpost"  element={<CreateJobPost />} />
-                                            <Route path='/jobpostdetailedview/:JobCode' element={<Jobpostdetailedview/>}/>
-                                            <Route path="/candidate/createcandidateprofile"  element={<CreateCandidateProfile/>} />
-                                            <Route path="/candidate/updatecandidateprofile"  element={<CreateCandidateProfile/>} />
-                                            <Route path="/candidate/candidatedetailsview"  element={<CandidateDetailsview/>} />
-                                            <Route path="/candidatereview/:CandidateCode"  element={<CandidateReview/>} />
-                                            <Route path="/candidatefeedback/:CandidateCode"  element={<CandidateShortlist/>} />
-                                            
-                                            <Route path="/Interview/Hiringmanagerinterview" element={<HiringmanagerInterview></HiringmanagerInterview>}/>
-                                            <Route path="/Interview/Hiringmanagerinterviewi2" element={<HiringManagerin2></HiringManagerin2>}/>
-                                            <Route path="/Interview/HRinterview" element={<HRInterview></HRInterview>}/>
-                                            <Route path="/BusinessHeadApproval" element={<BusinessHeadApproval></BusinessHeadApproval>}/>
-                                            <Route path="/GeneralManagerApproval" element={<GeneralManagerApproval></GeneralManagerApproval>}/>
-                                            <Route path="/FinanceControllerApproval" element={<FinanceControllerApproval></FinanceControllerApproval>}/>
-                                            <Route path="/SelectedCandidatesHold" element={<SelectedCandidatesHold></SelectedCandidatesHold>}/>
-                                            <Route path="/SelectedCandidates" element={<SelectedCandidates></SelectedCandidates>}/>
-                                            <Route path="/SelectedCandidatesHRHold" element={<SelectedCandidatesHRHold></SelectedCandidatesHRHold>}/>
-                                            <Route path="/SelectedCandidatesdetails" element={<SelectedCandidateDetails></SelectedCandidateDetails>}/>
-
-                                        </Routes>
-                                    </div>
 
 
+                                        <Route path="/jobpostsprofileupload/:JobCode" element={<JobPostProfileUpload />} />
+                                        <Route path="/jobpostsactionApproval/:JobCode" element={<JobpostsactionApproval />} />
+                                        <Route path="/jobpostsprofileupload/:JobCode" element={<JobPostProfileUpload />} />
+
+                                        <Route path="/myjobposts/createjobpost" element={<CreateJobPost />} />
+                                        <Route path="/myjobposts/updatejobpost" element={<CreateJobPost />} />
+                                        <Route path='/jobpostdetailedview/:JobCode' element={<Jobpostdetailedview />} />
+                                        <Route path="/candidate/createcandidateprofile" element={<CreateCandidateProfile />} />
+                                        <Route path="/candidate/updatecandidateprofile" element={<CreateCandidateProfile />} />
+                                        <Route path="/candidate/candidatedetailsview" element={<CandidateDetailsview />} />
+                                        <Route path="/candidatereview/:CandidateCode" element={<CandidateReview />} />
+                                        <Route path="/candidatefeedback/:CandidateCode" element={<CandidateShortlist />} />
+
+                                        <Route path="/Interview/Hiringmanagerinterview" element={<HiringmanagerInterview></HiringmanagerInterview>} />
+                                        <Route path="/Interview/Hiringmanagerinterviewi2" element={<HiringManagerin2></HiringManagerin2>} />
+                                        <Route path="/Interview/HRinterview" element={<HRInterview></HRInterview>} />
+                                        <Route path="/BusinessHeadApproval" element={<BusinessHeadApproval></BusinessHeadApproval>} />
+                                        <Route path="/GeneralManagerApproval" element={<GeneralManagerApproval></GeneralManagerApproval>} />
+                                        <Route path="/FinanceControllerApproval" element={<FinanceControllerApproval></FinanceControllerApproval>} />
+                                        <Route path="/SelectedCandidatesHold" element={<SelectedCandidatesHold></SelectedCandidatesHold>} />
+                                        <Route path="/SelectedCandidates" element={<SelectedCandidates></SelectedCandidates>} />
+                                        <Route path="/SelectedCandidatesHRHold" element={<SelectedCandidatesHRHold></SelectedCandidatesHRHold>} />
+                                        <Route path="/SelectedCandidatesdetails" element={<SelectedCandidateDetails></SelectedCandidateDetails>} />
+                                        <Route path='/candidateinfo' element={<Candidateinfo></Candidateinfo>}></Route>
+                                        <Route path='/candidateinfo/PersonalDetails' element={<PersonalDetails></PersonalDetails>}></Route>
+                                    </Routes>
                                 </div>
 
-                                <AppConfig rippleEffect={ripple} onRippleEffect={onRipple} inputStyle={inputStyle} onInputStyleChange={onInputStyleChange}
-                                    layoutMode={layoutMode} onLayoutModeChange={onLayoutModeChange} layoutColorMode={layoutColorMode} onColorModeChange={onColorModeChange} />
 
-                                <CSSTransition classNames="layout-mask" timeout={{ enter: 200, exit: 200 }} in={mobileMenuActive} unmountOnExit>
-                                    <div className="layout-mask p-component-overlay"></div>
-                                </CSSTransition>
                             </div>
-                        </div>:<LoginPage></LoginPage>
+
+                            <AppConfig rippleEffect={ripple} onRippleEffect={onRipple} inputStyle={inputStyle} onInputStyleChange={onInputStyleChange}
+                                layoutMode={layoutMode} onLayoutModeChange={onLayoutModeChange} layoutColorMode={layoutColorMode} onColorModeChange={onColorModeChange} />
+
+                            <CSSTransition classNames="layout-mask" timeout={{ enter: 200, exit: 200 }} in={mobileMenuActive} unmountOnExit>
+                                <div className="layout-mask p-component-overlay"></div>
+                            </CSSTransition>
+                        </div>
+                    </div> : <LoginPage></LoginPage>
                     // </RequireAuth>
-               }
-            /> 
+                }
+            />
             {/* <ProtectedRout
                     isAuthenticated={true}
                     path={"/(.+)"}

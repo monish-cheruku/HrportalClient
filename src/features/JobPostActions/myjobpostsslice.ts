@@ -26,7 +26,7 @@ export interface Imyjobpost {
     ServiceLine:  String,
     Customer: String,
     Location: String,
-    ExperianceLevel: String,
+    ExperienceLevel: String,
     approversDetails:any
 
 }

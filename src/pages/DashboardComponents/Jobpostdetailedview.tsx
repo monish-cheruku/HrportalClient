@@ -15,7 +15,7 @@ function Jobpostdetailedview() {
     const navigate=useNavigate()
     const dispatch = useDispatch()
     const { JobCode } = useParams()
-    const [jobdata, setjobdata] = useState<IJobPost| Imyjobpost>(jobsdata.filter((i) => i.JobCode == JobCode)[0])
+    const [jobdata, setjobdata] = useState<IJobPost| Imyjobpost|any>(jobsdata.filter((i) => i.JobCode == JobCode)[0])
   useEffect(() => {
     console.log(JobCode)
     if (jobdata == null) {
@@ -34,6 +34,49 @@ function Jobpostdetailedview() {
 <Panel header={<h4>Job Post Details </h4>}> 
 
 <JobPostDetails JobData={jobdata}></JobPostDetails>
+<br></br>
+
+          {/* {console.log(jobdata)} */}
+          {jobdata.approversDetails ?
+            <>  <Panel header="Busines Head Approver">
+              <div className="grid">
+                <div className="md:col-4">
+                  Name : {jobdata.approversDetails[0].FirstName + ", " + jobdata.approversDetails[0].LastName}
+                </div>
+                <div className="md:col-2">
+                  Status : {jobdata.approversDetails[0].approvalStatus == "N" ? "Pending" : jobdata.approversDetails[0].approvalStatus == "R" ? "Rejected" : "Approved"}
+                </div>
+                <div className="md:col-2">
+                  Approval Date : {jobdata.approversDetails[0].approvalDate ? <>{new Date(jobdata.approversDetails[0].approvalDate).toLocaleDateString('en-US', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                  })}</> : <></>
+                  }
+                </div>
+                <div className="md:col-4">
+                  Comments : {jobdata.approversDetails[0].approvalComments
+                  }
+                </div>
+              </div>
+            </Panel>
+              <br></br>
+              <Panel header="HR Details">
+                <div className="grid">
+                  <div className="md:col-4">
+                    Name : {jobdata.approversDetails[1].FirstName + ", " + jobdata.approversDetails[1].LastName}
+                  </div>
+                  <div className="md:col-2">
+                    Status : {jobdata.approversDetails[1].approvalStatus == "N" ? "Profiles Pending" : jobdata.approversDetails[0].approvalStatus == "R" ? "Rejected" : "Approved"}
+                  </div>
+                  {/* <div className="md:col-5">
+                  Comments : {jobdata.approversDetails[1].approvalComments
+                  }
+                </div> */}
+
+                </div>
+              </Panel></>
+            : <></>}
 <br></br>
 <div>
 

@@ -16,7 +16,7 @@ import JobPostDetails from '../JobPostDetails'
 function SelectedCandidateDetails() {
     const location = useLocation()
     const data = location.state
-    const navigate=useNavigate()
+    const navigate = useNavigate()
     useEffect(() => {
         console.log(location.state)
     })
@@ -31,8 +31,8 @@ function SelectedCandidateDetails() {
         //     errors.JobTitle = "*JobDescription is required.";
         // }
         var arr = ["Company", "BusinessUnit", "ServiceLine", "Industry", "Customer",
-            "Location", "EmploymentType", "JobTitle", "JobDesc", "ExperianceLevel",
-            "Qualification", "NoOfPositions", 'MaximumExperiance', 'MinimumExperiance', 'MaximumCTC',
+            "Location", "EmploymentType", "JobTitle", "JobDesc", "ExperienceLevel",
+            "Qualification", "NoOfPositions", 'MaximumExperience', 'MinimumExperience', 'MaximumCTC',
             "OnBoardingDate", "HR_User_Name", "BH_User_Name"]
         arr.forEach((i) => {
             if (!values[i]) {
@@ -57,16 +57,16 @@ function SelectedCandidateDetails() {
         <>
             <Card>
                 <Panel header={"JobPost Details"}>
-                    
-            <JobPostDetails JobData={data.jobpost}></JobPostDetails>
-                </Panel>
-            <br>
-            </br>
-            <Panel header={"Candidate Details"}>
 
-            <CandidateDetails data={data.candidate}></CandidateDetails>
-            </Panel>
-            <br></br>
+                    <JobPostDetails JobData={data.jobpost}></JobPostDetails>
+                </Panel>
+                <br>
+                </br>
+                <Panel header={"Candidate Details"}>
+
+                    <CandidateDetails data={data.candidate}></CandidateDetails>
+                </Panel>
+                <br></br>
                 <Form
 
                     onSubmit={(values: any) => {
@@ -91,11 +91,11 @@ function SelectedCandidateDetails() {
                     }
                     initialValues={{
                         CanFirstName: data.candidate.CanFirstName,
-                        CanLastName:data.candidate.CanLastName,
-                        ExpectedDOJ:new Date(data.candidate.ExpectedDOJ.toString()),
-                        CurrentCTC:data.candidate.CurrentCTC,
-                        ExpectedCTC:data.candidate.ExpectedCTC,
-                        NegotiatedCTC:data.candidate.NegotiatedCTC
+                        CanLastName: data.candidate.CanLastName,
+                        ExpectedDOJ: new Date(data.candidate.ExpectedDOJ.toString()),
+                        CurrentCTC: data.candidate.CurrentCTC,
+                        ExpectedCTC: data.candidate.ExpectedCTC,
+                        NegotiatedCTC: data.candidate.NegotiatedCTC
 
 
 
@@ -111,7 +111,7 @@ function SelectedCandidateDetails() {
                         initialValues = {},
                         dirtySinceLastSubmit, }) => (
                         <form onSubmit={handleSubmit} >
-                            <div className="p-fluid  grid">
+                            {/* <div className="p-fluid  grid">
                                 <div className="field col-12 md:col-4"><Field
                                     name="CanFirstName"
                                     render={({ input, meta }) => (
@@ -151,8 +151,8 @@ function SelectedCandidateDetails() {
                                         </div>
                                     )}
                                 /></div>
-                            </div>
-                            <div className="p-fluid  grid">
+                            </div> */}
+                            {/* <div className="p-fluid  grid">
 
                                 <div className="field col-12 md:col-4"><Field
                                     name="CurrentCTC"
@@ -160,9 +160,7 @@ function SelectedCandidateDetails() {
                                         <div className="field">
                                             <label htmlFor="No of openings">Current CTC</label>
                                             <span className="p-float-label">
-                                                {/* <InputNumber id="No of openings" {...input} autoFocus className={classNames({ "p-invalid": isFormFieldValid(meta) })} /> */}
-                                                {/* <InputNumber inputId="integeronly" value={value1} onValueChange={(e) => setValue1(e.value)} /> */}
-                                                <InputNumber  id="CurrentCTC" value={values.CurrentCTC} showButtons min={1} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                   <InputNumber id="CurrentCTC" value={values.CurrentCTC} showButtons min={1} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
 
                                                 <label htmlFor="No of openings" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                             </span>
@@ -176,9 +174,7 @@ function SelectedCandidateDetails() {
                                         <div className="field">
                                             <label htmlFor="ExpectedCTC">Expected CTC</label>
                                             <span className="p-float-label">
-                                                {/* <InputNumber id="No of openings" {...input} autoFocus className={classNames({ "p-invalid": isFormFieldValid(meta) })} /> */}
-                                                {/* <InputNumber inputId="integeronly" value={value1} onValueChange={(e) => setValue1(e.value)} /> */}
-                                                <InputNumber id="ExpectedCTC" value={values.ExpectedCTC} showButtons min={1} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                   <InputNumber id="ExpectedCTC" value={values.ExpectedCTC} showButtons min={1} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
 
                                                 <label htmlFor="ExpectedCTC" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                             </span>
@@ -192,9 +188,7 @@ function SelectedCandidateDetails() {
                                         <div className="field">
                                             <label htmlFor="NegotiatedCTC">Negotiated CTC</label>
                                             <span className="p-float-label">
-                                                {/* <InputNumber id="No of openings" {...input} autoFocus className={classNames({ "p-invalid": isFormFieldValid(meta) })} /> */}
-                                                {/* <InputNumber inputId="integeronly" value={value1} onValueChange={(e) => setValue1(e.value)} /> */}
-                                                <InputNumber id="NegotiatedCTC" value={values.NegotiatedCTC} showButtons min={1} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                 <InputNumber id="NegotiatedCTC" value={values.NegotiatedCTC} showButtons min={1} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
 
                                                 <label htmlFor="NegotiatedCTC" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                             </span>
@@ -202,10 +196,10 @@ function SelectedCandidateDetails() {
                                         </div>
                                     )}
                                 /></div>
-                            </div>
+                            </div> */}
                             <div className="p-fluid  grid">
                                 <div className="field col-12 md:col-4"><Field
-                                    name="ExperianceLevel"
+                                    name="ExperienceLevel"
                                     render={({ input, meta }) => (
                                         <div className="field">
                                             <label htmlFor="Experience Level">Designation</label>
@@ -219,7 +213,7 @@ function SelectedCandidateDetails() {
 
                                 </div>
                                 <div className="field col-12 md:col-4"><Field
-                                    name="ExperianceLevel"
+                                    name="ExperienceLevel"
                                     render={({ input, meta }) => (
                                         <div className="field">
                                             <label htmlFor="Experience Level">Band</label>
@@ -233,7 +227,7 @@ function SelectedCandidateDetails() {
 
                                 </div>
                                 <div className="field col-12 md:col-4"><Field
-                                    name="ExperianceLevel"
+                                    name="ExperienceLevel"
                                     render={({ input, meta }) => (
                                         <div className="field">
                                             <label htmlFor="Experience Level">Sub Band</label>
@@ -252,12 +246,12 @@ function SelectedCandidateDetails() {
                             </div>
                             <div className="p-fluid  grid">
                                 <div className="field col-12 md:col-4"><Field
-                                    name="ExperianceLevel"
+                                    name="ExperienceLevel"
                                     render={({ input, meta }) => (
                                         <div className="field">
                                             <label htmlFor="Experience Level">Date of joining</label>
                                             <span className="p-float-label">
-                                                <Calendar showIcon={true} id="Experience Level" {...input}  placeholder="Select Experience-Level" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                <Calendar showIcon={true} id="Experience Level" {...input} placeholder="Select Experience-Level" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                             </span>
                                             {getFormErrorMessage(meta)}
                                         </div>
@@ -280,12 +274,12 @@ function SelectedCandidateDetails() {
 
                                 </div>
                                 <div className="field col-12 md:col-4"><Field
-                                    name="ExperianceLevel"
+                                    name="ExperienceLevel"
                                     render={({ input, meta }) => (
                                         <div className="field">
                                             <label htmlFor="Experience Level">variable(%)</label>
                                             <span className="p-float-label">
-                                                <InputNumber id="Experience Level" {...input} min={0} max={100} step={1} showButtons={true}  placeholder="Select Experience-Level" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                <InputNumber id="Experience Level" {...input} min={0} max={100} step={1} showButtons={true} placeholder="Select Experience-Level" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                             </span>
                                             {getFormErrorMessage(meta)}
                                         </div>
@@ -348,19 +342,19 @@ function SelectedCandidateDetails() {
                                             </div>)} />
                                 </div>
                             </div>
-                            <div className="p-fluid  grid">
-                                    <div className="field col-12 md:col-6">Annexure
-                                        </div>
-                                    <div className="field col-12 md:col-6 flex">
-                                        <Button className='mr-3'>Download/Preview Offer Letter
-</Button>
-                                        <Button className='mr-3'>Send Offer Letter
+                            <div className=" grid">
+                                <div className="field col-12 md:col-6">Annexure
+                                </div>
+                                <div className="field col-12 md:col-6 flex">
+                                    <Button className='mr-3'>Download/Preview Offer Letter
+                                    </Button>
+                                    <Button className='mr-3'>Send Offer Letter
 
-</Button>
-                                        <Button type="button" onClick={e=>navigate(-1)}>Cancel
-</Button>
-                                        </div>
-                                        </div>
+                                    </Button>
+                                    <Button type="button" onClick={e => navigate(-1)}>Cancel
+                                    </Button>
+                                </div>
+                            </div>
 
                         </form>
                     )}
