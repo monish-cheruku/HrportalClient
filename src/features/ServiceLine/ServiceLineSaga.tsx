@@ -1,6 +1,6 @@
 import {put,call,takeEvery} from 'redux-saga/effects'
 import { servicelinedata,getservicelineaction,createservicelineaction,updateservicelineaction} from './ServiceLineSlice'
-import {quotes,servicelineapi} from "../../api/agent"
+import {servicelineapi} from "../../api/agent"
 import { createtoast } from '../ToastSlice'
 import { store} from "../../app/store"
 function* servicelinegetsagaworker(){

@@ -35,6 +35,8 @@ const ManageExperiencelevel = () => {
     const [issave, setissave] = useState(false)
     const [active, setActive] = useState<boolean>(true);
     const [rangeValues, setRangeValues] = useState([0,1]);
+    const [head, sethead] = useState(" ADD Manage Experience Lvel");
+
     const [data, Setdata] = useState([]);
     const [editmode, setEditmode] = useState(false);
     const [globalFilterValue2, setGlobalFilterValue2] = useState("");
@@ -47,6 +49,8 @@ const ManageExperiencelevel = () => {
 
     useEffect(() => {
         dispatch(getexperiencelevelsaction());
+        console.log("getexperiencelevelaction")
+
     }, []);
 
     const onGlobalFilterChange2 = (e: any) => {
@@ -89,7 +93,7 @@ const ManageExperiencelevel = () => {
                     className="p-button-success mr-2"
                     onClick={(e) => {
                         setEditmode(false);
-                        setexperiencelevelrange(0);
+                        // setexperiencelevelrange(0);
                         setexperiencelevel("");
                         setActive(true);
                         setRangeValues([0,35])
@@ -109,7 +113,8 @@ const ManageExperiencelevel = () => {
                     className="p-button-success mr-2"
                     onClick={(e) => {
                         setEditmode(false);
-                        setexperiencelevelrange(0);
+                        // setexperiencelevelrange(0);
+                        setRangeValues([0,35])
                         setexperiencelevel("");
                         setActive(true);
 
@@ -138,10 +143,12 @@ const ManageExperiencelevel = () => {
                         console.log(data)
                         setexperiencelevelid(data.ExperienceLevelId);
                         // setexperiencelevelrange(data.ExperienceRange);
-                        setRangeValues([data.Min_ExperienceRange,data.Max_ExperienceRange])
+                        setRangeValues([data.Min_Experience,data.Max_Experience])
                         // setRangeValues([0,35])
                         setexperiencelevel(data.ExperienceLevel);
                         setActive(data.Active);
+                        sethead("Edit Manage Experience Level");
+
                         setProductDialog(true);
                     }}
                 />
@@ -158,25 +165,32 @@ const ManageExperiencelevel = () => {
                 onClick={() => {
                     setissave(true);
                     console.log(experiencelevel);
-                    console.log(experiencelevelrange);
+                    console.log(rangeValues);
                     console.log(active);
                     var temp = rangeValues
                     var c = {
                         ExperienceLevelId: experiencelevelid,
                         ExperienceLevel: experiencelevel,
                       
-                        Min_ExperienceRange: temp[0],
+                        Min_Experience: temp[0],
 
-                        Max_ExperienceRange: temp[1],
+                        Max_Experience: temp[1],
+                        Active: active,
+
                     };
                     if (experiencelevel != "") {
                     if (editmode === false) {
-                        dispatch(createexperiencelevelaction({                           
-                            ExperienceLevel: experiencelevel,
-                            Min_Experience: temp[0],
-                            Max_Experience: temp[1],
-                            Active: active
-                        }));
+                        dispatch(createexperiencelevelaction(
+                            {
+                                ExperienceLevel: experiencelevel,
+                              
+                                Min_Experience: temp[0],
+        
+                                Max_Experience: temp[1],
+                                Active: active,
+
+                            }
+                        ));
                     } else {
                         dispatch(updateexperiencelevelaction(c));
                     }
@@ -203,7 +217,7 @@ const ManageExperiencelevel = () => {
       <QuotesComp></QuotesComp> */}
             <div>
                 <div>
-                    <DataTable value={experiencelevelsdata} showGridlines={false} responsiveLayout="scroll" paginator={true} rows={5} globalFilterFields={["ExperienceLevel", "ExperienceLevelRange", "Active"]} filters={filters2} header={Headercomp}>
+                    <DataTable value={experiencelevelsdata} showGridlines={false} responsiveLayout="scroll" paginator={true} rows={5} globalFilterFields={["ExperienceLevel", "Minimum Experience", "Maximum Experience", "Active"]} filters={filters2} header={Headercomp}>
                         <Column field="ExperienceLevel" header="Experience Level " sortable></Column>
                         <Column field="Min_Experience" header="Minimum Experience " sortable dataType="number" body={e=><div>{e.Min_Experience}</div>}></Column>
                         <Column field="Max_Experience" header="Maximum Experience" sortable dataType="number" body={e=><div>{e.Max_Experience}</div>}></Column>
@@ -215,18 +229,15 @@ const ManageExperiencelevel = () => {
                 <Dialog visible={productDialog} style={{ width: "450px" }} header={editmode?"Edit Experience Levels Information ":"Add Experience Levels Information "} modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
                     <div className="field">
                         <label htmlFor="ExperienceLevel<">Experience Level </label>
-                        {/* <InputText id=" ExperienceLevel" onChange={(e) => setexperiencelevel(e.target.value)} value={experiencelevel}></InputText> */}
                         <InputText className={issave == true && experiencelevel == "" ? "p-invalid" : "p-valid"} placeholder={experiencelevel == "" ? "" : ""} id=" ExperienceLevel" onChange={(e) => setexperiencelevel(e.target.value)} value={experiencelevel}></InputText>
                         {issave == true && experiencelevel == "" && <small className="p-error">Experience Level is required.</small>}
                         <br />
                         <br />
                         <div className="field">
                         <label htmlFor="MinimumExperienceRange"> Experience Range</label>
-                            {/* <InputNumber id="MinimumExperienceLevelRange" onChange={(e) => setexperiencelevelrange(e.value)} value={experiencelevelrange}></InputNumber> */}
-                            {/* <InputText value={rangeValues as number} onChange={(e) => setRangeValues(parseInt(e.target.value))} /> */}
                             {"["+rangeValues[0]+","+rangeValues[1]+"]"}
                             {/* <Slider value={sliderValue as number} onChange={(e) => setSliderValue(e.value as number)} /> */}
-                            <Slider min={0} max={35} step={1} value={rangeValues} onChange={(e) => { setRangeValues(e.value) }} range />
+                            <Slider min={0} max={35} step={1} onChange={(e) => { setRangeValues(e.value) }} value={rangeValues}  range />
                         </div>
 
                         <div className="col-12">
