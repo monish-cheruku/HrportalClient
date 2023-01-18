@@ -1,9 +1,9 @@
 import { call, put, takeEvery } from "redux-saga/effects"
 import { candidateinfo, personaldetails } from "../../api/agent"
-import { store } from "../../app/store"
+import { RootState, store } from "../../app/store"
 import { createtoast } from "../ToastSlice"
 
-
+export const candidateinfodata = (state:RootState) => state.candidateinfo
 function* createnewpersonalsagaworker(data) {
     try { 
         // console.log(data.payload)
@@ -84,7 +84,7 @@ function* updatepersonalsagaworker(data) {
 }
 function* Personaldatasagaworker(data) {
     try {
-       
+       console.log(data)
         var res: Promise<any> = yield call(personaldetails.getpersonaldetailsdata, data.payload)
         // console.log(res)
         yield put({type:"Personaldetails/Personaldetailsdata",payload:res})
@@ -102,6 +102,9 @@ function* candidateinfogetactionsagaworker(data) {
         var res: Promise<any> = yield call(candidateinfo.getcandidateinfo, data.payload)
         // console.log(res)
         yield put({ type: "candidateinfo/Candidateinfodata", payload: res })
+        console.log(res["Selected_Candidate_ID"])
+        yield put({ type: "Personaldetails/personaldetailsaction", payload: {"selectedcandidateid":res["Selected_Candidate_ID"]} })
+        // yield put()
     }
     catch (err) {
         console.log(err)
