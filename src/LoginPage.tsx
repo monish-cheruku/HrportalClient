@@ -11,6 +11,7 @@ import { RootState } from './app/store';
 import ErrorMessage from '../src/components/form/ErrorMessage';
 import { useNavigate } from 'react-router';
 import { Message } from 'primereact/message';
+import { candidateinfogetaction } from './features/Candidate info/candidateinfoslice';
 
 function LoginPage() {
     const [username,setusername]=useState("")
@@ -24,6 +25,12 @@ const navigate=useNavigate()
         var w:any=[]
         Logindata.groups != undefined?Logindata.groups.forEach((i)=>w.push(i["name"].toString())):console.log("")
         if (w.includes("Candidate")){
+            dispatch(candidateinfogetaction({
+                
+                "email": Logindata.email
+                
+                
+            }))
             navigate("/candidateinfo")
         }
         else if (Logindata.username!="") {

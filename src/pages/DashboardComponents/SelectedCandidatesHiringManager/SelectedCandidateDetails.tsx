@@ -226,18 +226,19 @@ function SelectedCandidateDetails() {
                                 />
 
                                 </div>
-                                <div className="field col-12 md:col-4"><Field
-                                    name="ExperienceLevel"
-                                    render={({ input, meta }) => (
-                                        <div className="field">
-                                            <label htmlFor="Experience Level">Sub Band</label>
-                                            <span className="p-float-label">
-                                                <Dropdown id="Experience Level" {...input} options={[]} optionLabel="label" placeholder="Select Experience-Level" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
-                                            </span>
-                                            {getFormErrorMessage(meta)}
-                                        </div>
-                                    )}
-                                />
+                                <div className="field col-12 md:col-4">
+                                    <Field
+                                        name="ExperienceLevel"
+                                        render={({ input, meta }) => (
+                                            <div className="field">
+                                                <label htmlFor="Experience Level">Sub Band</label>
+                                                <span className="p-float-label">
+                                                    <Dropdown id="Experience Level" {...input} options={[]} optionLabel="label" placeholder="Select Experience-Level" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                </span>
+                                                {getFormErrorMessage(meta)}
+                                            </div>
+                                        )}
+                                    />
 
                                 </div>
 
