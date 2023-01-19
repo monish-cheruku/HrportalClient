@@ -8,7 +8,7 @@ export interface Toaster {
     endpoint: string;
 }
 
-var initialState = { id: 1, status: "success", data: "", endpoint: "" };
+var initialState = { id: 1, status: "", data: "", endpoint: "" };
 const toast = null;
 export const ToastSlice = createSlice({
     name: "Toaster",

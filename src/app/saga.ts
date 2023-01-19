@@ -45,7 +45,9 @@ import { watcherJobPostAction } from "../features/JobPostActions/jobpostactionss
 import { watcherCandidateAction } from "../features/CandidateActions/candidateactionssaga";
 import { watcherpdfdownload } from '../features/Downloadpdfs/downloadsaga'
 import { watcherdropdownoptions } from "../features/Dropdownoptions/dropdownoptionssaga";
+import { watcherpersonaldetails } from "../features/Candidate info/candidateinfosaga";
 // import { watcherfeedback } from "../features/Feedback/feedbacksaga";
+
 
 function* helloSaga() {
   yield console.log("sagas started");
@@ -96,7 +98,8 @@ export function* rootSaga() {
     watcheruserroles,
     watcherpdfdownload,
     watcherCandidateAction,
-    watcherdropdownoptions
+    watcherdropdownoptions,
+    watcherpersonaldetails,
     // watcherfeedback
 
   ];

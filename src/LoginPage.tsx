@@ -11,10 +11,14 @@ import { RootState } from './app/store';
 import ErrorMessage from '../src/components/form/ErrorMessage';
 import { useNavigate } from 'react-router';
 import { Message } from 'primereact/message';
+import { candidateinfogetaction } from './features/Candidate info/candidateinfoslice';
+import { personaldetailsaction } from './features/Candidate info/personaldetailsslice';
 
 function LoginPage() {
     const [username,setusername]=useState("")
     const [password,setpassword]=useState("")
+    const candidateinfodata = useSelector((state: RootState) => state.candidateinfo);
+
     const[hidep,sethidep]=useState(true)
     const dispatch = useDispatch();
     const Logindata:ILogin = useSelector((state: RootState) => state.Login);
@@ -24,7 +28,16 @@ const navigate=useNavigate()
         var w:any=[]
         Logindata.groups != undefined?Logindata.groups.forEach((i)=>w.push(i["name"].toString())):console.log("")
         if (w.includes("Candidate")){
-            navigate("/candidateinfo")
+           dispatch(candidateinfogetaction({
+                
+                "email": Logindata.email
+                
+                
+            }))
+setTimeout(()=>{
+
+    navigate("/candidateinfo")
+},1000)
         }
         else if (Logindata.username!="") {
             navigate("/dashboard")
