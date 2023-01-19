@@ -2,21 +2,21 @@ import  {createSelector} from '@reduxjs/toolkit'
 import { RootState } from '../../app/store'
 import IOptions from '../../models/Ioptions'
 
-export const getdesignations=(state:RootState)=>state.designation
+export const getsubbands=(state:RootState)=>state.subband
 
-export const getactivedesignationoptions=createSelector(
-    [getdesignations],
-    (designation)=>{
+export const getasubbandactiveoptions=createSelector(
+    [getsubbands],
+    (subband)=>{
         var temp:IOptions[]=[]
 // alert("asdfg")
 // console.log(designation)
-        designation.forEach((e)=>{
+subband.forEach((e)=>{
             if(e.Active==true)
             // console.log(e)
             temp.push({
-                key:e.DesignationId,
-                label:e.DesignationName,
-                value:e.DesignationId
+                key:e.SubBandId,
+                label:e.SubBandName,
+                value:e.SubBandId
             })
         })
 // console.log(temp)
@@ -27,14 +27,14 @@ return temp
 
 export const getalldesignationoptions=createSelector(
 
-    [getdesignations],
-    (designation)=>{
+    [getsubbands],
+    (subband)=>{
         var temp:IOptions[]=[]
-        designation.forEach(e => {
+        subband.forEach(e => {
             temp.push({
-                key:e.DesignationId,
-                label:e.DesignationName,
-                value:e.DesignationId
+                key:e.SubBandId,
+                label:e.SubBandName,
+                value:e.SubBandId
             })
         });
 

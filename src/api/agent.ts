@@ -15,7 +15,7 @@ import {UserRoles} from "../features/UserRoles/userroleslice"
 
 // import {Band} from ../features/Band/bandslice"
 // axios.defaults.baseURL = 'http://10.154.20.135:8000/api';
-axios.defaults.baseURL = 'http://10.154.155.134:8000/api';
+axios.defaults.baseURL = 'http://10.154.155.201:8000/api';
 
 // axios.defaults.baseURL = 'http://10.154.155.54:8000/api';
 // axios.defaults.baseURL = 'http://10.154.20.135:8000/api';
@@ -235,10 +235,10 @@ export const candidateactions = {
   selectedcandidates:(data)=>requests.post("candidate/getselectedcandidates",data)
 }
 export const selectedcandidateactions = {
-  getallselectedcandidatedata:(data)=>requests.post("candidate/gridcandidates",data),
-  createselectedcandidate:(data)=>requests.post("candidate/addcandidate",data),
-  updateselectedcandidate:(data)=>requests.put("candidate/addcandidate",data),
-  selectedcandidatedetails:(data)=>requests.post("candidate/candidateactionsdetails",data),
+  // getallselectedcandidatedata:(data)=>requests.post("candidate/gridcandidates",data),
+  // createselectedcandidate:(data)=>requests.post("candidate/addcandidate",data),//not used by any slice api not there ?
+  updateselectedcandidate:(data)=>requests.post("candidate/updateselectedcandidate",data),
+  // selectedcandidatedetails:(data)=>requests.post("candidate/candidateactionsdetails",data),
  
 }
 export const employementtypeapis={

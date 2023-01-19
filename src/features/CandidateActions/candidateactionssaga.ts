@@ -1,5 +1,5 @@
 import { call, put, takeEvery } from "redux-saga/effects"
-import { candidateactions } from "../../api/agent"
+import { candidateactions, selectedcandidateactions } from "../../api/agent"
 import { store } from "../../app/store"
 import { createtoast } from "../ToastSlice"
 
@@ -429,6 +429,44 @@ console.log(err)
 
     }
 }
+function* updateselectedcandidatesactionsagaworker(data){
+    try{
+        var res: Promise<any>=yield call(selectedcandidateactions.updateselectedcandidate,data.payload)
+        // console.log(res)
+        
+        // yield put({type:"selectedcandidates/selectedandidatesdata",payload:res})
+        yield put(createtoast({
+
+            id:454,
+
+            status:"success",
+
+            data:res.toString(),                                                //change this
+
+            endpoint:"400"
+
+        }))
+    }
+    catch(err){
+console.log(err)
+
+yield put(createtoast({
+
+
+    id:34324,
+
+    status:"error",
+
+    data:err.data[0][0],                                                       //change this
+
+    endpoint:err.config.url.toString()                                        //change this
+
+}))
+
+
+
+    }
+}
 
 
 export function* watcherCandidateAction() {
@@ -443,6 +481,7 @@ export function* watcherCandidateAction() {
     yield takeEvery("Candidateactiondetails/generalmanagerapprovalsubmitaction", generalmanagerapprovalsubmitactionsagaworker)
     yield takeEvery("Candidateactiondetails/financecontrollerapprovalsubmitaction", financecontrollerapprovalsubmitactionsagaworker)
     yield takeEvery("selectedcandidates/selectedcandidatesaction",selectedcandidatesactionsagaworker)
+    yield takeEvery("selectedcandidates/updateselectedcandidatesaction",updateselectedcandidatesactionsagaworker)
     // yield takeEvery("Candidateactiondetails/candidateactiondetails", getcandiatessagaworker)
     yield takeEvery("Candidateactiondetails/candidateactionsdetailsaction",candidateactionsdetailsactionsagaworker)
     // yield takeEvery("Industry/createIndustryaction", createIndustrysagaworker)

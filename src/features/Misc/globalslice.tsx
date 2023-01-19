@@ -19,7 +19,7 @@ export const globalSlice=createSlice({
 
             return state
         },
-        setnextcandidateinfotab:(state,payload:PayloadAction<any>)=>{
+        setnextcandidateinfotab:(state)=>{
             console.log("+1")
             state.candidateinfoactivetab+=1
             return state

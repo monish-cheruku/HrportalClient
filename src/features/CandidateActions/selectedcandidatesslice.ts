@@ -74,9 +74,12 @@ const selectedcandidatesSlice=createSlice({
     selectedcandidatesaction:(state,payload:PayloadAction<any>)=>{
 
     },
+    updateselectedcandidatesaction:(state,payload:PayloadAction<any>)=>{
+
+    },
  
     
 },
 })
-export const{selectedandidatesdata,selectedcandidatesaction }=selectedcandidatesSlice.actions
+export const{selectedandidatesdata,selectedcandidatesaction,updateselectedcandidatesaction }=selectedcandidatesSlice.actions
 export default selectedcandidatesSlice.reducer

@@ -107,7 +107,7 @@ function PersonalDetails() {
                                         </div>
                                     <div className="field col-12 md:col-4 flex">
 <Button onClick={e=>console.log()}>cancel</Button>
-<Button onClick={e=>dispatch(setnextcandidateinfotab(";aufhds"))}>Next</Button>
+<Button onClick={e=>dispatch(setnextcandidateinfotab())}>Next</Button>
                                         </div>
                                         </div>
     </div>

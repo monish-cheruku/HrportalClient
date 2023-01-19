@@ -63,6 +63,7 @@ const SelectedCandidates = () => {
         
         }))
         // console.log("working")
+        console.log(selectedcandidatesdata)
 
     }, [])
     const onGlobalFilterChange2 = (e: any) => {
@@ -198,6 +199,7 @@ return(<>{
         // return value.toLocaleDateString('en-US');
     }
     const linktemplate=(rowdata)=>{
+        console.log(rowdata)
         return(
             <Link to={'/SelectedCandidatesdetails'} state={rowdata}>{rowdata.candidate.CandidateCode}</Link>
         )

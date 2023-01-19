@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { quoteSlice } from "../Quotes/quoteslice";
+
 
 export interface Band {
     BandId: number;
@@ -22,7 +22,7 @@ export const BandSlice = createSlice({
             var temp=payload.payload
             state=[...temp]
           
-            console.log(state)
+            // console.log(state)
             return state;
         },
         
