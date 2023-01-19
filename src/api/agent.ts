@@ -20,7 +20,7 @@ axios.defaults.baseURL = 'http://10.154.155.201:8000/api';
 // axios.defaults.baseURL = 'http://10.154.155.54:8000/api';
 // axios.defaults.baseURL = 'http://10.154.20.135:8000/api';
 
-// axios.defaults.baseURL = 'http://127.0.0.1:8000/api';
+axios.defaults.baseURL = 'http://127.0.0.1:8000/api';
 // axios.defaults.baseURL = 'http://10.154.155.169:8000/api';
 //http://10.154.28.135:8000/api/     monish//
 //http://10.154.155.152:8000/api      /dwaraka
@@ -233,6 +233,16 @@ export const candidateactions = {
   getfeedbackfields:(data)=>requests.post("candidate/getfeedbackfields",data),
   getprevfeedbacks:(data)=>requests.post("candidate/getcandidatefeedbacks",data),
   selectedcandidates:(data)=>requests.post("candidate/getselectedcandidates",data)
+}
+export const personaldetails = {
+  createpersonaldetails:(data)=>requests.post("selectedcandidate/createpersonaldetails",data),
+  updatepersonaldetails:(data)=>requests.put("selectedcandidate/updatepersonaldetails",data),  
+  getpersonaldetailsdata:(data)=>requests.post("selectedcandidate/getpersonaldetailsdata",data),
+
+}
+export const candidateinfo = {  
+  getcandidateinfo:(data)=>requests.post("selectedcandidate/selectedcandidatedetailsbyemail",data),
+
 }
 export const selectedcandidateactions = {
   // getallselectedcandidatedata:(data)=>requests.post("candidate/gridcandidates",data),
