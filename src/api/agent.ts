@@ -14,13 +14,13 @@ import {UserRoles} from "../features/UserRoles/userroleslice"
 
 
 // import {Band} from ../features/Band/bandslice"
-// axios.defaults.baseURL = 'http://10.154.20.135:8000/api';
-axios.defaults.baseURL = 'http://10.154.155.201:8000/api';
+axios.defaults.baseURL = 'http://10.154.155.247:8000/api';
+// axios.defaults.baseURL = 'http://10.154.155.221:8000/api';
 
 // axios.defaults.baseURL = 'http://10.154.155.54:8000/api';
 // axios.defaults.baseURL = 'http://10.154.20.135:8000/api';
 
-axios.defaults.baseURL = 'http://127.0.0.1:8000/api';
+// axios.defaults.baseURL = 'http://127.0.0.1:8000/api';
 // axios.defaults.baseURL = 'http://10.154.155.169:8000/api';
 //http://10.154.28.135:8000/api/     monish//
 //http://10.154.155.152:8000/api      /dwaraka
@@ -242,6 +242,9 @@ export const personaldetails = {
 }
 export const candidateinfo = {  
   getcandidateinfo:(data)=>requests.post("selectedcandidate/selectedcandidatedetailsbyemail",data),
+  uploaddetaildocument:(data)=>requests.post("selectedcandidate/uploaddetaildocument",data),
+  downloaddetaildocument:(data)=>requests.post("selectedcandidate/downloaddetaildocuments",data),
+  deletedetaildocument:(data)=>requests.post("selectedcandidate/deletedocument",data),
 
 }
 export const selectedcandidateactions = {
@@ -258,5 +261,26 @@ export const employementtypeapis={
 
 export const qualificationapis={
   getallqualifications:()=>requests.get("Qualification"),
+
+
+
 }
 
+export const educationaldetailsapis = {
+  geteducationaldetailsdata:(data)=>requests.post("selectedcandidate/geteducationdetails",data),
+  createeducationdetail:(data)=>requests.post("selectedcandidate/createeducationdetail",data),
+  updateeducationdetails:(data)=>requests.post("selectedcandidate/updateeducationdetails",data),
+  deleteeducationdetails:(data)=>requests.post("selectedcandidate/deleteeducationdetail",data),
+ 
+}
+
+ 
+export const employementdetailsapis = {
+  getemployementdetails:(data)=>requests.post("selectedcandidate/getemployementdetails",data),
+  createemployementdetail:(data)=>requests.post("selectedcandidate/createemployementdetail",data),
+  updateemployementdetails:(data)=>requests.post("selectedcandidate/updateemployementdetails",data),
+  deleteemployementdetails:(data)=>requests.post("selectedcandidate/deleteemployementdetail",data),
+ 
+}
+
+ 

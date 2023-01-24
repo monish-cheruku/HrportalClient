@@ -35,6 +35,8 @@ import  prevfeedbackReducer from "../features/CandidateActions/prevfeedbacks"
 import  globalReducer from "../features/Misc/globalslice" 
 import  selectedcandidatesReducer from "../features/CandidateActions/selectedcandidatesslice" 
 import PersonaldetailsReducer from "../features/Candidate info/personaldetailsslice"
+import EducationaldetailsReducer from "../features/Candidate info/educationdetailsslice"
+import employementdetailsReducer from "../features/Candidate info/employementdetailsslice"
 import candidateinfoReducer from "../features/Candidate info/candidateinfoslice"
 // export function useReduxStore() {
 const sagaMiddleware = createSagaMiddleware();
@@ -78,7 +80,9 @@ feedbackfields:feedbackfieldsReducer,
 prevfeedback:prevfeedbackReducer,
 global:globalReducer,
 CandidatePersonaldetails:PersonaldetailsReducer,
-candidateinfo:candidateinfoReducer
+candidateinfo:candidateinfoReducer,
+Educationaldetails:EducationaldetailsReducer,
+employementdetails:employementdetailsReducer
 
 // CandidateAction :CandidateActionReducer,
 

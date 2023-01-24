@@ -97,7 +97,7 @@ console.log(edit)
                     edit ? dispatch(updatepersonaldetailsaction(values)) : dispatch(createpersonaldetailsaction(values))
 
 
-                    dispatch(setnextcandidateinfotab(";jnkjjh"))
+                    dispatch(setnextcandidateinfotab())
                 }}
                 initialValues={edit ? {
                     "Name": personalsdetailsdata.Name,
