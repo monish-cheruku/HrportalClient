@@ -17,8 +17,16 @@ const candidateinfoSlice = createSlice({
         },
         candidateinfogetaction: (state, payload: PayloadAction<any>) => {
             
-        }
+        },
+documentdownloadaction:(state,payload:PayloadAction<any>)=>{
 
+},
+deletedocumentaction:(state,payload:PayloadAction<any>)=>{
+
+},
+uploaddocumentaction:(state,payload:PayloadAction<any>)=>{
+
+},
 
 
 
@@ -27,5 +35,5 @@ const candidateinfoSlice = createSlice({
 
     },
 })
-export const { Candidateinfodata, candidateinfogetaction } = candidateinfoSlice.actions
+export const { Candidateinfodata, candidateinfogetaction ,documentdownloadaction,deletedocumentaction,uploaddocumentaction} = candidateinfoSlice.actions
 export default candidateinfoSlice.reducer
