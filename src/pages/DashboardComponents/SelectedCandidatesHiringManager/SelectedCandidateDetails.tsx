@@ -24,11 +24,12 @@ import { RadioButton } from 'primereact/radiobutton';
 import { updateselectedcandidatesaction } from '../../../features/CandidateActions/selectedcandidatesslice'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../app/store'
+import { Accordion, AccordionTab } from 'primereact/accordion'
 
 function SelectedCandidateDetails(props) {
     const location = useLocation()
     const data = location.state
-    const logindata=useSelector((state:RootState)=>state.Login)
+    const logindata = useSelector((state: RootState) => state.Login)
     const navigate = useNavigate()
     const dispatch = useDispatch()
     useEffect(() => {
@@ -49,18 +50,28 @@ function SelectedCandidateDetails(props) {
         //     errors.JobTitle = "*JobDescription is required.";
         // }
         var arr = [
-        
-           "DesignationId","BandId","SubBandId","FixedCTC"
-         ,"DateOfJoining"
-        
+
+            "DesignationId", "BandId", "SubBandId", "FixedCTC"
+            , "DateOfJoining", "isvariable"
+
         ]
         arr.forEach((i) => {
             if (!values[i]) {
                 errors[i.toString()] = "* This field is required";
             }
         })
+        if (!values["VariablePay"] && values.isvariable == "Yes") {
+            // console.log(values["Duration"])
+
+            errors["VariablePay"] = "*This field is required"
+        }
+        if (values.isvariable == "Yes" && !values["MQVariable"]) {
+            // console.log(values["Duration"])
+
+            errors["MQVariable"] = "*This field is required"
+        }
         //   console.log(values["Duration"])
-       
+
         console.log(errors)
         return errors;
     };
@@ -72,23 +83,28 @@ function SelectedCandidateDetails(props) {
     return (
         <>
             <Card>
-                <Panel header={"JobPost Details"}>
+                <Panel header={"Candidate Details"}>
+                    <CandidateDetails data={data.candidate}></CandidateDetails>
 
-                    <JobPostDetails JobData={data.jobpost}></JobPostDetails>
                 </Panel>
                 <br>
                 </br>
-                <Panel header={"Candidate Details"}>
-
-                    <CandidateDetails data={data.candidate}></CandidateDetails>
-                </Panel>
+                <Accordion>
+                    <AccordionTab header={"JobPost Details"}>
+                        <JobPostDetails JobData={data.jobpost}></JobPostDetails>
+                    </AccordionTab>
+                </Accordion>
+                {/* <Panel header={"JobPost Details"}>
+                    <JobPostDetails JobData={data.jobpost}></JobPostDetails>
+                    
+                </Panel> */}
                 <br></br>
                 <Form
 
                     onSubmit={(values: any) => {
                         var datetemp = new Date(values.DateOfJoining)
-                           
-                            values.DateOfJoining = datetemp.getFullYear() + "-" + (datetemp.getMonth() + 1) + "-" + datetemp.getDate()
+
+                        values.DateOfJoining = datetemp.getFullYear() + "-" + (datetemp.getMonth() + 1) + "-" + datetemp.getDate()
                         console.log(values)
                         dispatch(updateselectedcandidatesaction(values))
                         navigate(-1)
@@ -112,13 +128,13 @@ function SelectedCandidateDetails(props) {
                     }
                     initialValues={{
 
-                        "selectedcandidateid":data.Selected_Candidate_ID,
-"VariablePercentage":0,
-"IS_Eligible_annu_Mgnt_Bonus":false,
-"IS_Eligible_Joining_Bonus":false,
-"IS_Eligible_Monthly_Incentive":false,
-"Modified_By":logindata.username,
-"MQVariable":""
+                        "selectedcandidateid": data.Selected_Candidate_ID,
+                        "VariablePercentage": 0,
+                        "IS_Eligible_annu_Mgnt_Bonus": false,
+                        "IS_Eligible_Joining_Bonus": false,
+                        "IS_Eligible_Monthly_Incentive": false,
+                        "Modified_By": logindata.username,
+                        "MQVariable": ""
 
 
                     }}
@@ -132,9 +148,9 @@ function SelectedCandidateDetails(props) {
                         initialValues = {},
                         dirtySinceLastSubmit, }) => (
                         <form onSubmit={handleSubmit} >
-                          
+
                             <div className="p-fluid  grid">
-                                <div className="field col-12 md:col-4"><Field
+                                <div className="field col-12 md:col-3"><Field
                                     name="DesignationId"
                                     render={({ input, meta }) => (
                                         <div className="field">
@@ -148,7 +164,7 @@ function SelectedCandidateDetails(props) {
                                 />
 
                                 </div>
-                                <div className="field col-12 md:col-4"><Field
+                                <div className="field col-12 md:col-3"><Field
                                     name="BandId"
                                     render={({ input, meta }) => (
                                         <div className="field">
@@ -162,7 +178,7 @@ function SelectedCandidateDetails(props) {
                                 />
 
                                 </div>
-                                <div className="field col-12 md:col-4"><Field
+                                <div className="field col-12 md:col-3"><Field
                                     name="SubBandId"
                                     render={({ input, meta }) => (
                                         <div className="field">
@@ -177,11 +193,7 @@ function SelectedCandidateDetails(props) {
 
                                 </div>
 
-
-
-                            </div>
-                            <div className="p-fluid  grid">
-                                <div className="field col-12 md:col-4"><Field
+                                <div className="field col-12 md:col-3"><Field
                                     name="DateOfJoining"
                                     render={({ input, meta }) => (
                                         <div className="field">
@@ -195,67 +207,131 @@ function SelectedCandidateDetails(props) {
                                 />
 
                                 </div>
-                                <div className="field col-12 md:col-4"><Field
-                                    name="FixedCTC"
-                                    render={({ input, meta }) => (
-                                        <div className="field">
-                                            <label htmlFor="FixedCTC">Fixed CTC</label>
-                                            <span className="p-float-label">
-                                                <InputNumber id="FixedCTC" {...input} placeholder="FixedCTC" onChange={e => values["FixedCTC"] = e.value} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
-                                            </span>
-                                            {getFormErrorMessage(meta)}
-                                        </div>
-                                    )}
-                                />
-{/* {values["FixedCTC"]+(values["FixedCTC"]*(values["VariablePercentage"])/100)} */}
-                                </div>
-                                <div className="field col-12 md:col-4"><Field
-                                    name="VariablePercentage"
-                                    render={({ input, meta }) => (
-                                        <div className="field">
-                                            <label htmlFor="VariablePercentage Level">variable(%)</label>
-                                            <span className="p-float-label">
-                                                <InputNumber id="VariablePercentage Level" {...input} min={0} max={100} step={1} showButtons={true} onChange={e => values["VariablePercentage"] = e.value} placeholder="variable percentage" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
-                                            </span>
-                                            {getFormErrorMessage(meta)}
-                                        </div>
-                                    )}
-                                />
-                                    <div className="p-fluid  grid">
 
-                                        <div className="field col-12 md:col-6">
+                            </div>
+
+                            <Panel header={"Final CTC"}>
+                                <div className="p-fluid  grid">
+                                    <div className="field col-12 md:col-3">
+                                        <Field
+                                            name="FixedCTC"
+                                            render={({ input, meta }) => (
+                                                <div className="field">
+                                                    <label htmlFor="FixedCTC">Fixed CTC</label>
+                                                    <span className="p-float-label">
+                                                        {/* <InputNumber id="FixedCTC" {...input} placeholder="FixedCTC" onChange={e => values["FixedCTC"] = e.value} className={classNames({ "p-invalid": isFormFieldValid(meta) })} /> */}
+                                                        <InputNumber id="FixedCTC" min={0} value={values.FixedCTC} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} mode="currency" currency="INR" locale="en-IN" maxFractionDigits={0} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                    </span>
+                                                    {getFormErrorMessage(meta)}
+                                                </div>
+                                            )}
+                                        />
+                                    </div>
+
+                                </div>
+                                <div className="p-fluid  grid">
+                                    <div className="field col-12 md:col-4">
+                                        <label>Is candidate has variable pay? If 'Yes' enter variable pay and period of payment</label>
+                                    </div>
+                                    <div className="field col-12 md:col-2">
+                                        <div className="field-radiobutton">
                                             <Field
-                                                name="MQVariable"
-                                                type="radiobutton"
+                                                name="isvariable"
                                                 render={({ input, meta }) => (
-                                                    <div className="field-checkbox">
-                                                        <RadioButton inputId="monthly" name="MQVariable" value="M" onChange={e => { console.log(values); values["MQVariable"] = "M" }} checked={values["MQVariable"] == "M"} />
-                                                        <label htmlFor="monthly" style={{ cursor: "pointer" }}>
-                                                            Monthly
-                                                        </label>
-                                                    </div>)} />
+                                                    <>
+                                                        <RadioButton  {...input} className='ml-2' inputId="isvariable" name="isvariable" value="Yes" checked={values.isvariable == "Yes"} />
+
+                                                    </>
+                                                )} />
+                                            <label className="radio-inline me-3">Yes
+                                            </label>
+
+                                            <Field
+                                                name="isvariable"
+                                                render={({ input, meta }) => (
+                                                    <>
+                                                        <RadioButton  {...input} className='ml-2' inputId="isvariable" name="isvariable" value="No" checked={values.isvariable == "No"} />
+
+                                                    </>
+                                                )} />
+                                            <label className="radio-inline me-3">No
+                                            </label>
                                         </div>
-                                        <div className="field col-12 md:col-6">
+                                        <br />
+                                        <div className='col-12' style={{ marginTop: "-30px" }}>
+                                            <Field
+                                                name="isvariable"
+                                                render={({ input, meta }) => (
+                                                    <>
+
+                                                        {getFormErrorMessage(meta)}
+                                                    </>
+                                                )} />
+                                        </div>
+
+                                    </div>
+
+                                    <div hidden={values["isvariable"] == "Yes" ? false : true} className="field col-12 md:col-3">
+                                        <div className="p-fluid  grid">
+                                            <div className="field col-12 md:col-6">
+                                                <label >Variable Pay :
+                                                </label>
+                                            </div>
+                                            <div className="field col-12 md:col-6">
+                                                <Field
+                                                    name="VariablePay"
+                                                    render={({ input, meta }) => (
+                                                        <div className="field">
+                                                            {/* <label htmlFor="VariablePay">Vaiable Pay</label> */}
+                                                            <span className="p-float-label">
+                                                                {/* <InputNumber id="VariablePay" {...input} placeholder="Enter Variable Pay" onChange={e => values["VariablePay"] = e.value} className={classNames({ "p-invalid": isFormFieldValid(meta) })} /> */}
+                                                                <InputNumber id="VariablePay" min={0} value={values.VariablePay} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} mode="currency" currency="INR" locale="en-IN" maxFractionDigits={0} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                            </span>
+                                                            {getFormErrorMessage(meta)}
+
+                                                        </div>
+                                                    )}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div hidden={values["isvariable"] == "Yes" ? false : true} className="field col-12 md:col-3">
+                                        <div className="field-radiobutton">
                                             <Field
                                                 name="MQVariable"
-                                                type="radiobutton"
                                                 render={({ input, meta }) => (
-                                                    <div className="field-checkbox">
-                                                        <RadioButton name="MQVariable" value="Q" onChange={e => { console.log(values); values["MQVariable"] = "Q" }} checked={values["MQVariable"] == "Q"} />
-                                                        <label htmlFor={input.name} style={{ cursor: "pointer" }}>
-                                                            Quarterly                                                </label>
-                                                    </div>)} />
+                                                    <RadioButton  {...input} className='ml-2' inputId="MQVariable" name="MQVariable" value="M" checked={values.MQVariable == "M"} />
+                                                )} />
+                                            <label className="radio-inline me-3">Monthly
+                                            </label>
+
+                                            <Field
+                                                name="MQVariable"
+                                                render={({ input, meta }) => (
+                                                    <RadioButton  {...input} className='ml-2' inputId="MQVariable" name="MQVariable" value="Q" checked={values.MQVariable == "Q"} />
+                                                )} />
+                                            <label className="radio-inline me-3">Quaterly
+                                            </label>
+
+                                        </div>
+                                        <br />
+                                        <div className='col-12' style={{ marginTop: "-30px" }}>
+                                            <Field
+                                                name="MQVariable"
+                                                render={({ input, meta }) => (
+                                                    <>
+
+                                                        {getFormErrorMessage(meta)}
+                                                    </>
+                                                )} />
                                         </div>
                                     </div>
 
                                 </div>
+                            </Panel>
 
 
-
-
-                            </div>
-
-                      
+                            <br />
 
 
 
@@ -301,7 +377,7 @@ function SelectedCandidateDetails(props) {
                                 <div className="field col-12 md:col-6">Annexure
                                 </div>
                                 <div className="field col-12 md:col-6 flex">
-                                    <Button className='mr-3' type="submit" onClick={e=>handleSubmit}>Send Offer Letter
+                                    <Button className='mr-3' type="submit" onClick={e => handleSubmit}>Send Offer Letter
 
                                     </Button>
                                     <Button className='mr-3' type="button">Download/Preview Offer Letter

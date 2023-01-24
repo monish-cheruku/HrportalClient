@@ -482,7 +482,8 @@ function CreateCandidateProfile() {
                                                 <div className="field fluid">
                                                     <label htmlFor="CurrentCTC">Current CTC</label>
                                                     <span className="field fluid">
-                                                        <InputNumber id="CurrentCTC" min={0} value={values.CurrentCTC} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} mode="currency" currency="INR" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <InputNumber id="CurrentCTC" min={0} value={values.CurrentCTC} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} mode="currency" currency="INR" locale="en-IN" maxFractionDigits={0} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        {/* <InputNumber id="CurrentCTC" min={0} value={values.CurrentCTC} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} mode="decimal" locale="en-IN" className={classNames({ "p-invalid": isFormFieldValid(meta) })} /> */}
                                                         <label htmlFor="CurrentCTC" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                                     </span>
                                                     {getFormErrorMessage(meta)}
