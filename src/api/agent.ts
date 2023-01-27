@@ -14,7 +14,7 @@ import {UserRoles} from "../features/UserRoles/userroleslice"
 
 
 // import {Band} from ../features/Band/bandslice"
-axios.defaults.baseURL = 'http://10.154.155.247:8000/api';
+axios.defaults.baseURL = 'http://10.154.155.32:8000/api';
 // axios.defaults.baseURL = 'http://10.154.155.221:8000/api';
 
 // axios.defaults.baseURL = 'http://10.154.155.54:8000/api';
@@ -232,7 +232,8 @@ export const candidateactions = {
   generalmanagerapprovalsubmit:(data)=>requests.post("candidate/candidateworkflowsubmit",data),
   getfeedbackfields:(data)=>requests.post("candidate/getfeedbackfields",data),
   getprevfeedbacks:(data)=>requests.post("candidate/getcandidatefeedbacks",data),
-  selectedcandidates:(data)=>requests.post("candidate/getselectedcandidates",data)
+  selectedcandidates:(data)=>requests.post("candidate/getselectedcandidates",data),
+  annexure:(data)=>requests.post("candidate/getannexuredetails",data)
 }
 export const personaldetails = {
   createpersonaldetails:(data)=>requests.post("selectedcandidate/createpersonaldetails",data),

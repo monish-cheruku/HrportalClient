@@ -7,7 +7,7 @@ export const getsubbands=(state:RootState)=>state.subband
 export const getasubbandactiveoptions=createSelector(
     [getsubbands],
     (subband)=>{
-        var temp:IOptions[]=[]
+        var temp:any[]=[]
 // alert("asdfg")
 // console.log(designation)
 subband.forEach((e)=>{
@@ -15,6 +15,7 @@ subband.forEach((e)=>{
             // console.log(e)
             temp.push({
                 key:e.SubBandId,
+                BandId:e.BandId,
                 label:e.SubBandName,
                 value:e.SubBandId
             })

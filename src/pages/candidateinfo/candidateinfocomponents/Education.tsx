@@ -36,6 +36,20 @@ function Education() {
   const getFormErrorMessage = (meta) => {
     return isFormFieldValid(meta) && <small className="p-error">{meta.error}</small>;
   };
+  const validate=(values)=>{
+    const arr=["Qualification","Specialization","Start_Date","End_Date","Institute","Percentage"]
+    let errors = {};
+    arr.forEach((i) => {
+      // console.log(values["Resume"])
+      if (!values[i]) {
+          // console.log(i.toString())
+          errors[i.toString()] = "* This field is required";
+      }
+  })
+
+  console.log(errors)
+  return errors
+  }
   return (
     <div>Education
       <Button onClick={e => { setEditmode(false); setModaldialog(true) }}>Add A Education</Button>
@@ -75,12 +89,14 @@ function Education() {
             Start_Date: tempdata.Start_Date,
             End_Date: tempdata.End_Date,
           }}
-
-
+          
+          
+          validate={validate}
           render={({ handleSubmit, values, submitting,
             submitError,
             invalid,
             pristine,
+            validating,
             initialValues = {},
             dirtySinceLastSubmit, }) => (
             <form onSubmit={handleSubmit} >
