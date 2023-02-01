@@ -39,6 +39,7 @@ import PersonaldetailsReducer from "../features/Candidate info/personaldetailssl
 import EducationaldetailsReducer from "../features/Candidate info/educationdetailsslice"
 import employementdetailsReducer from "../features/Candidate info/employementdetailsslice"
 import candidateinfoReducer from "../features/Candidate info/candidateinfoslice"
+import otherdocumentsReducer from "../features/Candidate info/otherdocumentsslice"
 // export function useReduxStore() {
 const sagaMiddleware = createSagaMiddleware();
 const logger = createLogger();
@@ -85,7 +86,7 @@ candidateinfo:candidateinfoReducer,
 Educationaldetails:EducationaldetailsReducer,
 employementdetails:employementdetailsReducer,
 anexure:anexureReducer,
-
+otherdocuments:otherdocumentsReducer,
 // CandidateAction :CandidateActionReducer,
 
   // band: bandReducer,

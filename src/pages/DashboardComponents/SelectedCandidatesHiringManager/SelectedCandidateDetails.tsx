@@ -25,22 +25,32 @@ import { previewannexureaction, updateselectedcandidatesaction } from '../../../
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../app/store'
 import { Accordion, AccordionTab } from 'primereact/accordion'
+import Annexure from './Annexure'
+import { Dialog } from 'primereact/dialog'
 
 function SelectedCandidateDetails(props) {
     const location = useLocation()
-    const data = location.state
+    const [data, setdata] = useState(location.state)
     const logindata = useSelector((state: RootState) => state.Login)
-    const [editmode, seteditmode] = useState(data.designation ? true : false)
+    const annexuredata = useSelector((state: RootState) => state.anexure)
+    const [mode, setmode] = useState(data.designation ? "true" : "false")
+    const [candidatedata, setCandidatedata] = useState(data.candidate)
+    const [jobpostdata, setjobpostdata] = useState(data.jobpost)
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const [show, setshow] = useState(false)
     useEffect(() => {
         dispatch(getdesignationsaction())
         dispatch(getBandaction())
         dispatch(getsubbandsaction())
-        console.log(location.state)
-        console.log(data)
+        // console.log(location.state)
+        // console.log(data)
+        console.log(annexuredata)
 
     }, [])
+    useEffect(() => {
+        console.log(annexuredata)
+    }, [annexuredata])
     const validate = (values) => {
         let errors = {};
         // console.log(data)
@@ -53,7 +63,7 @@ function SelectedCandidateDetails(props) {
         // }
         var arr = [
 
-            "designation", "band", "subband", "FixedCTC"
+            "designation", "band", "subband"
             , "DateOfJoining", "IsVariable"
 
         ]
@@ -66,6 +76,11 @@ function SelectedCandidateDetails(props) {
             // console.log(values["Duration"])
 
             errors["VariablePay"] = "*This field is required"
+        }
+        if (!values["FixedCTC"]) {
+            // console.log(values["Duration"])
+
+            errors["FixedCTC"] = "*This field is required"
         }
         if (values.IsVariable == true && !values["MQVariable"]) {
             // console.log(values["Duration"])
@@ -100,13 +115,45 @@ function SelectedCandidateDetails(props) {
         // console.log(temp)
         return temp
     }
-    const callpreviewannexure = (values) => {
+    const shoulddisanleanexurebutton = (values) => {
         console.log(values)
+        if (!values.IsVariable) {
+            if (
+                values.designation > 0 &&
+                values.band > 0 &&
+                values.subband > 0 &&
+                values.DateOfJoining &&
+                values.FixedCTC > 0
+            )
+                return false
+            else
+                return true
+        }
+        else {
+
+            if (
+                values.designation > 0 &&
+                values.band > 0 &&
+                values.subband > 0 &&
+                values.DateOfJoining &&
+                values.FixedCTC > 0 &&
+                values.MQVariable != "" &&
+                values.VariablePay )
+                return false
+            else
+                return true
+        }
+    }
+    const callpreviewannexure1 = async (values) => {
+       
+        console.log(values)
+        values["FixedCTC"] = parseInt(values["FixedCTC"])
+        values["VariablePay"] = parseInt(values["VariablePay"])
         if (
             values.selectedcandidateid &&
-            values.DesignationId &&
-            values.BandId &&
-            values.SubBandId &&
+            values.designation &&
+            values.band &&
+            values.subband &&
             values.FixedCTC &&
             values.VariablePercentage &&
             values.MQVariable &&
@@ -116,21 +163,42 @@ function SelectedCandidateDetails(props) {
 
 
         }
-        dispatch(previewannexureaction(values))
+        // values.selectedcandidateid=data.Selected_Candidate_ID?data.Selected_Candidate_ID:values.selectedcandidateid
+        {
+            values.candidate =
+            await dispatch(previewannexureaction(values))
+            await setdata(values)
+            await setmode("draft")
+            setshow(true)
+        }
+    }
+    const DialogFooter = () => {
+        return (
+            <>
+                <Button onClick={e => { setshow(false) }}>Close</Button>
+            </>
+        )
     }
     return (
         <>
-            {editmode ? console.log("editmode") : console.log("not edit mode")}
-            <Card>
-                <Panel header={"Candidate Details"}>
-                    <CandidateDetails data={data.candidate}></CandidateDetails>
+            {console.log(mode)}
 
+            <Card>
+                <Dialog visible={show} style={{ width: "50%" }} header="Annexure Information " modal className="p-fluid" footer={DialogFooter} onHide={() => setshow(false)}>
+
+                    {/* <label htmlFor="BandName<">Annexure</label> */}
+
+                    <Annexure annexure={annexuredata}></Annexure>
+
+                </Dialog>
+                <Panel header={"Candidate Details"}>
+                    <CandidateDetails data={candidatedata}></CandidateDetails>
                 </Panel>
                 <br>
                 </br>
                 <Accordion>
                     <AccordionTab header={"JobPost Details"}>
-                        <JobPostDetails JobData={data.jobpost}></JobPostDetails>
+                        <JobPostDetails JobData={jobpostdata}></JobPostDetails>
                     </AccordionTab>
                 </Accordion>
                 {/* <Panel header={"JobPost Details"}>
@@ -141,6 +209,8 @@ function SelectedCandidateDetails(props) {
                 <Form
 
                     onSubmit={(values: any) => {
+                        values["FixedCTC"] = parseInt(values["FixedCTC"])
+                        values["VariablePay"] = parseInt(values["VariablePay"])
                         var datetemp = new Date(values.DateOfJoining)
                         values["FinalCTC"] = values["FixedCTC"] + ((values["IsVariable"] ? (values["VariablePay"]) ? values["VariablePay"] : 0 : 0))
                         values.DateOfJoining = datetemp.getFullYear() + "-" + (datetemp.getMonth() + 1) + "-" + datetemp.getDate()
@@ -153,7 +223,7 @@ function SelectedCandidateDetails(props) {
                         // console.log(datetemp.getFullYear() + "-" + (datetemp.getMonth() + 1) + "-" + datetemp.getDate())
                         // values.OnBoardingDate = datetemp.getFullYear() + "-" + (datetemp.getMonth() + 1) + "-" + datetemp.getDate()
                         // // alert("sub mit form")
-                        // if (editmode) {
+                        // if (mode) {
 
 
                         //     dispatch(updatejobpost(values))
@@ -165,7 +235,7 @@ function SelectedCandidateDetails(props) {
                         // }
                     }
                     }
-                    initialValues={editmode ? {
+                    initialValues={mode == "true" ? {
                         "selectedcandidateid": data.Selected_Candidate_ID,
                         // "VariablePay": 0,//will change after backend changes
 
@@ -184,10 +254,10 @@ function SelectedCandidateDetails(props) {
                         "IS_Eligible_Monthly_Incentive": data.IS_Eligible_Monthly_Incentive,
                         "VariablePay": data.VariablePay,
                         "IsVariable": data.IsVariable
-                    } : {
+                    } : mode == "false" ? {
 
                         "selectedcandidateid": data.Selected_Candidate_ID,
-                        "VariablePay": 0,
+                        // "VariablePay": 0,
                         "Is_Eligible_annu_Mgnt_Bonus": data.IS_Eligible_annu_Mgnt_Bonus,
                         "Is_Eligible_Joining_Bonus": data.IS_Eligible_Joining_Bonus,
                         "IS_Eligible_Monthly_Incentive": data.IS_Eligible_Monthly_Incentive,
@@ -195,7 +265,29 @@ function SelectedCandidateDetails(props) {
                         "MQVariable": ""
 
 
-                    }}
+                    } :
+                        {
+                            "selectedcandidateid": data.selectedcandidateid,
+                            // "VariablePay": 0,//will change after backend changes
+
+                            "Modified_By": logindata.username,
+
+
+                            "designation": data.designation,
+                            "band": data.band,
+                            "subband": data.subband,
+
+                            "DateOfJoining": new Date(data.DateOfJoining),
+                            "FixedCTC": data.FixedCTC,
+                            "MQVariable": data.MQVariable,
+                            "Is_Eligible_annu_Mgnt_Bonus": data.Is_Eligible_annu_Mgnt_Bonus,
+                            "Is_Eligible_Joining_Bonus": data.Is_Eligible_Joining_Bonus,
+                            "IS_Eligible_Monthly_Incentive": data.IS_Eligible_Monthly_Incentive,
+                            "VariablePay": data.VariablePay,
+                            "IsVariable": data.IsVariable
+                        }
+
+                    }
 
                     validate={validate}
 
@@ -214,8 +306,8 @@ function SelectedCandidateDetails(props) {
                                         <div className="field">
                                             <label htmlFor="designation">Designation</label>
                                             <span className="p-float-label">
-                                                <Dropdown id="designation" {...input} options={props.getactivedesignationoptionsprop} optionLabel="label" placeholder="Select Designation"
-                                                    onChange={e => callpreviewannexure(values)}
+                                                <Dropdown id="designation"  {...input} options={props.getactivedesignationoptionsprop} optionLabel="label" placeholder="Select Designation"
+
                                                     className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                             </span>
                                             {getFormErrorMessage(meta)}
@@ -231,7 +323,7 @@ function SelectedCandidateDetails(props) {
                                             <label htmlFor="band">Band</label>
                                             <span className="p-float-label">
                                                 <Dropdown id="band" {...input} options={props.getactivebandoptionsprop} optionLabel="label" placeholder="Select Band"
-                                                    onChange={e => callpreviewannexure(values)}
+
                                                     className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                             </span>
                                             {getFormErrorMessage(meta)}
@@ -247,7 +339,7 @@ function SelectedCandidateDetails(props) {
                                             <label htmlFor="subband">Sub Band</label>
                                             <span className="p-float-label">
                                                 <Dropdown id="subband" {...input} options={filtersubband(values["band"])} optionLabel="label" placeholder="Select sub band"
-                                                    onChange={e => callpreviewannexure(values)}
+
                                                     className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                             </span>
                                             {getFormErrorMessage(meta)}
@@ -277,20 +369,18 @@ function SelectedCandidateDetails(props) {
                             <Panel header={"Final CTC"}>
                                 <div className="p-fluid  grid">
                                     <div className="field col-12 md:col-3">
-                                        <Field
-                                            name="FixedCTC"
-                                            render={({ input, meta }) => (
-                                                <div className="field">
-                                                    <label htmlFor="FixedCTC">Fixed CTC</label>
-                                                    <span className="p-float-label">
-                                                        {/* <InputNumber id="FixedCTC" {...input} placeholder="FixedCTC" onChange={e => values["FixedCTC"] = e.value} className={classNames({ "p-invalid": isFormFieldValid(meta) })} /> */}
-                                                        <InputNumber id="FixedCTC" min={0} value={values.FixedCTC} onBlur={input.onBlur}
-                                                            onValueChange={(e) => { input.onChange(e); callpreviewannexure(values) }} mode="currency" currency="INR" locale="en-IN" maxFractionDigits={0} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
-                                                    </span>
+                                        <Field name="FixedCTC">
+                                            {({ input, meta }) => (
+                                                <div>
+                                                    <label>Fixed CTC: </label>
+                                                    <br></br>
+                                                    <br></br>
+                                                    <input className='p-inputtext p-component' {...input} type="number" value={parseInt(values["FixedCTC"])} placeholder="Fixed CTC" />
+                                                    <br></br>
                                                     {getFormErrorMessage(meta)}
                                                 </div>
                                             )}
-                                        />
+                                        </Field>
                                     </div>
 
                                 </div>
@@ -304,7 +394,7 @@ function SelectedCandidateDetails(props) {
                                                 name="IsVariable"
                                                 render={({ input, meta }) => (
                                                     <>
-                                                        <RadioButton  {...input} className='ml-2' inputId="IsVariable" name="IsVariable" value={true} checked={values.IsVariable == true} onClick={() => { values["FinalCTC"] = values["FixedCTC"] + ((values["IsVariable"] ? (values["VariablePay"]) ? values["VariablePay"] : 0 : 0)); callpreviewannexure(values) }} />
+                                                        <RadioButton  {...input} className='ml-2' inputId="IsVariable" name="IsVariable" value={true} checked={values.IsVariable == true} onClick={() => { values["FinalCTC"] = values["FixedCTC"] + ((values["IsVariable"] ? (values["VariablePay"]) ? values["VariablePay"] : 0 : 0)); }} />
 
                                                     </>
                                                 )} />
@@ -315,7 +405,7 @@ function SelectedCandidateDetails(props) {
                                                 name="IsVariable"
                                                 render={({ input, meta }) => (
                                                     <>
-                                                        <RadioButton  {...input} className='ml-2' inputId="IsVariable" name="IsVariable" value={false} checked={values.IsVariable == false} onClick={() => { values["FinalCTC"] = values["FixedCTC"] + ((values["IsVariable"] ? (values["VariablePay"]) ? values["VariablePay"] : 0 : 0)); callpreviewannexure(values) }} />
+                                                        <RadioButton  {...input} className='ml-2' inputId="IsVariable" name="IsVariable" value={false} checked={values.IsVariable == false} onClick={() => { values["FinalCTC"] = values["FixedCTC"] + ((values["IsVariable"] ? (values["VariablePay"]) ? values["VariablePay"] : 0 : 0)); }} />
 
                                                     </>
                                                 )} />
@@ -343,20 +433,15 @@ function SelectedCandidateDetails(props) {
                                                 </label>
                                             </div>
                                             <div className="field col-12 md:col-6">
-                                                <Field
-                                                    name="VariablePay"
-                                                    render={({ input, meta }) => (
-                                                        <div className="field">
-                                                            {/* <label htmlFor="VariablePay">Vaiable Pay</label> */}
-                                                            <span className="p-float-label">
-                                                                {/* <InputNumber id="VariablePay" {...input} placeholder="Enter Variable Pay" onChange={e => values["VariablePay"] = e.value} className={classNames({ "p-invalid": isFormFieldValid(meta) })} /> */}
-                                                                <InputNumber id="VariablePay" min={0} value={values.VariablePay} onBlur={input.onBlur} onValueChange={(e) => { input.onChange(e); values["FinalCTC"] = values["FixedCTC"] + ((values["IsVariable"] ? (values["VariablePay"]) ? values["VariablePay"] : 0 : 0)); callpreviewannexure(values) }} mode="currency" currency="INR" locale="en-IN" maxFractionDigits={0} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
-                                                            </span>
-                                                            {getFormErrorMessage(meta)}
+                                                <Field name="VariablePay">
+                                                    {({ input, meta }) => (
+                                                        <div>
+                                                            <input className='p-inputtext p-component' {...input} value={parseInt(values["VariablePay"])} type="number" placeholder="variable pay" />
 
+                                                            {getFormErrorMessage(meta)}
                                                         </div>
                                                     )}
-                                                />
+                                                </Field>
                                             </div>
                                         </div>
                                     </div>
@@ -365,7 +450,7 @@ function SelectedCandidateDetails(props) {
                                             <Field
                                                 name="MQVariable"
                                                 render={({ input, meta }) => (
-                                                    <RadioButton  {...input} className='ml-2' inputId="MQVariable" onChange={e => callpreviewannexure(values)} name="MQVariable" value="M" checked={values.MQVariable == "M"} />
+                                                    <RadioButton  {...input} className='ml-2' inputId="MQVariable" name="MQVariable" value="M" checked={values.MQVariable == "M"} />
                                                 )} />
                                             <label className="radio-inline me-3">Monthly
                                             </label>
@@ -373,7 +458,7 @@ function SelectedCandidateDetails(props) {
                                             <Field
                                                 name="MQVariable"
                                                 render={({ input, meta }) => (
-                                                    <RadioButton  {...input} className='ml-2' inputId="MQVariable" onChange={e => callpreviewannexure(values)} name="MQVariable" value="Q" checked={values.MQVariable == "Q"} />
+                                                    <RadioButton  {...input} className='ml-2' inputId="MQVariable" name="MQVariable" value="Q" checked={values.MQVariable == "Q"} />
                                                 )} />
                                             <label className="radio-inline me-3">Quaterly
                                             </label>
@@ -394,10 +479,11 @@ function SelectedCandidateDetails(props) {
 
                                 </div>
                                 <div className="p-fluid  grid">
-                                    <div className="field col-12 md:col-6">
+                                    <div className="field col-12 md:col-10">
                                     </div>
-                                    <div className="field col-12 md:col-6">
-                                        Final ctc = {values["FixedCTC"] + ((values["IsVariable"] ? (values["VariablePay"]) ? values["VariablePay"] : 0 : 0))}
+                                    <div className="field col-12 md:col-2">
+                                        Final ctc = {(parseInt(values["FixedCTC"]) + ((values["IsVariable"] ? (values["VariablePay"]) ? parseInt(values["VariablePay"]) : 0 : 0))).toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 2 })}
+                                        {/* Final ctc = {values["FinalCTC"] } */}
                                         {/* { values["FinalCTC"]=values["FixedCTC"]+((values["IsVariable"]?(values["VariablePay"])?values["VariablePay"]:0:0))} */}
                                     </div>
                                 </div>
@@ -415,7 +501,7 @@ function SelectedCandidateDetails(props) {
                                         type="checkbox"
                                         render={({ input, meta }) => (
                                             <div className="field-checkbox">
-                                                <Checkbox inputId={input.name} {...input} onChange={e => callpreviewannexure(values)} />
+                                                <Checkbox inputId={input.name} {...input} />
                                                 <label htmlFor={input.name} style={{ cursor: "pointer" }}>
                                                     {"Eligible for Annual Mgnt Bonus"}
                                                 </label>
@@ -427,7 +513,7 @@ function SelectedCandidateDetails(props) {
                                         type="checkbox"
                                         render={({ input, meta }) => (
                                             <div className="field-checkbox">
-                                                <Checkbox inputId={input.name} {...input} onChange={e => callpreviewannexure(values)} />
+                                                <Checkbox inputId={input.name} {...input} />
                                                 <label htmlFor={input.name} style={{ cursor: "pointer" }}>
                                                     {"Eligible for Joining Bonus"}
                                                 </label>
@@ -439,7 +525,7 @@ function SelectedCandidateDetails(props) {
                                         type="checkbox"
                                         render={({ input, meta }) => (
                                             <div className="field-checkbox">
-                                                <Checkbox inputId={input.name} {...input} onChange={e => callpreviewannexure(values)} />
+                                                <Checkbox inputId={input.name} {...input} />
                                                 <label htmlFor={input.name} style={{ cursor: "pointer" }}>
                                                     {"Eligible for Monthly Incentive"}
                                                 </label>
@@ -447,9 +533,19 @@ function SelectedCandidateDetails(props) {
                                 </div>
                             </div>
                             <div className=" grid">
-                                <div className="field col-12 md:col-6">Annexure
-                                </div>
+                                {/* <div className="field col-12 md:col-6">Annexure
+                                    <Annexure annexure={annexuredata}></Annexure>
+
+                                </div> */}
+                                <div className="field col-12 md:col-6"></div>
                                 <div className="field col-12 md:col-6 flex">
+                                    {/* <div style={{ height: "50px", width: "50px", backgroundColor: "red" }} onMouseLeave={() => callpreviewannexure1(values)}>calc</div> */}
+                                    <Button className='mr-3' type="button" disabled={shoulddisanleanexurebutton(values)} onClick={e => {
+                                        callpreviewannexure1(values);
+
+                                    }}>calc annexure
+
+                                    </Button>
                                     <Button className='mr-3' type="submit" onClick={e => handleSubmit}>Send Offer Letter
 
                                     </Button>
@@ -459,6 +555,7 @@ function SelectedCandidateDetails(props) {
                                     </Button>
                                 </div>
                             </div>
+
 
                         </form>
                     )}

@@ -1,5 +1,5 @@
 import { call, put, takeEvery } from "redux-saga/effects"
-import { candidateinfo, educationaldetailsapis, employementdetailsapis, personaldetails } from "../../api/agent"
+import { candidateinfo, educationaldetailsapis, employementdetailsapis, otherdocumentsapis, personaldetails } from "../../api/agent"
 import { RootState, store } from "../../app/store"
 import { createtoast } from "../ToastSlice"
 import { Educationaldetailsdata } from "./educationdetailsslice"
@@ -400,6 +400,16 @@ catch(err) {
 
 }
 }
+function* otherdocumentsgetsagaworker(data){
+try{
+    console.log(data)
+    var res: Promise<any> = yield call(otherdocumentsapis.otherdocumentsget, data.payload)
+    yield put({type:"otherdocuments/otherdocumentsdata",payload:res})
+}
+catch(err) {
+
+}
+}
 
 
 
@@ -428,6 +438,7 @@ export function* watcherpersonaldetails() {
     yield takeEvery("candidateinfo/deletedocumentaction", deletedocumentactionsagaworker)
     yield takeEvery("educationaldetails/deleteedducationaldetailsaction", deleteedducationaldetailssagaworker)
     yield takeEvery("candidateinfo/uploaddocumentaction", uploaddocumentsagaworker)
+    yield takeEvery("otherdocuments/otherdocumentsgetaction", otherdocumentsgetsagaworker)
     
     
 }

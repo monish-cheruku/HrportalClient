@@ -219,6 +219,7 @@ function Education() {
           <Card>
             <div className="p-fluid  grid" style={{ backgroundColor: "lightblue" }}>
               <div className="field col-12 md:col-12 flex" >
+                <>
                 <br></br>
                 <h3>{e.Qualification}</h3>
                 <h2> <i className="pi pi-pencil mr-2" style={{ cursor: "pointer", backgroundColor: "blue", padding: "4px", borderRadius: "9px", color: "white" }}
@@ -286,7 +287,7 @@ function Education() {
                 Institute : {e.Institute}
                 <br>
                 </br>
-
+                </>
               </div>
             </div>
             <div className="p-fluid  grid">
@@ -347,7 +348,7 @@ function Education() {
       <div className="p-fluid  grid">
 
         <div className="field col-12 md:col-4 flex">
-          <Button onClick={e => dispatch(setprevcandidateinfotab("lkdjf"))}>Previous</Button>
+          <Button onClick={e => dispatch(setprevcandidateinfotab())}>Previous</Button>
           <Button onClick={e => dispatch(setnextcandidateinfotab())}>Next</Button>
         </div>
       </div>
