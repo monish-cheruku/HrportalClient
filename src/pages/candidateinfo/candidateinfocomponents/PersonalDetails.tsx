@@ -21,7 +21,8 @@ function PersonalDetails() {
     var personalsdetailsdata = useSelector((state: RootState) => state.CandidatePersonaldetails);
     var candidateinfodata = useSelector((state: RootState) => state.candidateinfo);
     const logindata = useSelector((state: RootState) => state.Login)
-    const [edit, setEdit] = useState(personalsdetailsdata.Name == ""?false:true)
+    const [edit, setEdit] = useState(personalsdetailsdata.Name == "" ? false : true)
+    const isFormFieldValid = (meta) => !!(meta.touched && meta.error);
     console.log(edit)
     console.log(candidateinfodata)
     const dispatch = useDispatch()
@@ -36,25 +37,24 @@ function PersonalDetails() {
 
 
         // }))
-        
-            console.log(personalsdetailsdata)
-            console.log(candidateinfodata)
-            dispatch(personaldetailsaction({
 
-                "selectedcandidateid": candidateinfodata.Selected_Candidate_ID
-            }))
-            personalsdetailsdata.Name == "" ? setEdit(false) : setEdit(true)
-    
-       
+        console.log(personalsdetailsdata)
+        console.log(candidateinfodata)
+        dispatch(personaldetailsaction({
+
+            "selectedcandidateid": candidateinfodata.Selected_Candidate_ID
+        }))
+        personalsdetailsdata.Name == "" ? setEdit(false) : setEdit(true)
+
+
 
     }, [])
-useEffect(()=>{
-console.log(edit)
-},[edit])
+    useEffect(() => {
+        console.log(edit)
+    }, [edit])
 
 
 
-    const isFormFieldValid = (meta) => !!(meta.touched && meta.error);
 
 
     const getFormErrorMessage = (meta) => {
@@ -78,11 +78,100 @@ console.log(edit)
         { value: 'AB+', label: 'AB+' },
         { value: 'AB-', label: 'AB-' },
     ]
+
+
+
+    const validate = (values) => {
+        values["CurrentCTC"] = values["CurrentCTC"]
+        let errors = {};
+        // console.log(data)
+
+        // if (!data.JobDesc) {
+        //     errors.JobDesc = "*JobDescription is required.";
+        // }
+        // if (!data.JobTitle) {
+        //     errors.JobTitle = "*JobDescription is required.";
+        // }
+        // var arr = ["CandidateFirstName", "BusinessUnit_id", "Serviceline_id", "Industry_id", "Industry_id", "Customer_id", "Location_id", "EmploymentType", "JobTitle", "JobDesc", "ExperianceLevel_id", "Qualification", "NoOfPositions", "OnBoardingDate", "HR_User_Name", "BH_User_Name"]
+        var arr = ["Name", "DateOfBirth", "Marital_status", "Gender", "BloodGroup", "PAN",
+            "AADHAR", "Email", "ContactNumber", "Address", "EmergencycontactName", "EmergencycontactRelation", "EmergencycontactNumber"]
+        arr.forEach((i) => {
+            // console.log(values["Resume"])
+            if (!values[i]) {
+                // console.log(i.toString())
+                errors[i.toString()] = "* This field is required";
+            }
+        })
+        // console.log(values["OverallExpYear"])
+        if (values["Name"] == undefined || values["Name"] == null) {
+
+            errors["Name"] = "*This field is required"
+        }
+
+        if (values["DateOfBirth"] == undefined || values["DateOfBirth"] == null) {
+
+            errors["DateOfBirth"] = "*This field is required"
+        }
+
+        if (values["Marital_status"] == undefined || values["Marital_status"] == null) {
+
+            errors["Marital_status"] = "*This field is required"
+        }
+        if (values["Gender"] == undefined || values["Gender"] == null) {
+
+            errors["Gender"] = "*This field is required"
+        }
+        if (values["BloodGroup"] == undefined || values["BloodGroup"] == null) {
+
+            errors["BloodGroup"] = "*This field is required"
+        }
+        if (values["PAN"] == undefined || values["PAN"] == null) {
+
+            errors["PAN"] = "*This field is required"
+        }
+        if (values["AADHAR"] == undefined || values["AADHAR"] == null) {
+
+            errors["AADHAR"] = "*This field is required"
+        }
+        if (values["Email"] == undefined || values["Email"] == null) {
+
+            errors["Email"] = "*This field is required"
+        }
+        if (values["ContactNumber"] == undefined || values["ContactNumber"] == null) {
+
+            errors["ContactNumber"] = "*This field is required"
+        }
+        if (values["Address"] == undefined || values["Address"] == null) {
+
+            errors["Address"] = "*This field is required"
+        }
+        if (values["EmergencycontactName"] == undefined || values["EmergencycontactName"] == null) {
+
+            errors["EmergencycontactName"] = "*This field is required"
+        }
+        if (values["EmergencycontactRelation"] == undefined || values["EmergencycontactRelation"] == null) {
+
+            errors["EmergencycontactRelation"] = "*This field is required"
+        }
+        if (values["EmergencycontactNumber"] == undefined || values["EmergencycontactRelation"] == null) {
+
+            errors["EmergencycontactNumber"] = "*This field is required"
+        }
+        // if (!editmode && (values["Resume"] == null)) {
+
+        //     errors["Resume"] = "*This field is required"
+        // }
+        console.log(errors)
+        return errors;
+    };
     return (
         <div>
             <Form
                 // {console.log(candidateinfodata)}
                 onSubmit={(values: any) => {
+                    console.log(values)
+
+
                     var datetemp = new Date(values.DateOfBirth)
                     // console.log(datetemp.getFullYear() + "-" + datetemp.getMonth() + "-" + datetemp.getDate())
                     values.DateOfBirth = datetemp.getFullYear() + "-" + (datetemp.getMonth() + 1).toString().padStart(2, '0') + "-" + datetemp.getDate().toString().padStart(2, '0')
@@ -133,14 +222,14 @@ console.log(edit)
                     "Address": personalsdetailsdata.Address
 
 
-                }: candidateinfodata.candidate?{
+                } : candidateinfodata.candidate ? {
 
                     "ContactNumber": candidateinfodata.candidate.ContactNo,
                     "Email": candidateinfodata.candidate.Email,
 
-                }:{}}
+                } : {}}
 
-
+                validate={validate}
                 render={({ handleSubmit, values, submitting,
                     submitError,
                     invalid,
@@ -278,20 +367,21 @@ console.log(edit)
                                     </div>
                                 )}
                             /></div>
-                            <div className="field col-12 md:col-4"><Field
-                                name="ContactNumber"
-                                render={({ input, meta }) => (
-                                    <div className="field " >
-                                        <label htmlFor="ContactNumber">Contact No*</label>
-                                        <span className="label">
-                                            {/* <InputNumber id="Employee Name " value={values.NoOfPositions} onChange={e=>values["ContactNumber"]=e.value} max={9999999999} {...input} autoFocus className={classNames({ "p-invalid": isFormFieldValid(meta) })} /> */}
-                                            <InputMask  {...input} value={values["ContactNumber"]} onChange={(e) => values["ContactNumber"] = e.value} mask="99-9999999999" />
-                                            <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
-                                        </span>
-                                        {getFormErrorMessage(meta)}
-                                    </div>
-                                )}
-                            /></div>
+                            <div className="field col-12 md:col-4">
+                                <Field
+                                    name="ContactNumber"
+                                    render={({ input, meta }) => (
+                                        <div className="field " >
+                                            <label htmlFor="ContactNumber">Contact No*</label>
+                                            <span className="label">
+                                                {/* <InputNumber id="Employee Name " value={values.NoOfPositions} onChange={e=>values["ContactNumber"]=e.value} max={9999999999} {...input} autoFocus className={classNames({ "p-invalid": isFormFieldValid(meta) })} /> */}
+                                                <InputMask  {...input} value={values["ContactNumber"]} onChange={(e) => values["ContactNumber"] = e.value} mask="99-9999999999" />
+                                                <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
+                                            </span>
+                                            {getFormErrorMessage(meta)}
+                                        </div>
+                                    )}
+                                /></div>
                         </div>
                         <div className="p-fluid  grid">
                             <div className="field col-12 md:col-4">
@@ -386,7 +476,7 @@ console.log(edit)
                                             <div className="field " >
                                                 <label htmlFor="Employee Name">Valid from*</label>
                                                 <span className="label">
-                                                    <Calendar id="ExpectedDOJ" {...input} dateFormat="mm/dd/yy" showIcon placeholder="Select a Date" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                    <Calendar maxDate={new Date(values["PassportValidTo"])} id="ExpectedDOJ" {...input} dateFormat="mm/dd/yy" showIcon placeholder="Select a Date" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                     <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                                 </span>
                                                 {getFormErrorMessage(meta)}
@@ -400,7 +490,7 @@ console.log(edit)
                                         <div className="field " >
                                             <label htmlFor="Employee Name">Valid to*</label>
                                             <span className="label">
-                                                <Calendar id="ExpectedDOJ" {...input} dateFormat="mm/dd/yy" showIcon placeholder="Select a Date" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                <Calendar minDate={new Date(values["PassportValidFrom"])} id="ExpectedDOJ" {...input} dateFormat="mm/dd/yy" showIcon placeholder="Select a Date" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                 <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                             </span>
                                             {getFormErrorMessage(meta)}

@@ -217,6 +217,7 @@ function Education() {
       <div >
         {educationdetailsdata.map((e) => <div >
           <Card>
+            {/* <div className="p-fluid  grid" style={{ backgroundColor: "lightblue" }}> */}
             <div className="p-fluid  grid" style={{ backgroundColor: "lightblue" }}>
               <div className="field col-12 md:col-12 flex" >
                 <>
@@ -226,8 +227,6 @@ function Education() {
 
                   onClick={() => { setEditmode(true); settempdata(e); setModaldialog(true); }}
                 > Edit Info</i>
-                <br></br>
-                
                   <i className="pi pi-trash mr-2" style={{ cursor: "pointer", backgroundColor: "red", padding: "4px", borderRadius: "9px", color: "white" }}
                     onClick={() => dispatch(deleteedducationaldetailsaction({
                       "id": e.id
@@ -318,17 +317,8 @@ function Education() {
 
 
                 }
-                {/* <div className="field col-12 md:col-12 flex" >
-                  upload files
-                  <input type="file"></input>
-                </div> */}
-                <div className="field col-12 md:col-4 flex" >
 
-                  {/* <Button style={{ width: "120px" }} onClick={() => dispatch(deleteedducationaldetailsaction({
-                    "id": e.id
 
-                  }))}>Delete</Button> */}
-                </div>
               </div>
             </div>
           </Card>

@@ -237,8 +237,16 @@ export const candidateactions = {
 }
 export const personaldetails = {
   createpersonaldetails:(data)=>requests.post("selectedcandidate/createpersonaldetails",data),
-  updatepersonaldetails:(data)=>requests.put("selectedcandidate/updatepersonaldetails",data),  
+  updatepersonaldetails:(data)=>requests.post("selectedcandidate/updatepersonaldetails",data),  
   getpersonaldetailsdata:(data)=>requests.post("selectedcandidate/getpersonaldetailsdata",data),
+
+}
+export const familydetails = {
+  createfamilydetails:(data)=>requests.post("selectedcandidate/createfamilydetail",data),
+  updatefamilydetails:(data)=>requests.post("selectedcandidate/updatefamilydetails",data),  
+  getfamilydetails:(data)=>requests.post("selectedcandidate/getfamilydetails",data),
+  deletefamilydetails:(data)=>requests.post("selectedcandidate/deletefamilydetail",data),
+
 
 }
 export const candidateinfo = {  
