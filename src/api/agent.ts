@@ -14,7 +14,7 @@ import {UserRoles} from "../features/UserRoles/userroleslice"
 
 
 // import {Band} from ../features/Band/bandslice"
-axios.defaults.baseURL = 'http://10.154.155.32:8000/api';
+axios.defaults.baseURL = 'http://10.154.155.56:8000/api';
 // axios.defaults.baseURL = 'http://10.154.155.221:8000/api';
 
 // axios.defaults.baseURL = 'http://10.154.155.54:8000/api';
@@ -237,8 +237,16 @@ export const candidateactions = {
 }
 export const personaldetails = {
   createpersonaldetails:(data)=>requests.post("selectedcandidate/createpersonaldetails",data),
-  updatepersonaldetails:(data)=>requests.put("selectedcandidate/updatepersonaldetails",data),  
+  updatepersonaldetails:(data)=>requests.post("selectedcandidate/updatepersonaldetails",data),  
   getpersonaldetailsdata:(data)=>requests.post("selectedcandidate/getpersonaldetailsdata",data),
+
+}
+export const familydetails = {
+  createfamilydetails:(data)=>requests.post("selectedcandidate/createfamilydetail",data),
+  updatefamilydetails:(data)=>requests.post("selectedcandidate/updatefamilydetails",data),  
+  getfamilydetails:(data)=>requests.post("selectedcandidate/getfamilydetails",data),
+  deletefamilydetails:(data)=>requests.post("selectedcandidate/deletefamilydetail",data),
+
 
 }
 export const candidateinfo = {  

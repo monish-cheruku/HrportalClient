@@ -39,6 +39,7 @@ import PersonaldetailsReducer from "../features/Candidate info/personaldetailssl
 import EducationaldetailsReducer from "../features/Candidate info/educationdetailsslice"
 import employementdetailsReducer from "../features/Candidate info/employementdetailsslice"
 import candidateinfoReducer from "../features/Candidate info/candidateinfoslice"
+import FamilydetailsReducer from "../features/Candidate info/familydetailsslice"
 // export function useReduxStore() {
 const sagaMiddleware = createSagaMiddleware();
 const logger = createLogger();
@@ -81,6 +82,7 @@ feedbackfields:feedbackfieldsReducer,
 prevfeedback:prevfeedbackReducer,
 global:globalReducer,
 CandidatePersonaldetails:PersonaldetailsReducer,
+CandidateFamilydetails:FamilydetailsReducer,
 candidateinfo:candidateinfoReducer,
 Educationaldetails:EducationaldetailsReducer,
 employementdetails:employementdetailsReducer,
