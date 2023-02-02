@@ -14,7 +14,7 @@ import {UserRoles} from "../features/UserRoles/userroleslice"
 
 
 // import {Band} from ../features/Band/bandslice"
-axios.defaults.baseURL = 'http://10.154.155.74:8000/api';
+axios.defaults.baseURL = 'http://10.154.155.94:8000/api';
 // axios.defaults.baseURL = 'http://10.154.155.221:8000/api';
 
 // axios.defaults.baseURL = 'http://10.154.155.54:8000/api';
@@ -255,6 +255,7 @@ export const candidateinfo = {
   downloaddetaildocument:(data)=>requests.post("selectedcandidate/downloaddetaildocuments",data),
   deletedetaildocument:(data)=>requests.post("selectedcandidate/deletedocument",data),
   getcandidateinfoclearance:(data)=>requests.post("selectedcandidate/getcandidateinfoclearance",data),
+  acceptofferletter:(data)=>requests.post("selectedcandidate/acceptofferletter",data),
 
 }
 export const selectedcandidateactions = {

@@ -30,10 +30,20 @@ uploaddocumentaction:(state,payload:PayloadAction<any>)=>{
 getcandidateinfoclearanceaction:(state,payload:PayloadAction<any>)=>{
 
 },
+acceptofferletteraction:(state,payload:PayloadAction<any>)=>{
+
+},
+addtostatecandidateinfoclearanceaction:(state,payload:PayloadAction<any>)=>{
+console.log(payload.payload)
+    var clearance = payload.payload
+    state = {...state,clearance}
+
+    return state;
+},
 
 
 
     },
 })
-export const { Candidateinfodata, candidateinfogetaction ,documentdownloadaction,deletedocumentaction,uploaddocumentaction,getcandidateinfoclearanceaction} = candidateinfoSlice.actions
+export const { Candidateinfodata, candidateinfogetaction ,documentdownloadaction,deletedocumentaction,uploaddocumentaction,getcandidateinfoclearanceaction,acceptofferletteraction} = candidateinfoSlice.actions
 export default candidateinfoSlice.reducer

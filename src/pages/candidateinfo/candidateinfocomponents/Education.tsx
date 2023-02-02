@@ -37,19 +37,19 @@ function Education() {
   const getFormErrorMessage = (meta) => {
     return isFormFieldValid(meta) && <small className="p-error">{meta.error}</small>;
   };
-  const validate=(values)=>{
-    const arr=["Qualification","Specialization","Start_Date","End_Date","Institute","Percentage"]
+  const validate = (values) => {
+    const arr = ["Qualification", "Specialization", "Start_Date", "End_Date", "Institute", "Percentage"]
     let errors = {};
     arr.forEach((i) => {
       // console.log(values["Resume"])
       if (!values[i]) {
-          // console.log(i.toString())
-          errors[i.toString()] = "* This field is required";
+        // console.log(i.toString())
+        errors[i.toString()] = "* This field is required";
       }
-  })
+    })
 
-  console.log(errors)
-  return errors
+    console.log(errors)
+    return errors
   }
   return (
     <div>Education
@@ -90,8 +90,8 @@ function Education() {
             Start_Date: tempdata.Start_Date,
             End_Date: tempdata.End_Date,
           }}
-          
-          
+
+
           validate={validate}
           render={({ handleSubmit, values, submitting,
             submitError,
@@ -214,27 +214,28 @@ function Education() {
       </Dialog>
       <br></br>
 
-      <div >
-        {educationdetailsdata.map((e) => <div >
+      <div className='grid'>
+        {educationdetailsdata.map((e) => <div  className='lg:col-4 md:col-6 sm:col-2 gap-4'>
           <Card>
-            {/* <div className="p-fluid  grid" style={{ backgroundColor: "lightblue" }}> */}
             <div className="p-fluid  grid" style={{ backgroundColor: "lightblue" }}>
               <div className="field col-12 md:col-12 flex" >
                 <>
-                <br></br>
-                <h3>{e.Qualification}</h3>
-                <h2> <i className="pi pi-pencil mr-2" style={{ cursor: "pointer", backgroundColor: "blue", padding: "4px", borderRadius: "9px", color: "white" }}
+                  <br></br>
+                  <h3>{e.Qualification}</h3>
+                  <h2> <i className="pi pi-pencil mr-2" style={{ cursor: "pointer", backgroundColor: "blue", padding: "4px", borderRadius: "9px", color: "white" }}
 
-                  onClick={() => { setEditmode(true); settempdata(e); setModaldialog(true); }}
-                > Edit Info</i>
-                  <i className="pi pi-trash mr-2" style={{ cursor: "pointer", backgroundColor: "red", padding: "4px", borderRadius: "9px", color: "white" }}
-                    onClick={() => dispatch(deleteedducationaldetailsaction({
-                      "id": e.id
+                    onClick={() => { setEditmode(true); settempdata(e); setModaldialog(true); }}
+                  > Edit Info</i>
+                    <br></br>
 
-                    }))}
-                  > Delete</i>
-                
-                    <FileUpload className='p-success' mode="basic" name="demo[]" maxFileSize={1000000}  auto chooseLabel="upload File" onSelect={k => {
+                    <i className="pi pi-trash mr-2" style={{ cursor: "pointer", backgroundColor: "red", padding: "4px", borderRadius: "9px", color: "white" }}
+                      onClick={() => dispatch(deleteedducationaldetailsaction({
+                        "id": e.id
+
+                      }))}
+                    > Delete</i>
+
+                    <FileUpload className='p-success' mode="basic" name="demo[]" maxFileSize={1000000} auto chooseLabel="upload File" onSelect={k => {
 
 
 
@@ -265,27 +266,27 @@ function Education() {
 
 
 
-                </h2>
-                {/* <Button style={{ width: "120px", height: "50px" }} className="btn btn-primary" onClick={() => { setEditmode(true); settempdata(e); setModaldialog(true); }}>edit</Button> */}
-                <br></br>
-                {/* Qualification:{e.Qualification} */}
-                <br>
-                </br>
-                Specialization : {e.Specialization}
-                <br>
-                </br>
-                Percentage:{parseInt(e.Percentage) > 10 ? e.Percentage + " %" : e.Percentage + " CGPA"}
-                <br>
-                </br>
-                Start_Date : {e.Start_Date}
-                <br>
-                </br>
-                End_Date : {e.End_Date}
-                <br>
-                </br>
-                Institute : {e.Institute}
-                <br>
-                </br>
+                  </h2>
+                  {/* <Button style={{ width: "120px", height: "50px" }} className="btn btn-primary" onClick={() => { setEditmode(true); settempdata(e); setModaldialog(true); }}>edit</Button> */}
+                  <br></br>
+                  {/* Qualification:{e.Qualification} */}
+                  <br>
+                  </br>
+                  Specialization : {e.Specialization}
+                  <br>
+                  </br>
+                  Percentage:{parseInt(e.Percentage) > 10 ? e.Percentage + " %" : e.Percentage + " CGPA"}
+                  <br>
+                  </br>
+                  Start_Date : {e.Start_Date}
+                  <br>
+                  </br>
+                  End_Date : {e.End_Date}
+                  <br>
+                  </br>
+                  Institute : {e.Institute}
+                  <br>
+                  </br>
                 </>
               </div>
             </div>
@@ -317,8 +318,17 @@ function Education() {
 
 
                 }
+                {/* <div className="field col-12 md:col-12 flex" >
+                  upload files
+                  <input type="file"></input>
+                </div> */}
+                <div className="field col-12 md:col-4 flex" >
 
+                  {/* <Button style={{ width: "120px" }} onClick={() => dispatch(deleteedducationaldetailsaction({
+                    "id": e.id
 
+                  }))}>Delete</Button> */}
+                </div>
               </div>
             </div>
           </Card>
@@ -334,10 +344,14 @@ function Education() {
 
 
 
-
       <div className="p-fluid  grid">
 
         <div className="field col-12 md:col-4 flex">
+          </div>
+        <div className="field col-12 md:col-4 flex">
+          </div>
+
+        <div className="field col-12 md:col-4 flex gap-4">
           <Button onClick={e => dispatch(setprevcandidateinfotab())}>Previous</Button>
           <Button onClick={e => dispatch(setnextcandidateinfotab())}>Next</Button>
         </div>

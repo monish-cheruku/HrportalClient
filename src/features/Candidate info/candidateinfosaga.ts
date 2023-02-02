@@ -552,6 +552,7 @@ try{
     var res: Promise<any> = yield call(candidateinfo.deletedetaildocument, data.payload)
     yield put({ type: "educationaldetails/educationaldetailsgetaction", payload: {"selectedcandidateid":store.getState().candidateinfo.Selected_Candidate_ID} })
     yield put({ type: "employementdetails/employementdetailsgetaction", payload: {"selectedcandidateid":store.getState().candidateinfo.Selected_Candidate_ID} })
+    yield put({ type: "otherdocuments/otherdocumentsgetaction", payload: {"selectedcandidateid":store.getState().candidateinfo.Selected_Candidate_ID} })
 
 }
 catch(err) {
@@ -566,7 +567,8 @@ try{
     var res: Promise<any> = yield call(candidateinfo.uploaddetaildocument, data.payload)
     yield put({ type: "educationaldetails/educationaldetailsgetaction", payload: {"selectedcandidateid":store.getState().candidateinfo.Selected_Candidate_ID} })
     yield put({ type: "employementdetails/employementdetailsgetaction", payload: {"selectedcandidateid":store.getState().candidateinfo.Selected_Candidate_ID} })
- 
+    yield put({ type: "otherdocuments/otherdocumentsgetaction", payload: {"selectedcandidateid":store.getState().candidateinfo.Selected_Candidate_ID} })
+
 }
 catch(err) {
 
@@ -577,6 +579,25 @@ try{
     console.log(data)
     var res: Promise<any> = yield call(otherdocumentsapis.otherdocumentsget, data.payload)
     yield put({type:"otherdocuments/otherdocumentsdata",payload:res})
+}
+catch(err) {
+
+}
+}
+function* acceptofferlettersagaworker(data){
+try{
+    console.log(data)
+    var res: Promise<any> = yield call(candidateinfo.acceptofferletter, data.payload)
+}
+catch(err) {
+
+}
+}
+function* getcandidateinfoclearancesagaworker(data){
+try{
+    console.log(data)
+    var res: Promise<any> = yield call(candidateinfo.getcandidateinfoclearance, data.payload)
+    yield put({type:"candidateinfo/addtostatecandidateinfoclearanceaction",payload:res})
 }
 catch(err) {
 
@@ -616,6 +637,8 @@ export function* watcherpersonaldetails() {
     yield takeEvery("employementdetails/deleteemployementdetailsaction", deleteemploymentdetailssagaworker)
     yield takeEvery("Familydetails/deletefamilydetailsaction", deletefamilydetailssagaworker)
     yield takeEvery("candidateinfo/uploaddocumentaction", uploaddocumentsagaworker)
+    yield takeEvery("candidateinfo/getcandidateinfoclearanceaction", getcandidateinfoclearancesagaworker)
+    yield takeEvery("candidateinfo/acceptofferletteraction",acceptofferlettersagaworker)
     yield takeEvery("otherdocuments/otherdocumentsgetaction", otherdocumentsgetsagaworker)
     
     
