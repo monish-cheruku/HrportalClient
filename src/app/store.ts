@@ -34,10 +34,13 @@ import feedbackfieldsReducer from '../features/CandidateActions/feedbackfieldssl
 import  prevfeedbackReducer from "../features/CandidateActions/prevfeedbacks"
 import  globalReducer from "../features/Misc/globalslice" 
 import  selectedcandidatesReducer from "../features/CandidateActions/selectedcandidatesslice" 
+import  anexureReducer from "../features/CandidateActions/annexureslice" 
 import PersonaldetailsReducer from "../features/Candidate info/personaldetailsslice"
 import EducationaldetailsReducer from "../features/Candidate info/educationdetailsslice"
 import employementdetailsReducer from "../features/Candidate info/employementdetailsslice"
 import candidateinfoReducer from "../features/Candidate info/candidateinfoslice"
+import otherdocumentsReducer from "../features/Candidate info/otherdocumentsslice"
+import FamilydetailsReducer from "../features/Candidate info/familydetailsslice"
 // export function useReduxStore() {
 const sagaMiddleware = createSagaMiddleware();
 const logger = createLogger();
@@ -80,10 +83,12 @@ feedbackfields:feedbackfieldsReducer,
 prevfeedback:prevfeedbackReducer,
 global:globalReducer,
 CandidatePersonaldetails:PersonaldetailsReducer,
+CandidateFamilydetails:FamilydetailsReducer,
 candidateinfo:candidateinfoReducer,
 Educationaldetails:EducationaldetailsReducer,
-employementdetails:employementdetailsReducer
-
+employementdetails:employementdetailsReducer,
+anexure:anexureReducer,
+otherdocuments:otherdocumentsReducer,
 // CandidateAction :CandidateActionReducer,
 
   // band: bandReducer,

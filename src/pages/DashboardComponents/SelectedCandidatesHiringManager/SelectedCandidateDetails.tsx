@@ -7,7 +7,7 @@ import { InputNumber } from 'primereact/inputnumber'
 import { InputText } from 'primereact/inputtext'
 import { Panel } from 'primereact/panel'
 import { classNames } from 'primereact/utils'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Field, Form } from 'react-final-form'
 import { useDispatch } from 'react-redux'
 import { connect } from 'react-redux'
@@ -21,24 +21,36 @@ import { getsubbandsaction } from '../../../features/SubBand/subbandslice'
 import CandidateDetails from '../CandidateDetails'
 import JobPostDetails from '../JobPostDetails'
 import { RadioButton } from 'primereact/radiobutton';
-import { updateselectedcandidatesaction } from '../../../features/CandidateActions/selectedcandidatesslice'
+import { previewannexureaction, updateselectedcandidatesaction } from '../../../features/CandidateActions/selectedcandidatesslice'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../app/store'
 import { Accordion, AccordionTab } from 'primereact/accordion'
+import Annexure from './Annexure'
+import { Dialog } from 'primereact/dialog'
 
 function SelectedCandidateDetails(props) {
     const location = useLocation()
-    const data = location.state
+    const [data, setdata] = useState(location.state)
     const logindata = useSelector((state: RootState) => state.Login)
+    const annexuredata = useSelector((state: RootState) => state.anexure)
+    const [mode, setmode] = useState(data.designation ? "true" : "false")
+    const [candidatedata, setCandidatedata] = useState(data.candidate)
+    const [jobpostdata, setjobpostdata] = useState(data.jobpost)
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const [show, setshow] = useState(false)
     useEffect(() => {
         dispatch(getdesignationsaction())
         dispatch(getBandaction())
         dispatch(getsubbandsaction())
-        console.log(location.state)
-        console.log(data)
+        // console.log(location.state)
+        // console.log(data)
+        console.log(annexuredata)
+
     }, [])
+    useEffect(() => {
+        console.log(annexuredata)
+    }, [annexuredata])
     const validate = (values) => {
         let errors = {};
         // console.log(data)
@@ -51,21 +63,26 @@ function SelectedCandidateDetails(props) {
         // }
         var arr = [
 
-            "DesignationId", "BandId", "SubBandId", "FixedCTC"
-            , "DateOfJoining", "isvariable"
+            "designation", "band", "subband"
+            , "DateOfJoining", "IsVariable"
 
         ]
         arr.forEach((i) => {
-            if (!values[i]) {
+            if (!values[i] && !values[i] == false) {
                 errors[i.toString()] = "* This field is required";
             }
         })
-        if (!values["VariablePay"] && values.isvariable == "Yes") {
+        if (!values["VariablePay"] && values.IsVariable == true) {
             // console.log(values["Duration"])
 
             errors["VariablePay"] = "*This field is required"
         }
-        if (values.isvariable == "Yes" && !values["MQVariable"]) {
+        if (!values["FixedCTC"]) {
+            // console.log(values["Duration"])
+
+            errors["FixedCTC"] = "*This field is required"
+        }
+        if (values.IsVariable == true && !values["MQVariable"]) {
             // console.log(values["Duration"])
 
             errors["MQVariable"] = "*This field is required"
@@ -80,18 +97,108 @@ function SelectedCandidateDetails(props) {
     const getFormErrorMessage = (meta) => {
         return isFormFieldValid(meta) && <small className="p-error">{meta.error}</small>;
     };
+    const filtersubband = (s: any) => {
+        var temp: any = []
+        props.getasubbandactiveoptionsprop.forEach((e) => {
+            // console.log(s)
+            if (e.BandId == s) {
+                temp.push({
+
+                    key: e.key,
+                    label: e.label,
+                    BandId: e.BandId,
+                    value: e.value
+
+                })
+            }
+        })
+        // console.log(temp)
+        return temp
+    }
+    const shoulddisanleanexurebutton = (values) => {
+        console.log(values)
+        if (!values.IsVariable) {
+            if (
+                values.designation > 0 &&
+                values.band > 0 &&
+                values.subband > 0 &&
+                values.DateOfJoining &&
+                values.FixedCTC > 0
+            )
+                return false
+            else
+                return true
+        }
+        else {
+
+            if (
+                values.designation > 0 &&
+                values.band > 0 &&
+                values.subband > 0 &&
+                values.DateOfJoining &&
+                values.FixedCTC > 0 &&
+                values.MQVariable != "" &&
+                values.VariablePay )
+                return false
+            else
+                return true
+        }
+    }
+    const callpreviewannexure1 = async (values) => {
+       
+        console.log(values)
+        values["FixedCTC"] = parseInt(values["FixedCTC"])
+        values["VariablePay"] = parseInt(values["VariablePay"])
+        if (
+            values.selectedcandidateid &&
+            values.designation &&
+            values.band &&
+            values.subband &&
+            values.FixedCTC &&
+            values.VariablePercentage &&
+            values.MQVariable &&
+            values.IS_Eligible_annu_Mgnt_Bonus &&
+            values.IS_Eligible_Joining_Bonus &&
+            values.IS_Eligible_Monthly_Incentive) {
+
+
+        }
+        // values.selectedcandidateid=data.Selected_Candidate_ID?data.Selected_Candidate_ID:values.selectedcandidateid
+        {
+            values.candidate =
+            await dispatch(previewannexureaction(values))
+            await setdata(values)
+            await setmode("draft")
+            setshow(true)
+        }
+    }
+    const DialogFooter = () => {
+        return (
+            <>
+                <Button onClick={e => { setshow(false) }}>Close</Button>
+            </>
+        )
+    }
     return (
         <>
-            <Card>
-                <Panel header={"Candidate Details"}>
-                    <CandidateDetails data={data.candidate}></CandidateDetails>
+            {console.log(mode)}
 
+            <Card>
+                <Dialog visible={show} style={{ width: "50%" }} header="Annexure Information " modal className="p-fluid" footer={DialogFooter} onHide={() => setshow(false)}>
+
+                    {/* <label htmlFor="BandName<">Annexure</label> */}
+
+                    <Annexure annexure={annexuredata}></Annexure>
+
+                </Dialog>
+                <Panel header={"Candidate Details"}>
+                    <CandidateDetails data={candidatedata}></CandidateDetails>
                 </Panel>
                 <br>
                 </br>
                 <Accordion>
                     <AccordionTab header={"JobPost Details"}>
-                        <JobPostDetails JobData={data.jobpost}></JobPostDetails>
+                        <JobPostDetails JobData={jobpostdata}></JobPostDetails>
                     </AccordionTab>
                 </Accordion>
                 {/* <Panel header={"JobPost Details"}>
@@ -102,8 +209,10 @@ function SelectedCandidateDetails(props) {
                 <Form
 
                     onSubmit={(values: any) => {
+                        values["FixedCTC"] = parseInt(values["FixedCTC"])
+                        values["VariablePay"] = parseInt(values["VariablePay"])
                         var datetemp = new Date(values.DateOfJoining)
-
+                        values["FinalCTC"] = values["FixedCTC"] + ((values["IsVariable"] ? (values["VariablePay"]) ? values["VariablePay"] : 0 : 0))
                         values.DateOfJoining = datetemp.getFullYear() + "-" + (datetemp.getMonth() + 1) + "-" + datetemp.getDate()
                         console.log(values)
                         dispatch(updateselectedcandidatesaction(values))
@@ -114,7 +223,7 @@ function SelectedCandidateDetails(props) {
                         // console.log(datetemp.getFullYear() + "-" + (datetemp.getMonth() + 1) + "-" + datetemp.getDate())
                         // values.OnBoardingDate = datetemp.getFullYear() + "-" + (datetemp.getMonth() + 1) + "-" + datetemp.getDate()
                         // // alert("sub mit form")
-                        // if (editmode) {
+                        // if (mode) {
 
 
                         //     dispatch(updatejobpost(values))
@@ -126,18 +235,59 @@ function SelectedCandidateDetails(props) {
                         // }
                     }
                     }
-                    initialValues={{
+                    initialValues={mode == "true" ? {
+                        "selectedcandidateid": data.Selected_Candidate_ID,
+                        // "VariablePay": 0,//will change after backend changes
+
+                        "Modified_By": logindata.username,
+
+
+                        "designation": data.designation,
+                        "band": data.band,
+                        "subband": data.subband,
+
+                        "DateOfJoining": new Date(data.DateOfJoining),
+                        "FixedCTC": data.FixedCTC,
+                        "MQVariable": data.MQVariable,
+                        "Is_Eligible_annu_Mgnt_Bonus": data.Is_Eligible_annu_Mgnt_Bonus,
+                        "Is_Eligible_Joining_Bonus": data.Is_Eligible_Joining_Bonus,
+                        "IS_Eligible_Monthly_Incentive": data.IS_Eligible_Monthly_Incentive,
+                        "VariablePay": data.VariablePay,
+                        "IsVariable": data.IsVariable
+                    } : mode == "false" ? {
 
                         "selectedcandidateid": data.Selected_Candidate_ID,
-                        "VariablePercentage": 0,
-                        "IS_Eligible_annu_Mgnt_Bonus": false,
-                        "IS_Eligible_Joining_Bonus": false,
-                        "IS_Eligible_Monthly_Incentive": false,
+                        // "VariablePay": 0,
+                        "Is_Eligible_annu_Mgnt_Bonus": data.IS_Eligible_annu_Mgnt_Bonus,
+                        "Is_Eligible_Joining_Bonus": data.IS_Eligible_Joining_Bonus,
+                        "IS_Eligible_Monthly_Incentive": data.IS_Eligible_Monthly_Incentive,
                         "Modified_By": logindata.username,
                         "MQVariable": ""
 
 
-                    }}
+                    } :
+                        {
+                            "selectedcandidateid": data.selectedcandidateid,
+                            // "VariablePay": 0,//will change after backend changes
+
+                            "Modified_By": logindata.username,
+
+
+                            "designation": data.designation,
+                            "band": data.band,
+                            "subband": data.subband,
+
+                            "DateOfJoining": new Date(data.DateOfJoining),
+                            "FixedCTC": data.FixedCTC,
+                            "MQVariable": data.MQVariable,
+                            "Is_Eligible_annu_Mgnt_Bonus": data.Is_Eligible_annu_Mgnt_Bonus,
+                            "Is_Eligible_Joining_Bonus": data.Is_Eligible_Joining_Bonus,
+                            "IS_Eligible_Monthly_Incentive": data.IS_Eligible_Monthly_Incentive,
+                            "VariablePay": data.VariablePay,
+                            "IsVariable": data.IsVariable
+                        }
+
+                    }
 
                     validate={validate}
 
@@ -151,12 +301,14 @@ function SelectedCandidateDetails(props) {
 
                             <div className="p-fluid  grid">
                                 <div className="field col-12 md:col-3"><Field
-                                    name="DesignationId"
+                                    name="designation"
                                     render={({ input, meta }) => (
                                         <div className="field">
-                                            <label htmlFor="DesignationId">Designation</label>
+                                            <label htmlFor="designation">Designation</label>
                                             <span className="p-float-label">
-                                                <Dropdown id="DesignationId" {...input} options={props.getactivedesignationoptionsprop} optionLabel="label" placeholder="Select Designation" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                <Dropdown id="designation"  {...input} options={props.getactivedesignationoptionsprop} optionLabel="label" placeholder="Select Designation"
+
+                                                    className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                             </span>
                                             {getFormErrorMessage(meta)}
                                         </div>
@@ -165,12 +317,14 @@ function SelectedCandidateDetails(props) {
 
                                 </div>
                                 <div className="field col-12 md:col-3"><Field
-                                    name="BandId"
+                                    name="band"
                                     render={({ input, meta }) => (
                                         <div className="field">
-                                            <label htmlFor="BandId">Band</label>
+                                            <label htmlFor="band">Band</label>
                                             <span className="p-float-label">
-                                                <Dropdown id="BandId" {...input} options={props.getactivebandoptionsprop} optionLabel="label" placeholder="Select Band" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                <Dropdown id="band" {...input} options={props.getactivebandoptionsprop} optionLabel="label" placeholder="Select Band"
+
+                                                    className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                             </span>
                                             {getFormErrorMessage(meta)}
                                         </div>
@@ -179,12 +333,14 @@ function SelectedCandidateDetails(props) {
 
                                 </div>
                                 <div className="field col-12 md:col-3"><Field
-                                    name="SubBandId"
+                                    name="subband"
                                     render={({ input, meta }) => (
                                         <div className="field">
-                                            <label htmlFor="BandId">Sub Band</label>
+                                            <label htmlFor="subband">Sub Band</label>
                                             <span className="p-float-label">
-                                                <Dropdown id="SubBandId" {...input} options={props.getasubbandactiveoptionsprop} optionLabel="label" placeholder="Select sub band" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                <Dropdown id="subband" {...input} options={filtersubband(values["band"])} optionLabel="label" placeholder="Select sub band"
+
+                                                    className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                             </span>
                                             {getFormErrorMessage(meta)}
                                         </div>
@@ -213,19 +369,18 @@ function SelectedCandidateDetails(props) {
                             <Panel header={"Final CTC"}>
                                 <div className="p-fluid  grid">
                                     <div className="field col-12 md:col-3">
-                                        <Field
-                                            name="FixedCTC"
-                                            render={({ input, meta }) => (
-                                                <div className="field">
-                                                    <label htmlFor="FixedCTC">Fixed CTC</label>
-                                                    <span className="p-float-label">
-                                                        {/* <InputNumber id="FixedCTC" {...input} placeholder="FixedCTC" onChange={e => values["FixedCTC"] = e.value} className={classNames({ "p-invalid": isFormFieldValid(meta) })} /> */}
-                                                        <InputNumber id="FixedCTC" min={0} value={values.FixedCTC} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} mode="currency" currency="INR" locale="en-IN" maxFractionDigits={0} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
-                                                    </span>
+                                        <Field name="FixedCTC">
+                                            {({ input, meta }) => (
+                                                <div>
+                                                    <label>Fixed CTC: </label>
+                                                    <br></br>
+                                                    <br></br>
+                                                    <input className='p-inputtext p-component' {...input} type="number" value={parseInt(values["FixedCTC"])} placeholder="Fixed CTC" />
+                                                    <br></br>
                                                     {getFormErrorMessage(meta)}
                                                 </div>
                                             )}
-                                        />
+                                        </Field>
                                     </div>
 
                                 </div>
@@ -236,10 +391,10 @@ function SelectedCandidateDetails(props) {
                                     <div className="field col-12 md:col-2">
                                         <div className="field-radiobutton">
                                             <Field
-                                                name="isvariable"
+                                                name="IsVariable"
                                                 render={({ input, meta }) => (
                                                     <>
-                                                        <RadioButton  {...input} className='ml-2' inputId="isvariable" name="isvariable" value="Yes" checked={values.isvariable == "Yes"} />
+                                                        <RadioButton  {...input} className='ml-2' inputId="IsVariable" name="IsVariable" value={true} checked={values.IsVariable == true} onClick={() => { values["FinalCTC"] = values["FixedCTC"] + ((values["IsVariable"] ? (values["VariablePay"]) ? values["VariablePay"] : 0 : 0)); }} />
 
                                                     </>
                                                 )} />
@@ -247,10 +402,10 @@ function SelectedCandidateDetails(props) {
                                             </label>
 
                                             <Field
-                                                name="isvariable"
+                                                name="IsVariable"
                                                 render={({ input, meta }) => (
                                                     <>
-                                                        <RadioButton  {...input} className='ml-2' inputId="isvariable" name="isvariable" value="No" checked={values.isvariable == "No"} />
+                                                        <RadioButton  {...input} className='ml-2' inputId="IsVariable" name="IsVariable" value={false} checked={values.IsVariable == false} onClick={() => { values["FinalCTC"] = values["FixedCTC"] + ((values["IsVariable"] ? (values["VariablePay"]) ? values["VariablePay"] : 0 : 0)); }} />
 
                                                     </>
                                                 )} />
@@ -260,7 +415,7 @@ function SelectedCandidateDetails(props) {
                                         <br />
                                         <div className='col-12' style={{ marginTop: "-30px" }}>
                                             <Field
-                                                name="isvariable"
+                                                name="IsVariable"
                                                 render={({ input, meta }) => (
                                                     <>
 
@@ -271,31 +426,26 @@ function SelectedCandidateDetails(props) {
 
                                     </div>
 
-                                    <div hidden={values["isvariable"] == "Yes" ? false : true} className="field col-12 md:col-3">
+                                    <div hidden={values["IsVariable"] == true ? false : true} className="field col-12 md:col-3">
                                         <div className="p-fluid  grid">
                                             <div className="field col-12 md:col-6">
                                                 <label >Variable Pay :
                                                 </label>
                                             </div>
                                             <div className="field col-12 md:col-6">
-                                                <Field
-                                                    name="VariablePay"
-                                                    render={({ input, meta }) => (
-                                                        <div className="field">
-                                                            {/* <label htmlFor="VariablePay">Vaiable Pay</label> */}
-                                                            <span className="p-float-label">
-                                                                {/* <InputNumber id="VariablePay" {...input} placeholder="Enter Variable Pay" onChange={e => values["VariablePay"] = e.value} className={classNames({ "p-invalid": isFormFieldValid(meta) })} /> */}
-                                                                <InputNumber id="VariablePay" min={0} value={values.VariablePay} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} mode="currency" currency="INR" locale="en-IN" maxFractionDigits={0} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
-                                                            </span>
-                                                            {getFormErrorMessage(meta)}
+                                                <Field name="VariablePay">
+                                                    {({ input, meta }) => (
+                                                        <div>
+                                                            <input className='p-inputtext p-component' {...input} value={parseInt(values["VariablePay"])} type="number" placeholder="variable pay" />
 
+                                                            {getFormErrorMessage(meta)}
                                                         </div>
                                                     )}
-                                                />
+                                                </Field>
                                             </div>
                                         </div>
                                     </div>
-                                    <div hidden={values["isvariable"] == "Yes" ? false : true} className="field col-12 md:col-3">
+                                    <div hidden={values["IsVariable"] == true ? false : true} className="field col-12 md:col-3">
                                         <div className="field-radiobutton">
                                             <Field
                                                 name="MQVariable"
@@ -328,6 +478,15 @@ function SelectedCandidateDetails(props) {
                                     </div>
 
                                 </div>
+                                <div className="p-fluid  grid">
+                                    <div className="field col-12 md:col-10">
+                                    </div>
+                                    <div className="field col-12 md:col-2">
+                                        Final ctc = {(parseInt(values["FixedCTC"]) + ((values["IsVariable"] ? (values["VariablePay"]) ? parseInt(values["VariablePay"]) : 0 : 0))).toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 2 })}
+                                        {/* Final ctc = {values["FinalCTC"] } */}
+                                        {/* { values["FinalCTC"]=values["FixedCTC"]+((values["IsVariable"]?(values["VariablePay"])?values["VariablePay"]:0:0))} */}
+                                    </div>
+                                </div>
                             </Panel>
 
 
@@ -338,7 +497,7 @@ function SelectedCandidateDetails(props) {
                             <div className="p-fluid  grid">
                                 <div className="field col-12 md:col-4">
                                     <Field
-                                        name="IS_Eligible_annu_Mgnt_Bonus"
+                                        name="Is_Eligible_annu_Mgnt_Bonus"
                                         type="checkbox"
                                         render={({ input, meta }) => (
                                             <div className="field-checkbox">
@@ -350,7 +509,7 @@ function SelectedCandidateDetails(props) {
                                 </div>
                                 <div className="field col-12 md:col-4">
                                     <Field
-                                        name="IS_Eligible_Joining_Bonus"
+                                        name="Is_Eligible_Joining_Bonus"
                                         type="checkbox"
                                         render={({ input, meta }) => (
                                             <div className="field-checkbox">
@@ -374,9 +533,19 @@ function SelectedCandidateDetails(props) {
                                 </div>
                             </div>
                             <div className=" grid">
-                                <div className="field col-12 md:col-6">Annexure
-                                </div>
+                                {/* <div className="field col-12 md:col-6">Annexure
+                                    <Annexure annexure={annexuredata}></Annexure>
+
+                                </div> */}
+                                <div className="field col-12 md:col-6"></div>
                                 <div className="field col-12 md:col-6 flex">
+                                    {/* <div style={{ height: "50px", width: "50px", backgroundColor: "red" }} onMouseLeave={() => callpreviewannexure1(values)}>calc</div> */}
+                                    <Button className='mr-3' type="button" disabled={shoulddisanleanexurebutton(values)} onClick={e => {
+                                        callpreviewannexure1(values);
+
+                                    }}>calc annexure
+
+                                    </Button>
                                     <Button className='mr-3' type="submit" onClick={e => handleSubmit}>Send Offer Letter
 
                                     </Button>
@@ -386,6 +555,7 @@ function SelectedCandidateDetails(props) {
                                     </Button>
                                 </div>
                             </div>
+
 
                         </form>
                     )}

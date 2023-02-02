@@ -37,10 +37,13 @@ console.log(payload)
         updateemployementdetailsaction: (state, payload: PayloadAction<any>) => {
 
         },
+        deleteemployementdetailsaction: (state, payload: PayloadAction<any>) => {
+console.log("delete employment")
+        },
 
 
 
     },
 })
-export const { employementdetailsdata, employementdetailsgetaction, createemployementdetailsaction ,updateemployementdetailsaction} = employementdetailsSlice.actions
+export const { employementdetailsdata, employementdetailsgetaction, createemployementdetailsaction ,updateemployementdetailsaction, deleteemployementdetailsaction} = employementdetailsSlice.actions
 export default employementdetailsSlice.reducer

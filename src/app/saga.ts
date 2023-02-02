@@ -100,6 +100,7 @@ export function* rootSaga() {
     watcherCandidateAction,
     watcherdropdownoptions,
     watcherpersonaldetails,
+    
     // watcherfeedback
 
   ];

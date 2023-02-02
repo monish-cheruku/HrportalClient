@@ -7,7 +7,7 @@ sh.exe.stackdump
 # dependencies
 /node_modules
 package-lock.json
-
+sh.exe.stackdump
 # testing
 /coverage
 

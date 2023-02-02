@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../app/store';
 import { useDispatch } from 'react-redux';
 import { setcandidateinfotab } from '../../features/Misc/globalslice';
+import Declaration from './candidateinfocomponents/Declaration';
 function Candidateinfo() {
   // const [activeIndex, setActiveIndex] = useState(0);
   const activeIndex= useSelector((store:RootState)=>store.global.candidateinfoactivetab)
@@ -26,7 +27,8 @@ if(activeIndex==null)setcandidateinfotab(0)
     { label: 'Education', command: (e) =>{dispatch(setcandidateinfotab(e.index))} },
     { label: 'Employement', command: (e) =>dispatch(setcandidateinfotab(e.index))},
     { label: 'PF Details', command: (e) => dispatch(setcandidateinfotab(e.index)) },
-    { label: 'Documents Upload', command: (e) =>dispatch(setcandidateinfotab(e.index)) }
+    { label: 'Documents Upload', command: (e) => dispatch(setcandidateinfotab(e.index)) },
+    { label: 'Declaration', command: (e) =>dispatch(setcandidateinfotab(e.index)) }
 ];
   return (
     <div>
@@ -54,6 +56,9 @@ if(activeIndex==null)setcandidateinfotab(0)
 }
 {
   activeIndex==5&&<Documents></Documents>
+}
+{
+  activeIndex==6&&<Declaration></Declaration>
 }
 
                     </div>

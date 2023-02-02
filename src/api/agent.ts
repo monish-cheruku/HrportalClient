@@ -14,7 +14,7 @@ import {UserRoles} from "../features/UserRoles/userroleslice"
 
 
 // import {Band} from ../features/Band/bandslice"
-axios.defaults.baseURL = 'http://10.154.155.247:8000/api';
+axios.defaults.baseURL = 'http://10.154.155.74:8000/api';
 // axios.defaults.baseURL = 'http://10.154.155.221:8000/api';
 
 // axios.defaults.baseURL = 'http://10.154.155.54:8000/api';
@@ -232,12 +232,21 @@ export const candidateactions = {
   generalmanagerapprovalsubmit:(data)=>requests.post("candidate/candidateworkflowsubmit",data),
   getfeedbackfields:(data)=>requests.post("candidate/getfeedbackfields",data),
   getprevfeedbacks:(data)=>requests.post("candidate/getcandidatefeedbacks",data),
-  selectedcandidates:(data)=>requests.post("candidate/getselectedcandidates",data)
+  selectedcandidates:(data)=>requests.post("candidate/getselectedcandidates",data),
+  annexure:(data)=>requests.post("candidate/getAnnexureDetails",data)
 }
 export const personaldetails = {
   createpersonaldetails:(data)=>requests.post("selectedcandidate/createpersonaldetails",data),
-  updatepersonaldetails:(data)=>requests.put("selectedcandidate/updatepersonaldetails",data),  
+  updatepersonaldetails:(data)=>requests.post("selectedcandidate/updatepersonaldetails",data),  
   getpersonaldetailsdata:(data)=>requests.post("selectedcandidate/getpersonaldetailsdata",data),
+
+}
+export const familydetails = {
+  createfamilydetails:(data)=>requests.post("selectedcandidate/createfamilydetail",data),
+  updatefamilydetails:(data)=>requests.post("selectedcandidate/updatefamilydetails",data),  
+  getfamilydetails:(data)=>requests.post("selectedcandidate/getfamilydetails",data),
+  deletefamilydetails:(data)=>requests.post("selectedcandidate/deletefamilydetail",data),
+
 
 }
 export const candidateinfo = {  
@@ -245,6 +254,7 @@ export const candidateinfo = {
   uploaddetaildocument:(data)=>requests.post("selectedcandidate/uploaddetaildocument",data),
   downloaddetaildocument:(data)=>requests.post("selectedcandidate/downloaddetaildocuments",data),
   deletedetaildocument:(data)=>requests.post("selectedcandidate/deletedocument",data),
+  getcandidateinfoclearance:(data)=>requests.post("selectedcandidate/getcandidateinfoclearance",data),
 
 }
 export const selectedcandidateactions = {
@@ -283,4 +293,6 @@ export const employementdetailsapis = {
  
 }
 
- 
+export const otherdocumentsapis={
+  otherdocumentsget:(data)=>requests.post('selectedcandidate/getotherdocuments',data),
+}

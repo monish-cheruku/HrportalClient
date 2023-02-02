@@ -12,7 +12,7 @@ export const getactivebandoptions=createSelector(
     (getbanddata) => { 
    var temp:IBandoptions[]  =[]
    getbanddata.forEach((e)=>{
-    console.log(e)
+    // console.log(e)
     if(e.Active===true){
         temp.push({
             
@@ -23,7 +23,7 @@ export const getactivebandoptions=createSelector(
         })
     }
    })
-console.log(temp)
+// console.log(temp)
         
         return temp
   // return [{key:"abc",label:"abc",value:"abc"},{key:"def",label:"def",value:"def"},{key:"ghi",label:"ghi",value:"ghi"},]

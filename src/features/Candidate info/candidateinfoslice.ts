@@ -27,13 +27,13 @@ deletedocumentaction:(state,payload:PayloadAction<any>)=>{
 uploaddocumentaction:(state,payload:PayloadAction<any>)=>{
 
 },
+getcandidateinfoclearanceaction:(state,payload:PayloadAction<any>)=>{
 
-
-
+},
 
 
 
     },
 })
-export const { Candidateinfodata, candidateinfogetaction ,documentdownloadaction,deletedocumentaction,uploaddocumentaction} = candidateinfoSlice.actions
+export const { Candidateinfodata, candidateinfogetaction ,documentdownloadaction,deletedocumentaction,uploaddocumentaction,getcandidateinfoclearanceaction} = candidateinfoSlice.actions
 export default candidateinfoSlice.reducer

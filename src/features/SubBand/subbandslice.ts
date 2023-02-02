@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 export interface SubBand {
     SubBandId: number;
     SubBandName: string;
+    BandId:string|number;
     SubBandDesc: string;
     Active: boolean;
 }

@@ -14,6 +14,7 @@ import { RootState } from '../../../app/store'
 import { createedducationaldetailsaction, deleteedducationaldetailsaction, educationaldetailsgetaction, updateedducationaldetailsaction } from '../../../features/Candidate info/educationdetailsslice'
 import { Card } from 'primereact/card'
 import { deletedocumentaction, documentdownloadaction, uploaddocumentaction } from '../../../features/Candidate info/candidateinfoslice'
+import { FileUpload } from 'primereact/fileupload'
 
 function Education() {
   const dispatch = useDispatch()
@@ -36,6 +37,20 @@ function Education() {
   const getFormErrorMessage = (meta) => {
     return isFormFieldValid(meta) && <small className="p-error">{meta.error}</small>;
   };
+  const validate=(values)=>{
+    const arr=["Qualification","Specialization","Start_Date","End_Date","Institute","Percentage"]
+    let errors = {};
+    arr.forEach((i) => {
+      // console.log(values["Resume"])
+      if (!values[i]) {
+          // console.log(i.toString())
+          errors[i.toString()] = "* This field is required";
+      }
+  })
+
+  console.log(errors)
+  return errors
+  }
   return (
     <div>Education
       <Button onClick={e => { setEditmode(false); setModaldialog(true) }}>Add A Education</Button>
@@ -75,12 +90,14 @@ function Education() {
             Start_Date: tempdata.Start_Date,
             End_Date: tempdata.End_Date,
           }}
-
-
+          
+          
+          validate={validate}
           render={({ handleSubmit, values, submitting,
             submitError,
             invalid,
             pristine,
+            validating,
             initialValues = {},
             dirtySinceLastSubmit, }) => (
             <form onSubmit={handleSubmit} >
@@ -200,77 +217,55 @@ function Education() {
       <div >
         {educationdetailsdata.map((e) => <div >
           <Card>
-            <div className="p-fluid  grid" style={{backgroundColor:"lightblue"}}>
+            {/* <div className="p-fluid  grid" style={{ backgroundColor: "lightblue" }}> */}
+            <div className="p-fluid  grid" style={{ backgroundColor: "lightblue" }}>
               <div className="field col-12 md:col-12 flex" >
+                <>
                 <br></br>
-              <h3>{e.Qualification}</h3>
-              <h2> <i className="pi pi-pencil mr-2" style={{cursor:"pointer",backgroundColor:"blue",padding:"4px",borderRadius:"9px",color:"white"}} 
-              
-              onClick={() => { setEditmode(true); settempdata(e); setModaldialog(true); }}
-              > Edit Info</i>
-                <i className="pi pi-trash mr-2" style={{cursor:"pointer",backgroundColor:"red",padding:"4px",borderRadius:"9px",color:"white"}}
-                onClick={() => dispatch(deleteedducationaldetailsaction({
-                  "id": e.id
+                <h3>{e.Qualification}</h3>
+                <h2> <i className="pi pi-pencil mr-2" style={{ cursor: "pointer", backgroundColor: "blue", padding: "4px", borderRadius: "9px", color: "white" }}
 
-                }))}
-                > Delete</i>
-                <i className="pi pi-upload mr-2"  style={{cursor:"pointer",backgroundColor:"green",padding:"4px",borderRadius:"9px",color:"white"}}
+                  onClick={() => { setEditmode(true); settempdata(e); setModaldialog(true); }}
+                > Edit Info</i>
+                  <i className="pi pi-trash mr-2" style={{ cursor: "pointer", backgroundColor: "red", padding: "4px", borderRadius: "9px", color: "white" }}
+                    onClick={() => dispatch(deleteedducationaldetailsaction({
+                      "id": e.id
+
+                    }))}
+                  > Delete</i>
                 
-                // onClick={(k)=>{
-                //   console.log(k)
-                  // const data = new FormData()
-                  // data.append("selectedcandidate", candidateinfodata.Selected_Candidate_ID.toString())
-                  // data.append("detailtypeId", values.CanFirstName)
-                  // data.append("detailtype", "Education")
-                  // data.append("file",k. )
-                // }}
-                
-                
-                
-                > upload File
-                <input type="file"  onClick={(k)=>{
-                  // console.log(k)
-                  // const data = new FormData()
-                  // data.append("selectedcandidate", candidateinfodata.Selected_Candidate_ID.toString())
-                  // data.append("detailtypeId", values.CanFirstName)
-                  // data.append("detailtype", "Education")
-                  // data.append("file",k. )
-                }}
-                
-                onChange={(k)=>
-                  {
-                    
-                    if(k.target.files.length>0){
+                    <FileUpload className='p-success' mode="basic" name="demo[]" maxFileSize={1000000}  auto chooseLabel="upload File" onSelect={k => {
 
 
 
-                    console.log( k.target.files[0])
-  const data = new FormData()
-                  data.append("selectedcandidate", candidateinfodata.Selected_Candidate_ID.toString())
-                  data.append("detailtypeId", e.id)
-                  data.append("detailtype", "Education")
-                  data.append("file", k.target.files[0] )
-dispatch(uploaddocumentaction(data))
+                      if (k.files.length > 0) {
+
+
+
+                        console.log(k.files[0])
+                        const data = new FormData()
+                        data.append("selectedcandidate", candidateinfodata.Selected_Candidate_ID.toString())
+                        data.append("detailtypeId", e.id.toString())
+                        data.append("detailtype", "Education")
+                        data.append("file", k.files[0])
+                        dispatch(uploaddocumentaction(data))
 
 
 
 
 
-                  }
-                  else{
-                    console.log("no uploaded yet")
-                  }
-                  }
-                
-                }
-                
-                >
-                </input>
-                
-                
-                
-                </i>
-           </h2>
+                      }
+                      else {
+                        console.log("no files uploaded yet")
+                      }
+
+
+
+                    }} />
+
+
+
+                </h2>
                 {/* <Button style={{ width: "120px", height: "50px" }} className="btn btn-primary" onClick={() => { setEditmode(true); settempdata(e); setModaldialog(true); }}>edit</Button> */}
                 <br></br>
                 {/* Qualification:{e.Qualification} */}
@@ -291,24 +286,28 @@ dispatch(uploaddocumentaction(data))
                 Institute : {e.Institute}
                 <br>
                 </br>
-
+                </>
               </div>
-              </div>
+            </div>
             <div className="p-fluid  grid">
               <div className="field col-12 md:col-12 flex" >
 
 
                 {e.files.length > 0 ?
-                  e.files.map((f) => (<div onClick={() => console.log(f.file)} style={{border:"2px solid blue",padding:"4px",margin:"4px",borderRadius:"10px",backgroundColor:"burlywood",height:"30px"}}>
-                    
+                  e.files.map((f) => (<div onClick={() => console.log(f.file)} style={{ border: "2px solid blue", padding: "4px", margin: "4px", borderRadius: "10px", backgroundColor: "burlywood", height: "30px" }}>
+
                     {f.file.split("/")[f.file.split("/").length - 1].toString()}
-                    <i className="pi pi-download mr-2 ml-2" onClick={()=>{dispatch(documentdownloadaction({
-    "file": f.file.toString().substring(1,f.file.length)
-}))}} style={{cursor:"pointer",backgroundColor:"blue",padding:"4px",borderRadius:"9px",color:"white"}}> </i>
-                    <i className="pi pi-trash mr-2 ml-2" style={{cursor:"pointer",backgroundColor:"red",padding:"4px",borderRadius:"9px",color:"white"}}
-                    onClick={()=>{dispatch(deletedocumentaction({
-                      "fileid":f.id
-                    }))}}
+                    <i className="pi pi-download mr-2 ml-2" onClick={() => {
+                      dispatch(documentdownloadaction({
+                        "file": f.file.toString().substring(1, f.file.length)
+                      }))
+                    }} style={{ cursor: "pointer", backgroundColor: "blue", padding: "4px", borderRadius: "9px", color: "white" }}> </i>
+                    <i className="pi pi-trash mr-2 ml-2" style={{ cursor: "pointer", backgroundColor: "red", padding: "4px", borderRadius: "9px", color: "white" }}
+                      onClick={() => {
+                        dispatch(deletedocumentaction({
+                          "fileid": f.id
+                        }))
+                      }}
                     > </i>
 
                   </div>)) :
@@ -318,17 +317,8 @@ dispatch(uploaddocumentaction(data))
 
 
                 }
-                {/* <div className="field col-12 md:col-12 flex" >
-                  upload files
-                  <input type="file"></input>
-                </div> */}
-                <div className="field col-12 md:col-4 flex" >
 
-                  {/* <Button style={{ width: "120px" }} onClick={() => dispatch(deleteedducationaldetailsaction({
-                    "id": e.id
 
-                  }))}>Delete</Button> */}
-                </div>
               </div>
             </div>
           </Card>
@@ -348,7 +338,7 @@ dispatch(uploaddocumentaction(data))
       <div className="p-fluid  grid">
 
         <div className="field col-12 md:col-4 flex">
-          <Button onClick={e => dispatch(setprevcandidateinfotab("lkdjf"))}>Previous</Button>
+          <Button onClick={e => dispatch(setprevcandidateinfotab())}>Previous</Button>
           <Button onClick={e => dispatch(setnextcandidateinfotab())}>Next</Button>
         </div>
       </div>
