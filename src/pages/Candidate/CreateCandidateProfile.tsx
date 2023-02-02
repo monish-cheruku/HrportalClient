@@ -32,6 +32,7 @@ function CreateCandidateProfile() {
     const fileref = useRef()
     const navigate = useNavigate()
     const isFormFieldValid = (meta) => !!(meta.touched && meta.error);
+    const [filechange, setFilechange] = useState(false)
     // useLayoutEffect(() => {
     //     if (!location.state && editmode) {
     //         navigate("/dashboard")
@@ -501,7 +502,7 @@ function CreateCandidateProfile() {
 
                                                     <label htmlFor="ExpectedCTC">Expected CTC</label>
                                                     <span className="field fluid">
-                                                        <InputNumber id="ExpectedCTC" min={0} value={values.ExpectedCTC} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} mode="currency" currency="INR" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <InputNumber id="ExpectedCTC" min={0} value={values.ExpectedCTC} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} mode="currency" currency="INR" locale="en-IN" maxFractionDigits={0} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                         <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                                     </span>
                                                     {getFormErrorMessage(meta)}
@@ -517,7 +518,7 @@ function CreateCandidateProfile() {
                                                 <div className="field fluid">
                                                     <label htmlFor="NegotiatedCTC">Negotiated CTC</label>
                                                     <span className="field fluid">
-                                                        <InputNumber id="NegotiatedCTC" min={0} value={values.NegotiatedCTC} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} mode="currency" currency="INR" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <InputNumber id="NegotiatedCTC" min={0} value={values.NegotiatedCTC} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} mode="currency" currency="INR" locale="en-IN" maxFractionDigits={0} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                         <label htmlFor="NegotiatedCTC" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                                     </span>
                                                     {getFormErrorMessage(meta)}
@@ -554,7 +555,8 @@ function CreateCandidateProfile() {
                                                             <label htmlFor="ContactNo">Contact Number</label>
                                                             <span className="field fluid">
                                                                 <InputMask id="ContactNo" mask="99-9999999999" {...input} placeholder="91-9999999999" ></InputMask>
-
+                                                                {/* <InputNumber id="ContactNo" value={values.ContactNo} onBlur={input.onBlur} onValueChange={(e) => input.onChange(e)} className={classNames({ "p-invalid": isFormFieldValid(meta) })} useGrouping={false} max={99999999999999999999}/> */}
+                                                                {/* <InputText id="ContactNo" maxLength={20}  {...input} className={classNames({ 'p-invalid': isFormFieldValid(meta) })} /> */}
                                                                 <label htmlFor="ContactNo" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                                             </span>
                                                             {getFormErrorMessage(meta)}
@@ -619,6 +621,8 @@ function CreateCandidateProfile() {
                                                         <Panel header={<><input type="file" onChange={async (e) => {
                                                             await console.log(e.target.files[0]);
                                                             values.Resume = e.target.files[0];
+                                                            // validate(values);
+                                                            !editmode && setFilechange(!filechange)
                                                             // document.getElementsByName("ExpectedDOJ")[0].focus()
                                                             // setTimeout(()=>{ 
 
@@ -627,13 +631,13 @@ function CreateCandidateProfile() {
 
                                                             // },1000)
 
-                                                            setTimeout(() => {
+                                                            // setTimeout(() => {
                                                                 // document.getElementsByName("ExpectedDOJ")[0].blur()
                                                                 // document.getElementById("ExpectedCTC")?.getElementsByTagName("input")[0]?.click()
                                                                 // document.getElementById("Email")?.click()
                                                                 // document.getElementById('submitbutton')?.focus()
                                                                 // validate(values) 
-                                                            }, 1000);
+                                                            // }, 1000);
 
 
 
@@ -653,12 +657,12 @@ function CreateCandidateProfile() {
                                                         }>
 
                                                             {/* Uploaded File: {values.Resume.split("/")[values.Resume.split("/").length-1]} */}
-                                                            {typeof values.Resume == typeof "abc" && <>Uploaded File: <a  onClick={e => dispatch(downloadresume(
+                                                            {(typeof values.Resume == typeof "abc") && <>Uploaded File: <a style={{cursor : "pointer"}}  onClick={e => dispatch(downloadresume(
                                                                 {
-                                                                    'Resume': values?.Resume.toString().substring(1, values?.Resume.toString().length)
+                                                                    'Resume': values?.Resume?.toString().substring(1, values?.Resume.toString().length)
                                                                 }
                                                             )
-                                                            )}  >{values.Resume.split("/")[values.Resume.split("/").length - 1]}</a>
+                                                            )}  >{values?.Resume?.split("/")[values.Resume.split("/").length - 1]}</a>
                                                                 <br></br>
 
                                                             </>}

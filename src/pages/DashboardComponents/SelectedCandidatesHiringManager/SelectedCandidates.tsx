@@ -10,10 +10,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { Link, useNavigate } from 'react-router-dom';
 import { RootState } from '../../../app/store';
+
 // import {  getJobPostActionfromapi, JobPostActiondata } from '../../../features/JobPostActions/jobpostactionsslice';
 import { generatepdf } from "../../../api/agent"
 import { candidateactionsdetailsaction } from '../../../features/CandidateActions/candidateactiondetailsslice';
 import { selectedcandidatesaction } from '../../../features/CandidateActions/selectedcandidatesslice';
+import { downloadresume } from '../../../features/Downloadpdfs/pdfslice';
 const SelectedCandidates = () => {
 
 
@@ -38,6 +40,7 @@ const SelectedCandidates = () => {
     // const navigate=useNavigate()
     // // const useRedirect=
     const dispatch = useDispatch();
+    const navigate = useNavigate()
 
     //     useEffect(() => {
     // // alert("rerendering")
@@ -53,14 +56,14 @@ const SelectedCandidates = () => {
     //         //fetch('./jobpostdata.json').then(res => {res.json(); console.log(res);}).then(d => setcompany(d.data));
     //     }, []);
     useEffect(() => {
-        var w:any=[]
-        Logindata.groups.forEach((i)=>w.push(i["name"].toString()))
+        var w: any = []
+        Logindata.groups.forEach((i) => w.push(i["name"].toString()))
         dispatch(selectedcandidatesaction({
 
-            "RoleName":w,
-        
-            "username":Logindata.username
-        
+            "RoleName": w,
+
+            "username": Logindata.username
+
         }))
         // console.log("working")
         console.log(selectedcandidatesdata)
@@ -161,25 +164,25 @@ const SelectedCandidates = () => {
     //         </>
     //     )
     // }
-    const formatCurrencycctc=(rowdata)=>{
-        var  value1=rowdata.candidate.CurrentCTC
+    const formatCurrencycctc = (rowdata) => {
+        var value1 = rowdata.candidate.CurrentCTC
         // console.log(  (rowdata.candidate.CurrentCTC.toString()).toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 2 }))
-return(<>{
-    value1? value1.toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 2 }):""
-    }</>)
+        return (<>{
+            value1 ? value1.toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 2 }) : ""
+        }</>)
     }
-    const formatCurrencyEctc=(rowdata)=>{
-        var  value1=rowdata.candidate.ExpectedCTC
-return(<>{
-    value1? value1.toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 2 }):""
-    }</>)
+    const formatCurrencyEctc = (rowdata) => {
+        var value1 = rowdata.candidate.ExpectedCTC
+        return (<>{
+            value1 ? value1.toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 2 }) : ""
+        }</>)
     }
-    const formatCurrencyNctc=(rowdata)=>{
-      var  value1=rowdata.candidate.NegotiatedCTC
-return(<>{
-    //  (rowdata.candidate.NegotiatedCTC?.toString()).toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 2 })
-    value1? value1.toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 2 }):""
-}</>)
+    const formatCurrencyNctc = (rowdata) => {
+        var value1 = rowdata.candidate.NegotiatedCTC
+        return (<>{
+            //  (rowdata.candidate.NegotiatedCTC?.toString()).toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 2 })
+            value1 ? value1.toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 2 }) : ""
+        }</>)
     }
     const formatCurrency = (value: any) => {
         return value.toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 2 });
@@ -198,12 +201,53 @@ return(<>{
         });
         // return value.toLocaleDateString('en-US');
     }
-    const linktemplate=(rowdata)=>{
+    const linktemplate = (rowdata) => {
         console.log(rowdata)
-        return(
+        return (
             <Link to={'/SelectedCandidatesdetails'} state={rowdata}>{rowdata.candidate.CandidateCode}</Link>
         )
     }
+    const actionBodyTemplate = (data) => {
+        return (
+            <React.Fragment>
+                <div className="p-fluid  grid">
+                    {data.OfferLetter && 
+                    <div className="field col-12 md:col-5">
+                        <Button
+                            icon="pi pi-download"
+                            tooltip='Download OfferLetter'
+                            className="p-button-rounded p-button-warning mr-6"
+                            // style={{ width: "30px", height: "30px",}}
+                            onClick={(e) => {
+
+                                dispatch(downloadresume(
+                                    {
+                                        'Resume': data?.OfferLetter?.toString().substring(1, data?.OfferLetter?.toString().length)
+                                    }
+                                ))
+                            }}
+                        />
+                    </div>
+                    }
+                    {data.OfferLetter && 
+                    <div className="field col-12 md:col-5">
+                        <Button
+                            icon="pi pi-share-alt"
+                            tooltip='Send OfferLetter'
+                            className="p-button-rounded p-button-success"                        
+                            disabled = {data.IsOfferAccepted}
+                       
+                            onClick={(e) => {
+
+                                navigate("/myjobposts/updatejobpost", { state: { data } })
+                            }}
+                        />
+                    </div>
+                    }
+                </div>
+            </React.Fragment>
+        );
+    };
     return (
         <div>
 
@@ -215,11 +259,11 @@ return(<>{
                 <Column field="jobpost.JobCode" header="Job Code" sortable></Column>
                 <Column field="jobpost.JobTitle" header="Job Title" sortable></Column>
                 <Column field="candidate.OverallExpYear" body={exptemplate} header="Experience" sortable ></Column>
-                <Column field="candidate.CurrentCTC" header="CurrentCTC "  body={formatCurrencycctc}sortable > </Column>
+                <Column field="candidate.CurrentCTC" header="CurrentCTC " body={formatCurrencycctc} sortable > </Column>
                 <Column field="candidate.ExpectedCTC" header="Expected CTC" body={formatCurrencyEctc} sortable></Column>
                 <Column field="candidate.NegotiatedCTC" header="Negotiated CTC" body={formatCurrencyNctc} sortable></Column>
                 <Column field="candidate.ExpectedDOJ" header="Expected DOJ" body={datetemplate} sortable></Column>
-
+                <Column field="action" header="Action" body={actionBodyTemplate} exportable={false}></Column>
             </DataTable>
 
 
