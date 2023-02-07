@@ -45,7 +45,7 @@ function* createedducationaldetailssagaworker(data) {
     try { 
         // console.log(data.payload)
         var res: Promise<any> = yield call(educationaldetailsapis.createeducationdetail,data.payload)
-        yield put({ type: "educationaldetails/employementdetailsgetaction", payload: {"selectedcandidateid":store.getState().candidateinfo.Selected_Candidate_ID}})
+        yield put({ type: "educationaldetails/educationaldetailsgetaction", payload: {"selectedcandidateid":store.getState().candidateinfo.Selected_Candidate_ID}})
 
         yield put(createtoast({
 
@@ -256,7 +256,7 @@ function* deleteedducationaldetailssagaworker(data) {
        console.log(data)
         var res: Promise<any> = yield call(educationaldetailsapis.deleteeducationdetails, data.payload)
         // console.log(res)
-        yield put({ type: "employementdetails/employementdetailsgetaction", payload: {"selectedcandidateid":store.getState().candidateinfo.Selected_Candidate_ID} })
+        yield put({ type: "educationaldetails/educationaldetailsgetaction", payload: {"selectedcandidateid":store.getState().candidateinfo.Selected_Candidate_ID} })
         yield put(createtoast({
 
             id:454,
@@ -439,6 +439,7 @@ function* updatefamilysagaworker(data) {
         var res: Promise<any> = yield call(familydetails.updatefamilydetails,data.payload)
         
         // console.log(res)
+        yield put({ type: "Familydetails/familydetailsaction", payload: {"selectedcandidateid":store.getState().candidateinfo.Selected_Candidate_ID} })
 
 
         //toast
@@ -596,6 +597,12 @@ catch(err) {
 function* getcandidateinfoclearancesagaworker(data){
 try{
     console.log(data)
+    yield put({type:"candidateinfo/addtostatecandidateinfoclearanceaction",payload:{
+        "validation": false,
+        "messages": [
+            
+        ]
+    }})
     var res: Promise<any> = yield call(candidateinfo.getcandidateinfoclearance, data.payload)
     yield put({type:"candidateinfo/addtostatecandidateinfoclearanceaction",payload:res})
 }

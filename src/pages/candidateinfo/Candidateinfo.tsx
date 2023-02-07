@@ -26,7 +26,7 @@ if(activeIndex==null)setcandidateinfotab(0)
     { label: 'Family Details', command: (e) => { dispatch(setcandidateinfotab(e.index))} },
     { label: 'Education', command: (e) =>{dispatch(setcandidateinfotab(e.index))} },
     { label: 'Employement', command: (e) =>dispatch(setcandidateinfotab(e.index))},
-    { label: 'PF Details', command: (e) => dispatch(setcandidateinfotab(e.index)) },
+    // { label: 'PF Details', command: (e) => dispatch(setcandidateinfotab(e.index)) },
     { label: 'Documents Upload', command: (e) => dispatch(setcandidateinfotab(e.index)) },
     { label: 'Declaration', command: (e) =>dispatch(setcandidateinfotab(e.index)) }
 ];
@@ -39,6 +39,7 @@ if(activeIndex==null)setcandidateinfotab(0)
 
 
                     <div>
+                      <br></br>
 {
   activeIndex==0&&<PersonalDetails></PersonalDetails>
 }
@@ -51,14 +52,14 @@ if(activeIndex==null)setcandidateinfotab(0)
 {
   activeIndex==3&&<Employement></Employement>
 }
-{
+{/* {
   activeIndex==4&&<PFDetails></PFDetails>
+} */}
+{
+  activeIndex==4&&<Documents></Documents>
 }
 {
-  activeIndex==5&&<Documents></Documents>
-}
-{
-  activeIndex==6&&<Declaration></Declaration>
+  activeIndex==5&&<Declaration></Declaration>
 }
 
                     </div>

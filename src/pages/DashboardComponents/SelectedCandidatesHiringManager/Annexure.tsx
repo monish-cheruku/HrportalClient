@@ -118,7 +118,7 @@ function Annexure(props) {
                         <th style={{ border: "1px solid #dddddd",backgroundColor:"skyblue" }} colSpan={2}></th>
                     </tr>
                 <tr>
-                        <tr style={{ border: "1px solid #dddddd",fontWeight:"600" }}>Fixed Compensation:</tr>
+                        <tr  className="flex" style={{ border: "1px solid #dddddd",fontWeight:"600" }}>Fixed Compensation:</tr>
                         <th style={{ border: "1px solid #dddddd" ,textAlign:"center"}}>{data.varFixedPayPerc}%</th>
                         <th style={{ border: "1px solid #dddddd",textAlign:"center" }}>{data.varTotalFixedCTC}</th>
                     </tr>

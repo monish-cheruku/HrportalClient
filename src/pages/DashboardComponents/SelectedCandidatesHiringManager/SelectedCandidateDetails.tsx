@@ -68,7 +68,7 @@ function SelectedCandidateDetails(props) {
 
         ]
         arr.forEach((i) => {
-            if (!values[i] && !values[i] == false) {
+            if (!values[i] || !values[i] == false) {
                 errors[i.toString()] = "* This field is required";
             }
         })
@@ -209,6 +209,7 @@ function SelectedCandidateDetails(props) {
                 <Form
 
                     onSubmit={(values: any) => {
+                        validate(values)
                         values["FixedCTC"] = parseInt(values["FixedCTC"])
                         values["VariablePay"] = parseInt(values["VariablePay"])
                         var datetemp = new Date(values.DateOfJoining)
@@ -546,11 +547,11 @@ function SelectedCandidateDetails(props) {
                                     }}>calc annexure
 
                                     </Button>
-                                    <Button className='mr-3' type="submit" onClick={e => handleSubmit}>Send Offer Letter
+                                    <Button className='mr-3' type="submit" onClick={e => handleSubmit}>Save and genrate Offer Letter
 
                                     </Button>
-                                    <Button className='mr-3' type="button">Download/Preview Offer Letter
-                                    </Button>
+                                    {/* <Button className='mr-3' type="submit">Download/Preview Offer Letter
+                                    </Button> */}
                                     <Button type="button" onClick={e => navigate(-1)}>Cancel
                                     </Button>
                                 </div>

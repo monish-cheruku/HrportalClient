@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef ,lazy,Suspense} from 'react';
 import classNames from 'classnames';
 import { Route, useLocation, Routes, Navigate } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
@@ -18,57 +18,53 @@ import 'prismjs/themes/prism-coy.css';
 import './assets/demo/flags/flags.css';
 import './assets/demo/Demos.scss';
 import './assets/layout/layout.scss';
-import ManageCompany from './pages/ManageCompany';
-import Dashboard from './pages/Dashboard';
-import ManageBusinessUnit from './pages/ManageBusinessUnit';
-import ManageCustomer from './pages/ManageCustomer';
-import ManageExperienceLevel from './pages/ManageExperienceLevel';
-import ManageDesignation from './pages/ManageDesignation';
-import ManageSubBand from './pages/ManageSubBand';
+
 import { Toast } from 'primereact/toast';
-import ServiceLine from './pages/ServiceLine';
-
-import Location from './pages/Location';
-
-import ManageBand from './pages/ManageBand'
-
-import ManageBill from '../src/pages/ManageBillrate'
-
-import ManageInsurance from './pages/ManageInsurance';
-import Industry from './pages/Industry';
 
 import { createtoast, Toaster, toastreset } from '../src/features/ToastSlice'
-
 import { useDispatch } from 'react-redux';
 
 import { useSelector } from 'react-redux';
 
 import { RootState } from './app/store';
-import UserRoles from './pages/UserRoles';
-import LoginPage from './LoginPage';
 import { ILogin } from './features/Login/Loginslice';
-import JobpostsactionApproval from './pages/DashboardComponents/JobPostActionsHiringManager/JobpostsactionApproval';
 import Newcomp from './Newcomp';
-import ProtectedRoute from './components/routes/ProtectedRout';
-import CreateJobPost from './pages/DashboardComponents/CreateJobPost';
-import Jobpostdetailedview from './pages/DashboardComponents/Jobpostdetailedview';
-import CreateCandidateProfile from './pages/Candidate/CreateCandidateProfile'
-import JobPostProfileUpload from "./pages/DashboardComponents/JobPostActionsHiringManager/JobPostsProfileUpload"
-import CandidateDetailsview from './pages/DashboardComponents/CandidateDetailsview';
-import CandidateReview from './pages/DashboardComponents/CandidateActionHiringManager/CandidateReview';
-import CandidateShortlist from './pages/DashboardComponents/CandidateActionHiringManager/CandidateShortlist';
-import HiringmanagerInterview from './pages/InterviewComponents/HiringmanagerInterview';
-import HiringManagerin2 from './pages/InterviewComponents/HiringManagerin2';
-import HRInterview from './pages/InterviewComponents/HRInterview';
-import BusinessHeadApproval from './pages/DashboardComponents/BusinessHeadApproval';
-import GeneralManagerApproval from './pages/DashboardComponents/GeneralManagerApproval';
-import FinanceControllerApproval from './pages/DashboardComponents/FinanceControllerApproval';
-import SelectedCandidatesHold from './pages/DashboardComponents/SelectedCandidatesHold';
-import SelectedCandidates from './pages/DashboardComponents/SelectedCandidatesHiringManager/SelectedCandidates';
-import SelectedCandidatesHRHold from './pages/DashboardComponents/SelectedCandidatesHRHold';
-import SelectedCandidateDetails from './pages/DashboardComponents/SelectedCandidatesHiringManager/SelectedCandidateDetails';
-import Candidateinfo from './pages/candidateinfo/Candidateinfo';
-import PersonalDetails from './pages/candidateinfo/candidateinfocomponents/PersonalDetails';
+const  ManageCompany=lazy(()=>import("./pages/ManageCompany")) ;
+const Dashboard =lazy(()=>import("./pages/Dashboard"));
+const ManageBusinessUnit =lazy(()=>import("./pages/ManageBusinessUnit"));
+const ManageCustomer =lazy(()=>import("./pages/ManageCustomer"));
+const ManageExperienceLevel =lazy(()=>import("./pages/ManageExperienceLevel"));
+const ManageDesignation =lazy(()=>import("./pages/ManageDesignation"));
+const ManageSubBand =lazy(()=>import("./pages/ManageSubBand"));
+const  ServiceLine=lazy(()=>import("./pages/ServiceLine"));
+const  Location=lazy(()=>import("./pages/Location"));
+const  ManageBand=lazy(()=>import("./pages/ManageBand"))
+const  ManageBill=lazy(()=>import("../src/pages/ManageBillrate"))
+const  ManageInsurance=lazy(()=>import("./pages/ManageInsurance"));
+const  Industry=lazy(()=>import("./pages/Industry"));
+const  UserRoles =lazy(()=>import('./pages/UserRoles'));
+const LoginPage =lazy(()=>import('./LoginPage'));
+const JobpostsactionApproval =lazy(()=>import('./pages/DashboardComponents/JobPostActionsHiringManager/JobpostsactionApproval'));
+const CreateJobPost =lazy(()=>import('./pages/DashboardComponents/CreateJobPost'));
+const Jobpostdetailedview =lazy(()=>import('./pages/DashboardComponents/Jobpostdetailedview'));
+const CreateCandidateProfile =lazy(()=>import('./pages/Candidate/CreateCandidateProfile'))
+const JobPostProfileUpload =lazy(()=>import("./pages/DashboardComponents/JobPostActionsHiringManager/JobPostsProfileUpload"))
+const CandidateDetailsview =lazy(()=>import('./pages/DashboardComponents/CandidateDetailsview'));
+const CandidateReview =lazy(()=>import('./pages/DashboardComponents/CandidateActionHiringManager/CandidateReview'));
+const CandidateShortlist =lazy(()=>import('./pages/DashboardComponents/CandidateActionHiringManager/CandidateShortlist'));
+const HiringmanagerInterview =lazy(()=>import('./pages/InterviewComponents/HiringmanagerInterview'));
+const HiringManagerin2 =lazy(()=>import('./pages/InterviewComponents/HiringManagerin2'));
+const HRInterview =lazy(()=>import('./pages/InterviewComponents/HRInterview'));
+const BusinessHeadApproval =lazy(()=>import('./pages/DashboardComponents/BusinessHeadApproval'));
+const GeneralManagerApproval =lazy(()=>import( './pages/DashboardComponents/GeneralManagerApproval'));
+const FinanceControllerApproval=lazy(()=>import('./pages/DashboardComponents/FinanceControllerApproval'));
+const SelectedCandidatesHold=lazy(()=>import('./pages/DashboardComponents/SelectedCandidatesHold'));
+const SelectedCandidates =lazy(()=>import('./pages/DashboardComponents/SelectedCandidatesHiringManager/SelectedCandidates'));
+const SelectedCandidatesHRHold =lazy(()=>import('./pages/DashboardComponents/SelectedCandidatesHRHold'));
+const SelectedCandidateDetails=lazy(()=>import('./pages/DashboardComponents/SelectedCandidatesHiringManager/SelectedCandidateDetails'));
+const Candidateinfo =lazy(()=>import('./pages/candidateinfo/Candidateinfo'));
+const PersonalDetails =lazy(()=>import('./pages/candidateinfo/candidateinfocomponents/PersonalDetails'));
+
 const App = () => {
     const toastdata = useSelector((state: RootState) => state.toaster)
     const state = useSelector((state: RootState) => state)
@@ -331,21 +327,11 @@ const App = () => {
         //React protected router?
 
 
+<Suspense fallback={<h1> Loading ...</h1>}>
 
         <Routes>
             <Route path="/Login" element={<LoginPage />} />
-            {/* <Route path="*" element={}/> */}
-            {/* <Route path="/Industry" element={<Industry />} />
-            <Route path="/dashboard" element={<Dashboard />} /> */}
-            {/* <Route path="/dashboard" element={<Dashboard />} /> */}
-            {/* <Route
-        path="*"
-        element={<RequireAuth redirectTo="/login">
-        <Routes>
-
-            <Route path="/dashboard" element={<Dashboard />} />
-        </Routes>
-          </RequireAuth>}/> */}
+           
             <Route
                 path="*"
                 element={Logindata.username != "" ?
@@ -362,7 +348,7 @@ const App = () => {
                                 </div> */}
                             <div className="layout-main-container">
                                 <div className="layout-main">
-
+<Suspense fallback={<h1> Loading ...</h1>}>
                                     <Routes>
                                         <Route path="/dashboard" element={<Dashboard />} />
                                         <Route path="/Industry" element={<Industry />} />
@@ -410,6 +396,7 @@ const App = () => {
                                         <Route path='/candidateinfo' element={<Candidateinfo></Candidateinfo>}></Route>
                                         <Route path='/candidateinfo/PersonalDetails' element={<PersonalDetails></PersonalDetails>}></Route>
                                     </Routes>
+                                    </Suspense>
                                 </div>
 
 
@@ -423,65 +410,12 @@ const App = () => {
                             </CSSTransition>
                         </div>
                     </div> : <LoginPage></LoginPage>
-                    // </RequireAuth>
                 }
             />
-            {/* <ProtectedRout
-                    isAuthenticated={true}
-                    path={"/(.+)"}
-                    render={() => (
-                        <div className={wrapperClass} onClick={onWrapperClick}>
-                            <div>
-
-                                <Tooltip ref={copyTooltipRef} target=".block-action-copy" position="bottom" content="Copied to clipboard" event="focus" />
-                                <Toast ref={toast} position="bottom-left" />
-                                <AppTopbar onToggleMenuClick={onToggleMenuClick} layoutColorMode={layoutColorMode}
-                                    mobileTopbarMenuActive={mobileTopbarMenuActive} onMobileTopbarMenuClick={onMobileTopbarMenuClick} onMobileSubTopbarMenuClick={onMobileSubTopbarMenuClick} />
-                                <div className="layout-sidebar mw-100" onClick={onSidebarClick}>
-                                    <AppMenu model={menu} onMenuItemClick={onMenuItemClick} layoutColorMode={layoutColorMode} />
-                                </div>
-                                <div className="layout-main-container">
-                                    <div className="layout-main">
-
-                                        <Route path="/dashboard" element={<Dashboard />} />
-                                        <Route path="/Industry" element={<Industry />} />
-                                        <Route path="/Managecompany" element={<ManageCompany />} />
-                                        <Route path="/ManageBusinessUnit" element={<ManageBusinessUnit />} />
-                                        <Route path="/Managecustomer" element={<ManageCustomer />} />
-                                        <Route path="/ManageExperienceLevel" element={<ManageExperienceLevel />} />
-                                        <Route path="/ManageDesignation" element={<ManageDesignation />} />
-                                        <Route path="/ManageSubBand" element={<ManageSubBand />} />
-                                        <Route path="/serviceline" element={<ServiceLine />} />
-                                        <Route path="/Location" element={<Location />} />
-                                        <Route path="/Band" element={<ManageBand />} />
-                                        <Route path="/AvgCTC" element={<ManageBill />} />
-                                        <Route path="/Insurance" element={<ManageInsurance />} />
-                                        <Route path="/userroles" element={<UserRoles />} />
-
-
-
-
-
-                                        <Route path="/dashboard/jobpostsactionApproval" element={<JobpostsactionApproval />} />
-                                       
-
-
-                                    </div>
-
-
-                                </div>
-
-                                <AppConfig rippleEffect={ripple} onRippleEffect={onRipple} inputStyle={inputStyle} onInputStyleChange={onInputStyleChange}
-                                    layoutMode={layoutMode} onLayoutModeChange={onLayoutModeChange} layoutColorMode={layoutColorMode} onColorModeChange={onColorModeChange} />
-
-                                <CSSTransition classNames="layout-mask" timeout={{ enter: 200, exit: 200 }} in={mobileMenuActive} unmountOnExit>
-                                    <div className="layout-mask p-component-overlay"></div>
-                                </CSSTransition>
-                            </div>
-                        </div>
-                    )} component={undefined} /> */}
+          
 
         </Routes>
+        </Suspense>
 
     );
 

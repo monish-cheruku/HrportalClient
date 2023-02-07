@@ -6,51 +6,62 @@ import { acceptofferletteraction, getcandidateinfoclearanceaction } from '../../
 import { setnextcandidateinfotab, setprevcandidateinfotab } from '../../../features/Misc/globalslice'
 import { Messages } from 'primereact/messages';
 import { Message } from 'primereact/message';
+import { companySlice } from '../../../features/Company/companyslice'
 function Declaration() {
     const dispatch = useDispatch()
-    const [declared,setdeclared]=useState(false)
+    const [declared, setdeclared] = useState(false)
     const candidateinfodata = useSelector((state: RootState) => state.candidateinfo)
- const clearancedata=useSelector((state:RootState)=>state.candidateinfo.clearance)
- const msgs1 = useRef(null);
-useEffect(()=>{
-dispatch(getcandidateinfoclearanceaction( {
-    "selectedcandidateid": candidateinfodata.Selected_Candidate_ID
+    const clearancedata = useSelector((state: RootState) => state.candidateinfo.clearance)
+    const msgs1 = useRef([]);
+    useEffect(() => {
+        dispatch(getcandidateinfoclearanceaction({
+            "selectedcandidateid": candidateinfodata.Selected_Candidate_ID
 
-  }))
-  console.log(clearancedata)
-  msgs1.current.show([
-    { severity: 'success', summary: 'Success', detail: 'Message Content', sticky: true,closable:false },
-    { severity: 'info', summary: 'Info', detail: 'Message Content', sticky: true },
-    { severity: 'warn', summary: 'Warning', detail: 'Message Content', sticky: true },
-    { severity: 'error', summary: 'Error', detail: 'Message Content', sticky: true }
-]);
-},[])
-const acceptoffer=()=>{
-    dispatch(acceptofferletteraction( {
-        "selectedcandidateid": candidateinfodata.Selected_Candidate_ID
-    
-      }))
-}
-const shouldbuttondisabled=()=>{
-    if(declared && clearancedata.validation)
-    return false
-    return true
-}
+        }))
+        console.log(clearancedata)
+        console.log(msgs1)
+    }, [])
+    useEffect(() => {
+        var arr: any = []
+        clearancedata ? clearancedata.messages.map((i) => {
+            console.log(i.toString())
+            arr.push(
+
+                { severity: 'info', summary: '', detail: i.toString(), sticky: true, closable: false },
+
+            )
+        }) : console.log("")
+        console.log(msgs1)
+
+        msgs1.current.clear()
+        msgs1.current.show(arr)
+    }, [candidateinfodata])
+    const acceptoffer = () => {
+        dispatch(acceptofferletteraction({
+            "selectedcandidateid": candidateinfodata.Selected_Candidate_ID
+
+        }))
+    }
+    const shouldbuttondisabled = () => {
+        if (declared && clearancedata.validation)
+            return false
+        return true
+    }
     return (
-        <div>Declaration
+        <div>
             <br>
             </br>
             <br>
             </br>
-            <Messages ref={msgs1} /> 
+            <Messages ref={msgs1} />
 
             <br>
             </br>
             <br>
             </br>
-            <input type="checkbox" onClick={e=>setdeclared(!declared)}>
+            <input type="checkbox" id="declare" onClick={e => setdeclared(!declared)}>
             </input>
-            <label>
+            <label htmlFor ="declare">
 
                 I do hereby declare that the information furnished as above by me is true and correct to be the best
                 of my knowledge and belief. If any information furnished by me is proved to be incorrect or false,
@@ -63,17 +74,17 @@ const shouldbuttondisabled=()=>{
 
 
             </div>
-
+           
             <div className="p-fluid  grid">
-                <div className="field col-12 md:col-4">
 
-                </div>
-                <div className="field col-12 md:col-4">
-
+                <div className="field col-12 md:col-4 flex">
                 </div>
                 <div className="field col-12 md:col-4 flex">
-                    <Button onClick={e => dispatch(setprevcandidateinfotab())}>Previous</Button>
-                    <Button  disabled={shouldbuttondisabled()} onClick={e => acceptoffer()}>Save</Button>
+                </div>
+
+                <div className="field col-12 md:col-4 flex gap-4">
+                    <Button className='mr-4' onClick={e => dispatch(setprevcandidateinfotab())}>Previous</Button>
+                    <Button disabled={shouldbuttondisabled()} onClick={e => acceptoffer()}>Save</Button>
                 </div>
             </div>
         </div>
