@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 
-const initialState: any = {};
+const initialState: any = [];
 
 const otherdocumentsSlice = createSlice({
     name: 'otherdocuments',

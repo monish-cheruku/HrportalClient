@@ -13,21 +13,25 @@ import { Calendar } from 'primereact/calendar'
 import { InputMask } from 'primereact/inputmask'
 import { RootState } from '../../../app/store'
 import { createfamilydetailsaction, deletefamilydetailsaction, familydetailsaction, updatefamilydetailsaction } from '../../../features/Candidate info/familydetailsslice'
+import { Panel, PanelHeaderTemplateOptions } from 'primereact/panel'
+import { SelectButton } from 'primereact/selectbutton'
+import { FilterMatchMode } from 'primereact/api'
+import { deletedocumentaction, documentdownloadaction, uploaddocumentaction } from '../../../features/Candidate info/candidateinfoslice'
+import { FileUpload } from 'primereact/fileupload'
+import { DataTable } from 'primereact/datatable'
+import { Column } from 'primereact/column'
 // import { createfamilydetailsaction, familydetailsaction, updatefamilydetailsaction } from '../../../features/Candidateinfo/familydetailsslice'
 
 function FamilyDetails() {
 
     const familydetailsdata = useSelector((state: RootState) => state.CandidateFamilydetails);
-    // const [fullname, setFullname] = useState("");
-    // const [dateofbirth, setDateofbirth] = useState("");
-    // const [relationshipwithemployee, setRelationshipwithemployee] = useState("");
-    // const [contactnumber, setContactnumber] = useState("");
-    // const [productDialog, setProductDialog] = useState(false);
-    // const [submitted, setSubmitted] = useState(false);
-    // const [issave, setissave] = useState(false);
-    // const toastdata = useSelector((state: RootState) => state.toaster);
+   
     const [tempdata, settempdata] = useState<any>({})
-
+    const [gridview, setgridview] = useState("grid")
+    const [globalFilterValue2, setGlobalFilterValue2] = useState("");
+    const [filters2, setFilters2] = useState({
+        global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    });
     const [editmode, setEditmode] = useState(false);
     var candidateinfodata = useSelector((state: RootState) => state.candidateinfo);
     const [modalDialog, setModaldialog] = useState(false);
@@ -45,7 +49,7 @@ function FamilyDetails() {
         ))
         console.log(familydetailsdata)
     }, [])
-    
+
     const validate = (values) => {
         values["CurrentCTC"] = values["CurrentCTC"]
         let errors = {};
@@ -77,20 +81,20 @@ function FamilyDetails() {
             errors["Date_Of_Birth"] = "*This field is required"
         }
 
-        
-        
+
+
         if (values["Relationship_with_employee"] == undefined || values["Relationship_with_employee"] == null) {
 
             errors["Relationship_with_employee"] = "*This field is required"
         }
-        
-        
+
+
         if (values["Contact_Number"] == undefined || values["Contact_Number"] == null) {
 
             errors["Contact_Number"] = "*Enter correct number "
         }
-       
-        
+
+
         // if (!editmode && (values["Resume"] == null)) {
 
         //     errors["Resume"] = "*This field is required"
@@ -103,208 +107,361 @@ function FamilyDetails() {
     const getFormErrorMessage = (meta) => {
         return isFormFieldValid(meta) && <small className="p-error">{meta.error}</small>;
     };
-    return (
-        <div>
-            <Button onClick={e => { setEditmode(false); setModaldialog(true) }}>Add family details</Button>
-            <Dialog visible={modalDialog} style={{ width: "450px" }} header={editmode ? "Edit  Information " : "Add  Information "} modal className="p-fluid" onHide={() => setModaldialog(false)}>
+    const gridviewoptions = ['grid', 'table'];
+    const template = (options: PanelHeaderTemplateOptions) => {
 
-                <Form
-                    onSubmit={(values: any) => {
-                        var datetempstart = new Date(values.Date_Of_Birth)
-                        // console.log(datetemp.getFullYear() + "-" + datetemp.getMonth() + "-" + datetemp.getDate())
-                        values.Date_Of_Birth = datetempstart.getFullYear() + "-" + (datetempstart.getMonth() + 1).toString().padStart(2, '0') + "-" + datetempstart.getDate().toString().padStart(2, '0')
+        const className = `${options.className} justify-content`;
+        const titleClassName = `${options.titleClassName} pl-1`;
 
+        return (
+            <div className={className}>
 
-                        values.selectedcandidateid = candidateinfodata.Selected_Candidate_ID
-                        console.log(values)
-                        if (!editmode) {
-                            dispatch(createfamilydetailsaction(values))
-                            setModaldialog(false)
-                        }
-                        else {
-                            dispatch(updatefamilydetailsaction(values))
-                            setEditmode(false)
-                            settempdata(undefined)
-                            setModaldialog(false)
+                <span className={titleClassName}>
+                    <h4>
+                        Family details
+                    </h4>
+                </span>
+                <SelectButton value={gridview} options={gridviewoptions} onChange={(e) => setgridview(e.value)} />
+                <Button className='' style={{}} onClick={e => { setEditmode(false); setModaldialog(true) }}>Add </Button>            </div>
+        )
+    }
+    const onGlobalFilterChange2 = (e: any) => {
+        const value = e.target.value;
+        let _filters2 = { ...filters2 };
+        _filters2["global"].value = value;
 
-                        }
-                    }}
-                    initialValues={!editmode ? {
-
-                    } : {
-                        id: tempdata.id,
-                        FullName: tempdata.FullName,
-                        Date_Of_Birth: new Date(tempdata.Date_Of_Birth),
-                        Relationship_with_employee: tempdata.Relationship_with_employee,
-                        Contact_Number: tempdata.Contact_Number,
-                    }}
-
-                    validate={validate}
-
-                    render={({ handleSubmit, values, submitting,
-                        submitError,
-                        invalid,
-                        pristine,
-                        initialValues = {},
-                        dirtySinceLastSubmit, }) => (
-                        <form onSubmit={handleSubmit} >
-                            <br></br>
-                            <div className="p-fluid  grid">
+        setFilters2(_filters2);
+        setGlobalFilterValue2(value);
+    };
+    const Headercomp = () => {
+        return (
+            <div
+                className="flex flex-column md:flex-row md:justify-content-between md:align-items-center"
+          
+            > <span style={{ width: "30%" }}></span>
+                <span className="p-input-icon-left">
+                    <i className="pi pi-search" />
+                    <InputText value={globalFilterValue2} onChange={onGlobalFilterChange2} placeholder="Keyword Search" />
+                </span>
 
 
-                                <div className="field col-12 md:col-6">
-                                    <Field
-                                        name="FullName"
-                                        render={({ input, meta }) => (
-                                            <div className="field fluid">
-                                                <label htmlFor="FullName">Full Name</label>
-                                                <span className="field fluid">
-                                                    <InputText maxLength={50} id="FullName" {...input} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
-                                                    <label htmlFor="FullName" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
-                                                </span>
-                                                {getFormErrorMessage(meta)}
-                                            </div>
-                                        )}
-                                    />
-                                </div>
-                                <div className="field col-12 md:col-6">
-                                    <Field
-                                        name="Date_Of_Birth"
-                                        render={({ input, meta }) => (
-                                            <div className="field " >
-                                                <label htmlFor="Date_Of_Birth ">Date Of Birth (As per Aadhar Card)*</label>
-                                                <Calendar id="ExpectedDOJ" {...input} dateFormat="mm/dd/yy" showIcon placeholder="Select a Date" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+            </div>
+        );
+    };
+    const actionBodyTemplate = (rowdata) => {
+        return (
+            <div className=" flex gap-2">
+                <Button className="p-button-info editbutton mr-2" style={{ height: "40px", width: "4.4rem" }} label="" icon="pi pi-pencil" onClick={() => { setEditmode(true); settempdata(rowdata); setModaldialog(true); }}></Button>
 
-                                                <span className="label">
-                                                    <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
-                                                </span>
-                                                {getFormErrorMessage(meta)}
-                                            </div>
-                                        )}
-                                    />
-                                </div>
+                <Button style={{ height: "40px", width: "4.4rem" }} icon="pi pi-trash" className="p-button-danger" onClick={() => dispatch(deletefamilydetailsaction({
+                    "id": rowdata.id
 
-                                <div className="field col-12 md:col-6">
+                }))} />
 
-                                    <Field
-                                        name="Relationship_with_employee"
-                                        render={({ input, meta }) => (
-                                            <div className="field fluid">
-                                                <label htmlFor="Relationship_with_employee">Relationship with Employee</label>
-                                                <span className="field fluid">
-                                                    <InputText maxLength={50} id="Relationship_with_employee" {...input} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
-                                                    <label htmlFor="Relationship_with_employee" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
-                                                </span>
-                                                {getFormErrorMessage(meta)}
-                                            </div>
-                                        )}
-                                    />
-                                </div>
-
-                                <div className="field col-12 md:col-11">
-                                    <Field
-                                        name="Contact_Number"
-                                        render={({ input, meta }) => (
-                                            <div className="field " >
-                                                <label htmlFor="Contact_Number">Contact No*</label>
-                                                <span className="label">
-                                                    {/* <InputNumber id="Employee Name " value={values.NoOfPositions} onChange={e=>values["ContactNumber"]=e.value} max={9999999999} {...input} autoFocus className={classNames({ "p-invalid": isFormFieldValid(meta) })} /> */}
-                                                    {/* <InputMask  value="12345"   mask="99-9999999999" /> */}
-                                                    {/* <InputMask id="Contact_Number" mask="99-9999999999" {...input} value={values.Contact_Number} placeholder="91-9999999999" ></InputMask> */}
-                                                    <InputMask {...input}   mask="99-9999999999" />
-
-                                                    <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
-                                                </span>
-                                                {getFormErrorMessage(meta)}
-                                            </div>
-                                        )}
-                                    />
-                                    <br>
-                                    </br>
-
-
-
-                                </div>
-                            </div>
-                            <div className="p-fluid  grid">
-                                <div className="field col-12 md:col-6">
-
-                                    <Button type='button' onClick={e => setModaldialog(false)}>Cancel</Button>
-                                </div>
-                                <div className="field col-12 md:col-6">
-                                    <Button type='submit'> Save</Button>
-                                </div>
-                            </div>
-                        </form>
-
-
-                    )}
-                />
-            </Dialog>
-            <br></br>
-
-            <div >
-                {familydetailsdata.length > 0 ? familydetailsdata.map((e) => <div >
-                    <Card>
-                        <div className="p-fluid  grid" style={{ backgroundColor: "lightblue" }}>
-                            <div className="field col-12 md:col-12 flex" >
-                                <br></br>
-                                {/* <h3>{e.Qualification}</h3> */}
-                                <h2> <i className="pi pi-pencil mr-2" style={{ cursor: "pointer", backgroundColor: "blue", padding: "4px", borderRadius: "9px", color: "white" }}
-
-                                    onClick={() => { setEditmode(true); settempdata(e); setModaldialog(true); }}
-                                > Edit Info</i>
-                                    <i className="pi pi-trash mr-2" style={{ cursor: "pointer", backgroundColor: "red", padding: "4px", borderRadius: "9px", color: "white" }}
-                                        onClick={() => {
-                                            console.log("")
-                                                dispatch(deletefamilydetailsaction({
-                                              "id": e.id
-
-                                            }))
-                                        }}
-                                    > Delete</i>
-
-                                </h2>
-
-                                {/* <Button style={{ width: "120px", height: "50px" }} className="btn btn-primary" onClick={() => { setEditmode(true); settempdata(e); setModaldialog(true); }}>edit</Button> */}
-                                <br></br>
-                                {/* Qualification:{e.Qualification} */}
-                                <br>
-                                </br>
-                                Full Name : {e.FullName}
-                                <br>
-                                </br>
-
-                                Date of Birth : {e.Date_Of_Birth}
-                                <br>
-                                </br>
-                                Relationship with Employee : {e.Relationship_with_employee}
-                                <br>
-                                </br>
-                                Contact Number : {e.Contact_Number}
-                                <br>
-                                </br>
-
-                            </div>
-                        </div>
-                    </Card>
-                    <br></br>
-
-
-
-
-                </div>)
-
-                    : <></>}
             </div>
 
 
+        )
+    }
+   
+    const formatDate = (value: any) => {
+        return value.toLocaleDateString('en-US', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+        });
+        // return value.toLocaleDateString('en-US');
+    }
+    const formatdob = (rowdata:any) => {
+        return new Date(rowdata.Date_Of_Birth).toLocaleDateString('en-US', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+        });
+      }
+    return (
+        <div>
+            <style>{`
+            .card-header{
+                text-align:center;
+                width:100%;
+                align-self:center;
+                color: #7659E2  ;
+                vertical-align:top;
+            }
+            .card-header.h3{
+                // text-align:center
+            }
+            .card1content{
+                border-radius: 5px;
+                background: rgba(255,255,255,0.40);
+            }
+            .card-body{
+                margin-left:5px;
+            }
+           .qualification{
+            width:100%;
+            // background: linear-gradient(180deg, #005bea 0%, #00c6fb 100%);
+           
+           }
+          
+            .card1{
+                   
+                   
+                // background: linear-gradient(-52deg, #155dce 0%, #2de3b0 100%);
+                // background:  linear-gradient(-50deg, #155dce 0%, #2de3b0 100%);
+                background:  #c1c2f3;;
+                    background-blend-mode: normal;
+                    border-radius:8px;
+                    // width:300px
+                    
+               color:white;
+            }
+            .card1:hover{
+                scale:1.1;
+                transition:  1s;
+                
+            }
+           
+            .card-body.p{
+                color:white
+            }
+        
+      
+
+#contained-button-file{
+    display: 'flex',
+    margin: 'auto',
+    width: 400,
+    flexWrap: 'wrap',
+    background:#ffeeee;
+}
+.p-card .p-card-content {
+    padding:  0rem; 
+}
+            `}</style>
+            <Panel headerTemplate={template}>
+                <Dialog visible={modalDialog} style={{ width: "450px" }} header={editmode ? "Edit  Information " : "Add  Information "} modal className="p-fluid" onHide={() => setModaldialog(false)}>
+
+                    <Form
+                        onSubmit={(values: any) => {
+                            var datetempstart = new Date(values.Date_Of_Birth)
+                            // console.log(datetemp.getFullYear() + "-" + datetemp.getMonth() + "-" + datetemp.getDate())
+                            values.Date_Of_Birth = datetempstart.getFullYear() + "-" + (datetempstart.getMonth() + 1).toString().padStart(2, '0') + "-" + datetempstart.getDate().toString().padStart(2, '0')
 
 
+                            values.selectedcandidateid = candidateinfodata.Selected_Candidate_ID
+                            console.log(values)
+                            if (!editmode) {
+                                dispatch(createfamilydetailsaction(values))
+                                setModaldialog(false)
+                            }
+                            else {
+                                dispatch(updatefamilydetailsaction(values))
+                                setEditmode(false)
+                                settempdata(undefined)
+                                setModaldialog(false)
+
+                            }
+                        }}
+                        initialValues={!editmode ? {
+
+                        } : {
+                            id: tempdata.id,
+                            FullName: tempdata.FullName,
+                            Date_Of_Birth: new Date(tempdata.Date_Of_Birth),
+                            Relationship_with_employee: tempdata.Relationship_with_employee,
+                            Contact_Number: tempdata.Contact_Number,
+                        }}
+
+                        validate={validate}
+
+                        render={({ handleSubmit, values, submitting,
+                            submitError,
+                            invalid,
+                            pristine,
+                            initialValues = {},
+                            dirtySinceLastSubmit, }) => (
+                            <form onSubmit={handleSubmit} >
+                                <br></br>
+                                <div className="p-fluid  grid">
+
+
+                                    <div className="field col-12 md:col-6">
+                                        <Field
+                                            name="FullName"
+                                            render={({ input, meta }) => (
+                                                <div className="field fluid">
+                                                    <label htmlFor="FullName">Full Name</label>
+                                                    <span className="field fluid">
+                                                        <InputText maxLength={50} id="FullName" {...input} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <label htmlFor="FullName" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
+                                                    </span>
+                                                    {getFormErrorMessage(meta)}
+                                                </div>
+                                            )}
+                                        />
+                                    </div>
+                                    <div className="field col-12 md:col-6">
+                                        <Field
+                                            name="Date_Of_Birth"
+                                            render={({ input, meta }) => (
+                                                <div className="field " >
+                                                    <label htmlFor="Date_Of_Birth ">Date Of Birth (As per Aadhar Card)*</label>
+                                                    <Calendar id="ExpectedDOJ" {...input} dateFormat="mm/dd/yy" showIcon placeholder="Select a Date" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+
+                                                    <span className="label">
+                                                        <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
+                                                    </span>
+                                                    {getFormErrorMessage(meta)}
+                                                </div>
+                                            )}
+                                        />
+                                    </div>
+
+                                    <div className="field col-12 md:col-6">
+
+                                        <Field
+                                            name="Relationship_with_employee"
+                                            render={({ input, meta }) => (
+                                                <div className="field fluid">
+                                                    <label htmlFor="Relationship_with_employee">Relationship</label>
+                                                    <span className="field fluid">
+                                                        <InputText maxLength={50} id="Relationship_with_employee" {...input} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <label htmlFor="Relationship_with_employee" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
+                                                    </span>
+                                                    {getFormErrorMessage(meta)}
+                                                </div>
+                                            )}
+                                        />
+                                    </div>
+
+                                    <div className="field col-12 md:col-11">
+                                        <Field
+                                            name="Contact_Number"
+                                            render={({ input, meta }) => (
+                                                <div className="field " >
+                                                    <label htmlFor="Contact_Number">Contact No*</label>
+                                                    <span className="label">
+                                                        {/* <InputNumber id="Employee Name " value={values.NoOfPositions} onChange={e=>values["ContactNumber"]=e.value} max={9999999999} {...input} autoFocus className={classNames({ "p-invalid": isFormFieldValid(meta) })} /> */}
+                                                        {/* <InputMask  value="12345"   mask="99-9999999999" /> */}
+                                                        {/* <InputMask id="Contact_Number" mask="99-9999999999" {...input} value={values.Contact_Number} placeholder="91-9999999999" ></InputMask> */}
+                                                        <InputMask {...input} mask="99-9999999999" />
+
+                                                        <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
+                                                    </span>
+                                                    {getFormErrorMessage(meta)}
+                                                </div>
+                                            )}
+                                        />
+                                        <br>
+                                        </br>
+
+
+
+                                    </div>
+                                </div>
+                                <div className="p-fluid  grid">
+                                    <div className="field col-12 md:col-6">
+
+                                        <Button type='button' onClick={e => setModaldialog(false)}>Cancel</Button>
+                                    </div>
+                                    <div className="field col-12 md:col-6">
+                                        <Button type='submit'> Save</Button>
+                                    </div>
+                                </div>
+                            </form>
+
+
+                        )}
+                    />
+                </Dialog>
+                <br></br>
+
+
+                <div className='grid' style={gridview=="grid"?{display:"flex"}:{display:"block"}}>
+                    {gridview=="grid"?familydetailsdata.map((e) => <div className='lg:col-3 md:col-6 sm:col-2 gap-4' key={e.id.toString()}>
+                        <Card className='card1 margin-auto'>
+                            <div className="p-fluid  grid card1content">
+                               
+                                <div className="card-body">
+                                    <p className="qualification">Name : {e.FullName}</p>
+                                    <p className="date-range"> Date Of Birth : {formatDate(new Date(e.Date_Of_Birth)) }</p>
+                                    <p className="specialization"> Relationship : {e.Relationship_with_employee}</p>
+                                    <p className="institution">Contact : {e.Contact_Number}</p>
+                               
+
+                                </div>
+
+                                <br></br>
+
+
+                            </div>
+                            
+                            <br />
+                            <div className="card-footer p-fluid grid ">
+                                <div className="field col-12 md:col-4 flex">
+
+                                </div>
+                                <div className="field col-12 md:col-3 flex">
+
+
+                                </div>
+                                <div className="field col-12 md:col-5 flex gap-2">
+                                    <Button className="p-button-info editbutton mr-2" style={{ height: "35px", width: "3.5rem" }} label="" icon="pi pi-pencil" onClick={() => { setEditmode(true); settempdata(e); setModaldialog(true); }}></Button>
+
+
+                                
+                                    <Button style={{ height: "35px", width: "3.5rem" }} icon="pi pi-trash" className="p-button-danger" onClick={() => dispatch(deletefamilydetailsaction({
+                                        "id": e.id
+
+                                    }))} />
+
+                                </div>
+
+
+
+
+                            </div>
+
+                        </Card>
+                        <br></br>
+
+                    </div>)
+
+                    :
+                    
+                    
+                    <DataTable   className='dttable' value={familydetailsdata} showGridlines={false} responsiveLayout="scroll" paginator={true} rows={5}
+                globalFilterFields={['FullName','Date_Of_Birth','Relationship_with_employee','Contact_Number']} filters={filters2} header={Headercomp}>
+
+                <Column field="FullName" header="FullName" sortable style={{ minWidth: '11rem', maxWidth: '14rem' }} ></Column>
+                <Column field="Date_Of_Birth" header="Date Of Birth" body={formatdob}sortable></Column>
+                <Column field="Relationship_with_employee" header="Relationship"sortable></Column>
+                <Column field="Contact_Number" header="Contact Number"  sortable></Column>
+                
+               
+                <Column field="action" header="Actions" body={actionBodyTemplate} exportable={false}></Column>
+            </DataTable>
+                    
+                    
+                    }
+                </div>
+
+
+
+
+            </Panel>
+<br/>
             <div className="p-fluid  grid">
 
                 <div className="field col-12 md:col-4 flex">
-                    <Button onClick={e => dispatch(setprevcandidateinfotab("lkdjf"))}>Previous</Button>
+                </div>
+                <div className="field col-12 md:col-4 flex">
+                </div>
+
+                <div className="field col-12 md:col-4 flex gap-4">
+                    <Button className='mr-4' onClick={e => dispatch(setprevcandidateinfotab())}>Previous</Button>
                     <Button onClick={e => dispatch(setnextcandidateinfotab())}>Next</Button>
                 </div>
             </div>

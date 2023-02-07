@@ -204,7 +204,7 @@ const ManageCompany = () => {
                     </DataTable>
                 </div>
 
-                <Dialog visible={productDialog} style={{ width: "450px" }} header={editmode?"Edit Companys Information ":"Add Companys Information " }footer={productDialogFooter} modal className="p-fluid"  onHide={hideDialog}>
+                <Dialog visible={productDialog} position="top"  keepInViewport={false}style={{ width: "450px" }} header={editmode?"Edit Companys Information ":"Add Companys Information " }footer={productDialogFooter} modal className="p-fluid"  onHide={hideDialog}>
                     <div className="field">
                         <label htmlFor="CompanyName<">Company Name</label>
                         <InputText className={ issave==true&&companyname==""?"p-invalid":"p-valid"} placeholder={companyname==""?"":""} id=" CompanyName" onChange={(e) => setCompanyname(e.target.value)} value={companyname}></InputText>

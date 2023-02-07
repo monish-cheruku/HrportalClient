@@ -511,7 +511,7 @@ function PersonalDetails() {
                                 <Button className="mr-3" onClick={e => console.log()}>cancel</Button>
                                 <Button type='submit'
                                 // onClick={e => dispatch(setnextcandidateinfotab(";aufhds"))}
-                                >Next</Button>
+                                >Save & Next</Button>
                             </div>
                         </div>
 
