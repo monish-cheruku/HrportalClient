@@ -7,69 +7,72 @@ function Annexure(props) {
     })
     return (
         <div>
-            <table style={{ borderCollapse: "collapse",border: "1px solid #dddddd" ,width:"100%"}}>
+            <table style={{ borderCollapse: "collapse", border: "1px solid #dddddd", width: "100%" }}>
                 <tr>
-                    <td style={{ border: "1px solid #dddddd" }}>NAME   </td>
+                    <td style={{ border: "1px solid #dddddd", fontWeight: "bold" }}>Name</td>
 
-                    <td style={{ border: "1px solid #dddddd",textAlign:"center"  }} colSpan={2}>{data.varName}</td>
+                    <td style={{ border: "1px solid #dddddd", textAlign: "center", fontWeight: "bold" }} colSpan={2}>{data.varName}</td>
                 </tr>
                 <tr>
-                    <td style={{ border: "1px solid #dddddd" }}>Band   </td>
+                    <td style={{ border: "1px solid #dddddd", fontWeight: "bold" }}>Band   </td>
 
-                    <td style={{ border: "1px solid #dddddd",textAlign:"center" }} colSpan={2}>{data.varBand}</td>
+                    <td style={{ border: "1px solid #dddddd", textAlign: "center", fontWeight: "bold" }} colSpan={2}>{data.varBand}</td>
                 </tr>
                 <tr>
-                    <td style={{ border: "1px solid #dddddd" }}>Sub Band   </td>
+                    <td style={{ border: "1px solid #dddddd", fontWeight: "bold" }}>Sub Band   </td>
 
-                    <td style={{ border: "1px solid #dddddd",textAlign:"center" }} colSpan={2}>{data.varSubBand}</td>
+                    <td style={{ border: "1px solid #dddddd", textAlign: "center", fontWeight: "bold" }} colSpan={2}>{data.varSubBand}</td>
                 </tr>
                 <tr>
-                    <td style={{ border: "1px solid #dddddd" }}>Designation   </td>
+                    <td style={{ border: "1px solid #dddddd", fontWeight: "bold" }}>Designation   </td>
 
-                    <td style={{ border: "1px solid #dddddd",textAlign:"center" }} colSpan={2}>{data.varDesignation}</td>
+                    <td style={{ border: "1px solid #dddddd", textAlign: "center", fontWeight: "bold" }} colSpan={2}>{data.varDesignation}</td>
                 </tr>
                 <tr>
-                    <td style={{ border: "1px solid #dddddd" }}>Location   </td>
+                    <td style={{ border: "1px solid #dddddd", fontWeight: "bold" }}>Location   </td>
 
-                    <td style={{ border: "1px solid #dddddd",textAlign:"center" }} colSpan={2}>{data.varLocation}</td>
+                    <td style={{ border: "1px solid #dddddd", textAlign: "center", fontWeight: "bold" }} colSpan={2}>{data.varLocation}</td>
                 </tr>
-              
+
                 {!data.iSVariablePay ? <>
-                    <tr>
-                    <td style={{backgroundColor:"skyblue"}}>Total Gross Salary	:</td>
-                    
-                    <td  colSpan={2}  style={{backgroundColor:"skyblue",textAlign:"center"}}>{data.varTotalACTC}</td>
-                </tr>
+                    <tr  style={{ backgroundColor: "#17375d"}}>
+                    <td height={20} colSpan={3} style={{ border: "1px solid #dddddd", textAlign: "center" }}> </td>  
+                    </tr>
                     <tr >
-                        <tr style={{ border: "1px solid #dddddd",fontWeight:"600",display:"flex",borderCollapse: "collapse",backgroundColor:"skyblue" }}>Components</tr>
-                        <th style={{ border: "1px solid #dddddd" }}>Per Month</th>
-                        <th style={{ border: "1px solid #dddddd" }}>Per Annum</th>
+                        <td style={{ backgroundColor: "#17375d",fontWeight: "bold", color:"white"  }}>Total Gross Salary	:</td>
+                        <td style={{ border: "1px solid #dddddd", textAlign: "center" }}></td>    
+                        <td style={{ fontWeight: "bold",  border: "1px solid #dddddd",textAlign: "center" }}>{data.varTotalACTC}</td>
+                    </tr>
+                    <tr style={{ backgroundColor: "#17375d"}}>
+                        <th style={{ border: "1px solid #dddddd",  color:"white", textAlign: "left"  }}>Components</th>
+                        <th style={{ border: "1px solid #dddddd", color:"white" }}>Per Month</th>
+                        <th style={{ border: "1px solid #dddddd", color:"white" }}>Per Annum</th>
                     </tr>
                     <tr>
-                        <td style={{ border: "1px solid #dddddd",backgroundColor:"skyblue" }}>Basic</td>
-                        <td style={{ border: "1px solid #dddddd",textAlign:"center" }}>{data.varMBasic}</td>
-                        <td style={{ border: "1px solid #dddddd",textAlign:"center" }}>{data.varABasic}</td>
+                        <td style={{ border: "1px solid #dddddd", backgroundColor: "#17375d", fontWeight: "bold",color:"white" }}>Basic</td>
+                        <td style={{ border: "1px solid #dddddd", textAlign: "center",fontWeight: "bold" }}>{data.varMBasic}</td>
+                        <td style={{ border: "1px solid #dddddd", textAlign: "center",fontWeight: "bold" }}>{data.varABasic}</td>
                     </tr>
                     <tr>
-                        <td style={{ border: "1px solid #dddddd" ,backgroundColor:"skyblue"}}>HRA</td>
-                        <td style={{ border: "1px solid #dddddd",textAlign:"center" }}>{data.varMHRA}</td>
-                        <td style={{ border: "1px solid #dddddd",textAlign:"center" }}>{data.varAHRA}</td>
-                   
-                        
+                        <td style={{ border: "1px solid #dddddd", backgroundColor: "#17375d", fontWeight: "bold",color:"white" }}>HRA</td>
+                        <td style={{ border: "1px solid #dddddd", textAlign: "center",fontWeight: "bold" }}>{data.varMHRA}</td>
+                        <td style={{ border: "1px solid #dddddd", textAlign: "center",fontWeight: "bold" }}>{data.varAHRA}</td>
+
+
                     </tr>
                     <tr>
-                        <td style={{ border: "1px solid #dddddd",backgroundColor:"skyblue" }}>Employer Provident Fund	</td>
-                        <td style={{ border: "1px solid #dddddd",textAlign:"center" }}>{data.varMPF}</td>
-                        <td style={{ border: "1px solid #dddddd",textAlign:"center" }}>{data.varAPF}</td>
+                        <td style={{ border: "1px solid #dddddd", backgroundColor: "#17375d", fontWeight: "bold",color:"white" }}>Employer Provident Fund	</td>
+                        <td style={{ border: "1px solid #dddddd", textAlign: "center",fontWeight: "bold" }}>{data.varMPF}</td>
+                        <td style={{ border: "1px solid #dddddd", textAlign: "center" ,fontWeight: "bold"}}>{data.varAPF}</td>
                     </tr>
 
 
                     {
                         data.iSBonus == true ? <>
                             <tr>
-                                <td style={{ border: "1px solid #dddddd",backgroundColor:"skyblue" }}>Statutory Bonus</td>
-                                <td style={{ border: "1px solid #dddddd",textAlign:"center" }}>{data.varMBonus}</td>
-                                <td style={{ border: "1px solid #dddddd" ,textAlign:"center"}}>{data.varABonus}</td>
+                                <td style={{ border: "1px solid #dddddd", backgroundColor: "#17375d", fontWeight: "bold",color:"white" }}>Statutory Bonus</td>
+                                <td style={{ border: "1px solid #dddddd", textAlign: "center",fontWeight: "bold" }}>{data.varMBonus}</td>
+                                <td style={{ border: "1px solid #dddddd", textAlign: "center" ,fontWeight: "bold"}}>{data.varABonus}</td>
                             </tr>
 
                         </>
@@ -79,9 +82,9 @@ function Annexure(props) {
                     {
                         data.iSShiftAllow == true ? <>
                             <tr>
-                                <td style={{ border: "1px solid #dddddd" ,backgroundColor:"skyblue"}}>Shift Allowance</td>
-                                <td style={{ border: "1px solid #dddddd",textAlign:"center" }}>{data.varMShiftAllow}</td>
-                                <td style={{ border: "1px solid #dddddd" ,textAlign:"center"}}>{data.varTotalFixedCTC}</td>
+                                <td style={{ border: "1px solid #dddddd", backgroundColor: "#17375d", fontWeight: "bold",color:"white" }}>Shift Allowance</td>
+                                <td style={{ border: "1px solid #dddddd", textAlign: "center" ,fontWeight: "bold"}}>{data.varMShiftAllow}</td>
+                                <td style={{ border: "1px solid #dddddd", textAlign: "center" ,fontWeight: "bold"}}>{data.varTotalFixedCTC}</td>
                             </tr>
 
                         </>
@@ -89,67 +92,67 @@ function Annexure(props) {
                             <></>
                     }
                     <tr>
-                        <td style={{ border: "1px solid #dddddd",backgroundColor:"skyblue" }}>Flexible Benefit  Plan </td>
-                        <td style={{ border: "1px solid #dddddd",textAlign:"center" }}>{data.varMFBP}</td>
-                        <td style={{ border: "1px solid #dddddd",textAlign:"center" }}>{data.varAFBP}</td>
+                        <td style={{ border: "1px solid #dddddd", backgroundColor: "#17375d", fontWeight: "bold",color:"white" }}>Flexible Benefit  Plan </td>
+                        <td style={{ border: "1px solid #dddddd", textAlign: "center" ,fontWeight: "bold"}}>{data.varMFBP}</td>
+                        <td style={{ border: "1px solid #dddddd", textAlign: "center",fontWeight: "bold" }}>{data.varAFBP}</td>
                     </tr>
 
 
 
                     <tr>
-                        <td  style={{ border: "1px solid #dddddd",backgroundColor:"skyblue" }}>Total  </td>
-                        <td  style={{ border: "1px solid #dddddd",textAlign:"center" }}>{data.varTotalMCTC}</td>
-                        <td  style={{ border: "1px solid #dddddd",textAlign:"center" }}>{data.varTotalACTC}</td>
+                        <td style={{ border: "1px solid #dddddd", backgroundColor: "#17375d", fontWeight: "bold",color:"white" }}>Total  </td>
+                        <td style={{ border: "1px solid #dddddd", textAlign: "center" ,fontWeight: "bold"}}>{data.varTotalMCTC}</td>
+                        <td style={{ border: "1px solid #dddddd", textAlign: "center" ,fontWeight: "bold"}}>{data.varTotalACTC}</td>
                     </tr>
 
 
                     <tr>
-                        <td style={{ border: "1px solid #dddddd",backgroundColor:"skyblue" }}>Total CTC</td>
+                        <td style={{ border: "1px solid #dddddd", backgroundColor: "#17375d", fontWeight: "bold",color:"white" }}>Total CTC</td>
                         <td style={{ border: "1px solid #dddddd" }}></td>
-                        <td style={{ border: "1px solid #dddddd" ,textAlign:"center"}}>{data.varTotalACTC}</td>
+                        <td style={{ border: "1px solid #dddddd", textAlign: "center" ,fontWeight: "bold"}}>{data.varTotalACTC}</td>
                     </tr>
 
 
 
                 </> : <>
-                <tr>
-                        <th style={{ border: "1px solid #dddddd",backgroundColor:"skyblue" }}>Components</th>
-                       
-                        <th style={{ border: "1px solid #dddddd",backgroundColor:"skyblue" }} colSpan={2}></th>
-                    </tr>
-                <tr>
-                        <tr style={{ border: "1px solid #dddddd",fontWeight:"600" }}>Fixed Compensation:</tr>
-                        <th style={{ border: "1px solid #dddddd" ,textAlign:"center"}}>{data.varFixedPayPerc}%</th>
-                        <th style={{ border: "1px solid #dddddd",textAlign:"center" }}>{data.varTotalFixedCTC}</th>
+                    <tr style={{backgroundColor: "#17375d"}}>
+                        <th style={{ border: "1px solid #dddddd", color:"white" }}>Components</th>
+
+                        <th style={{ border: "1px solid #dddddd" }} colSpan={2}></th>
                     </tr>
                     <tr>
-                        <th style={{ border: "1px solid #dddddd",backgroundColor:"skyblue"  }}>A.Fixed Compensation:</th>
+                        <th style={{ border: "1px solid #dddddd", backgroundColor:"#808080", color:"white", textAlign: "left", fontWeight: "bold" }}>Fixed Compensation:</th>
+                        <th style={{ border: "1px solid #dddddd", textAlign: "center" }}>{data.varFixedPayPerc}%</th>
+                        <th style={{ border: "1px solid #dddddd", textAlign: "center" }}>{data.varTotalFixedCTC}</th>
+                    </tr>
+                    <tr>
+                        <th style={{ border: "1px solid #dddddd", backgroundColor: "#17375d" , fontWeight: "bold", color:"white"}}>A.Fixed Compensation:</th>
                         <th style={{ border: "1px solid #dddddd" }}>Per Month</th>
                         <th style={{ border: "1px solid #dddddd" }}>Per Annum</th>
                     </tr>
                     <tr>
-                        <td style={{ border: "1px solid #dddddd" }}>Basic</td>
-                        <td style={{ border: "1px solid #dddddd" ,textAlign:"center"}}>{data.varMBasic}</td>
-                        <td style={{ border: "1px solid #dddddd",textAlign:"center" }}>{data.varABasic}</td>
+                        <td style={{ border: "1px solid #dddddd", backgroundColor:"#808080", color:"white", textAlign: "left", fontWeight: "bold" }}>Basic</td>
+                        <td style={{ border: "1px solid #dddddd", textAlign: "center", fontWeight: "bold" }}>{data.varMBasic}</td>
+                        <td style={{ border: "1px solid #dddddd", textAlign: "center" , fontWeight: "bold"}}>{data.varABasic}</td>
                     </tr>
                     <tr>
-                        <td style={{ border: "1px solid #dddddd" }}>HRA</td>
-                        <td style={{ border: "1px solid #dddddd" ,textAlign:"center"}}>{data.varMHRA}</td>
-                        <td style={{ border: "1px solid #dddddd" ,textAlign:"center"}}>{data.varAHRA}</td>
+                        <td style={{ border: "1px solid #dddddd", backgroundColor:"#808080", color:"white", textAlign: "left", fontWeight: "bold" }}>HRA</td>
+                        <td style={{ border: "1px solid #dddddd", textAlign: "center", fontWeight: "bold" }}>{data.varMHRA}</td>
+                        <td style={{ border: "1px solid #dddddd", textAlign: "center" , fontWeight: "bold"}}>{data.varAHRA}</td>
                     </tr>
                     <tr>
-                        <td style={{ border: "1px solid #dddddd" }}>Employer Provident Fund	</td>
-                        <td style={{ border: "1px solid #dddddd" ,textAlign:"center"}}>{data.varMPF}</td>
-                        <td style={{ border: "1px solid #dddddd" ,textAlign:"center"}}>{data.varAPF}</td>
+                        <td style={{ border: "1px solid #dddddd", backgroundColor:"#808080", color:"white", textAlign: "left", fontWeight: "bold" }}>Employer Provident Fund	</td>
+                        <td style={{ border: "1px solid #dddddd", textAlign: "center", fontWeight: "bold" }}>{data.varMPF}</td>
+                        <td style={{ border: "1px solid #dddddd", textAlign: "center", fontWeight: "bold" }}>{data.varAPF}</td>
                     </tr>
 
 
                     {
                         data.iSBonus == true ? <>
                             <tr>
-                                <td style={{ border: "1px solid #dddddd" }}>Statutory Bonus</td>
-                                <td style={{ border: "1px solid #dddddd",textAlign:"center" }}>{data.varMBonus}</td>
-                                <td style={{ border: "1px solid #dddddd",textAlign:"center" }}>{data.varABonus}</td>
+                                <td style={{ border: "1px solid #dddddd", backgroundColor:"#808080", color:"white", textAlign: "left", fontWeight: "bold" }}>Statutory Bonus</td>
+                                <td style={{ border: "1px solid #dddddd", textAlign: "center", fontWeight: "bold" }}>{data.varMBonus}</td>
+                                <td style={{ border: "1px solid #dddddd", textAlign: "center" , fontWeight: "bold"}}>{data.varABonus}</td>
                             </tr>
 
                         </>
@@ -159,9 +162,9 @@ function Annexure(props) {
                     {
                         data.iSShiftAllow == true ? <>
                             <tr>
-                                <td style={{ border: "1px solid #dddddd" }}>Shift Allowance</td>
-                                <td style={{ border: "1px solid #dddddd",textAlign:"center" }}>{data.varMShiftAllow}</td>
-                                <td style={{ border: "1px solid #dddddd" ,textAlign:"center"}}>{data.varTotalFixedCTC}</td>
+                                <td style={{ border: "1px solid #dddddd", backgroundColor:"#808080", color:"white", textAlign: "left", fontWeight: "bold" }}>Shift Allowance</td>
+                                <td style={{ border: "1px solid #dddddd", textAlign: "center", fontWeight: "bold" }}>{data.varMShiftAllow}</td>
+                                <td style={{ border: "1px solid #dddddd", textAlign: "center", fontWeight: "bold" }}>{data.varTotalFixedCTC}</td>
                             </tr>
 
                         </>
@@ -169,38 +172,38 @@ function Annexure(props) {
                             <></>
                     }
                     <tr>
-                        <td style={{ border: "1px solid #dddddd" }}>Flexible Benefit  Plan </td>
-                        <td style={{ border: "1px solid #dddddd" ,textAlign:"center"}}>{data.varMFBP}</td>
-                        <td style={{ border: "1px solid #dddddd",textAlign:"center" }}>{data.varAFBP}</td>
+                        <td style={{ border: "1px solid #dddddd", backgroundColor:"#808080", color:"white", textAlign: "left", fontWeight: "bold" }}>Flexible Benefit  Plan </td>
+                        <td style={{ border: "1px solid #dddddd", textAlign: "center" , fontWeight: "bold"}}>{data.varMFBP}</td>
+                        <td style={{ border: "1px solid #dddddd", textAlign: "center", fontWeight: "bold" }}>{data.varAFBP}</td>
                     </tr>
 
 
 
                     <tr>
-                        <td style={{ border: "1px solid #dddddd" ,textAlign:"center",backgroundColor:"skyblue" ,fontWeight:"700"}}>Total (A) </td>
-                        <td style={{ border: "1px solid #dddddd",textAlign:"center" }}>{data.varTotalMCTC}</td>
-                        <td style={{ border: "1px solid #dddddd",textAlign:"center" }}>{data.varTotalFixedCTC}</td>
+                        <td style={{ border: "1px solid #dddddd", textAlign: "center", backgroundColor: "#17375d", fontWeight: "bold",color:"white" }}>Total (A) </td>
+                        <td style={{ border: "1px solid #dddddd", textAlign: "center" , fontWeight: "bold"}}>{data.varTotalMCTC}</td>
+                        <td style={{ border: "1px solid #dddddd", textAlign: "center" , fontWeight: "bold"}}>{data.varTotalFixedCTC}</td>
                     </tr>
                     <tr>
-                        <td style={{ border: "1px solid #dddddd",textAlign:"center",backgroundColor:"skyblue",fontWeight:"700"  }}>B. Variable Compensation </td>
-                        <td style={{ border: "1px solid #dddddd" }}>Per annum</td>
+                        <td style={{ border: "1px solid #dddddd", textAlign: "center", backgroundColor: "#17375d", fontWeight: "bold", color:"white" }}>B. Variable Compensation </td>
+                        <td colSpan={2} style={{ border: "1px solid #dddddd", textAlign: "center", fontWeight: "bold" }}>Per annum</td>
                     </tr>
                     <tr>
-                        <td style={{ border: "1px solid #dddddd" }}>Individual Performance Linked Pay</td>
-                        <td style={{ border: "1px solid #dddddd",textAlign:"center" }}>{data.varVariablePayPerc}%</td>
-                        <td style={{ border: "1px solid #dddddd" ,textAlign:"center"}}>{data.varVariablePay}</td>
+                        <td style={{ border: "1px solid #dddddd", backgroundColor:"#808080", color:"white", textAlign: "left", fontWeight: "bold" }}>Individual Performance Linked Pay</td>
+                        <td style={{ border: "1px solid #dddddd", textAlign: "center", fontWeight: "bold" }}>{data.varVariablePayPerc}%</td>
+                        <td style={{ border: "1px solid #dddddd", textAlign: "center", fontWeight: "bold" }}>{data.varVariablePay}</td>
                     </tr>
                     <tr>
-                        <td style={{ border: "1px solid #dddddd" ,textAlign:"center",backgroundColor:"skyblue",fontWeight:"700" }}>Total (B) </td>
-                        <td style={{ border: "1px solid #dddddd" }}>{}</td>
-                        <td style={{ border: "1px solid #dddddd",textAlign:"center" }}>{data.varVariablePay}</td>
+                        <td style={{ border: "1px solid #dddddd", textAlign: "center", backgroundColor: "#17375d", fontWeight: "bold",color:"white" }}>Total (B) </td>
+                        <td style={{ border: "1px solid #dddddd" }}>{ }</td>
+                        <td style={{ border: "1px solid #dddddd", textAlign: "center" , fontWeight: "bold"}}>{data.varVariablePay}</td>
                     </tr>
 
 
                     <tr>
-                        <td style={{ border: "1px solid #dddddd" ,backgroundColor:"skyblue",fontWeight:"700" }}>Total Cash Compensation (A+B) (TCC)</td>
+                        <td style={{ border: "1px solid #dddddd", textAlign: "center", backgroundColor: "#17375d", fontWeight: "bold",color:"white" }}>Total Cash Compensation (A+B) (TCC)</td>
                         <td style={{ border: "1px solid #dddddd" }}></td>
-                        <td style={{ border: "1px solid #dddddd",textAlign:"center" }}>{data.varTotalACTC}</td>
+                        <td style={{ border: "1px solid #dddddd", textAlign: "center" , fontWeight: "bold"}}>{data.varTotalACTC}</td>
                     </tr>
 
                 </>}

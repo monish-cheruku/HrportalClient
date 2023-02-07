@@ -261,6 +261,7 @@ export const selectedcandidateactions = {
   // getallselectedcandidatedata:(data)=>requests.post("candidate/gridcandidates",data),
   // createselectedcandidate:(data)=>requests.post("candidate/addcandidate",data),//not used by any slice api not there ?
   updateselectedcandidate:(data)=>requests.post("candidate/updateselectedcandidate",data),
+  sendOfferLetter:(data)=>requests.post("candidate/sendOfferLetter",data),
   // selectedcandidatedetails:(data)=>requests.post("candidate/candidateactionsdetails",data),
  
 }

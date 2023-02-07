@@ -7,7 +7,7 @@ import { InputNumber } from 'primereact/inputnumber'
 import { InputText } from 'primereact/inputtext'
 import { Panel } from 'primereact/panel'
 import { classNames } from 'primereact/utils'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Field, Form } from 'react-final-form'
 import { useDispatch } from 'react-redux'
 import { connect } from 'react-redux'
@@ -27,18 +27,27 @@ import { RootState } from '../../../app/store'
 import { Accordion, AccordionTab } from 'primereact/accordion'
 import Annexure from './Annexure'
 import { Dialog } from 'primereact/dialog'
+import { selectedcandidateactions } from '../../../api/agent'
+import { Toast } from 'primereact/toast';
+import { ProgressSpinner } from 'primereact/progressspinner';
+import LoadingOverlay from "react-loading-overlay";
 
 function SelectedCandidateDetails(props) {
     const location = useLocation()
     const [data, setdata] = useState(location.state)
     const logindata = useSelector((state: RootState) => state.Login)
     const annexuredata = useSelector((state: RootState) => state.anexure)
+    const toaststatus = useSelector((state: RootState) => state.toaster.status)
     const [mode, setmode] = useState(data.designation ? "true" : "false")
     const [candidatedata, setCandidatedata] = useState(data.candidate)
     const [jobpostdata, setjobpostdata] = useState(data.jobpost)
+    const [doj, setDoj] = useState(data.DateOfJoining)
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [show, setshow] = useState(false)
+    const toast = useRef(null);
+    const [showspinner, setShowspinner] = useState(false)
+    
     useEffect(() => {
         dispatch(getdesignationsaction())
         dispatch(getBandaction())
@@ -64,14 +73,19 @@ function SelectedCandidateDetails(props) {
         var arr = [
 
             "designation", "band", "subband"
-            , "DateOfJoining", "IsVariable"
+            , "DateOfJoining"
 
         ]
         arr.forEach((i) => {
-            if (!values[i] && !values[i] == false) {
+            if (!values[i] ) {
                 errors[i.toString()] = "* This field is required";
             }
         })
+        console.log(values.IsVariable)
+        if ( values.IsVariable  == null) {
+
+            errors["IsVariable"] = "*This field is required"
+        }
         if (!values["VariablePay"] && values.IsVariable == true) {
             // console.log(values["Duration"])
 
@@ -116,6 +130,7 @@ function SelectedCandidateDetails(props) {
         return temp
     }
     const shoulddisanleanexurebutton = (values) => {
+ 
         console.log(values)
         if (!values.IsVariable) {
             if (
@@ -154,18 +169,11 @@ function SelectedCandidateDetails(props) {
             values.designation &&
             values.band &&
             values.subband &&
-            values.FixedCTC &&
-            values.VariablePercentage &&
-            values.MQVariable &&
-            values.IS_Eligible_annu_Mgnt_Bonus &&
-            values.IS_Eligible_Joining_Bonus &&
-            values.IS_Eligible_Monthly_Incentive) {
-
-
-        }
-        // values.selectedcandidateid=data.Selected_Candidate_ID?data.Selected_Candidate_ID:values.selectedcandidateid
-        {
-            values.candidate =
+            values.FixedCTC 
+      ) {
+   
+            var datetemp = new Date(values.DateOfJoining)            
+            values.DateOfJoining = datetemp.getFullYear() + "-" + (datetemp.getMonth() + 1) + "-" + datetemp.getDate()        
             await dispatch(previewannexureaction(values))
             await setdata(values)
             await setmode("draft")
@@ -180,9 +188,18 @@ function SelectedCandidateDetails(props) {
         )
     }
     return (
-        <>
+        <> 
+              <LoadingOverlay
+        active={showspinner}
+        spinner
+        text="Generating Offer Letter..."
+      >
+        {/* {showspinner &&
+            <ProgressSpinner  style={{width: '50px', height: '50px'}} strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s"/>
+            } */}
+            <Toast ref={toast} position="bottom-left" />
             {console.log(mode)}
-
+            {console.log(data)}
             <Card>
                 <Dialog visible={show} style={{ width: "50%" }} header="Annexure Information " modal className="p-fluid" footer={DialogFooter} onHide={() => setshow(false)}>
 
@@ -208,15 +225,46 @@ function SelectedCandidateDetails(props) {
                 <br></br>
                 <Form
 
-                    onSubmit={(values: any) => {
+                    onSubmit={async(values: any) => {
                         values["FixedCTC"] = parseInt(values["FixedCTC"])
                         values["VariablePay"] = parseInt(values["VariablePay"])
+                        console.log(values.DateOfJoining)
+                        // console.log(typeof values.DateOfJoining)
+                        // var tempdate = values.DateOfJoining
                         var datetemp = new Date(values.DateOfJoining)
                         values["FinalCTC"] = values["FixedCTC"] + ((values["IsVariable"] ? (values["VariablePay"]) ? values["VariablePay"] : 0 : 0))
-                        values.DateOfJoining = datetemp.getFullYear() + "-" + (datetemp.getMonth() + 1) + "-" + datetemp.getDate()
-                        console.log(values)
-                        dispatch(updateselectedcandidatesaction(values))
-                        navigate(-1)
+                        values["doj"] = datetemp.getFullYear() + "-" + (datetemp.getMonth() + 1) + "-" + datetemp.getDate()
+                        console.log(values)                        
+                        // await setdata(values)
+                        // await setmode("draft")
+                        // dispatch(updateselectedcandidatesaction(values))
+                        try {
+                            setShowspinner(true)
+                            selectedcandidateactions.updateselectedcandidate(values)
+                            .then((res)=>{ console.log(res);
+                                setShowspinner(false)
+                                toast.current.show({severity:'success', summary: 'Success Message', detail:res, life: 3000});
+                                })
+                            .catch((ex)=>{console.log(ex);
+                                setShowspinner(false)
+                                // setdata(values); setmode('draft');
+                            toast.current.show({severity:'error', summary: 'Error Message', detail:ex, life: 3000});})
+                  
+                            // console.log(res)
+                    
+                            // yield put({type:"selectedcandidates/selectedandidatesdata",payload:res})
+                           
+                        }
+                        catch (err) {
+                            console.log(err)                 
+                    
+                            setShowspinner(false)
+                    
+                        }
+                        // values.DateOfJoining = tempdate
+                        
+                        // console.log(toaststatus)
+                        // navigate(-1)
                         // console.log(values.OnBoardingDate)
                         // var datetemp = new Date(values.OnBoardingDate)
                         // console.log(datetemp.getMonth())
@@ -254,15 +302,24 @@ function SelectedCandidateDetails(props) {
                         "IS_Eligible_Monthly_Incentive": data.IS_Eligible_Monthly_Incentive,
                         "VariablePay": data.VariablePay,
                         "IsVariable": data.IsVariable
+                        
+                        
                     } : mode == "false" ? {
 
                         "selectedcandidateid": data.Selected_Candidate_ID,
                         // "VariablePay": 0,
-                        "Is_Eligible_annu_Mgnt_Bonus": data.IS_Eligible_annu_Mgnt_Bonus,
-                        "Is_Eligible_Joining_Bonus": data.IS_Eligible_Joining_Bonus,
-                        "IS_Eligible_Monthly_Incentive": data.IS_Eligible_Monthly_Incentive,
+                        "Is_Eligible_annu_Mgnt_Bonus": false,
+                        "Is_Eligible_Joining_Bonus": false,
+                        "IS_Eligible_Monthly_Incentive": false,
                         "Modified_By": logindata.username,
-                        "MQVariable": ""
+                        "MQVariable": null,                  
+
+                        "designation": null,
+                        "band": null,
+                        "subband": null,
+                        "VariablePay" : null,
+                        "DateOfJoining": null,
+                        "IsVariable": null
 
 
                     } :
@@ -355,7 +412,7 @@ function SelectedCandidateDetails(props) {
                                         <div className="field">
                                             <label htmlFor="DateOfJoining">Date of joining</label>
                                             <span className="p-float-label">
-                                                <Calendar showIcon={true} id="DateOfJoining" {...input} placeholder="Select Date of joining" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                <Calendar dateFormat='mm/dd/yy' showIcon={true} id="DateOfJoining" {...input} placeholder="Select Date of joining" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                             </span>
                                             {getFormErrorMessage(meta)}
                                         </div>
@@ -366,7 +423,7 @@ function SelectedCandidateDetails(props) {
 
                             </div>
 
-                            <Panel header={"Final CTC"}>
+                            <Panel header={"Cost To Company"}>
                                 <div className="p-fluid  grid">
                                     <div className="field col-12 md:col-3">
                                         <Field name="FixedCTC">
@@ -481,10 +538,11 @@ function SelectedCandidateDetails(props) {
                                 <div className="p-fluid  grid">
                                     <div className="field col-12 md:col-10">
                                     </div>
-                                    <div className="field col-12 md:col-2">
-                                        Final ctc = {(parseInt(values["FixedCTC"]) + ((values["IsVariable"] ? (values["VariablePay"]) ? parseInt(values["VariablePay"]) : 0 : 0))).toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 2 })}
+                                    <div className="field col-12 md:col-2"><b>
+                                        Final CTC = {(parseInt(values["FixedCTC"]?values["FixedCTC"]:0) + ((values["IsVariable"] ? (values["VariablePay"]) ? parseInt(values["VariablePay"]) : 0 : 0))).toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 2 })}
                                         {/* Final ctc = {values["FinalCTC"] } */}
                                         {/* { values["FinalCTC"]=values["FixedCTC"]+((values["IsVariable"]?(values["VariablePay"])?values["VariablePay"]:0:0))} */}
+                                        </b>
                                     </div>
                                 </div>
                             </Panel>
@@ -543,14 +601,14 @@ function SelectedCandidateDetails(props) {
                                     <Button className='mr-3' type="button" disabled={shoulddisanleanexurebutton(values)} onClick={e => {
                                         callpreviewannexure1(values);
 
-                                    }}>calc annexure
+                                    }}>Preview Annexure
 
                                     </Button>
-                                    <Button className='mr-3' type="submit" onClick={e => handleSubmit}>Send Offer Letter
+                                    <Button className='mr-3' type="submit" onClick={e => handleSubmit}>Save & Generate Offer Letter
 
                                     </Button>
-                                    <Button className='mr-3' type="button">Download/Preview Offer Letter
-                                    </Button>
+                                    {/* <Button className='mr-3' type="button">Download/Preview Offer Letter
+                                    </Button> */}
                                     <Button type="button" onClick={e => navigate(-1)}>Cancel
                                     </Button>
                                 </div>
@@ -563,6 +621,7 @@ function SelectedCandidateDetails(props) {
 
                 />
             </Card>
+            </LoadingOverlay>
         </>
     )
 }

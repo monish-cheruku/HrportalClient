@@ -444,6 +444,57 @@ function* previewannexuresagaworker(data) {
 
     }
 }
+
+function* sendofferletteractionsagaworker(data) {
+    try {
+        var res: Promise<any> = yield call(selectedcandidateactions.sendOfferLetter, data.payload)
+        const logindata = store.getState().Login
+        var w: any = []
+        logindata.groups.forEach((i) => w.push(i["name"].toString()))
+        console.log(logindata)
+        yield put(selectedcandidatesaction({
+
+            "RoleName": w,
+
+            "username": logindata.username
+
+        }))
+        // console.log(res)
+
+        // yield put({type:"selectedcandidates/selectedandidatesdata",payload:res})
+        yield put(createtoast({
+
+            id: 454,
+
+            status: "success",
+
+            data: res.toString(),                                                //change this
+
+            endpoint: "400"
+
+        }))
+    }
+    catch (err) {
+        console.log(err)
+
+        yield put(createtoast({
+
+
+            id: 34324,
+
+            status: "error",
+
+            data: err.data[0][0],                                                       //change this
+
+            endpoint: err.config.url.toString()                                        //change this
+
+        }))
+
+
+
+    }
+}
+
 function* updateselectedcandidatesactionsagaworker(data) {
     try {
         var res: Promise<any> = yield call(selectedcandidateactions.updateselectedcandidate, data.payload)
@@ -509,6 +560,7 @@ export function* watcherCandidateAction() {
     yield takeEvery("selectedcandidates/selectedcandidatesaction", selectedcandidatesactionsagaworker)
     yield takeEvery("selectedcandidates/previewannexureaction", previewannexuresagaworker)
     yield takeEvery("selectedcandidates/updateselectedcandidatesaction", updateselectedcandidatesactionsagaworker)
+    yield takeEvery("selectedcandidates/sendofferletteraction", sendofferletteractionsagaworker)
     // yield takeEvery("Candidateactiondetails/candidateactiondetails", getcandiatessagaworker)
     yield takeEvery("Candidateactiondetails/candidateactionsdetailsaction", candidateactionsdetailsactionsagaworker)
     // yield takeEvery("Industry/createIndustryaction", createIndustrysagaworker)

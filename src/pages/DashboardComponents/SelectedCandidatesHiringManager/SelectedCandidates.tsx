@@ -14,8 +14,9 @@ import { RootState } from '../../../app/store';
 // import {  getJobPostActionfromapi, JobPostActiondata } from '../../../features/JobPostActions/jobpostactionsslice';
 import { generatepdf } from "../../../api/agent"
 import { candidateactionsdetailsaction } from '../../../features/CandidateActions/candidateactiondetailsslice';
-import { selectedcandidatesaction } from '../../../features/CandidateActions/selectedcandidatesslice';
+import { selectedcandidatesaction, sendofferletteraction } from '../../../features/CandidateActions/selectedcandidatesslice';
 import { downloadresume } from '../../../features/Downloadpdfs/pdfslice';
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 const SelectedCandidates = () => {
 
 
@@ -36,6 +37,7 @@ const SelectedCandidates = () => {
 
     const selectedcandidatesdata = useSelector((state: RootState) => state.Selectedcandidates);
     const Logindata = useSelector((state: RootState) => state.Login);
+    
 
     // const navigate=useNavigate()
     // // const useRedirect=
@@ -207,6 +209,7 @@ const SelectedCandidates = () => {
             <Link to={'/SelectedCandidatesdetails'} state={rowdata}>{rowdata.candidate.CandidateCode}</Link>
         )
     }
+
     const actionBodyTemplate = (data) => {
         return (
             <React.Fragment>
@@ -238,8 +241,18 @@ const SelectedCandidates = () => {
                             disabled = {data.IsOfferAccepted}
                        
                             onClick={(e) => {
-
-                                navigate("/myjobposts/updatejobpost", { state: { data } })
+                                // confirmDialog({
+                                //     message: 'Are you sure you want to proceed?',
+                                //     header: 'Confirmation',
+                                //     icon: 'pi pi-exclamation-triangle',
+                                //     accept(){console.log("assdsd")},
+                                //     reject(){console.log("assdsd11")},
+                                // });
+                                dispatch(sendofferletteraction(
+                                    {
+                                        'selectedcandidateid': data?.Selected_Candidate_ID
+                                    }
+                                ))
                             }}
                         />
                     </div>
