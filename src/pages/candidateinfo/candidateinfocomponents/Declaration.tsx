@@ -6,13 +6,19 @@ import { acceptofferletteraction, getcandidateinfoclearanceaction } from '../../
 import { setnextcandidateinfotab, setprevcandidateinfotab } from '../../../features/Misc/globalslice'
 import { Messages } from 'primereact/messages';
 import { Message } from 'primereact/message';
+import { Checkbox } from 'primereact/checkbox'
+
+
 import { companySlice } from '../../../features/Company/companyslice'
+import { useNavigate } from 'react-router'
 function Declaration() {
     const dispatch = useDispatch()
     const [declared, setdeclared] = useState(false)
+    const [accept, setaccept] = useState(false)
     const candidateinfodata = useSelector((state: RootState) => state.candidateinfo)
     const clearancedata = useSelector((state: RootState) => state.candidateinfo.clearance)
     const msgs1 = useRef([]);
+    const navigate=useNavigate()
     useEffect(() => {
         dispatch(getcandidateinfoclearanceaction({
             "selectedcandidateid": candidateinfodata.Selected_Candidate_ID
@@ -40,10 +46,11 @@ function Declaration() {
         dispatch(acceptofferletteraction({
             "selectedcandidateid": candidateinfodata.Selected_Candidate_ID
 
-        }))
+        }));
+        navigate("/acknowledgementpage")
     }
     const shouldbuttondisabled = () => {
-        if (declared && clearancedata.validation)
+        if (accept==true&&declared ==true&& clearancedata.validation==true)
             return false
         return true
     }
@@ -59,9 +66,18 @@ function Declaration() {
             </br>
             <br>
             </br>
-            <input type="checkbox" id="declare" onClick={e => setdeclared(!declared)}>
-            </input>
-            <label htmlFor ="declare">
+            {/* <input type="checkbox" id="accept"  style={{font:"30px"}}onClick={e => setaccept(!accept)}>
+            </input> */}
+            <Checkbox className='mr-2'  checked={accept}  inputId="accept" onChange={e=>setaccept(!accept)}/>
+                                                <label htmlFor="accept" style={{ cursor: "pointer", fontSize:"18px",fontWeight:700}}>
+                                                  
+              Accept Offer Letter
+                                                </label>
+            <br />
+            <br />
+
+            <Checkbox className='mr-2' inputId="declare" checked={declared}  onChange={e=>setdeclared(!declared)}/>
+            <label htmlFor ="declare"  style={{ cursor: "pointer",fontSize:"18px",fontWeight:700}}>
 
                 I do hereby declare that the information furnished as above by me is true and correct to be the best
                 of my knowledge and belief. If any information furnished by me is proved to be incorrect or false,
@@ -84,7 +100,7 @@ function Declaration() {
 
                 <div className="field col-12 md:col-4 flex gap-4">
                     <Button className='mr-4' onClick={e => dispatch(setprevcandidateinfotab())}>Previous</Button>
-                    <Button disabled={shouldbuttondisabled()} onClick={e => acceptoffer()}>Save</Button>
+                    <Button disabled={shouldbuttondisabled()} onClick={e => acceptoffer()}>Submit</Button>
                 </div>
             </div>
         </div>

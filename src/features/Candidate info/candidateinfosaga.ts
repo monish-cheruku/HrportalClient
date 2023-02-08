@@ -24,7 +24,7 @@ function* createnewpersonalsagaworker(data) {
     }
     catch (err) {
         console.log(err)
-        store.dispatch(createtoast({
+        yield put(createtoast({
 
             id:34324,
         
@@ -61,7 +61,7 @@ function* createedducationaldetailssagaworker(data) {
     }
     catch (err) {
         console.log(err)
-        store.dispatch(createtoast({
+       yield put(createtoast({
 
             id:34324,
         
@@ -98,7 +98,7 @@ function* createemployementdetailssagaworker(data) {
     }
     catch (err) {
         console.log(err)
-        store.dispatch(createtoast({
+        yield put(createtoast({
 
             id:34324,
         
@@ -138,7 +138,7 @@ function* updatepersonalsagaworker(data) {
     }
     catch (err) {
         console.log(err)
-        store.dispatch(createtoast({
+        yield put(createtoast({
 
             id:34324,
         
@@ -179,7 +179,7 @@ function* updateedducationaldetailssagaworker(data) {
     }
     catch (err) {
         console.log(err)
-        store.dispatch(createtoast({
+        yield put(createtoast({
 
             id:34324,
         
@@ -220,7 +220,7 @@ function* updateemployementdetailssagaworker(data) {
     }
     catch (err) {
         console.log(err)
-        store.dispatch(createtoast({
+        yield put(createtoast({
 
             id:34324,
         
@@ -273,7 +273,7 @@ function* deleteedducationaldetailssagaworker(data) {
     catch (err) {
         console.log(err)
 
-        store.dispatch(createtoast({
+        yield put(createtoast({
 
             id:34324,
         
@@ -309,7 +309,7 @@ function* deleteemploymentdetailssagaworker(data) {
     catch (err) {
         console.log(err)
 
-        store.dispatch(createtoast({
+        yield put(createtoast({
 
             id:34324,
         
@@ -345,7 +345,7 @@ function* deletefamilydetailssagaworker(data) {
     catch (err) {
         console.log(err)
 
-        store.dispatch(createtoast({
+        yield put(createtoast({
 
             id:34324,
         
@@ -416,7 +416,7 @@ yield put({ type: "Familydetails/familydetailsaction", payload: {"selectedcandid
     }
     catch (err) {
         console.log(err)
-        store.dispatch(createtoast({
+        yield put(createtoast({
 
             id:34324,
         
@@ -457,7 +457,7 @@ function* updatefamilysagaworker(data) {
     }
     catch (err) {
         console.log(err)
-        store.dispatch(createtoast({
+        yield put(createtoast({
 
             id:34324,
         
@@ -589,8 +589,33 @@ function* acceptofferlettersagaworker(data){
 try{
     console.log(data)
     var res: Promise<any> = yield call(candidateinfo.acceptofferletter, data.payload)
+    yield put(createtoast({
+
+        id:454,
+
+        status:"success",
+
+        data:res.toString(),                                                //change this
+
+        endpoint:"400"
+
+    }))
 }
 catch(err) {
+
+   yield put (createtoast({
+
+        id:34324,
+    
+        status:"error",
+    
+        data:err.data[0][0],                                                       //change this
+    
+        endpoint:err.config.url.toString()                                        //change this
+    
+    }))
+
+
 
 }
 }

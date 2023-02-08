@@ -39,7 +39,7 @@ function* JobPostjobpostactionssubmitsagaworker(data) {
     catch (err) {
         console.log(err)
 
-        store.dispatch(createtoast({
+        yield put(createtoast({
 
             id:34324,
         
@@ -92,7 +92,7 @@ function* createnewjobpostsagaworker(data) {
     }
     catch (err) {
         console.log(err)
-        store.dispatch(createtoast({
+        yield put(createtoast({
 
             id:34324,
         
@@ -130,7 +130,7 @@ function* updatejobpostsagaworker(data) {
     catch (err) {
         console.log(err)
 
-        store.dispatch(createtoast({
+        yield put(createtoast({
 
             id:34324,
         

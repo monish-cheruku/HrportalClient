@@ -16,8 +16,8 @@ export const ToastSlice = createSlice({
     reducers: {
         createtoast: (state, payload: PayloadAction<Toaster>) => {
             // alert("toast")
-            console.log("toast")
-            console.log(payload)
+            // console.log("toast")
+            // console.log(payload)
             state.id = state.id + 1
             state.data = payload.payload.data
             state.endpoint = payload.payload.endpoint

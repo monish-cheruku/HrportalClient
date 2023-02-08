@@ -359,7 +359,7 @@ function Education() {
                                                 <div className="field">
                                                     <label htmlFor="Qualification">Degree</label>
                                                     <span className="column">
-                                                        <Dropdown id="Qualification"{...input} options={[{ label: "PHD", value: "PHD" }, { label: "Masters", value: "Masters" }, { label: "Graduation", value: "Graduation" }, { label: "Diploma", value: "Diploma" }]} placeholder="Select Qualification" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <Dropdown id="Qualification"{...input} options={[{ label: "SSC", value: "SSC" },, { label: "Diploma", value: "Diploma" }, { label: "Graduation", value: "Graduation" }, { label: "Post Graduation", value: "Post Graduation" }]} placeholder="Select Qualification" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                     </span>
                                                     {getFormErrorMessage(meta)}
                                                 </div>
@@ -389,7 +389,7 @@ function Education() {
                                                 <div className="field fluid">
                                                     <label htmlFor="Start_Date">Date of Joining</label>
                                                     <span className="field fluid">
-                                                        <Calendar id="Start_Date" {...input} dateFormat="mm/dd/yy" mask="99/99/9999" showIcon placeholder="Select Date of Joining" value={new Date(values["Start_Date"])} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <Calendar id="Start_Date" {...input} dateFormat="mm/dd/yy" mask="99/99/9999" maxDate={new Date(values["End_Date"])}  showIcon placeholder="Select Date of Joining" value={new Date(values["Start_Date"])} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                     </span>
                                                     {getFormErrorMessage(meta)}
                                                 </div>
@@ -405,7 +405,7 @@ function Education() {
                                                 <div className="field fluid">
                                                     <label htmlFor="End_Date">Date Of Completion</label>
                                                     <span className="field fluid">
-                                                        <Calendar id="End_Date" {...input} dateFormat="mm/dd/yy" mask="99/99/9999" showIcon placeholder="Select Date Of Completion" value={new Date(values["End_Date"])} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <Calendar id="End_Date" {...input} dateFormat="mm/dd/yy" mask="99/99/9999"  minDate={new Date(values["Start_Date"])} showIcon placeholder="Select Date Of Completion" value={new Date(values["End_Date"])} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                     </span>
                                                     {getFormErrorMessage(meta)}
                                                 </div>
@@ -433,7 +433,7 @@ function Education() {
                                             name="Percentage"
                                             render={({ input, meta }) => (
                                                 <div className="field fluid">
-                                                    <label htmlFor="Percentage">Percentage /CGPA </label>
+                                                    <label htmlFor="Percentage">Percentage/CGPA </label>
                                                     <span className="field fluid">
                                                         <InputText maxLength={50} id="Percentage" {...input} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                         <label htmlFor="Percentage" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
@@ -464,6 +464,8 @@ function Education() {
                 <br></br>
 
                 <div className='grid' style={gridview=="grid"?{display:"flex"}:{display:"block"}}>
+                {gridview == "grid"&& educationdetailsdata.length==0&&<div className='flex text-align-center'> No Data</div>}
+
                     {gridview=="grid"?educationdetailsdata.map((e) => <div className='lg:col-3 md:col-6 sm:col-2 gap-4' key={e.id.toString()}>
                         <Card className='card1 margin-auto'>
                             <div className="p-fluid  grid card1content">

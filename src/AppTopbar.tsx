@@ -237,10 +237,10 @@ Logindata.groups?Logindata.groups.forEach(e => {
             </button> */}
             {/* </span> */}
             {/* <span style={{width:"50px"}}></span> */}
-            <Link to="/dashboard" className="layout-topbar-logo mr-4" style={{color:'white'}}>
+          {  <Link to="/dashboard" className="layout-topbar-logo mr-4" style={{color:'white'}}>
                 <img src={props.layoutColorMode === 'light' ? BelcanLogo : BelcanLogo} alt="logo"/>
                 
-            </Link>
+            </Link>}
             {/* <span className="layout-topbar-logo" style={{ color:'white'}}>HR WORKFLOW</span> */}
 
             <button type="button" className="p-link layout-topbar-menu-button layout-topbar-button" onClick={props.onMobileTopbarMenuClick}>

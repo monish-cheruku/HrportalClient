@@ -23,7 +23,7 @@ function* createservicelinesagaworker(payload){
         // console.log(res)
         // yield put({type:companiesdata,payload:res})
         yield servicelinegetsagaworker()
-        yield store.dispatch(createtoast({
+        yield put(createtoast({
 
             id:454,
 
@@ -39,7 +39,7 @@ function* createservicelinesagaworker(payload){
 // console.log(err)
 if(err.data!=undefined)
 
-store.dispatch(createtoast({
+yield put(createtoast({
 
     id:34324,
 
@@ -65,7 +65,7 @@ function* updateservicelinesagaworker(payload){
         // console.log(res)
         // yield put({type:companiesdata,payload:res})
         yield servicelinegetsagaworker()
-        yield store.dispatch(createtoast({
+        yield put(createtoast({
 
             id:987878,
 
@@ -81,7 +81,7 @@ function* updateservicelinesagaworker(payload){
     catch(err){
 // console.log(err)
 if(err.data!=undefined)
-yield store.dispatch(createtoast({
+yield put(createtoast({
     id:987878,
     status:"error",
     data:err.data[0][0],                                 

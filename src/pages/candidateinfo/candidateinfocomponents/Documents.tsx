@@ -28,7 +28,7 @@ function Documents() {
     }, [])
 
     const selectfileobject = (otherdocumentsdata, s) => {
-        console.log(otherdocumentsdata)
+        // console.log(otherdocumentsdata)
         return otherdocumentsdata.filter((i) => i.detailtype == s)
 
     }
@@ -273,7 +273,7 @@ function Documents() {
             </br>
             <br></br>
             <div className="p-fluid  grid">
-                <div className="field col-12 md:col-4">
+                <div className="field col-12 md:col-6">
                     <Panel headerTemplate={photoheadertemplate}>
 
 
@@ -310,7 +310,7 @@ function Documents() {
                         }
                     </Panel>
                 </div>
-                <div className="field col-12 md:col-4">
+                <div className="field col-12 md:col-6">
                     <Panel headerTemplate={passportheadertemplate}>
 
                         {
@@ -351,7 +351,7 @@ function Documents() {
                 </div>
             </div>
             <div className="p-fluid  grid">
-                <div className="field col-12 md:col-4">
+                <div className="field col-12 md:col-6">
                     <Panel headerTemplate={panheadertemplate}>
 
                         {
@@ -384,7 +384,7 @@ function Documents() {
                         }
                     </Panel>
                 </div>
-                <div className="field col-12 md:col-4">
+                <div className="field col-12 md:col-6">
                     <Panel headerTemplate={aadharheadertemplate}>
 
 
@@ -419,13 +419,13 @@ function Documents() {
                         }
                     </Panel>
                 </div>
-                <div className="field col-12 md:col-4">
+                <div className="field col-12 md:col-6">
 
                 </div>
             </div>
 
             <div className="p-fluid  grid">
-                <div className="field col-12 md:col-4">
+                <div className="field col-12 md:col-6">
                     <Panel headerTemplate={payslipsheadertemplate}>
 
 
@@ -464,7 +464,7 @@ function Documents() {
                         }
                     </Panel>
                 </div>
-                <div className="field col-12 md:col-4">
+                <div className="field col-12 md:col-6">
                     <Panel headerTemplate={Form16headertemplate}>
 
 
@@ -504,7 +504,7 @@ function Documents() {
 
 
 
-                <div className="field col-12 md:col-4">
+                <div className="field col-12 md:col-6">
                 </div>
             </div>
 

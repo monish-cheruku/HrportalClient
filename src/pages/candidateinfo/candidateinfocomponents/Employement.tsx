@@ -19,6 +19,7 @@ import { SelectButton } from 'primereact/selectbutton'
 import { Panel, PanelHeaderTemplateOptions } from 'primereact/panel'
 import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
+import { InputTextarea } from 'primereact/inputtextarea'
 
 
 function Employement() {
@@ -355,7 +356,7 @@ const formatendDate = (rowdata:any) => {
                       name="PreviousCompanyName"
                       render={({ input, meta }) => (
                         <div className="field">
-                          <label htmlFor="PreviousCompanyName">Previous Company Name</label>
+                          <label htmlFor="PreviousCompanyName">Company Name</label>
                           <span className="column">
                             <InputText maxLength={50} id="PreviousCompanyName" {...input} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                             <label htmlFor="PreviousCompanyName" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>                        </span>
@@ -365,14 +366,14 @@ const formatendDate = (rowdata:any) => {
                     />
                   </div>
 
-                  <div className="field col-12 md:col-6">
+                  <div className="field col-12 md:col-10">
                     <Field
                       name="PreviousCompanyAddress"
                       render={({ input, meta }) => (
                         <div className="field fluid">
-                          <label htmlFor="PreviousCompanyAddress">Previous Company Address</label>
+                          <label htmlFor="PreviousCompanyAddress">Company Address</label>
                           <span className="field fluid">
-                            <InputText maxLength={50} id="PreviousCompanyAddress" {...input} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                            <InputTextarea maxLength={200} id="PreviousCompanyAddress"  {...input} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                             <label htmlFor="PreviousCompanyAddress" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                           </span>
                           {getFormErrorMessage(meta)}
@@ -385,9 +386,9 @@ const formatendDate = (rowdata:any) => {
                       name="Start_Date"
                       render={({ input, meta }) => (
                         <div className="field fluid">
-                          <label htmlFor="Start_Date">Date of Joining</label>
+                          <label htmlFor="Start_Date">Start Date</label>
                           <span className="field fluid">
-                            <Calendar id="Start_Date" {...input} dateFormat="mm/dd/yy" mask="99/99/9999" showIcon placeholder="Select Date of Joining" value={new Date(values["Start_Date"])} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                            <Calendar id="Start_Date" {...input} dateFormat="mm/dd/yy" mask="99/99/9999"  maxDate={new Date(values["End_Date"])}  showIcon placeholder="Select Date of Joining" value={new Date(values["Start_Date"])} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                           </span>
                           {getFormErrorMessage(meta)}
                         </div>
@@ -401,9 +402,9 @@ const formatendDate = (rowdata:any) => {
                       name="End_Date"
                       render={({ input, meta }) => (
                         <div className="field fluid">
-                          <label htmlFor="End_Date">Date Of Completion</label>
+                          <label htmlFor="End_Date">End Date </label>
                           <span className="field fluid">
-                            <Calendar id="End_Date" {...input} dateFormat="mm/dd/yy" mask="99/99/9999" showIcon placeholder="Select Date Of Completion" value={new Date(values["End_Date"])} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                            <Calendar id="End_Date" {...input} dateFormat="mm/dd/yy" mask="99/99/9999"  minDate={new Date(values["Start_Date"])} showIcon placeholder="Select Date Of Completion" value={new Date(values["End_Date"])} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                           </span>
                           {getFormErrorMessage(meta)}
                         </div>
@@ -463,6 +464,7 @@ const formatendDate = (rowdata:any) => {
         <br></br>
 
         <div className='grid' style={gridview == "grid" ? { display: "flex" } : { display: "block" }}>
+          {gridview == "grid"&& employmentdetailsdata.length==0&&<div className='flex text-align-center'> No Data</div>}
           {gridview == "grid" ? employmentdetailsdata.map((e) => <div className='lg:col-3 md:col-6 sm:col-2 gap-4' key={e.id.toString()}>
             <Card className='card1 margin-auto'>
 
@@ -609,13 +611,13 @@ const formatendDate = (rowdata:any) => {
       <br />
       <div className="p-fluid  grid">
 
-        <div className="field col-12 md:col-4 flex">
-        </div>
-        <div className="field col-12 md:col-4 flex">
-        </div>
+<div className="field col-12 md:col-4 flex">
+</div>
+<div className="field col-12 md:col-4 flex">
+</div>
 
-        <div className="field col-12 md:col-4 flex gap-4">
-          <Button className='=' onClick={e => dispatch(setprevcandidateinfotab())}>Previous</Button>
+<div className="field col-12 md:col-4 flex gap-4">
+          <Button className='mr-4' onClick={e => dispatch(setprevcandidateinfotab())}>Previous</Button>
           <Button onClick={e => dispatch(setnextcandidateinfotab())}>Next</Button>
         </div>
       </div>

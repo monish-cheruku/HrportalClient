@@ -62,7 +62,7 @@ function FamilyDetails() {
         //     errors.JobTitle = "*JobDescription is required.";
         // }
         // var arr = ["CandidateFirstName", "BusinessUnit_id", "Serviceline_id", "Industry_id", "Industry_id", "Customer_id", "Location_id", "EmploymentType", "JobTitle", "JobDesc", "ExperianceLevel_id", "Qualification", "NoOfPositions", "OnBoardingDate", "HR_User_Name", "BH_User_Name"]
-        var arr = ["FullName", "Date_Of_Birth", "Contact_Number", "Relationship_with_employee"]
+        var arr = ["FullName", "Date_Of_Birth", "Relationship_with_employee"]
         arr.forEach((i) => {
             // console.log(values["Resume"])
             if (!values[i]) {
@@ -89,10 +89,10 @@ function FamilyDetails() {
         }
 
 
-        if (values["Contact_Number"] == undefined || values["Contact_Number"] == null) {
+        // if (values["Contact_Number"] == undefined || values["Contact_Number"] == null) {
 
-            errors["Contact_Number"] = "*Enter correct number "
-        }
+        //     errors["Contact_Number"] = "*Enter correct number "
+        // }
 
 
         // if (!editmode && (values["Resume"] == null)) {
@@ -249,7 +249,9 @@ function FamilyDetails() {
                             // console.log(datetemp.getFullYear() + "-" + datetemp.getMonth() + "-" + datetemp.getDate())
                             values.Date_Of_Birth = datetempstart.getFullYear() + "-" + (datetempstart.getMonth() + 1).toString().padStart(2, '0') + "-" + datetempstart.getDate().toString().padStart(2, '0')
 
-
+if(!values["Contact_Number"]){
+    values["Contact_Number"]=""
+}
                             values.selectedcandidateid = candidateinfodata.Selected_Candidate_ID
                             console.log(values)
                             if (!editmode) {
@@ -265,13 +267,13 @@ function FamilyDetails() {
                             }
                         }}
                         initialValues={!editmode ? {
-
+                            Contact_Number: "",
                         } : {
                             id: tempdata.id,
                             FullName: tempdata.FullName,
                             Date_Of_Birth: new Date(tempdata.Date_Of_Birth),
                             Relationship_with_employee: tempdata.Relationship_with_employee,
-                            Contact_Number: tempdata.Contact_Number,
+                            Contact_Number: tempdata.Contact_Number?tempdata.Contact_Number:"",
                         }}
 
                         validate={validate}
@@ -287,7 +289,7 @@ function FamilyDetails() {
                                 <div className="p-fluid  grid">
 
 
-                                    <div className="field col-12 md:col-6">
+                                    <div className="field col-12 md:col-10">
                                         <Field
                                             name="FullName"
                                             render={({ input, meta }) => (
@@ -302,7 +304,7 @@ function FamilyDetails() {
                                             )}
                                         />
                                     </div>
-                                    <div className="field col-12 md:col-6">
+                                    <div className="field col-12 md:col-10">
                                         <Field
                                             name="Date_Of_Birth"
                                             render={({ input, meta }) => (
@@ -319,7 +321,7 @@ function FamilyDetails() {
                                         />
                                     </div>
 
-                                    <div className="field col-12 md:col-6">
+                                    <div className="field col-12 md:col-10">
 
                                         <Field
                                             name="Relationship_with_employee"
@@ -336,12 +338,12 @@ function FamilyDetails() {
                                         />
                                     </div>
 
-                                    <div className="field col-12 md:col-11">
+                                    <div className="field col-12 md:col-10">
                                         <Field
                                             name="Contact_Number"
                                             render={({ input, meta }) => (
                                                 <div className="field " >
-                                                    <label htmlFor="Contact_Number">Contact No*</label>
+                                                    <label htmlFor="Contact_Number">Contact No</label>
                                                     <span className="label">
                                                         {/* <InputNumber id="Employee Name " value={values.NoOfPositions} onChange={e=>values["ContactNumber"]=e.value} max={9999999999} {...input} autoFocus className={classNames({ "p-invalid": isFormFieldValid(meta) })} /> */}
                                                         {/* <InputMask  value="12345"   mask="99-9999999999" /> */}
@@ -380,6 +382,8 @@ function FamilyDetails() {
 
 
                 <div className='grid' style={gridview=="grid"?{display:"flex"}:{display:"block"}}>
+                {gridview == "grid"&& familydetailsdata.length==0&&<div className='flex text-align-center'> No Data</div>}
+
                     {gridview=="grid"?familydetailsdata.map((e) => <div className='lg:col-3 md:col-6 sm:col-2 gap-4' key={e.id.toString()}>
                         <Card className='card1 margin-auto'>
                             <div className="p-fluid  grid card1content">
@@ -408,7 +412,7 @@ function FamilyDetails() {
 
                                 </div>
                                 <div className="field col-12 md:col-5 flex gap-2">
-                                    <Button className="p-button-info editbutton mr-2" style={{ height: "35px", width: "3.5rem" }} label="" icon="pi pi-pencil" onClick={() => { setEditmode(true); settempdata(e); setModaldialog(true); }}></Button>
+                                    <Button className="p-button-info editbutton mr-2" style={{ height: "35px", width: "3.5rem" }} label="" icon="pi pi-pencil" onClick={() => {console.log(e); setEditmode(true); settempdata(e); setModaldialog(true); }}></Button>
 
 
                                 

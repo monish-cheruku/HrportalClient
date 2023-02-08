@@ -47,7 +47,7 @@ function* createcompanysagaworker(payload){
 // yield put({type:"company/seterror",payload:err})
 if(err.data!=undefined)
 
-store.dispatch(createtoast({
+yield put(createtoast({
 
     id:34324,
 
@@ -69,7 +69,7 @@ function* updatecompanysagaworker(payload){
         console.log(res)
         // yield put({type:companiesdata,payload:res})
         yield companiesgetsagaworker()
-        yield store.dispatch(createtoast({
+        yield put(createtoast({
 
             id:987878,
 
@@ -84,7 +84,7 @@ function* updatecompanysagaworker(payload){
     catch(err){
 console.log(err.data[0][0])
 if(err.data!=undefined)
-yield store.dispatch(createtoast({
+yield put(createtoast({
     id:987878,
     status:"error",
     data:err.data[0][0],                                            //change this

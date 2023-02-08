@@ -23,7 +23,7 @@ function* createIndustrysagaworker(payload){
         console.log(res)
         // yield put({type:Industriesdata,payload:res})
         yield Industriesgetsagaworker()
-        yield store.dispatch(createtoast({
+        yield put(createtoast({
 
             id:454,
 
@@ -41,7 +41,7 @@ function* createIndustrysagaworker(payload){
 //console.log(temp[0])
 if(err.data!=undefined)
 
-store.dispatch(createtoast({
+yield put(createtoast({
 
     id:34324,
 
@@ -63,7 +63,7 @@ function* updateIndustrysagaworker(payload){
         // console.log(res)
         // yield put({type:Industriesdata,payload:res})
         yield Industriesgetsagaworker()
-        yield store.dispatch(createtoast({
+        yield put(createtoast({
 
             id:987878,
 
@@ -78,7 +78,7 @@ function* updateIndustrysagaworker(payload){
     catch(err){
 console.log(err)
 if(err.data!=undefined)
-yield store.dispatch(createtoast({
+yield put(createtoast({
     id:987878,
     status:"error",
     data:err.data[0][0],                                 

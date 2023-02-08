@@ -23,7 +23,7 @@ function* createcustomersagaworker(payload){
         // console.log(res)
         // yield put({type:customersdata,payload:res})
         yield customersgetsagaworker()
-        yield store.dispatch(createtoast({
+        yield put(createtoast({
 
             id:454,
 
@@ -39,7 +39,7 @@ function* createcustomersagaworker(payload){
 console.log(err)
 if(err.data!=undefined)
 
-store.dispatch(createtoast({
+yield put(createtoast({
 
     id:34324,
 
@@ -62,7 +62,7 @@ function* updatecustomersagaworker(payload){
         // console.log(res)
         // yield put({type:customersdata,payload:res})
         yield customersgetsagaworker()
-        yield store.dispatch(createtoast({
+        yield put(createtoast({
 
             id:987878,
 
@@ -77,7 +77,7 @@ function* updatecustomersagaworker(payload){
     catch(err){
 console.log(err)
 if(err.data!=undefined)
-yield store.dispatch(createtoast({
+yield put(createtoast({
     id:987878,
     status:"error",
     data:"failed to update",

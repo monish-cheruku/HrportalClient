@@ -23,7 +23,7 @@ function* createexperiencelevelsagaworker(payload){
         // console.log(res)
         // yield put({type:companiesdata,payload:res})
         yield experiencelevelsgetsagaworker()
-        yield store.dispatch(createtoast({
+        yield put(createtoast({
 
             id:454,
 
@@ -39,7 +39,7 @@ function* createexperiencelevelsagaworker(payload){
 console.log(err)
 if(err.data!=undefined)
 
-store.dispatch(createtoast({
+yield put(createtoast({
 
     id:34324,
 
@@ -61,7 +61,7 @@ function* updateexperiencelevelsagaworker(payload){
         // console.log(res)
         // yield put({type:companiesdata,payload:res})
         yield experiencelevelsgetsagaworker()
-        yield store.dispatch(createtoast({
+        yield put(createtoast({
 
             id:987878,
 
@@ -76,7 +76,7 @@ function* updateexperiencelevelsagaworker(payload){
     catch(err){
 console.log(err)
 if(err.data!=undefined)
-yield store.dispatch(createtoast({
+yield put(createtoast({
     id:987878,
     status:"error",
     data:err.data[0][0],

@@ -1,6 +1,6 @@
 import {put,call,takeEvery} from 'redux-saga/effects'
 import { designationsdata,getdesignationsaction,createdesignationaction,updatedesignationaction} from './designationslice'
-import {quotes,Designationapi} from "../../api/agent"
+import {Designationapi} from "../../api/agent"
 import { createtoast } from '../ToastSlice'
 import { store} from "../../app/store"
 function* designationsgetsagaworker(){
@@ -23,7 +23,7 @@ function* createdesignationsagaworker(payload){
         // console.log(res)
         // yield put({type:companiesdata,payload:res})
         yield designationsgetsagaworker()
-        yield store.dispatch(createtoast({
+        yield put(createtoast({
 
             id:454,
 
@@ -39,7 +39,7 @@ function* createdesignationsagaworker(payload){
 console.log(err)
 if(err.data!=undefined)
 
-store.dispatch(createtoast({
+yield put(createtoast({
 
     id:34324,
 
@@ -61,7 +61,7 @@ function* updatedesignationsagaworker(payload){
         // console.log(res)
         // yield put({type:companiesdata,payload:res})
         yield designationsgetsagaworker()
-        yield store.dispatch(createtoast({
+        yield put(createtoast({
 
             id:987878,
 
@@ -76,7 +76,7 @@ function* updatedesignationsagaworker(payload){
     catch(err){
 console.log(err)
 if(err.data!=undefined)
-yield store.dispatch(createtoast({
+yield put(createtoast({
     id:987878,
     status:"error",
     data:"failed to update",

@@ -164,6 +164,10 @@ function PersonalDetails() {
         console.log(errors)
         return errors;
     };
+    const toInputUppercase = e => {
+        console.log(e)
+        e.target.value = ("" + e.target.value).toUpperCase();
+      };
     return (
         <div>
             <Form
@@ -330,7 +334,7 @@ function PersonalDetails() {
                                         <div className="field " >
                                             <label htmlFor="Employee Name">PAN* </label>
                                             <span className="label">
-                                                <InputText id="Employee Name " {...input} autoFocus maxLength={10} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                <InputText caps={true}  onInput={toInputUppercase} value={values["PAN"].toUpperCase()}  id="Employee Name " {...input} autoFocus maxLength={10} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                 <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                             </span>
                                             {getFormErrorMessage(meta)}
@@ -507,8 +511,9 @@ function PersonalDetails() {
                         <div className="p-fluid  grid">
 
 
-                            <div className="field col-12 md:col-4 flex">
-                                <Button className="mr-3" onClick={e => console.log()}>cancel</Button>
+                            <div className="field col-12 md:col-5 flex"></div>
+                            <div className="field col-12 md:col-5 flex"></div>
+                            <div className="field col-12 md:col-2 ">
                                 <Button type='submit'
                                 // onClick={e => dispatch(setnextcandidateinfotab(";aufhds"))}
                                 >Save & Next</Button>

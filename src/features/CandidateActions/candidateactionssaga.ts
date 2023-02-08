@@ -28,7 +28,7 @@ function* createnewcandidatesagaworker(data) {
     }
     catch (err) {
         console.log(err)
-        store.dispatch(createtoast({
+        yield put(createtoast({
 
             id: 34324,
 
@@ -68,7 +68,7 @@ function* updatecandidatesagaworker(data) {
     }
     catch (err) {
         console.log(err)
-        store.dispatch(createtoast({
+        yield put(createtoast({
 
             id: 34324,
 

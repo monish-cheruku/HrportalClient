@@ -27,7 +27,7 @@ if(activeIndex==null)setcandidateinfotab(0)
     { label: 'Education', command: (e) =>{dispatch(setcandidateinfotab(e.index))} },
     { label: 'Employement', command: (e) =>dispatch(setcandidateinfotab(e.index))},
     // { label: 'PF Details', command: (e) => dispatch(setcandidateinfotab(e.index)) },
-    { label: 'Documents Upload', command: (e) => dispatch(setcandidateinfotab(e.index)) },
+    { label: 'Documents', command: (e) => dispatch(setcandidateinfotab(e.index)) },
     { label: 'Declaration', command: (e) =>dispatch(setcandidateinfotab(e.index)) }
 ];
   return (

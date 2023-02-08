@@ -70,7 +70,7 @@ function* createuserrolessagaworker(payload){
         console.log(res)
         // yield put({type:userrolesdata,payload:res})
         yield userrolesgetsagaworker()
-        yield store.dispatch(createtoast({
+         yield put(createtoast({
 
             id:454,
 
@@ -86,7 +86,7 @@ function* createuserrolessagaworker(payload){
 console.log(err)
 if(err.data!=undefined)
 
-store.dispatch(createtoast({
+yield put(createtoast({
 
     id:34324,
 
@@ -108,7 +108,7 @@ function* updateuserrolessagaworker(payload){
         // console.log(res)
         // yield put({type:userrolesdata,payload:res})
         yield userrolesgetsagaworker()
-        yield store.dispatch(createtoast({
+        yield put(createtoast({
 
             id:987878,
 
@@ -122,7 +122,7 @@ function* updateuserrolessagaworker(payload){
     catch(err){
 console.log(err)
 if(err.data!=undefined)
-yield store.dispatch(createtoast({
+yield put(createtoast({
     id:987878,
     status:"error",
     data:err.data[0][0],                                            

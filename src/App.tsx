@@ -29,6 +29,9 @@ import { useSelector } from 'react-redux';
 import { RootState } from './app/store';
 import { ILogin } from './features/Login/Loginslice';
 import Newcomp from './Newcomp';
+import { ProgressSpinner } from "primereact/progressspinner";
+const Acknowledgementpage =lazy(()=>import( './pages/candidateinfo/candidateinfocomponents/Acknowledgementpage'));
+
 const  ManageCompany=lazy(()=>import("./pages/ManageCompany")) ;
 const Dashboard =lazy(()=>import("./pages/Dashboard"));
 const ManageBusinessUnit =lazy(()=>import("./pages/ManageBusinessUnit"));
@@ -327,7 +330,12 @@ const App = () => {
         //React protected router?
 
 
-<Suspense fallback={<h1> Loading ...</h1>}>
+<Suspense fallback={  <ProgressSpinner
+            style={{ width: "100px", height: "100px",left:"50%",top:"50%"   ,position:"absolute"}}
+            strokeWidth="4"
+            fill="var(--surface-ground)"
+            animationDuration="1s"
+          />}>
 
         <Routes>
             <Route path="/Login" element={<LoginPage />} />
@@ -348,7 +356,12 @@ const App = () => {
                                 </div> */}
                             <div className="layout-main-container">
                                 <div className="layout-main">
-<Suspense fallback={<h1> Loading ...</h1>}>
+<Suspense fallback={ <ProgressSpinner
+            style={{ width: "100px", height: "100px",left:"50%",top:"50%"   ,position:"absolute"}}
+            strokeWidth="4"
+            fill="var(--surface-ground)"
+            animationDuration="1s"
+          />}>
                                     <Routes>
                                         <Route path="/dashboard" element={<Dashboard />} />
                                         <Route path="/Industry" element={<Industry />} />
@@ -395,6 +408,7 @@ const App = () => {
                                         <Route path="/SelectedCandidatesdetails" element={<SelectedCandidateDetails></SelectedCandidateDetails>} />
                                         <Route path='/candidateinfo' element={<Candidateinfo></Candidateinfo>}></Route>
                                         <Route path='/candidateinfo/PersonalDetails' element={<PersonalDetails></PersonalDetails>}></Route>
+                                        <Route path='/acknowledgementpage' element={<Acknowledgementpage></Acknowledgementpage>}></Route>
                                     </Routes>
                                     </Suspense>
                                 </div>

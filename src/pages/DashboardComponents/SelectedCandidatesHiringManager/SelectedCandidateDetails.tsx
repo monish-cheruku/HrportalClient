@@ -247,7 +247,7 @@ function SelectedCandidateDetails(props) {
                                 })
                             .catch((ex)=>{console.log(ex);
                                 setShowspinner(false)
-                                // setdata(values); setmode('draft');
+                                setdata(values); setmode('draft');
                             toast.current.show({severity:'error', summary: 'Error Message', detail:ex, life: 3000});})
                   
                             // console.log(res)
