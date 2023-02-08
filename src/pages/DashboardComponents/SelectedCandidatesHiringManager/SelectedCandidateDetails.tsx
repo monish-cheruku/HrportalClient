@@ -242,9 +242,10 @@ function SelectedCandidateDetails(props) {
                             setShowspinner(true)
                             selectedcandidateactions.updateselectedcandidate(values)
                             .then((res)=>{ console.log(res);
-                                setShowspinner(false)
-                                toast.current.show({severity:'success', summary: 'Success Message', detail:res, life: 3000});
-                                })
+                                setShowspinner(false)                               
+                                }).then((res)=>
+                                toast.current.show({severity:'success', summary: 'Success Message', detail:res, life: 3000})
+                                ).then(()=>setTimeout(()=> {navigate(-1);}, 2000) )
                             .catch((ex)=>{console.log(ex);
                                 setShowspinner(false)
                                 setdata(values); setmode('draft');
@@ -432,7 +433,7 @@ function SelectedCandidateDetails(props) {
                                                     <label>Fixed CTC: </label>
                                                     <br></br>
                                                     <br></br>
-                                                    <input className='p-inputtext p-component' {...input} type="number" value={parseInt(values["FixedCTC"])} placeholder="Fixed CTC" />
+                                                    <input className='p-inputtext p-component' {...input} type="number" min={0} value={parseInt(values["FixedCTC"])} placeholder="Fixed CTC" />
                                                     <br></br>
                                                     {getFormErrorMessage(meta)}
                                                 </div>
@@ -493,7 +494,7 @@ function SelectedCandidateDetails(props) {
                                                 <Field name="VariablePay">
                                                     {({ input, meta }) => (
                                                         <div>
-                                                            <input className='p-inputtext p-component' {...input} value={parseInt(values["VariablePay"])} type="number" placeholder="variable pay" />
+                                                            <input className='p-inputtext p-component' {...input} value={parseInt(values["VariablePay"])} type="number" min={0} placeholder="variable pay" />
 
                                                             {getFormErrorMessage(meta)}
                                                         </div>

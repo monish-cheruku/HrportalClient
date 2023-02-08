@@ -30,6 +30,7 @@ import { RootState } from './app/store';
 import { ILogin } from './features/Login/Loginslice';
 import Newcomp from './Newcomp';
 import { ProgressSpinner } from "primereact/progressspinner";
+import SelectedCandidateDetailsView from './pages/DashboardComponents/SelectedCandidatesHiringManager/SelectedCandidateDetailsView';
 const Acknowledgementpage =lazy(()=>import( './pages/candidateinfo/candidateinfocomponents/Acknowledgementpage'));
 
 const  ManageCompany=lazy(()=>import("./pages/ManageCompany")) ;
@@ -406,6 +407,7 @@ const App = () => {
                                         <Route path="/SelectedCandidates" element={<SelectedCandidates></SelectedCandidates>} />
                                         <Route path="/SelectedCandidatesHRHold" element={<SelectedCandidatesHRHold></SelectedCandidatesHRHold>} />
                                         <Route path="/SelectedCandidatesdetails" element={<SelectedCandidateDetails></SelectedCandidateDetails>} />
+                                        <Route path="/SelectedCandidatesdetailsview" element={<SelectedCandidateDetailsView></SelectedCandidateDetailsView>} />
                                         <Route path='/candidateinfo' element={<Candidateinfo></Candidateinfo>}></Route>
                                         <Route path='/candidateinfo/PersonalDetails' element={<PersonalDetails></PersonalDetails>}></Route>
                                         <Route path='/acknowledgementpage' element={<Acknowledgementpage></Acknowledgementpage>}></Route>

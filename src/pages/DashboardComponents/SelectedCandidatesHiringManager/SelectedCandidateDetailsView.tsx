@@ -40,9 +40,9 @@ function SelectedCandidateDetailsView(props) {
     const dispatch = useDispatch()
     const [show, setshow] = useState(false)
     useEffect(() => {
-        dispatch(getdesignationsaction())
-        dispatch(getBandaction())
-        dispatch(getsubbandsaction())
+        // dispatch(getdesignationsaction())
+        // dispatch(getBandaction())
+        // dispatch(getsubbandsaction())
         // console.log(location.state)
         console.log(data)
         console.log(annexuredata)
@@ -51,99 +51,10 @@ function SelectedCandidateDetailsView(props) {
     useEffect(() => {
         console.log(annexuredata)
     }, [annexuredata])
-    const validate = (values) => {
-        let errors = {};
-        // console.log(data)
 
-        // if (!data.JobDesc) {
-        //     errors.JobDesc = "*JobDescription is required.";
-        // }
-        // if (!data.JobTitle) {
-        //     errors.JobTitle = "*JobDescription is required.";
-        // }
-        var arr = [
 
-            "designation", "band", "subband"
-            , "DateOfJoining", "IsVariable"
 
-        ]
-        arr.forEach((i) => {
-            if (!values[i] && !values[i] == false) {
-                errors[i.toString()] = "* This field is required";
-            }
-        })
-        if (!values["VariablePay"] && values.IsVariable == true) {
-            // console.log(values["Duration"])
 
-            errors["VariablePay"] = "*This field is required"
-        }
-        if (!values["FixedCTC"]) {
-            // console.log(values["Duration"])
-
-            errors["FixedCTC"] = "*This field is required"
-        }
-        if (values.IsVariable == true && !values["MQVariable"]) {
-            // console.log(values["Duration"])
-
-            errors["MQVariable"] = "*This field is required"
-        }
-        //   console.log(values["Duration"])
-
-        console.log(errors)
-        return errors;
-    };
-    const isFormFieldValid = (meta) => !!(meta.touched && meta.error);
-
-    const getFormErrorMessage = (meta) => {
-        return isFormFieldValid(meta) && <small className="p-error">{meta.error}</small>;
-    };
-    const filtersubband = (s: any) => {
-        var temp: any = []
-        props.getasubbandactiveoptionsprop.forEach((e) => {
-            // console.log(s)
-            if (e.BandId == s) {
-                temp.push({
-
-                    key: e.key,
-                    label: e.label,
-                    BandId: e.BandId,
-                    value: e.value
-
-                })
-            }
-        })
-        // console.log(temp)
-        return temp
-    }
-    const shoulddisanleanexurebutton = (values) => {
-        console.log(values)
-        if (!values.IsVariable) {
-            if (
-                values.designation > 0 &&
-                values.band > 0 &&
-                values.subband > 0 &&
-                values.DateOfJoining &&
-                values.FixedCTC > 0
-            )
-                return false
-            else
-                return true
-        }
-        else {
-
-            if (
-                values.designation > 0 &&
-                values.band > 0 &&
-                values.subband > 0 &&
-                values.DateOfJoining &&
-                values.FixedCTC > 0 &&
-                values.MQVariable != "" &&
-                values.VariablePay)
-                return false
-            else
-                return true
-        }
-    }
     const callpreviewannexure1 = async (values) => {
 
         console.log(values)
@@ -181,7 +92,7 @@ function SelectedCandidateDetailsView(props) {
         )
     }
     const formatCurrency = (value: any) => {
-        return value?value.toLocaleString('en-US', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }):'';
+        return value?value.toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }):'';
       
       
       }
@@ -212,7 +123,7 @@ function SelectedCandidateDetailsView(props) {
                     
                 </Panel> */}
                 <br></br>
-                <Panel >
+                <Panel header="Offer Details">
 
                     <div className="grid">
                         <div className="md:col-3">
@@ -234,7 +145,7 @@ function SelectedCandidateDetailsView(props) {
 
 
                         <div className="md:col-3">
-                            Date of joining:{new Date(data?.DateOfJoining).toLocaleDateString('en-US', {
+                            Date of joining: {new Date(data?.DateOfJoining).toLocaleDateString('en-US', {
                         day: '2-digit',
                         month: '2-digit',
                         year: 'numeric',
@@ -243,7 +154,7 @@ function SelectedCandidateDetailsView(props) {
 
                     </div>
 
-                </Panel>
+                
                 <br></br>
                 <Panel header="Final CTC">
                     <div className="grid">
@@ -253,7 +164,7 @@ function SelectedCandidateDetailsView(props) {
                             <br></br>
                             <br></br>
                             {data.IsVariable == true ? (<>Variable Pay :{formatCurrency(data?.VariablePay)}</>) : ""}
-                            ({data.IsVariable == true ? (<>{data.MQVariable=="M"?"Monthly":"Quaterly"}</>) : ""})
+                            {data.IsVariable == true ? (<>{data.MQVariable=="M"?"(Monthly)":"(Quaterly)"}</>) : ""}
                             <br></br>
                             <br></br>
                             Final CTC: {formatCurrency(data?.FinalCTC)}
@@ -286,30 +197,33 @@ function SelectedCandidateDetailsView(props) {
                     <br></br>
                     <div className="grid">
                         <div className="md:col-3">
-                        Eligible for Annual Mgnt Bonus:{data.Is_Eligible_annu_Mgnt_Bonus == true ? (<> Yes</>) : " No"}
+                        Eligible for Annual Mgnt Bonus :{data.Is_Eligible_annu_Mgnt_Bonus == true ? (<> Yes</>) : " No"}
 <br></br>
 <br></br>
                              
 
-                        {data.Is_Eligible_Joining_Bonus == true ? (<>Eligible for Joining Bonus: Yes</>) : ""}
+                Eligible for Joining Bonus :{data.Is_Eligible_Joining_Bonus == true ? (<> Yes</>) : "No"}
 
                             
                        <br></br>
                        <br></br>
-                        {data.IS_Eligible_Monthly_Incentive == true ? (<>Eligible for Monthly Incentive: Yes</>) : ""}
+                       Eligible for Monthly Incentive :{data.IS_Eligible_Monthly_Incentive == true ? (<> Yes</>) : "No"}
 
                         </div>
 
                     </div>
                     
 
-                        <br></br>
-                        <br></br>  
                          
-                <div className=" grid">
+
+                    </Panel>  
+                    
+                    <br></br>
+                        <br></br>    
+                    <div className=" grid">
                         
-                        <div className="field col-12 md:col-6"></div>
-                        <div className="field col-12 md:col-6 flex">
+                        <div className="field col-12 md:col-9"></div>
+                        <div className="field col-12 md:col-3 flex">
                             <Button className='mr-3' type="button" onClick={e => {
                                 callpreviewannexure1(data);
 
@@ -322,20 +236,11 @@ function SelectedCandidateDetailsView(props) {
                             </Button>
                         </div>
                     </div>
-
             </Card>
         </>
     )
 }
 
 
-const mapStateToProps = (state) => {
 
-
-    return {
-        getactivedesignationoptionsprop: getactivedesignationoptions(state),
-        getasubbandactiveoptionsprop: getasubbandactiveoptions(state),
-        getactivebandoptionsprop: getactivebandoptions(state)
-    }
-}
-export default connect(mapStateToProps)(SelectedCandidateDetailsView)
+export default SelectedCandidateDetailsView

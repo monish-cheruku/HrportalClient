@@ -37,6 +37,7 @@ const SelectedCandidates = () => {
 
     const selectedcandidatesdata = useSelector((state: RootState) => state.Selectedcandidates);
     const Logindata = useSelector((state: RootState) => state.Login);
+    const [roles, setRoles] = useState<any>([]);
     
 
     // const navigate=useNavigate()
@@ -60,6 +61,8 @@ const SelectedCandidates = () => {
     useEffect(() => {
         var w: any = []
         Logindata.groups.forEach((i) => w.push(i["name"].toString()))
+        Logindata.groups.forEach((i)=>setRoles(roles=>[...roles,i["name"].toString()]))
+        console.log(roles)
         dispatch(selectedcandidatesaction({
 
             "RoleName": w,
@@ -206,12 +209,19 @@ const SelectedCandidates = () => {
     const linktemplate = (rowdata) => {
         console.log(rowdata)
         return (
+            <>
+            {roles.includes("HR") ?
             <Link to={'/SelectedCandidatesdetails'} state={rowdata}>{rowdata.candidate.CandidateCode}</Link>
+             : rowdata.designation  ? <Link to={'/SelectedCandidatesdetailsview'} state={rowdata}>{rowdata.candidate.CandidateCode}</Link>
+             :<div>{rowdata.candidate.CandidateCode}</div>}
+            </>
         )
     }
 
     const actionBodyTemplate = (data) => {
         return (
+            // <>
+            // {roles.includes("HR") ?
             <React.Fragment>
                 <div className="p-fluid  grid">
                     {data.OfferLetter && 
@@ -259,6 +269,8 @@ const SelectedCandidates = () => {
                     }
                 </div>
             </React.Fragment>
+    // : <></>}
+    //         </>
         );
     };
     return (
@@ -276,8 +288,10 @@ const SelectedCandidates = () => {
                 <Column field="candidate.ExpectedCTC" header="Expected CTC" body={formatCurrencyEctc} sortable></Column>
                 <Column field="candidate.NegotiatedCTC" header="Negotiated CTC" body={formatCurrencyNctc} sortable></Column>
                 <Column field="candidate.ExpectedDOJ" header="Expected DOJ" body={datetemplate} sortable></Column>
+                {roles.includes("HR") &&
                 <Column field="action" header="Action" body={actionBodyTemplate} exportable={false}></Column>
-            </DataTable>
+                }
+                 </DataTable>
 
 
         </div>
