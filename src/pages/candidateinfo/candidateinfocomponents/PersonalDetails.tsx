@@ -166,7 +166,7 @@ function PersonalDetails() {
     };
     const toInputUppercase = e => {
         console.log(e)
-        e.target.value = ("" + e.target.value).toUpperCase();
+        e.target.value = ("" + e.target.value)?.toUpperCase();
       };
     return (
         <div>
@@ -334,7 +334,7 @@ function PersonalDetails() {
                                         <div className="field " >
                                             <label htmlFor="Employee Name">PAN* </label>
                                             <span className="label">
-                                                <InputText caps={true}  onInput={toInputUppercase} value={values["PAN"].toUpperCase()}  id="Employee Name " {...input} autoFocus maxLength={10} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                <InputText caps={true}  onInput={toInputUppercase} value={values["PAN"]?.toUpperCase()}  id="Employee Name " {...input} autoFocus maxLength={10} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                 <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                             </span>
                                             {getFormErrorMessage(meta)}

@@ -132,6 +132,10 @@ function SelectedCandidateDetails(props) {
     const shoulddisanleanexurebutton = (values) => {
  
         console.log(values)
+        if (values.IsVariable == null){
+            return true
+        }
+        else{
         if (!values.IsVariable) {
             if (
                 values.designation > 0 &&
@@ -158,6 +162,7 @@ function SelectedCandidateDetails(props) {
             else
                 return true
         }
+    }
     }
     const callpreviewannexure1 = async (values) => {
        

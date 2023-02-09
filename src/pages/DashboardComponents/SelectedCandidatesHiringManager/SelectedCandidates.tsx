@@ -276,7 +276,7 @@ const SelectedCandidates = () => {
     return (
         <div>
 
-            <DataTable value={selectedcandidatesdata} showGridlines={false} responsiveLayout="scroll" paginator={true} rows={5}
+            <DataTable value={selectedcandidatesdata} showGridlines={false} responsiveLayout="scroll" paginator={true} rows={10}
                 globalFilterFields={['candidate.CandidateCode', 'candidate.CanFirstName', 'candidate.Jobpost.JobCode', 'candidate.Jobpost.JobTitle', 'candidate.OverallExpYear', 'candidate.CurrentCTC', 'candidate.ExpectedCTC', 'Jobpost.NegotiatedCTC', 'candidate.ExpectedDOJ']} filters={filters2} header={Headercomp}>
 
                 <Column field="candidate.CandidateCode" header="Candiate Code" sortable style={{ minWidth: '11rem', maxWidth: '14rem' }} body={linktemplate}></Column>
