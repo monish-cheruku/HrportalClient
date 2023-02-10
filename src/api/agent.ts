@@ -14,13 +14,13 @@ import {UserRoles} from "../features/UserRoles/userroleslice"
 
 
 // import {Band} from ../features/Band/bandslice"
-// axios.defaults.baseURL = 'http://10.154.155.167:8000/api';
+axios.defaults.baseURL = 'http://10.154.155.189:8000/api';
 // axios.defaults.baseURL = 'http://10.154.155.221:8000/api';
 
 // axios.defaults.baseURL = 'http://10.154.155.54:8000/api';
 // axios.defaults.baseURL = 'http://10.154.20.135:8000/api';
 
-axios.defaults.baseURL = 'http://127.0.0.1:8000/api';
+// axios.defaults.baseURL = 'http://127.0.0.1:8000/api';
 // axios.defaults.baseURL = 'http://10.154.155.169:8000/api';
 //http://10.154.28.135:8000/api/     monish//
 //http://10.154.155.152:8000/api      /dwaraka
@@ -246,8 +246,12 @@ export const familydetails = {
   updatefamilydetails:(data)=>requests.post("selectedcandidate/updatefamilydetails",data),  
   getfamilydetails:(data)=>requests.post("selectedcandidate/getfamilydetails",data),
   deletefamilydetails:(data)=>requests.post("selectedcandidate/deletefamilydetail",data),
-
-
+}
+export const insurance = {
+  createinsurance:(data)=>requests.post("selectedcandidate/createinsurancedetail",data),
+  updateinsurance:(data)=>requests.post("selectedcandidate/updateinsurancedetails",data),  
+  getinsurance:(data)=>requests.post("selectedcandidate/getinsurancedetails",data),
+  deleteinsurance:(data)=>requests.post("selectedcandidate/deleteinsurancedetail",data),
 }
 export const candidateinfo = {  
   getcandidateinfo:(data)=>requests.post("selectedcandidate/selectedcandidatedetailsbyemail",data),
@@ -292,6 +296,13 @@ export const employementdetailsapis = {
   createemployementdetail:(data)=>requests.post("selectedcandidate/createemployementdetail",data),
   updateemployementdetails:(data)=>requests.post("selectedcandidate/updateemployementdetails",data),
   deleteemployementdetails:(data)=>requests.post("selectedcandidate/deleteemployementdetail",data),
+ 
+}
+export const bankdetailsapis = {
+  getbankdetails:(data)=>requests.post("selectedcandidate/getbankdetails",data),
+  createbankdetail:(data)=>requests.post("selectedcandidate/createbankdetail",data),
+  updatebankdetails:(data)=>requests.post("selectedcandidate/updatebankdetails",data),
+  deletebankdetails:(data)=>requests.post("selectedcandidate/deletebankdetail",data),
  
 }
 

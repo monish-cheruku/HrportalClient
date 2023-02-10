@@ -12,6 +12,9 @@ import { RootState } from '../../app/store';
 import { useDispatch } from 'react-redux';
 import { setcandidateinfotab } from '../../features/Misc/globalslice';
 import Declaration from './candidateinfocomponents/Declaration';
+import Insurance from './candidateinfocomponents/Insurance';
+import BankDetaiis from './candidateinfocomponents/BankDetails';
+import BankDetails from './candidateinfocomponents/BankDetails';
 function Candidateinfo() {
   // const [activeIndex, setActiveIndex] = useState(0);
   const activeIndex= useSelector((store:RootState)=>store.global.candidateinfoactivetab)
@@ -26,8 +29,12 @@ if(activeIndex==null)setcandidateinfotab(0)
     { label: 'Family Details', command: (e) => { dispatch(setcandidateinfotab(e.index))} },
     { label: 'Education', command: (e) =>{dispatch(setcandidateinfotab(e.index))} },
     { label: 'Employement', command: (e) =>dispatch(setcandidateinfotab(e.index))},
-    // { label: 'PF Details', command: (e) => dispatch(setcandidateinfotab(e.index)) },
-    { label: 'Documents', command: (e) => dispatch(setcandidateinfotab(e.index)) },
+     
+    { label: 'Insurance', command: (e) =>dispatch(setcandidateinfotab(e.index))},
+    { label: 'Bank Details', command: (e) =>dispatch(setcandidateinfotab(e.index))},
+    { label: 'PF Details', command: (e) =>dispatch(setcandidateinfotab(e.index))},
+         { label: 'Documents', command: (e) => dispatch(setcandidateinfotab(e.index)) }, 
+
     { label: 'Declaration', command: (e) =>dispatch(setcandidateinfotab(e.index)) }
 ];
   return (
@@ -52,14 +59,20 @@ if(activeIndex==null)setcandidateinfotab(0)
 {
   activeIndex==3&&<Employement></Employement>
 }
-{/* {
-  activeIndex==4&&<PFDetails></PFDetails>
-} */}
 {
-  activeIndex==4&&<Documents></Documents>
+  activeIndex==4&&<Insurance></Insurance>
 }
 {
-  activeIndex==5&&<Declaration></Declaration>
+  activeIndex==5&&<BankDetails></BankDetails>
+}
+{
+  activeIndex==6&&<PFDetails></PFDetails>
+}
+{
+  activeIndex==7&&<Documents></Documents>
+}
+{
+  activeIndex==8&&<Declaration></Declaration>
 }
 
                     </div>

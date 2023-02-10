@@ -34,6 +34,7 @@ const SelectedCandidates = () => {
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     });
     const [company, setcompany] = useState();
+    const navigate = useNavigate()
 
     const selectedcandidatesdata = useSelector((state: RootState) => state.Selectedcandidates);
     const Logindata = useSelector((state: RootState) => state.Login);
@@ -43,7 +44,6 @@ const SelectedCandidates = () => {
     // const navigate=useNavigate()
     // // const useRedirect=
     const dispatch = useDispatch();
-    const navigate = useNavigate()
 
     //     useEffect(() => {
     // // alert("rerendering")
