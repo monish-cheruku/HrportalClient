@@ -356,7 +356,7 @@ const formatendDate = (rowdata:any) => {
                       name="PreviousCompanyName"
                       render={({ input, meta }) => (
                         <div className="field">
-                          <label htmlFor="PreviousCompanyName">Company Name</label>
+                          <label htmlFor="PreviousCompanyName">Company Name*</label>
                           <span className="column">
                             <InputText maxLength={50} id="PreviousCompanyName" {...input} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                             <label htmlFor="PreviousCompanyName" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>                        </span>
@@ -371,7 +371,7 @@ const formatendDate = (rowdata:any) => {
                       name="PreviousCompanyAddress"
                       render={({ input, meta }) => (
                         <div className="field fluid">
-                          <label htmlFor="PreviousCompanyAddress">Company Address</label>
+                          <label htmlFor="PreviousCompanyAddress">Company Address*</label>
                           <span className="field fluid">
                             <InputTextarea maxLength={200} id="PreviousCompanyAddress"  {...input} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                             <label htmlFor="PreviousCompanyAddress" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
@@ -386,7 +386,7 @@ const formatendDate = (rowdata:any) => {
                       name="Start_Date"
                       render={({ input, meta }) => (
                         <div className="field fluid">
-                          <label htmlFor="Start_Date">Start Date</label>
+                          <label htmlFor="Start_Date">Start Date*</label>
                           <span className="field fluid">
                             <Calendar id="Start_Date" {...input} dateFormat="mm/dd/yy" mask="99/99/9999"  maxDate={new Date(values["End_Date"])}  showIcon placeholder="Select Date of Joining" value={new Date(values["Start_Date"])} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                           </span>
@@ -402,7 +402,7 @@ const formatendDate = (rowdata:any) => {
                       name="End_Date"
                       render={({ input, meta }) => (
                         <div className="field fluid">
-                          <label htmlFor="End_Date">End Date </label>
+                          <label htmlFor="End_Date">End Date* </label>
                           <span className="field fluid">
                             <Calendar id="End_Date" {...input} dateFormat="mm/dd/yy" mask="99/99/9999"  minDate={new Date(values["Start_Date"])} showIcon placeholder="Select Date Of Completion" value={new Date(values["End_Date"])} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                           </span>
@@ -417,7 +417,7 @@ const formatendDate = (rowdata:any) => {
                       name="Designationonjoining"
                       render={({ input, meta }) => (
                         <div className="field fluid">
-                          <label htmlFor="Designationonjoining">Designation on Joining</label>
+                          <label htmlFor="Designationonjoining">Designation on Joining*</label>
                           <span className="field fluid">
                             <InputText maxLength={50} id="Designationonjoining" {...input} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                             <label htmlFor="Designationonjoining" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
@@ -432,7 +432,7 @@ const formatendDate = (rowdata:any) => {
                       name="Designationonleaving"
                       render={({ input, meta }) => (
                         <div className="field fluid">
-                          <label htmlFor="Designationonleaving">Designation on Leaving </label>
+                          <label htmlFor="Designationonleaving">Designation on Leaving* </label>
                           <span className="field fluid">
                             <InputText maxLength={50} id="Designationonleaving" {...input} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                             <label htmlFor="Designationonleaving" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>

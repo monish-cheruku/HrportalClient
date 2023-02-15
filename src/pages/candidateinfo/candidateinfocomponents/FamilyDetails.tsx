@@ -20,6 +20,7 @@ import { deletedocumentaction, documentdownloadaction, uploaddocumentaction } fr
 import { FileUpload } from 'primereact/fileupload'
 import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
+import { Dropdown } from 'primereact/dropdown'
 // import { createfamilydetailsaction, familydetailsaction, updatefamilydetailsaction } from '../../../features/Candidateinfo/familydetailsslice'
 
 function FamilyDetails() {
@@ -163,6 +164,15 @@ function FamilyDetails() {
 
         )
     }
+    const Relation = [
+        { value: 'mother', label: 'Mother' },
+        { value: 'father', label: 'Father' },
+        { value: 'spouse', label: 'Spouse' },
+        { value: 'brother',label: 'Brother' },
+        { value: 'sister', label: 'Sister' },
+        { value: 'others', label: 'Others' },
+
+    ]
    
     const formatDate = (value: any) => {
         return value.toLocaleDateString('en-US', {
@@ -294,7 +304,7 @@ if(!values["Contact_Number"]){
                                             name="FullName"
                                             render={({ input, meta }) => (
                                                 <div className="field fluid">
-                                                    <label htmlFor="FullName">Full Name</label>
+                                                    <label htmlFor="FullName">Full Name*</label>
                                                     <span className="field fluid">
                                                         <InputText maxLength={50} id="FullName" {...input} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                         <label htmlFor="FullName" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
@@ -323,19 +333,18 @@ if(!values["Contact_Number"]){
 
                                     <div className="field col-12 md:col-10">
 
-                                        <Field
-                                            name="Relationship_with_employee"
-                                            render={({ input, meta }) => (
-                                                <div className="field fluid">
-                                                    <label htmlFor="Relationship_with_employee">Relationship</label>
-                                                    <span className="field fluid">
-                                                        <InputText maxLength={50} id="Relationship_with_employee" {...input} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
-                                                        <label htmlFor="Relationship_with_employee" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
-                                                    </span>
-                                                    {getFormErrorMessage(meta)}
-                                                </div>
-                                            )}
-                                        />
+                                    <Field
+                                    name="Relationship_with_employee"
+                                    render={({ input, meta }) => (
+                                        <div className="field">
+                                            <label htmlFor="Relationship_with_employee ">Relation*</label>
+                                            <span className="p-float-label">
+                                                <Dropdown id="Relationship_with_employee " {...input} options={Relation} placeholder="Select Relation" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                            </span>
+                                            {getFormErrorMessage(meta)}
+                                        </div>
+                                    )}
+                                />
                                     </div>
 
                                     <div className="field col-12 md:col-10">
@@ -343,7 +352,7 @@ if(!values["Contact_Number"]){
                                             name="Contact_Number"
                                             render={({ input, meta }) => (
                                                 <div className="field " >
-                                                    <label htmlFor="Contact_Number">Contact No</label>
+                                                    <label htmlFor="Contact_Number">Contact No*</label>
                                                     <span className="label">
                                                         {/* <InputNumber id="Employee Name " value={values.NoOfPositions} onChange={e=>values["ContactNumber"]=e.value} max={9999999999} {...input} autoFocus className={classNames({ "p-invalid": isFormFieldValid(meta) })} /> */}
                                                         {/* <InputMask  value="12345"   mask="99-9999999999" /> */}
@@ -389,10 +398,10 @@ if(!values["Contact_Number"]){
                             <div className="p-fluid  grid card1content">
                                
                                 <div className="card-body">
-                                    <p className="qualification">Name : {e.FullName}</p>
-                                    <p className="date-range"> Date Of Birth : {formatDate(new Date(e.Date_Of_Birth)) }</p>
-                                    <p className="specialization"> Relationship : {e.Relationship_with_employee}</p>
-                                    <p className="institution">Contact : {e.Contact_Number}</p>
+                                    <p className="FullName">Name : {e.FullName}</p>
+                                    <p className="Date_Of_Birth"> Date Of Birth : {formatDate(new Date(e.Date_Of_Birth)) }</p>
+                                    <p className="Relationship_with_employee"> Relationship : {e.Relationship_with_employee}</p>
+                                    <p className="Contact_Number">Contact : {e.Contact_Number}</p>
                                
 
                                 </div>
