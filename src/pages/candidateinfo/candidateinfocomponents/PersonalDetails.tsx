@@ -64,6 +64,14 @@ function PersonalDetails() {
         { value: 'male', label: 'Male' },
         { value: 'female', label: 'Female' }
     ]
+    const Relation = [
+        { value: 'mother', label: 'Mother' },
+        { value: 'father', label: 'Father' },
+        { value: 'spouse', label: 'Spouse' },
+        { value: 'brother',label: 'Brother' },
+        { value: 'sister', label: 'Sister' },
+        { value: 'others', label: 'Others' },
+    ]
     const marital = [
         { value: 'single', label: 'Single' },
         { value: 'married', label: 'Married' }
@@ -425,19 +433,18 @@ function PersonalDetails() {
                                         )}
                                     /></div>
                                 <div className="field col-12 md:col-4">
-                                    <Field
-                                        name="EmergencycontactRelation"
-                                        render={({ input, meta }) => (
-                                            <div className="field " >
-                                                <label htmlFor="Employee Name">Relation*</label>
-                                                <span className="label">
-                                                    <InputText id="Employee Name " {...input} autoFocus className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
-                                                    <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
-                                                </span>
-                                                {getFormErrorMessage(meta)}
-                                            </div>
-                                        )}
-                                    />
+                                <Field
+                                    name="EmergencycontactRelation"
+                                    render={({ input, meta }) => (
+                                        <div className="field">
+                                            <label htmlFor="EmergencycontactRelation ">Relation*</label>
+                                            <span className="p-float-label">
+                                                <Dropdown id="EmergencycontactRelation " {...input} options={Relation} placeholder="Select Relation" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                            </span>
+                                            {getFormErrorMessage(meta)}
+                                        </div>
+                                    )}
+                                />
                                 </div>
                                 <div className="field col-12 md:col-4"><Field
                                     name="EmergencycontactNumber"

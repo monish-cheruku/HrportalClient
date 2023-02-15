@@ -1,6 +1,6 @@
 import { Button } from 'primereact/button'
 import React, { useState, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import { Field, Form } from 'react-final-form'
 import { setnextcandidateinfotab, setprevcandidateinfotab } from '../../../features/Misc/globalslice'
 import { Checkbox } from 'primereact/checkbox'
@@ -20,7 +20,9 @@ import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
 import { FilterMatchMode } from 'primereact/api'
 import { SelectButton } from 'primereact/selectbutton';
-function Education() {
+import { getallqualification } from '../../../features/Dropdownoptions/qualificationselector'
+import { qualificationaction } from '../../../features/Dropdownoptions/qualificationtypeslice'
+function Education(props) {
     const dispatch = useDispatch()
     const [modalDialog, setModaldialog] = useState(false);
     const [gridview,setgridview]=useState("grid")
@@ -34,6 +36,7 @@ function Education() {
     const isFormFieldValid = (meta) => !!(meta.touched && meta.error);
     const educationdetailsdata = useSelector((state: RootState) => state.Educationaldetails)
     useEffect(() => {
+        dispatch(qualificationaction())
         dispatch(educationaldetailsgetaction(
             {
                 "selectedcandidateid": candidateinfodata.Selected_Candidate_ID
@@ -41,6 +44,7 @@ function Education() {
             }
         ))
         console.log(educationdetailsdata)
+        console.log(props.getallqualificationprop)
     }, [])
 
     const getFormErrorMessage = (meta) => {
@@ -357,9 +361,9 @@ function Education() {
                                             name="Qualification"
                                             render={({ input, meta }) => (
                                                 <div className="field">
-                                                    <label htmlFor="Qualification">Degree</label>
+                                                    <label htmlFor="Qualification">Degree*</label>
                                                     <span className="column">
-                                                        <Dropdown id="Qualification"{...input} options={[{ label: "SSC", value: "SSC" },, { label: "Diploma", value: "Diploma" }, { label: "Graduation", value: "Graduation" }, { label: "Post Graduation", value: "Post Graduation" }]} placeholder="Select Qualification" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <Dropdown id="Qualification"{...input} options={props.getallqualificationprop} optionLabel="label" placeholder="Select Qualification" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                     </span>
                                                     {getFormErrorMessage(meta)}
                                                 </div>
@@ -372,7 +376,7 @@ function Education() {
                                             name="Specialization"
                                             render={({ input, meta }) => (
                                                 <div className="field fluid">
-                                                    <label htmlFor="Specialization">Specialization</label>
+                                                    <label htmlFor="Specialization">Specialization*</label>
                                                     <span className="field fluid">
                                                         <InputText maxLength={50} id="Specialization" {...input} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                         <label htmlFor="Specialization" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
@@ -387,7 +391,7 @@ function Education() {
                                             name="Start_Date"
                                             render={({ input, meta }) => (
                                                 <div className="field fluid">
-                                                    <label htmlFor="Start_Date">Date of Joining</label>
+                                                    <label htmlFor="Start_Date">Date of Joining*</label>
                                                     <span className="field fluid">
                                                         <Calendar id="Start_Date" {...input} dateFormat="mm/dd/yy" mask="99/99/9999" maxDate={new Date(values["End_Date"])}  showIcon placeholder="Select Date of Joining" value={new Date(values["Start_Date"])} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                     </span>
@@ -403,7 +407,7 @@ function Education() {
                                             name="End_Date"
                                             render={({ input, meta }) => (
                                                 <div className="field fluid">
-                                                    <label htmlFor="End_Date">Date Of Completion</label>
+                                                    <label htmlFor="End_Date">Date Of Completion*</label>
                                                     <span className="field fluid">
                                                         <Calendar id="End_Date" {...input} dateFormat="mm/dd/yy" mask="99/99/9999"  minDate={new Date(values["Start_Date"])} showIcon placeholder="Select Date Of Completion" value={new Date(values["End_Date"])} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                     </span>
@@ -418,7 +422,7 @@ function Education() {
                                             name="Institute"
                                             render={({ input, meta }) => (
                                                 <div className="field fluid">
-                                                    <label htmlFor="Specialization">Institute/University</label>
+                                                    <label htmlFor="Specialization">Institute/University*</label>
                                                     <span className="field fluid">
                                                         <InputText maxLength={50} id="Institute" {...input} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                         <label htmlFor="Institute" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
@@ -433,7 +437,7 @@ function Education() {
                                             name="Percentage"
                                             render={({ input, meta }) => (
                                                 <div className="field fluid">
-                                                    <label htmlFor="Percentage">Percentage/CGPA </label>
+                                                    <label htmlFor="Percentage">Percentage/CGPA* </label>
                                                     <span className="field fluid">
                                                         <InputText maxLength={50} id="Percentage" {...input} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                         <label htmlFor="Percentage" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
@@ -626,4 +630,10 @@ function Education() {
     )
 }
 
-export default Education
+function mapStateToProps(state) {
+    return {
+       
+        getallqualificationprop:getallqualification(state)
+    };
+}
+export default connect(mapStateToProps)(Education)

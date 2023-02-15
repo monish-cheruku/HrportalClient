@@ -34,7 +34,7 @@ import LoadingOverlay from "react-loading-overlay";
 
 function SelectedCandidateDetails(props) {
     const location = useLocation()
-    const [data, setdata] = useState(location.state)
+    const [data, setdata] = useState(location.state.rowdata)
     const logindata = useSelector((state: RootState) => state.Login)
     const annexuredata = useSelector((state: RootState) => state.anexure)
     const toaststatus = useSelector((state: RootState) => state.toaster.status)
@@ -52,8 +52,8 @@ function SelectedCandidateDetails(props) {
         dispatch(getdesignationsaction())
         dispatch(getBandaction())
         dispatch(getsubbandsaction())
-        // console.log(location.state)
-        // console.log(data)
+        console.log(location.state)
+        console.log(data)
         console.log(annexuredata)
 
     }, [])
@@ -157,7 +157,7 @@ function SelectedCandidateDetails(props) {
                 values.DateOfJoining &&
                 values.FixedCTC > 0 &&
                 values.MQVariable != "" &&
-                values.VariablePay )
+                values.VariablePay)
                 return false
             else
                 return true
@@ -165,7 +165,7 @@ function SelectedCandidateDetails(props) {
     }
     }
     const callpreviewannexure1 = async (values) => {
-       
+
         console.log(values)
         values["FixedCTC"] = parseInt(values["FixedCTC"])
         values["VariablePay"] = parseInt(values["VariablePay"])
