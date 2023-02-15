@@ -13,19 +13,21 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../../../app/store'
 import { createedducationaldetailsaction, deleteedducationaldetailsaction, educationaldetailsgetaction, updateedducationaldetailsaction } from '../../../features/Candidate info/educationdetailsslice'
 import { Card } from 'primereact/card'
-import { deletedocumentaction, documentdownloadaction, uploaddocumentaction } from '../../../features/Candidate info/candidateinfoslice'
+import { deletedocumentaction, documentdownloadaction, uploaddocumentaction, verifydocumentaction } from '../../../features/Candidate info/candidateinfoslice'
 import { FileUpload } from 'primereact/fileupload'
 import { Panel, PanelHeaderTemplateOptions } from 'primereact/panel'
 import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
 import { FilterMatchMode } from 'primereact/api'
 import { SelectButton } from 'primereact/selectbutton';
+import { PrimeIcons } from 'primereact/api';
+import { Tooltip } from 'primereact/tooltip';
 import { getallqualification } from '../../../features/Dropdownoptions/qualificationselector'
 import { qualificationaction } from '../../../features/Dropdownoptions/qualificationtypeslice'
 function Education(props) {
     const dispatch = useDispatch()
     const [modalDialog, setModaldialog] = useState(false);
-    const [gridview,setgridview]=useState("grid")
+    const [gridview, setgridview] = useState("grid")
     const [globalFilterValue2, setGlobalFilterValue2] = useState("");
     const [filters2, setFilters2] = useState({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -35,7 +37,12 @@ function Education(props) {
     const [tempdata, settempdata] = useState<any>({})
     const isFormFieldValid = (meta) => !!(meta.touched && meta.error);
     const educationdetailsdata = useSelector((state: RootState) => state.Educationaldetails)
+    const Logindata = useSelector((state: RootState) => state.Login);
+    const [roles, setRoles] = useState<any>([]);
     useEffect(() => {
+        var w: any = []
+        // Logindata.groups.forEach((i) => w.push(i["name"].toString()))
+        Logindata.groups.forEach((i) => setRoles(roles => [...roles, i["name"].toString()]))
         dispatch(qualificationaction())
         dispatch(educationaldetailsgetaction(
             {
@@ -43,6 +50,7 @@ function Education(props) {
 
             }
         ))
+
         console.log(educationdetailsdata)
         console.log(props.getallqualificationprop)
     }, [])
@@ -78,7 +86,7 @@ function Education(props) {
                 className="flex flex-column md:flex-row md:justify-content-between md:align-items-center"
             // className="flex justify-content-between"
             >
-                
+
                 {/* <Toolbar
         //  className="mb-4"
          left={leftToolbarTemplate}
@@ -119,7 +127,7 @@ function Education(props) {
                         Education details
                     </h4>
                 </span>
-                <SelectButton value={gridview} options={gridviewoptions} onChange={(e) => setgridview(e.value)} />
+                {roles.includes("HR") && <SelectButton value={gridview} options={gridviewoptions} onChange={(e) => setgridview(e.value)} />}
                 <Button className='' style={{}} onClick={e => { setEditmode(false); setModaldialog(true) }}>Add </Button>            </div>
         )
     }
@@ -132,98 +140,98 @@ function Education(props) {
 
 
     }
-    const percentageformat=(rowdata)=>{
-        return(
-            <>{rowdata.Percentage>10?rowdata.Percentage.toString()+"% ":rowdata.Percentage.toString()+"CGPA"}
+    const percentageformat = (rowdata) => {
+        return (
+            <>{rowdata.Percentage > 10 ? rowdata.Percentage.toString() + "% " : rowdata.Percentage.toString() + "CGPA"}
             </>
         )
     }
-    const formatstartDate = (rowdata:any) => {
+    const formatstartDate = (rowdata: any) => {
         return new Date(rowdata.Start_Date).toLocaleDateString('en-US', {
             day: '2-digit',
             month: '2-digit',
             year: 'numeric',
         });
-      }
-    const formatendDate = (rowdata:any) => {
+    }
+    const formatendDate = (rowdata: any) => {
         return new Date(rowdata.End_Date).toLocaleDateString('en-US', {
             day: '2-digit',
             month: '2-digit',
             year: 'numeric',
         });
-      }
-    const actionBodyTemplate=(rowdata)=>{
+    }
+    const actionBodyTemplate = (rowdata) => {
         return (
-<div className=" flex gap-2">
-                                    <Button className="p-button-info editbutton mr-2" style={{ height: "40px", width: "4.4rem" }} label="" icon="pi pi-pencil" onClick={() => { setEditmode(true); settempdata(rowdata); setModaldialog(true); }}></Button>
+            <div className=" flex gap-2">
+                <Button className="p-button-info editbutton mr-2" style={{ height: "40px", width: "4.4rem" }} label="" icon="pi pi-pencil" onClick={() => { setEditmode(true); settempdata(rowdata); setModaldialog(true); }}></Button>
 
 
-                                    <FileUpload emptyTemplate={emptytemplate} style={{}} chooseOptions={chooseOptions} className='p-success mr-2' mode="basic" name="demo[]" chooseLabel='abc' maxFileSize={1000000} auto onSelect={k => {
-
-
-
-                                        if (k.files.length > 0) {
+                <FileUpload emptyTemplate={emptytemplate} style={{}} chooseOptions={chooseOptions} className='p-success mr-2' mode="basic" name="demo[]" chooseLabel='abc' maxFileSize={1000000} auto onSelect={k => {
 
 
 
-                                            console.log(k.files[0])
-                                            const data = new FormData()
-                                            data.append("selectedcandidate", candidateinfodata.Selected_Candidate_ID.toString())
-                                            data.append("detailtypeId", rowdata.id.toString())
-                                            data.append("detailtype", "Education")
-                                            data.append("file", k.files[0])
-                                            dispatch(uploaddocumentaction(data))
+                    if (k.files.length > 0) {
+
+
+
+                        console.log(k.files[0])
+                        const data = new FormData()
+                        data.append("selectedcandidate", candidateinfodata.Selected_Candidate_ID.toString())
+                        data.append("detailtypeId", rowdata.id.toString())
+                        data.append("detailtype", "Education")
+                        data.append("file", k.files[0])
+                        dispatch(uploaddocumentaction(data))
 
 
 
 
 
-                                        }
-                                        else {
-                                            console.log("no files uploaded yet")
-                                        }
+                    }
+                    else {
+                        console.log("no files uploaded yet")
+                    }
 
 
 
-                                    }} />
-                                    <Button style={{ height: "40px", width: "4.4rem" }}  icon="pi pi-trash" className="p-button-danger" onClick={() => dispatch(deleteedducationaldetailsaction({
-                                        "id": rowdata.id
+                }} />
+                <Button style={{ height: "40px", width: "4.4rem" }} icon="pi pi-trash" className="p-button-danger" onClick={() => dispatch(deleteedducationaldetailsaction({
+                    "id": rowdata.id
 
-                                    }))} />
+                }))} />
 
-                                </div>
+            </div>
 
 
         )
     }
-    const filestemplate=(rowdata)=>{
-        const rowfiles=rowdata.files
-        const no:number=rowdata.files?rowdata.files.length:0
-        if (no>0)
-        return(
-          <div style={{overflowY: "scroll",height: "70px"}}>{
-                rowdata.files.map((f) => (
-                    <div className='field row-12 md:row-12 flex' onClick={() => console.log(f.file)} style={{ border: "2px solid blue", padding: "4px", margin: "4px", borderRadius: "10px", backgroundColor: "#C1C2F3", height: "30px" }}>
+    const filestemplate = (rowdata) => {
+        const rowfiles = rowdata.files
+        const no: number = rowdata.files ? rowdata.files.length : 0
+        if (no > 0)
+            return (
+                <div style={{ overflowY: "scroll", height: "70px" }}>{
+                    rowdata.files.map((f) => (
+                        <div className='field row-12 md:row-12 flex' onClick={() => console.log(f.file)} style={{ border: "2px solid blue", padding: "4px", margin: "4px", borderRadius: "10px", backgroundColor: "#C1C2F3", height: "30px" }}>
 
-                        {f.file.split("/")[f.file.split("/").length - 1].toString().length < 20 ? f.file.split("/")[f.file.split("/").length - 1] : f.file.split("/")[f.file.split("/").length - 1].substring(0, 15) + "..."}
-                        <i className="pi pi-download mr-2 ml-2" onClick={() => {
-                            dispatch(documentdownloadaction({
-                                "file": f.file.toString().substring(1, f.file.length)
-                            }))
-                        }} style={{ cursor: "pointer", backgroundColor: "blue", padding: "4px", borderRadius: "4px", color: "white" }}> </i>
-                        <i className="pi pi-trash mr-2 ml-2" style={{ cursor: "pointer", backgroundColor: "red", padding: "4px", borderRadius: "4px", color: "white" }}
-                            onClick={() => {
-                                dispatch(deletedocumentaction({
-                                    "fileid": f.id
+                            {f.file.split("/")[f.file.split("/").length - 1].toString().length < 20 ? f.file.split("/")[f.file.split("/").length - 1] : f.file.split("/")[f.file.split("/").length - 1].substring(0, 15) + "..."}
+                            <i className="pi pi-download mr-2 ml-2" onClick={() => {
+                                dispatch(documentdownloadaction({
+                                    "file": f.file.toString().substring(1, f.file.length)
                                 }))
-                            }}
-                        > </i>
+                            }} style={{ cursor: "pointer", backgroundColor: "blue", padding: "4px", borderRadius: "4px", color: "white" }}> </i>
+                            <i className="pi pi-trash mr-2 ml-2" style={{ cursor: "pointer", backgroundColor: "red", padding: "4px", borderRadius: "4px", color: "white" }}
+                                onClick={() => {
+                                    dispatch(deletedocumentaction({
+                                        "fileid": f.id
+                                    }))
+                                }}
+                            > </i>
 
-                    </div>
-                ))
-                        }
+                        </div>
+                    ))
+                }
                 </div>
-        )
+            )
     }
     return (
         <div>
@@ -264,7 +272,7 @@ function Education(props) {
                color:white;
             }
             .card1:hover{
-                scale:1.1;
+                scale:1.01;
                 transition:  1s;
                 
             }
@@ -393,7 +401,7 @@ function Education(props) {
                                                 <div className="field fluid">
                                                     <label htmlFor="Start_Date">Date of Joining*</label>
                                                     <span className="field fluid">
-                                                        <Calendar id="Start_Date" {...input} dateFormat="mm/dd/yy" mask="99/99/9999" maxDate={new Date(values["End_Date"])}  showIcon placeholder="Select Date of Joining" value={new Date(values["Start_Date"])} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <Calendar id="Start_Date" {...input} dateFormat="mm/dd/yy" mask="99/99/9999" maxDate={new Date(values["End_Date"])} showIcon placeholder="Select Date of Joining" value={new Date(values["Start_Date"])} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                     </span>
                                                     {getFormErrorMessage(meta)}
                                                 </div>
@@ -409,7 +417,7 @@ function Education(props) {
                                                 <div className="field fluid">
                                                     <label htmlFor="End_Date">Date Of Completion*</label>
                                                     <span className="field fluid">
-                                                        <Calendar id="End_Date" {...input} dateFormat="mm/dd/yy" mask="99/99/9999"  minDate={new Date(values["Start_Date"])} showIcon placeholder="Select Date Of Completion" value={new Date(values["End_Date"])} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <Calendar id="End_Date" {...input} dateFormat="mm/dd/yy" mask="99/99/9999" minDate={new Date(values["Start_Date"])} showIcon placeholder="Select Date Of Completion" value={new Date(values["End_Date"])} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                     </span>
                                                     {getFormErrorMessage(meta)}
                                                 </div>
@@ -467,10 +475,10 @@ function Education(props) {
                 </Dialog>
                 <br></br>
 
-                <div className='grid' style={gridview=="grid"?{display:"flex"}:{display:"block"}}>
-                {gridview == "grid"&& educationdetailsdata.length==0&&<div className='flex text-align-center'> No Data</div>}
+                <div className='grid' style={gridview == "grid" ? { display: "flex" } : { display: "block" }}>
+                    {gridview == "grid" && educationdetailsdata.length == 0 && <div className='flex text-align-center'> No Data</div>}
 
-                    {gridview=="grid"?educationdetailsdata.map((e) => <div className='lg:col-3 md:col-6 sm:col-2 gap-4' key={e.id.toString()}>
+                    {gridview == "grid" ? educationdetailsdata.map((e) => <div className='lg:col-6 md:col-6 sm:col-2 gap-4' key={e.id.toString()}>
                         <Card className='card1 margin-auto'>
                             <div className="p-fluid  grid card1content">
                                 <div className="card-header">
@@ -494,21 +502,212 @@ function Education(props) {
 
                                 {e.files.length > 0 ?
                                     e.files.map((f) => (
-                                        <div className='field row-12 md:row-12 flex' onClick={() => console.log(f.file)} style={{ border: "2px solid blue", padding: "4px", margin: "4px", borderRadius: "10px", backgroundColor: "#C1C2F3", height: "30px" }}>
+                                        <div className='field col-12 md:col-12 flex' style={{ border: "2px solid blue", padding: "4px", margin: "4px", borderRadius: "10px", backgroundColor: "#C1C2F3", height: "30px" }}>
 
                                             {f.file.split("/")[f.file.split("/").length - 1].toString().length < 20 ? f.file.split("/")[f.file.split("/").length - 1] : f.file.split("/")[f.file.split("/").length - 1].substring(0, 15) + "..."}
+
+                                            {
+                                                (roles.includes("HR") || roles.includes("Recruiter")) ?
+                                                    <>
+                                                        {/* "HR" or "Recruiter" */}
+                                                        {Object.is(f.verified, null) ? <>
+
+                                                            {/* something went wrong */}
+                                                            <Tooltip target=".tt" />
+                                                            <i className="pi pi-spin pi-spinner tt" data-pr-tooltip="Uploading In Progress" style={{ 'fontSize': '1em', width: "18px" }}></i>
+
+                                                        </> : <>
+
+
+                                                            {Object.is(f.verified, true) ?
+
+                                                                // "hr true"
+                                                                // <i className="pi pi-thumbs-up mr-2 ml-2" data-pr-tooltip="Verified" ></i>
+                                                                <>
+                                                                 <Tooltip target=".verifyup" className='validateoptionstooltip' autoHide={false} style={{ background: "" }}>
+                                                                               <div className="flex align-items-center" style={{ background: "" }}>
+                                                                                 <div>
+                                                                
+                                                                                   {/* <InputTextarea style={{margin:"5px"}}></InputTextarea> */}
+                                                                                   <textarea></textarea>
+                                                                                 </div>
+                                                                                 <Button type="button" icon="pi pi-check" onClick={() =>
+                                                                                dispatch(verifydocumentaction(
+                                                                                    {
+                                                                                        "fileid": f.id,
+                                                                                        "verified": true,
+           
+           
+                                                                                    }
+                                                                                ))
+                                                                                
+                                                                                } className="p-button-rounded p-button-success ml-2"></Button>
+                                                                                 <Button type="button" icon="pi pi-minus-circle" onClick={() => 
+                                                                                dispatch(verifydocumentaction(
+                                                                                    {
+                                                                                        "fileid": f.id,
+                                                                                        "verified":false,
+                                                                                        "verificationcomments":"abcd"
+           
+           
+                                                                                    }
+                                                                                ))
+                                                                                
+                                                                                } className="p-button-rounded p-button-danger ml-2"></Button>
+                                                                                <br />
+                                                                               </div>
+                                                                             </Tooltip>
+                                                                             <i className="pi pi-thumbs-up verifyup" ></i>
+                                                                             </>
+                                                                :
+
+                                                                // "hr false"
+                                                                <>
+                                                                <Tooltip target=".verifydown" className='validateoptionstooltip' autoHide={false} style={{ background: "" }}>
+                                                                              <div className="flex align-items-center" style={{ background: "" }}>
+                                                                                <div>
+                                                               
+                                                                                  <textarea></textarea>
+                                                                                </div>
+                                                                                <Button type="button" icon="pi pi-check" onClick={() => 
+                                                                                dispatch(verifydocumentaction(
+                                                                                    {
+                                                                                        "fileid": f.id,
+                                                                                        "verified":true
+           
+           
+                                                                                    }
+                                                                                ))
+                                                                                
+                                                                                
+                                                                                } className="p-button-rounded p-button-success ml-2"></Button>
+                                                                                <Button type="button" icon="pi pi-minus-circle" onClick={() => 
+                                                                                dispatch(verifydocumentaction(
+                                                                                    {
+                                                                                        "fileid": f.id,
+                                                                                        "verified":false,
+                                                                                        "verificationcomments":"abcd"
+           
+           
+                                                                                    }
+                                                                                ))
+                                                                                
+                                                                                
+                                                                                } className="p-button-rounded p-button-danger ml-2"></Button>
+                                                                               <br />
+                                                                              </div>
+                                                                            </Tooltip>
+                                                                            <i className="pi pi-thumbs-down verifydown"></i>
+                                                                                    {/* <input type="checkbox" onChange={e => {
+                                                                     console.log(e.target.checked); console.log("local console"); dispatch(verifydocumentaction(
+                                                                         {
+                                                                             "fileid": f.id,
+                                                                             "verified": false,
+                                                                             "verificationcomments":"abcd"
+
+
+                                                                         }
+                                                                     ))
+                                                                 }} checked={f.verified}></input> */}
+                                                                            </>
+                                                            }
+
+
+
+
+                                                            {
+
+                                                                // <input type="checkbox" onChange={e => {
+                                                                //     console.log(e.target.checked); console.log("local console"); dispatch(verifydocumentaction(
+                                                                //         {
+                                                                //             "fileid": f.id,
+                                                                //             "verified": e.target.checked
+                                                                //         }
+                                                                //     ))
+                                                                // }} checked={f.verified}></input>
+//                                                                 <>
+//                                                                 <Button className="tooltip-button" tooltipOptions={{position: 'top'}}>validate</Button>
+// <Tooltip target=".tooltip-button " className='validateoptionstooltip' autoHide={false} style={{ background: "" }}>
+//               <div className="flex align-items-center" style={{ background: "" }}>
+//                 <div>
+
+//                   {/* <InputTextarea style={{margin:"5px"}}></InputTextarea> */}
+//                   <textarea></textarea>
+//                 </div>
+//                 <Button type="button" icon="pi pi-check" onClick={() => console.log("abc")} className="p-button-rounded p-button-success ml-2"></Button>
+//                 <Button type="button" icon="pi pi-minus-circle" onClick={() => console.log("def")} className="p-button-rounded p-button-danger ml-2"></Button>
+//                <br />
+//               </div>
+//             </Tooltip>
+//             </>
+                                                            }
+
+                                                        </>
+
+                                                        }
+                                                    </>
+                                                    : <>
+
+                                                        {/* "employee" */}
+                                                        {Object.is(f.verified, null) ? <>
+                                                            {/* don't show anything to employee if null */}
+
+                                                        </> :
+
+                                                            <>
+                                                                {Object.is(f.verified, true) ? <>
+                                                                    <Tooltip target=".up" />
+                                                                    <i className="pi pi-thumbs-up mr-2 ml-2 up" data-pr-tooltip="Verified" ></i>
+                                                                </>
+                                                                    :
+                                                                    <>
+                                                                        <i className="pi pi-thumbs-down mr-2 ml-2 down" data-pr-tooltip={"Rejected "+f.verificationcomments} ></i>
+                                                                        <Tooltip target=".down" >
+                                                                            {/* {f.verificationcomments} */}
+                                                                            <div className="flex align-items-center" style={{ background: "red" }}>
+                <div>
+
+                  {/* <InputTextarea style={{margin:"5px"}}></InputTextarea> */}
+                  <textarea></textarea>
+                </div>
+                <Button type="button" icon="pi pi-check" onClick={() => console.log("abc")} className="p-button-rounded p-button-success ml-2"></Button>
+                <Button type="button" icon="pi pi-minus-circle" onClick={() => console.log("def")} className="p-button-rounded p-button-danger ml-2"></Button>
+               <br />
+              </div>
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        </Tooltip>
+                                                                    </>
+                                                                }
+
+
+
+                                                            </>
+
+
+                                                        }
+
+
+                                                    </>
+                                            }
+
+
+
+
                                             <i className="pi pi-download mr-2 ml-2" onClick={() => {
                                                 dispatch(documentdownloadaction({
                                                     "file": f.file.toString().substring(1, f.file.length)
                                                 }))
                                             }} style={{ cursor: "pointer", backgroundColor: "blue", padding: "4px", borderRadius: "4px", color: "white" }}> </i>
-                                            <i className="pi pi-trash mr-2 ml-2" style={{ cursor: "pointer", backgroundColor: "red", padding: "4px", borderRadius: "4px", color: "white" }}
-                                                onClick={() => {
+                                           {(!Object.is(f.verified,true)||roles.includes("HR"))? <i className="pi pi-trash mr-2 ml-2" style={{ cursor: "pointer", backgroundColor: "red", padding: "4px", borderRadius: "4px", color: "white" }}
+                                                onClick={() => {    
                                                     dispatch(deletedocumentaction({
                                                         "fileid": f.id
                                                     }))
                                                 }}
-                                            > </i>
+                                            > </i>:<></>}
 
                                         </div>
                                     )) :
@@ -535,14 +734,14 @@ function Education(props) {
                             </div>
                             <br />
                             <div className="card-footer p-fluid grid ">
+                                <div className="field col-12 md:col-5 flex">
+
+                                </div>
                                 <div className="field col-12 md:col-3 flex">
 
-                                </div>
-                                <div className="field col-12 md:col-2 flex">
-
 
                                 </div>
-                                <div className="field col-12 md:col-7 flex gap-2">
+                                <div className="field col-12 md:col-4 flex gap-2">
                                     <Button className="p-button-info editbutton mr-2" style={{ height: "35px", width: "3.5rem" }} label="" icon="pi pi-pencil" onClick={() => { setEditmode(true); settempdata(e); setModaldialog(true); }}></Button>
 
 
@@ -559,18 +758,13 @@ function Education(props) {
                                             data.append("selectedcandidate", candidateinfodata.Selected_Candidate_ID.toString())
                                             data.append("detailtypeId", e.id.toString())
                                             data.append("detailtype", "Education")
+                                            data.append("verified", roles.includes("HR") ? "true" : "")
                                             data.append("file", k.files[0])
                                             dispatch(uploaddocumentaction(data))
-
-
-
-
-
                                         }
                                         else {
                                             console.log("no files uploaded yet")
                                         }
-
 
 
                                     }} />
@@ -591,29 +785,29 @@ function Education(props) {
 
                     </div>)
 
-                    :
-                    
-                    
-                    <DataTable   className='dttable' value={educationdetailsdata} showGridlines={false} responsiveLayout="scroll" paginator={true} rows={5}
-                globalFilterFields={['Qualification','Start_Date','End_Date','Specialization','Institute','Percentage','uploadedfiles']} filters={filters2} header={Headercomp}>
+                        :
 
-                <Column field="Qualification" header="Qualification" sortable style={{ minWidth: '11rem', maxWidth: '14rem' }} ></Column>
-                <Column field="Start_Date" header="Start Date" body={formatstartDate}sortable></Column>
-                <Column field="End_Date" header="End Date"body={formatendDate} sortable></Column>
-                <Column field="Specialization" header="Specialization" sortable></Column>
-                <Column field="Institute" header="Institute" sortable ></Column>
-                <Column field="Percentage" header="Percentage "sortable body={percentageformat} > </Column>
-                <Column field="" header="Uploaded Files " body={filestemplate} > </Column>
-               
-                <Column field="action" header="Actions" body={actionBodyTemplate} exportable={false}></Column>
-            </DataTable>
-                    
-                    
+
+                        <DataTable className='dttable' value={educationdetailsdata} showGridlines={false} responsiveLayout="scroll" paginator={true} rows={5}
+                            globalFilterFields={['Qualification', 'Start_Date', 'End_Date', 'Specialization', 'Institute', 'Percentage', 'uploadedfiles']} filters={filters2} header={Headercomp}>
+
+                            <Column field="Qualification" header="Qualification" sortable style={{ minWidth: '11rem', maxWidth: '14rem' }} ></Column>
+                            <Column field="Start_Date" header="Start Date" body={formatstartDate} sortable></Column>
+                            <Column field="End_Date" header="End Date" body={formatendDate} sortable></Column>
+                            <Column field="Specialization" header="Specialization" sortable></Column>
+                            <Column field="Institute" header="Institute" sortable ></Column>
+                            <Column field="Percentage" header="Percentage " sortable body={percentageformat} > </Column>
+                            {/* <Column field="" header="Uploaded Files " body={filestemplate} > </Column> */}
+
+                            <Column field="action" header="Actions" body={actionBodyTemplate} exportable={false}></Column>
+                        </DataTable>
+
+
                     }
                 </div>
             </Panel>
 
-<br/>
+            <br />
             <div className="p-fluid  grid">
 
                 <div className="field col-12 md:col-4 flex">

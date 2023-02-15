@@ -18,8 +18,15 @@ function Declaration() {
     const candidateinfodata = useSelector((state: RootState) => state.candidateinfo)
     const clearancedata = useSelector((state: RootState) => state.candidateinfo.clearance)
     const msgs1 = useRef([]);
+    const Logindata = useSelector((state: RootState) => state.Login);
+
+    const [roles, setRoles] = useState<any>([]);
+
     const navigate=useNavigate()
     useEffect(() => {
+        var w: any = []
+        // Logindata.groups.forEach((i) => w.push(i["name"].toString()))
+        Logindata.groups.forEach((i)=>setRoles(roles=>[...roles,i["name"].toString()]))
         dispatch(getcandidateinfoclearanceaction({
             "selectedcandidateid": candidateinfodata.Selected_Candidate_ID
 

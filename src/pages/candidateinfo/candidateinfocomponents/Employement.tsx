@@ -34,8 +34,14 @@ function Employement() {
   const candidateinfodata = useSelector((state: RootState) => state.candidateinfo)
   const [tempdata, settempdata] = useState<any>({})
   const isFormFieldValid = (meta) => !!(meta.touched && meta.error);
+  const Logindata = useSelector((state: RootState) => state.Login);
+    const [roles, setRoles] = useState<any>([]);
+    
   const employmentdetailsdata = useSelector((state: RootState) => state.employementdetails)
   useEffect(() => {
+    var w: any = []
+    // Logindata.groups.forEach((i) => w.push(i["name"].toString()))
+    Logindata.groups.forEach((i)=>setRoles(roles=>[...roles,i["name"].toString()]))
     dispatch(employementdetailsgetaction(
       {
         "selectedcandidateid": candidateinfodata.Selected_Candidate_ID

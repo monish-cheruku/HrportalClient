@@ -1,5 +1,5 @@
 import { Button } from 'primereact/button'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setnextcandidateinfotab, setprevcandidateinfotab } from '../../../features/Misc/globalslice'
 import { Field, Form } from 'react-final-form'
@@ -15,12 +15,17 @@ function Documents() {
     const candidateinfodata = useSelector((state: RootState) => state.candidateinfo)
     const otherdocumentsdata = useSelector((state: RootState) => state.otherdocuments)
     const isFormFieldValid = (meta) => !!(meta.touched && meta.error);
+    const Logindata = useSelector((state: RootState) => state.Login);
+    const [roles, setRoles] = useState<any>([]);
 
 
     const getFormErrorMessage = (meta) => {
         return isFormFieldValid(meta) && <small className="p-error">{meta.error}</small>;
     };
     useEffect(() => {
+        var w: any = []
+        // Logindata.groups.forEach((i) => w.push(i["name"].toString()))
+        Logindata.groups.forEach((i) => setRoles(roles => [...roles, i["name"].toString()]))
         dispatch(otherdocumentsgetaction({
             "selectedcandidateid": candidateinfodata.Selected_Candidate_ID
         }))
@@ -310,6 +315,45 @@ function Documents() {
                         }
                     </Panel>
                 </div>
+                </div>
+            <div className="p-fluid  grid">
+                <div className="field col-12 md:col-6">
+                    <Panel headerTemplate={photoheadertemplate}>
+
+
+                        {
+                            selectfileobject(otherdocumentsdata, "Photograph").length > 0 ?
+                                <>
+                                    {
+                                        selectfileobject(otherdocumentsdata, "Photograph").map(i => (<div className="fileshow">
+                                            {i.file.split("/")[i.file.split("/").length - 1]}
+                                            <div>
+
+                                            <i className="pi pi-download mr-2 ml-2" onClick={() => {
+                                                dispatch(documentdownloadaction({
+                                                    "file": i.file.toString().substring(1, i.file.length)
+                                                }))
+                                            }} style={{ cursor: "pointer", backgroundColor: "blue", padding: "4px", borderRadius: "4px", color: "white" }}> </i>
+                                            <i className="pi pi-trash mr-2" style={{ cursor: "pointer", backgroundColor: "red", padding: "4px", borderRadius: "4px", color: "white" }}
+                                                onClick={() => dispatch(deletedocumentaction({
+                                                    "fileid": i.id
+
+                                                }))}
+                                            > </i>
+                                            </div>
+                                        </div>))
+
+                                    }
+
+                                </>
+                                : <>
+                                    No file Uploaded
+                                </>
+
+
+                        }
+                    </Panel>
+                </div>
                 <div className="field col-12 md:col-6">
                     <Panel headerTemplate={passportheadertemplate}>
 
@@ -520,7 +564,7 @@ function Documents() {
 
                 <div className="field col-12 md:col-4 flex gap-4">
                     <Button className='mr-4' onClick={e => dispatch(setprevcandidateinfotab())}>Previous</Button>
-                    <Button onClick={e => dispatch(setnextcandidateinfotab())}>Next</Button>
+                   {!(roles.includes("HR")||roles.includes("Adminstrator")) ?<Button onClick={e => dispatch(setnextcandidateinfotab())}>Next</Button>:<></>}
                 </div>
             </div>
         </div>

@@ -47,7 +47,7 @@ function SelectedCandidateDetails(props) {
     const [show, setshow] = useState(false)
     const toast = useRef(null);
     const [showspinner, setShowspinner] = useState(false)
-    
+
     useEffect(() => {
         dispatch(getdesignationsaction())
         dispatch(getBandaction())
@@ -77,32 +77,40 @@ function SelectedCandidateDetails(props) {
 
         ]
         arr.forEach((i) => {
-            if (!values[i] ) {
+            if (!values[i]) {
                 errors[i.toString()] = "* This field is required";
             }
         })
         console.log(values.IsVariable)
-        if ( values.IsVariable  == null) {
+        if (values.IsVariable == null) {
 
             errors["IsVariable"] = "*This field is required"
         }
-        if (!values["VariablePay"] && values.IsVariable == true) {
+        if (!values["VariablePerc"] && values.IsVariable == true) {
             // console.log(values["Duration"])
 
-            errors["VariablePay"] = "*This field is required"
+            errors["VariablePerc"] = "*This field is required"
         }
-        if (!values["FixedCTC"]) {
+        if (!values["FinalCTC"]) {
             // console.log(values["Duration"])
 
-            errors["FixedCTC"] = "*This field is required"
+            errors["FinalCTC"] = "*This field is required"
         }
         if (values.IsVariable == true && !values["MQVariable"]) {
             // console.log(values["Duration"])
 
             errors["MQVariable"] = "*This field is required"
         }
-        //   console.log(values["Duration"])
+        if (values.Is_Eligible_Joining_Bonus == true && !values["JoiningBonus"]) {
+            // console.log(values["Duration"])
 
+            errors["JoiningBonus"] = "*This field is required"
+        }
+        //   console.log(values["Duration"])
+        if(jobpostdata.businessunit_name=="Workforce Solutions"  && !values["ShiftAllowance"]){
+            errors["ShiftAllowance"] = "*This field is required"
+
+        }
         console.log(errors)
         return errors;
     };
@@ -130,55 +138,65 @@ function SelectedCandidateDetails(props) {
         return temp
     }
     const shoulddisanleanexurebutton = (values) => {
- 
+
         console.log(values)
-        if (values.IsVariable == null){
+        if (values.Is_Eligible_Joining_Bonus == true && !values["JoiningBonus"]) {
+            // console.log(values["Duration"])
+
+           return true
+        }
+        //   console.log(values["Duration"])
+        if(jobpostdata.businessunit_name=="Workforce Solutions"  && !values["ShiftAllowance"]){
+           return true
+
+        }
+        if (values.IsVariable == null) {
             return true
         }
-        else{
-        if (!values.IsVariable) {
-            if (
-                values.designation > 0 &&
-                values.band > 0 &&
-                values.subband > 0 &&
-                values.DateOfJoining &&
-                values.FixedCTC > 0
-            )
-                return false
-            else
-                return true
-        }
         else {
+            if (!values.IsVariable) {
+                if (
+                    values.designation > 0 &&
+                    values.band > 0 &&
+                    values.subband > 0 &&
+                    values.DateOfJoining &&
+                    values.FinalCTC > 0
+                )
+                    return false
+                else
+                    return true
+            }
+            else {
 
-            if (
-                values.designation > 0 &&
-                values.band > 0 &&
-                values.subband > 0 &&
-                values.DateOfJoining &&
-                values.FixedCTC > 0 &&
-                values.MQVariable != "" &&
-                values.VariablePay)
-                return false
-            else
-                return true
+                if (
+                    values.designation > 0 &&
+                    values.band > 0 &&
+                    values.subband > 0 &&
+                    values.DateOfJoining &&
+                    values.FinalCTC > 0 &&
+                    values.MQVariable != "" &&
+                    values.VariablePerc)
+                    return false
+                else
+                    return true
+            }
         }
-    }
     }
     const callpreviewannexure1 = async (values) => {
 
         console.log(values)
-        values["FixedCTC"] = parseInt(values["FixedCTC"])
-        values["VariablePay"] = parseInt(values["VariablePay"])
+        values["FinalCTC"] = parseInt(values["FinalCTC"])
+        values["VariablePerc"] = parseInt(values["VariablePerc"])
         if (
             values.selectedcandidateid &&
             values.designation &&
             values.band &&
             values.subband &&
-            values.FixedCTC 
-      ) {
-   
-            var datetemp = new Date(values.DateOfJoining)            
-            values.DateOfJoining = datetemp.getFullYear() + "-" + (datetemp.getMonth() + 1) + "-" + datetemp.getDate()        
+            values.FinalCTC
+        ) {
+
+            var datetemp = new Date(values.DateOfJoining)
+            values.DateOfJoining = datetemp.getFullYear() + "-" + (datetemp.getMonth() + 1) + "-" + datetemp.getDate()
             await dispatch(previewannexureaction(values))
             await setdata(values)
             await setmode("draft")
@@ -188,150 +206,117 @@ function SelectedCandidateDetails(props) {
     const DialogFooter = () => {
         return (
             <>
+
                 <Button onClick={e => { setshow(false) }}>Close</Button>
             </>
         )
     }
     return (
-        <> 
-              <LoadingOverlay
-        active={showspinner}
-        spinner
-        text="Generating Offer Letter..."
-      >
-        {/* {showspinner &&
+        <>
+            <LoadingOverlay
+                active={showspinner}
+                spinner
+                text="Generating Offer Letter..."
+            >
+                {/* {showspinner &&
             <ProgressSpinner  style={{width: '50px', height: '50px'}} strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s"/>
             } */}
-            <Toast ref={toast} position="bottom-left" />
-            {console.log(mode)}
-            {console.log(data)}
-            <Card>
-                <Dialog visible={show} style={{ width: "50%" }} header="Annexure Information " modal className="p-fluid" footer={DialogFooter} onHide={() => setshow(false)}>
+                <Toast ref={toast} position="bottom-left" />
+                {console.log(mode)}
+                {console.log(data)}
+                <Card>
+                    <Dialog visible={show} style={{ width: "50%" }} header="Annexure Information " modal className="p-fluid" footer={DialogFooter} onHide={() => setshow(false)}>
 
-                    {/* <label htmlFor="BandName<">Annexure</label> */}
+                        {/* <label htmlFor="BandName<">Annexure</label> */}
 
-                    <Annexure annexure={annexuredata}></Annexure>
+                        <Annexure annexure={annexuredata}></Annexure>
 
-                </Dialog>
-                <Panel header={"Candidate Details"}>
-                    <CandidateDetails data={candidatedata}></CandidateDetails>
-                </Panel>
-                <br>
-                </br>
-                <Accordion>
-                    <AccordionTab header={"JobPost Details"}>
-                        <JobPostDetails JobData={jobpostdata}></JobPostDetails>
-                    </AccordionTab>
-                </Accordion>
-                {/* <Panel header={"JobPost Details"}>
+                    </Dialog>
+                    <Panel header={"Candidate Details"}>
+                        <CandidateDetails data={candidatedata}></CandidateDetails>
+                    </Panel>
+                    <br>
+                    </br>
+                    <Accordion>
+                        <AccordionTab header={"JobPost Details"}>
+                            <JobPostDetails JobData={jobpostdata}></JobPostDetails>
+                        </AccordionTab>
+                    </Accordion>
+                    {/* <Panel header={"JobPost Details"}>
                     <JobPostDetails JobData={data.jobpost}></JobPostDetails>
                     
                 </Panel> */}
-                <br></br>
-                <Form
+                    <br></br>
+                    <Form
 
-                    onSubmit={async(values: any) => {
-                        values["FixedCTC"] = parseInt(values["FixedCTC"])
-                        values["VariablePay"] = parseInt(values["VariablePay"])
-                        console.log(values.DateOfJoining)
-                        // console.log(typeof values.DateOfJoining)
-                        // var tempdate = values.DateOfJoining
-                        var datetemp = new Date(values.DateOfJoining)
-                        values["FinalCTC"] = values["FixedCTC"] + ((values["IsVariable"] ? (values["VariablePay"]) ? values["VariablePay"] : 0 : 0))
-                        values["doj"] = datetemp.getFullYear() + "-" + (datetemp.getMonth() + 1) + "-" + datetemp.getDate()
-                        console.log(values)                        
-                        // await setdata(values)
-                        // await setmode("draft")
-                        // dispatch(updateselectedcandidatesaction(values))
-                        try {
-                            setShowspinner(true)
-                            selectedcandidateactions.updateselectedcandidate(values)
-                            .then((res)=>{ console.log(res);
-                                setShowspinner(false)                               
-                                }).then((res)=>
-                                toast.current.show({severity:'success', summary: 'Success Message', detail:res, life: 3000})
-                                ).then(()=>setTimeout(()=> {navigate(-1);}, 2000) )
-                            .catch((ex)=>{console.log(ex);
+                        onSubmit={async (values: any) => {
+                            console.log(values)
+                            if(values["Is_Eligible_Joining_Bonus"]==false){
+                                values["JoiningBonus"]=0
+                            }
+                            values["FinalCTC"] = parseInt(values["FinalCTC"])
+                            values["VariablePerc"] = parseInt(values["VariablePerc"])
+                            console.log(values.DateOfJoining)
+                            // console.log(typeof values.DateOfJoining)
+                            // var tempdate = values.DateOfJoining
+                            var datetemp = new Date(values.DateOfJoining)
+
+                            values["doj"] = datetemp.getFullYear() + "-" + (datetemp.getMonth() + 1) + "-" + datetemp.getDate()
+                            console.log(values)
+                            // await setdata(values)
+                            // await setmode("draft")
+                            // dispatch(updateselectedcandidatesaction(values))
+                            try {
+                                setShowspinner(true)
+                                selectedcandidateactions.updateselectedcandidate(values)
+                                    .then((res) => {
+                                        console.log(res);
+                                        setShowspinner(false)
+                                    }).then((res) =>
+                                        toast.current.show({ severity: 'success', summary: 'Success Message', detail: res, life: 3000 })
+                                    ).then(() => setTimeout(() => { navigate(-1); }, 2000))
+                                    .catch((ex) => {
+                                        console.log(ex);
+                                        setShowspinner(false)
+                                        setdata(values); setmode('draft');
+                                        toast.current.show({ severity: 'error', summary: 'Error Message', detail: ex, life: 3000 });
+                                    })
+
+                                // console.log(res)
+
+                                // yield put({type:"selectedcandidates/selectedandidatesdata",payload:res})
+
+                            }
+                            catch (err) {
+                                console.log(err)
+
                                 setShowspinner(false)
-                                setdata(values); setmode('draft');
-                            toast.current.show({severity:'error', summary: 'Error Message', detail:ex, life: 3000});})
-                  
-                            // console.log(res)
-                    
-                            // yield put({type:"selectedcandidates/selectedandidatesdata",payload:res})
-                           
+
+                            }
+                            // values.DateOfJoining = tempdate
+
+                            // console.log(toaststatus)
+                            // navigate(-1)
+                            // console.log(values.OnBoardingDate)
+                            // var datetemp = new Date(values.OnBoardingDate)
+                            // console.log(datetemp.getMonth())
+                            // console.log(datetemp.getFullYear() + "-" + (datetemp.getMonth() + 1) + "-" + datetemp.getDate())
+                            // values.OnBoardingDate = datetemp.getFullYear() + "-" + (datetemp.getMonth() + 1) + "-" + datetemp.getDate()
+                            // // alert("sub mit form")
+                            // if (mode) {
+
+
+                            //     dispatch(updatejobpost(values))
+                            //     navigate(-1)
+                            // }
+                            // else {
+                            //     dispatch(createnewjobpost(values))
+                            //     navigate(-1)
+                            // }
                         }
-                        catch (err) {
-                            console.log(err)                 
-                    
-                            setShowspinner(false)
-                    
                         }
-                        // values.DateOfJoining = tempdate
-                        
-                        // console.log(toaststatus)
-                        // navigate(-1)
-                        // console.log(values.OnBoardingDate)
-                        // var datetemp = new Date(values.OnBoardingDate)
-                        // console.log(datetemp.getMonth())
-                        // console.log(datetemp.getFullYear() + "-" + (datetemp.getMonth() + 1) + "-" + datetemp.getDate())
-                        // values.OnBoardingDate = datetemp.getFullYear() + "-" + (datetemp.getMonth() + 1) + "-" + datetemp.getDate()
-                        // // alert("sub mit form")
-                        // if (mode) {
-
-
-                        //     dispatch(updatejobpost(values))
-                        //     navigate(-1)
-                        // }
-                        // else {
-                        //     dispatch(createnewjobpost(values))
-                        //     navigate(-1)
-                        // }
-                    }
-                    }
-                    initialValues={mode == "true" ? {
-                        "selectedcandidateid": data.Selected_Candidate_ID,
-                        // "VariablePay": 0,//will change after backend changes
-
-                        "Modified_By": logindata.username,
-
-
-                        "designation": data.designation,
-                        "band": data.band,
-                        "subband": data.subband,
-
-                        "DateOfJoining": new Date(data.DateOfJoining),
-                        "FixedCTC": data.FixedCTC,
-                        "MQVariable": data.MQVariable,
-                        "Is_Eligible_annu_Mgnt_Bonus": data.Is_Eligible_annu_Mgnt_Bonus,
-                        "Is_Eligible_Joining_Bonus": data.Is_Eligible_Joining_Bonus,
-                        "IS_Eligible_Monthly_Incentive": data.IS_Eligible_Monthly_Incentive,
-                        "VariablePay": data.VariablePay,
-                        "IsVariable": data.IsVariable
-                        
-                        
-                    } : mode == "false" ? {
-
-                        "selectedcandidateid": data.Selected_Candidate_ID,
-                        // "VariablePay": 0,
-                        "Is_Eligible_annu_Mgnt_Bonus": false,
-                        "Is_Eligible_Joining_Bonus": false,
-                        "IS_Eligible_Monthly_Incentive": false,
-                        "Modified_By": logindata.username,
-                        "MQVariable": null,                  
-
-                        "designation": null,
-                        "band": null,
-                        "subband": null,
-                        "VariablePay" : null,
-                        "DateOfJoining": null,
-                        "IsVariable": null
-
-
-                    } :
-                        {
-                            "selectedcandidateid": data.selectedcandidateid,
-                            // "VariablePay": 0,//will change after backend changes
+                        initialValues={mode == "true" ? {
+                            "selectedcandidateid": data.Selected_Candidate_ID,
 
                             "Modified_By": logindata.username,
 
@@ -341,292 +326,359 @@ function SelectedCandidateDetails(props) {
                             "subband": data.subband,
 
                             "DateOfJoining": new Date(data.DateOfJoining),
-                            "FixedCTC": data.FixedCTC,
+                            "FinalCTC": data.FinalCTC,
                             "MQVariable": data.MQVariable,
                             "Is_Eligible_annu_Mgnt_Bonus": data.Is_Eligible_annu_Mgnt_Bonus,
                             "Is_Eligible_Joining_Bonus": data.Is_Eligible_Joining_Bonus,
                             "IS_Eligible_Monthly_Incentive": data.IS_Eligible_Monthly_Incentive,
-                            "VariablePay": data.VariablePay,
-                            "IsVariable": data.IsVariable
+                            "VariablePerc": data.VariablePerc,
+                            "IsVariable": data.IsVariable,
+                            "ShiftAllowance": data.ShiftAllowance? data.ShiftAllowance:null,
+                            "JoiningBonus":  data.JoiningBonus? data.JoiningBonus:null,
+
+
+                        } : mode == "false" ? {
+
+                            "selectedcandidateid": data.Selected_Candidate_ID,
+                            "Is_Eligible_annu_Mgnt_Bonus": false,
+                            "Is_Eligible_Joining_Bonus": false,
+                            "IS_Eligible_Monthly_Incentive": false,
+                            "Modified_By": logindata.username,
+                            "MQVariable": null,
+                            "FinalCTC": null,
+
+                            "designation": null,
+                            "band": null,
+                            "subband": null,
+                            "VariablePerc": null,
+                            "DateOfJoining": null,
+                            "IsVariable": null,
+                            "ShiftAllowance":3000,
+                            "JoiningBonus": null
+
+
+                        } :
+                            {
+                                "selectedcandidateid": data.selectedcandidateid,
+                                // "VariablePerc": 0,//will change after backend changes
+
+                                "Modified_By": logindata.username,
+
+
+                                "designation": data.designation,
+                                "band": data.band,
+                                "subband": data.subband,
+
+                                "DateOfJoining": new Date(data.DateOfJoining),
+
+                                "FinalCTC": data.FinalCTC,
+
+                                "MQVariable": data.MQVariable,
+                                "Is_Eligible_annu_Mgnt_Bonus": data.Is_Eligible_annu_Mgnt_Bonus,
+                                "Is_Eligible_Joining_Bonus": data.Is_Eligible_Joining_Bonus,
+                                "IS_Eligible_Monthly_Incentive": data.IS_Eligible_Monthly_Incentive,
+                                "VariablePerc": data.VariablePerc,
+                                "IsVariable": data.IsVariable,
+                                "ShiftAllowance": data.ShiftAllowance? data.ShiftAllowance:null,
+                                "JoiningBonus":  data.JoiningBonus? data.JoiningBonus:null,
+                            }
+
                         }
 
-                    }
+                        validate={validate}
 
-                    validate={validate}
+                        render={({ handleSubmit, values, submitting,
+                            submitError,
+                            invalid,
+                            pristine,
+                            initialValues = {},
+                            dirtySinceLastSubmit, }) => (
+                            <form onSubmit={handleSubmit} >
 
-                    render={({ handleSubmit, values, submitting,
-                        submitError,
-                        invalid,
-                        pristine,
-                        initialValues = {},
-                        dirtySinceLastSubmit, }) => (
-                        <form onSubmit={handleSubmit} >
-
-                            <div className="p-fluid  grid">
-                                <div className="field col-12 md:col-3"><Field
-                                    name="designation"
-                                    render={({ input, meta }) => (
-                                        <div className="field">
-                                            <label htmlFor="designation">Designation</label>
-                                            <span className="p-float-label">
-                                                <Dropdown id="designation"  {...input} options={props.getactivedesignationoptionsprop} optionLabel="label" placeholder="Select Designation"
-
-                                                    className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
-                                            </span>
-                                            {getFormErrorMessage(meta)}
-                                        </div>
-                                    )}
-                                />
-
-                                </div>
-                                <div className="field col-12 md:col-3"><Field
-                                    name="band"
-                                    render={({ input, meta }) => (
-                                        <div className="field">
-                                            <label htmlFor="band">Band</label>
-                                            <span className="p-float-label">
-                                                <Dropdown id="band" {...input} options={props.getactivebandoptionsprop} optionLabel="label" placeholder="Select Band"
-
-                                                    className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
-                                            </span>
-                                            {getFormErrorMessage(meta)}
-                                        </div>
-                                    )}
-                                />
-
-                                </div>
-                                <div className="field col-12 md:col-3"><Field
-                                    name="subband"
-                                    render={({ input, meta }) => (
-                                        <div className="field">
-                                            <label htmlFor="subband">Sub Band</label>
-                                            <span className="p-float-label">
-                                                <Dropdown id="subband" {...input} options={filtersubband(values["band"])} optionLabel="label" placeholder="Select sub band"
-
-                                                    className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
-                                            </span>
-                                            {getFormErrorMessage(meta)}
-                                        </div>
-                                    )}
-                                />
-
-                                </div>
-
-                                <div className="field col-12 md:col-3"><Field
-                                    name="DateOfJoining"
-                                    render={({ input, meta }) => (
-                                        <div className="field">
-                                            <label htmlFor="DateOfJoining">Date of joining</label>
-                                            <span className="p-float-label">
-                                                <Calendar dateFormat='mm/dd/yy' showIcon={true} id="DateOfJoining" {...input} placeholder="Select Date of joining" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
-                                            </span>
-                                            {getFormErrorMessage(meta)}
-                                        </div>
-                                    )}
-                                />
-
-                                </div>
-
-                            </div>
-
-                            <Panel header={"Cost To Company"}>
                                 <div className="p-fluid  grid">
-                                    <div className="field col-12 md:col-3">
-                                        <Field name="FixedCTC">
-                                            {({ input, meta }) => (
-                                                <div>
-                                                    <label>Fixed CTC: </label>
-                                                    <br></br>
-                                                    <br></br>
-                                                    <input className='p-inputtext p-component' {...input} type="number" min={0} value={parseInt(values["FixedCTC"])} placeholder="Fixed CTC" />
-                                                    <br></br>
-                                                    {getFormErrorMessage(meta)}
-                                                </div>
-                                            )}
-                                        </Field>
+                                    <div className="field col-12 md:col-3"><Field
+                                        name="designation"
+                                        render={({ input, meta }) => (
+                                            <div className="field">
+                                                <label htmlFor="designation">Designation</label>
+                                                <span className="p-float-label">
+                                                    <Dropdown id="designation"  {...input} options={props.getactivedesignationoptionsprop} optionLabel="label" placeholder="Select Designation"
+
+                                                        className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                </span>
+                                                {getFormErrorMessage(meta)}
+                                            </div>
+                                        )}
+                                    />
+
+                                    </div>
+                                    <div className="field col-12 md:col-3"><Field
+                                        name="band"
+                                        render={({ input, meta }) => (
+                                            <div className="field">
+                                                <label htmlFor="band">Band</label>
+                                                <span className="p-float-label">
+                                                    <Dropdown id="band" {...input} options={props.getactivebandoptionsprop} optionLabel="label" placeholder="Select Band"
+
+                                                        className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                </span>
+                                                {getFormErrorMessage(meta)}
+                                            </div>
+                                        )}
+                                    />
+
+                                    </div>
+                                    <div className="field col-12 md:col-3"><Field
+                                        name="subband"
+                                        render={({ input, meta }) => (
+                                            <div className="field">
+                                                <label htmlFor="subband">Sub Band</label>
+                                                <span className="p-float-label">
+                                                    <Dropdown id="subband" {...input} options={filtersubband(values["band"])} optionLabel="label" placeholder="Select sub band"
+
+                                                        className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                </span>
+                                                {getFormErrorMessage(meta)}
+                                            </div>
+                                        )}
+                                    />
+
+                                    </div>
+
+                                    <div className="field col-12 md:col-3"><Field
+                                        name="DateOfJoining"
+                                        render={({ input, meta }) => (
+                                            <div className="field">
+                                                <label htmlFor="DateOfJoining">Date of joining</label>
+                                                <span className="p-float-label">
+                                                    <Calendar dateFormat='mm/dd/yy' showIcon={true} id="DateOfJoining" {...input} placeholder="Select Date of joining" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                </span>
+                                                {getFormErrorMessage(meta)}
+                                            </div>
+                                        )}
+                                    />
+
                                     </div>
 
                                 </div>
-                                <div className="p-fluid  grid">
-                                    <div className="field col-12 md:col-4">
-                                        <label>Is candidate has variable pay? If 'Yes' enter variable pay and period of payment</label>
-                                    </div>
-                                    <div className="field col-12 md:col-2">
-                                        <div className="field-radiobutton">
-                                            <Field
-                                                name="IsVariable"
-                                                render={({ input, meta }) => (
-                                                    <>
-                                                        <RadioButton  {...input} className='ml-2' inputId="IsVariable" name="IsVariable" value={true} checked={values.IsVariable == true} onClick={() => { values["FinalCTC"] = values["FixedCTC"] + ((values["IsVariable"] ? (values["VariablePay"]) ? values["VariablePay"] : 0 : 0)); }} />
 
-                                                    </>
-                                                )} />
-                                            <label className="radio-inline me-3">Yes
-                                            </label>
-
-                                            <Field
-                                                name="IsVariable"
-                                                render={({ input, meta }) => (
-                                                    <>
-                                                        <RadioButton  {...input} className='ml-2' inputId="IsVariable" name="IsVariable" value={false} checked={values.IsVariable == false} onClick={() => { values["FinalCTC"] = values["FixedCTC"] + ((values["IsVariable"] ? (values["VariablePay"]) ? values["VariablePay"] : 0 : 0)); }} />
-
-                                                    </>
-                                                )} />
-                                            <label className="radio-inline me-3">No
-                                            </label>
-                                        </div>
-                                        <br />
-                                        <div className='col-12' style={{ marginTop: "-30px" }}>
-                                            <Field
-                                                name="IsVariable"
-                                                render={({ input, meta }) => (
-                                                    <>
-
+                                <Panel header={"Cost To Company"}>
+                                    <div className="p-fluid  grid">
+                                        <div className="field col-12 md:col-3">
+                                            <Field name="FinalCTC">
+                                                {({ input, meta }) => (
+                                                    <div>
+                                                        <label>Final CTC: </label>
+                                                        <br></br>
+                                                        <br></br>
+                                                        <input className='p-inputtext p-component' {...input} type="number" min={0} value={parseInt(values["FinalCTC"])} placeholder="Final CTC" />
+                                                        <br></br>
                                                         {getFormErrorMessage(meta)}
-                                                    </>
-                                                )} />
+                                                    </div>
+                                                )}
+                                            </Field>
+                                                {console.log(jobpostdata)}
                                         </div>
+                                       {jobpostdata.businessunit_name=="Workforce Solutions"&& <div className="field col-12 md:col-3">
+                                            <Field name="ShiftAllowance">
+                                                {({ input, meta }) => (
+                                                    <div>
+                                                        <label>ShiftAllowance : </label>
+                                                        <br></br>
+                                                        <br></br>
+                                                        <input className='p-inputtext p-component' {...input} type="number" min={0} value={parseInt(values["ShiftAllowance"])} placeholder="ShiftAllowance" />
+                                                        <br></br>
+                                                        {getFormErrorMessage(meta)}
+                                                    </div>
+                                                )}
+                                            </Field>
+                                        </div>}
 
                                     </div>
+                                    <div className="p-fluid  grid">
+                                        <div className="field col-12 md:col-4">
+                                            <label>Is candidate has variable pay? If 'Yes' enter variable pay and period of payment</label>
+                                        </div>
+                                        <div className="field col-12 md:col-2">
+                                            <div className="field-radiobutton">
+                                                <Field
+                                                    name="IsVariable"
+                                                    render={({ input, meta }) => (
+                                                        <>
+                                                            <RadioButton  {...input} className='ml-2' inputId="IsVariable" name="IsVariable" value={true} checked={values.IsVariable == true} />
 
-                                    <div hidden={values["IsVariable"] == true ? false : true} className="field col-12 md:col-3">
-                                        <div className="p-fluid  grid">
-                                            <div className="field col-12 md:col-6">
-                                                <label >Variable Pay :
+                                                        </>
+                                                    )} />
+                                                <label className="radio-inline me-3">Yes
+                                                </label>
+
+                                                <Field
+                                                    name="IsVariable"
+                                                    render={({ input, meta }) => (
+                                                        <>
+                                                            <RadioButton  {...input} className='ml-2' inputId="IsVariable" name="IsVariable" value={false} checked={values.IsVariable == false} />
+
+                                                        </>
+                                                    )} />
+                                                <label className="radio-inline me-3">No
                                                 </label>
                                             </div>
-                                            <div className="field col-12 md:col-6">
-                                                <Field name="VariablePay">
-                                                    {({ input, meta }) => (
-                                                        <div>
-                                                            <input className='p-inputtext p-component' {...input} value={parseInt(values["VariablePay"])} type="number" min={0} placeholder="variable pay" />
+                                            <br />
+                                            <div className='col-12' style={{ marginTop: "-30px" }}>
+                                                <Field
+                                                    name="IsVariable"
+                                                    render={({ input, meta }) => (
+                                                        <>
 
                                                             {getFormErrorMessage(meta)}
-                                                        </div>
-                                                    )}
-                                                </Field>
+                                                        </>
+                                                    )} />
+                                            </div>
+
+                                        </div>
+
+                                        <div hidden={values["IsVariable"] == true ? false : true} className="field col-12 md:col-3">
+                                            <div className="p-fluid  grid">
+                                                <div className="field col-12 md:col-6">
+                                                    <label >Variable Pay :
+                                                    </label>
+                                                </div>
+                                                <div className="field col-12 md:col-6">
+                                                    <Field name="VariablePerc">
+                                                        {({ input, meta }) => (
+                                                            <div>
+                                                                <input className='p-inputtext p-component' {...input} value={parseInt(values["VariablePerc"])} type="number" min={0} placeholder="variable pay" />
+
+                                                                {getFormErrorMessage(meta)}
+                                                            </div>
+                                                        )}
+                                                    </Field>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div hidden={values["IsVariable"] == true ? false : true} className="field col-12 md:col-3">
-                                        <div className="field-radiobutton">
-                                            <Field
-                                                name="MQVariable"
-                                                render={({ input, meta }) => (
-                                                    <RadioButton  {...input} className='ml-2' inputId="MQVariable" name="MQVariable" value="M" checked={values.MQVariable == "M"} />
-                                                )} />
-                                            <label className="radio-inline me-3">Monthly
-                                            </label>
+                                        <div hidden={values["IsVariable"] == true ? false : true} className="field col-12 md:col-3">
+                                            <div className="field-radiobutton">
+                                                <Field
+                                                    name="MQVariable"
+                                                    render={({ input, meta }) => (
+                                                        <RadioButton  {...input} className='ml-2' inputId="MQVariable" name="MQVariable" value="monthly" checked={values.MQVariable == "monthly"} />
+                                                    )} />
+                                                <label className="radio-inline me-3">Monthly
+                                                </label>
 
-                                            <Field
-                                                name="MQVariable"
-                                                render={({ input, meta }) => (
-                                                    <RadioButton  {...input} className='ml-2' inputId="MQVariable" name="MQVariable" value="Q" checked={values.MQVariable == "Q"} />
-                                                )} />
-                                            <label className="radio-inline me-3">Quaterly
-                                            </label>
+                                                <Field
+                                                    name="MQVariable"
+                                                    render={({ input, meta }) => (
+                                                        <RadioButton  {...input} className='ml-2' inputId="MQVariable" name="MQVariable" value="quaterly" checked={values.MQVariable == "quaterly"} />
+                                                    )} />
+                                                <label className="radio-inline me-3">Quaterly
+                                                </label>
 
+                                            </div>
+                                            <br />
+                                            <div className='col-12' style={{ marginTop: "-30px" }}>
+                                                <Field
+                                                    name="MQVariable"
+                                                    render={({ input, meta }) => (
+                                                        <>
+
+                                                            {getFormErrorMessage(meta)}
+                                                        </>
+                                                    )} />
+                                            </div>
                                         </div>
-                                        <br />
-                                        <div className='col-12' style={{ marginTop: "-30px" }}>
-                                            <Field
-                                                name="MQVariable"
-                                                render={({ input, meta }) => (
-                                                    <>
 
-                                                        {getFormErrorMessage(meta)}
-                                                    </>
-                                                )} />
-                                        </div>
                                     </div>
 
-                                </div>
+                                </Panel>
+
+
+                                <br />
+
+
+
                                 <div className="p-fluid  grid">
-                                    <div className="field col-12 md:col-10">
+                                    <div className="field col-12 md:col-4">
+                                        <Field
+                                            name="Is_Eligible_annu_Mgnt_Bonus"
+                                            type="checkbox"
+                                            render={({ input, meta }) => (
+                                                <div className="field-checkbox">
+                                                    <Checkbox inputId={input.name} {...input} />
+                                                    <label htmlFor={input.name} style={{ cursor: "pointer" }}>
+                                                        {"Eligible for Annual Mgnt Bonus"}
+                                                    </label>
+                                                </div>)} />
                                     </div>
-                                    <div className="field col-12 md:col-2"><b>
-                                        Final CTC = {(parseInt(values["FixedCTC"]?values["FixedCTC"]:0) + ((values["IsVariable"] ? (values["VariablePay"]) ? parseInt(values["VariablePay"]) : 0 : 0))).toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 2 })}
-                                        {/* Final ctc = {values["FinalCTC"] } */}
-                                        {/* { values["FinalCTC"]=values["FixedCTC"]+((values["IsVariable"]?(values["VariablePay"])?values["VariablePay"]:0:0))} */}
-                                        </b>
+                                    <div className="field col-12 md:col-4">
+                                        <Field
+                                            name="Is_Eligible_Joining_Bonus"
+                                            type="checkbox"
+                                            render={({ input, meta }) => (
+                                                <div className="field-checkbox">
+                                                    <Checkbox inputId={input.name} {...input}  onClick={e=>e.value==false?values["JoiningBonus"]=0:console.log()}/>
+                                                    <label htmlFor={input.name} style={{ cursor: "pointer" }}>
+                                                        {"Eligible for Joining Bonus"}
+                                                    </label>
+                                                </div>)} />
+                                       { values["Is_Eligible_Joining_Bonus"]&&<Field
+                                            name="JoiningBonus"
+                                            type="input"
+                                            render={({ input, meta }) => (
+                                                <div className="field-checkbox">
+                                                    <input className='p-inputtext p-component' {...input} value={parseInt(values["JoiningBonus"])} type="number" min={0} placeholder="Joining Bonus" />
+
+                                                    <label htmlFor={input.name} style={{ cursor: "pointer" }}>
+                                                        {"Eligible for Joining Bonus"}
+
+                                                    </label>
+                                                    {getFormErrorMessage(meta)}
+                                                </div>)} />}
+                                    </div>
+                                    <div className="field col-12 md:col-4">
+                                        <Field
+                                            name="IS_Eligible_Monthly_Incentive"
+                                            type="checkbox"
+                                            render={({ input, meta }) => (
+                                                <div className="field-checkbox">
+                                                    <Checkbox inputId={input.name} {...input} />
+                                                    <label htmlFor={input.name} style={{ cursor: "pointer" }}>
+                                                        {"Eligible for Monthly Incentive"}
+                                                    </label>
+                                                </div>)} />
                                     </div>
                                 </div>
-                            </Panel>
-
-
-                            <br />
-
-
-
-                            <div className="p-fluid  grid">
-                                <div className="field col-12 md:col-4">
-                                    <Field
-                                        name="Is_Eligible_annu_Mgnt_Bonus"
-                                        type="checkbox"
-                                        render={({ input, meta }) => (
-                                            <div className="field-checkbox">
-                                                <Checkbox inputId={input.name} {...input} />
-                                                <label htmlFor={input.name} style={{ cursor: "pointer" }}>
-                                                    {"Eligible for Annual Mgnt Bonus"}
-                                                </label>
-                                            </div>)} />
-                                </div>
-                                <div className="field col-12 md:col-4">
-                                    <Field
-                                        name="Is_Eligible_Joining_Bonus"
-                                        type="checkbox"
-                                        render={({ input, meta }) => (
-                                            <div className="field-checkbox">
-                                                <Checkbox inputId={input.name} {...input} />
-                                                <label htmlFor={input.name} style={{ cursor: "pointer" }}>
-                                                    {"Eligible for Joining Bonus"}
-                                                </label>
-                                            </div>)} />
-                                </div>
-                                <div className="field col-12 md:col-4">
-                                    <Field
-                                        name="IS_Eligible_Monthly_Incentive"
-                                        type="checkbox"
-                                        render={({ input, meta }) => (
-                                            <div className="field-checkbox">
-                                                <Checkbox inputId={input.name} {...input} />
-                                                <label htmlFor={input.name} style={{ cursor: "pointer" }}>
-                                                    {"Eligible for Monthly Incentive"}
-                                                </label>
-                                            </div>)} />
-                                </div>
-                            </div>
-                            <div className=" grid">
-                                {/* <div className="field col-12 md:col-6">Annexure
+                                <div className=" grid">
+                                    {/* <div className="field col-12 md:col-6">Annexure
                                     <Annexure annexure={annexuredata}></Annexure>
 
                                 </div> */}
-                                <div className="field col-12 md:col-6"></div>
-                                <div className="field col-12 md:col-6 flex">
-                                    {/* <div style={{ height: "50px", width: "50px", backgroundColor: "red" }} onMouseLeave={() => callpreviewannexure1(values)}>calc</div> */}
-                                    <Button className='mr-3' type="button" disabled={shoulddisanleanexurebutton(values)} onClick={e => {
-                                        callpreviewannexure1(values);
+                                    <div className="field col-12 md:col-6"></div>
+                                    <div className="field col-12 md:col-6 flex">
+                                        {/* <div style={{ height: "50px", width: "50px", backgroundColor: "red" }} onMouseLeave={() => callpreviewannexure1(values)}>calc</div> */}
+                                        <Button className='mr-3' type="button" disabled={shoulddisanleanexurebutton(values)} onClick={e => {
+                                            callpreviewannexure1(values);
 
-                                    }}>Preview Annexure
+                                        }}>Preview Annexure
 
-                                    </Button>
-                                    <Button className='mr-3' type="submit" onClick={e => handleSubmit}>Save & Generate Offer Letter
+                                        </Button>
+                                        <Button className='mr-3' type="submit" onClick={e => handleSubmit}>Save & Generate Offer Letter
 
-                                    </Button>
-                                    {/* <Button className='mr-3' type="button">Download/Preview Offer Letter
+                                        </Button>
+                                        {/* <Button className='mr-3' type="button">Download/Preview Offer Letter
                                     </Button> */}
-                                    <Button type="button" onClick={e => navigate(-1)}>Cancel
-                                    </Button>
+                                        <Button type="button" onClick={e => navigate(-1)}>Cancel
+                                        </Button>
+                                    </div>
                                 </div>
-                            </div>
 
 
-                        </form>
-                    )}
+                            </form>
+                        )}
 
 
-                />
-            </Card>
+                    />
+                </Card>
             </LoadingOverlay>
         </>
     )

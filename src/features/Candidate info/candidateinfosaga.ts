@@ -823,6 +823,19 @@ try{
 }
 
 
+function* verifydocumentsagaworker(data){
+try{
+    console.log(data)
+    var res: Promise<any> = yield call(candidateinfo.verifydocument, data.payload)
+    yield put({ type: "educationaldetails/educationaldetailsgetaction", payload: {"selectedcandidateid":store.getState().candidateinfo.Selected_Candidate_ID} })
+    yield put({ type: "employementdetails/employementdetailsgetaction", payload: {"selectedcandidateid":store.getState().candidateinfo.Selected_Candidate_ID} })
+    yield put({ type: "otherdocuments/otherdocumentsgetaction", payload: {"selectedcandidateid":store.getState().candidateinfo.Selected_Candidate_ID} })
+
+}
+catch(err) {
+
+}
+}
 function* uploaddocumentsagaworker(data){
 try{
     console.log(data)
@@ -932,6 +945,7 @@ export function* watcherpersonaldetails() {
     yield takeEvery("Familydetails/deletefamilydetailsaction", deletefamilydetailssagaworker)
     yield takeEvery("insurance/deleteinsuranceaction", deleteinsurancesagaworker)
     yield takeEvery("candidateinfo/uploaddocumentaction", uploaddocumentsagaworker)
+    yield takeEvery("candidateinfo/verifydocumentaction", verifydocumentsagaworker)
     yield takeEvery("candidateinfo/getcandidateinfoclearanceaction", getcandidateinfoclearancesagaworker)
     yield takeEvery("candidateinfo/acceptofferletteraction",acceptofferlettersagaworker)
     yield takeEvery("otherdocuments/otherdocumentsgetaction", otherdocumentsgetsagaworker)

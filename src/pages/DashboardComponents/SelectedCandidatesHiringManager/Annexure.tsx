@@ -164,7 +164,7 @@ function Annexure(props) {
                             <tr>
                                 <td style={{ border: "1px solid #dddddd", backgroundColor:"#808080", color:"white", textAlign: "left", fontWeight: "bold" }}>Shift Allowance</td>
                                 <td style={{ border: "1px solid #dddddd", textAlign: "center", fontWeight: "bold" }}>{data.varMShiftAllow}</td>
-                                <td style={{ border: "1px solid #dddddd", textAlign: "center", fontWeight: "bold" }}>{data.varTotalFixedCTC}</td>
+                                <td style={{ border: "1px solid #dddddd", textAlign: "center", fontWeight: "bold" }}>{data.varAShiftAllow}</td>
                             </tr>
 
                         </>

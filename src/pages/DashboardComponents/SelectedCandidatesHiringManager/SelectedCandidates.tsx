@@ -17,6 +17,7 @@ import { candidateactionsdetailsaction } from '../../../features/CandidateAction
 import { selectedcandidatesaction, sendofferletteraction } from '../../../features/CandidateActions/selectedcandidatesslice';
 import { downloadresume } from '../../../features/Downloadpdfs/pdfslice';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
+import { candidateinfogetaction } from '../../../features/Candidate info/candidateinfoslice';
 const SelectedCandidates = () => {
 
 
@@ -34,7 +35,6 @@ const SelectedCandidates = () => {
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     });
     const [company, setcompany] = useState();
-    const navigate = useNavigate()
 
     const selectedcandidatesdata = useSelector((state: RootState) => state.Selectedcandidates);
     const Logindata = useSelector((state: RootState) => state.Login);
@@ -44,6 +44,7 @@ const SelectedCandidates = () => {
     // const navigate=useNavigate()
     // // const useRedirect=
     const dispatch = useDispatch();
+    const navigate = useNavigate()
 
     //     useEffect(() => {
     // // alert("rerendering")
@@ -132,11 +133,7 @@ const SelectedCandidates = () => {
     };
 
     const isFormFieldValid = (meta) => !!(meta.touched && meta.error);
-    const nametemplate = (rowdata) => {
-        return (
-            <>{rowdata.candidate.CanFirstName + ", " + rowdata.candidate.CanLastName}</>
-        )
-    }
+   
 
 
     const exptemplate = (rowdata) => {
@@ -207,7 +204,7 @@ const SelectedCandidates = () => {
         // return value.toLocaleDateString('en-US');
     }
     const linktemplate = (rowdata) => {
-        console.log(rowdata)
+        // console.log(rowdata)
         return (
             <>
             {roles.includes("HR") ?
@@ -219,6 +216,8 @@ const SelectedCandidates = () => {
     }
 
     const actionBodyTemplate = (data) => {
+       
+
         return (
             // <>
             // {roles.includes("HR") ?
@@ -267,6 +266,32 @@ const SelectedCandidates = () => {
                         />
                     </div>
                     }
+                     {data.OfferLetter && 
+                    <div className="field col-12 md:col-5">
+                        <Button
+                            icon="pi-thumbs-up"
+                            tooltip='Verify Documents'
+                            className="p-button-rounded p-button-warning mr-6"
+                            // style={{ width: "30px", height: "30px",}}
+                            onClick={(e) => {
+
+                                dispatch(candidateinfogetaction(
+                                    {
+                
+                                        "email": data.candidate.Email
+                                        
+                                        
+                                    }
+                                    
+                                ))
+                                setTimeout(()=>{
+
+                                    navigate("/candidateinfo")
+                                },1000)
+                            }}
+                        />
+                    </div>
+                    }
                 </div>
             </React.Fragment>
     // : <></>}
@@ -277,13 +302,14 @@ const SelectedCandidates = () => {
         <div>
 
             <DataTable value={selectedcandidatesdata} showGridlines={false} responsiveLayout="scroll" paginator={true} rows={10}
-                globalFilterFields={['candidate.CandidateCode', 'candidate.CanFirstName', 'candidate.Jobpost.JobCode', 'candidate.Jobpost.JobTitle', 'candidate.OverallExpYear', 'candidate.CurrentCTC', 'candidate.ExpectedCTC', 'Jobpost.NegotiatedCTC', 'candidate.ExpectedDOJ']} filters={filters2} header={Headercomp}>
+                globalFilterFields={['candidate.candidatefullname', 'candidate.CanFirstName', 'candidate.Jobpost.JobCode', 'candidate.EmploymentType','candidate.Jobpost.JobTitle', 'candidate.OverallExpYear', 'candidate.CurrentCTC', 'candidate.ExpectedCTC', 'Jobpost.NegotiatedCTC', 'candidate.ExpectedDOJ']} filters={filters2} header={Headercomp}>
 
                 <Column field="candidate.CandidateCode" header="Candiate Code" sortable style={{ minWidth: '11rem', maxWidth: '14rem' }} body={linktemplate}></Column>
-                <Column field="candidate.CanFirstName" body={nametemplate} header="Candidate Name" sortable></Column>
+                <Column field="candidate.candidatefullname" header="Candidate Name" sortable></Column>
                 <Column field="jobpost.JobCode" header="Job Code" sortable></Column>
                 <Column field="jobpost.JobTitle" header="Job Title" sortable></Column>
                 <Column field="candidate.OverallExpYear" body={exptemplate} header="Experience" sortable ></Column>
+                <Column field="candidate.EmploymentType" header="Employment Type" sortable></Column>
                 <Column field="candidate.CurrentCTC" header="CurrentCTC " body={formatCurrencycctc} sortable > </Column>
                 <Column field="candidate.ExpectedCTC" header="Expected CTC" body={formatCurrencyEctc} sortable></Column>
                 <Column field="candidate.NegotiatedCTC" header="Negotiated CTC" body={formatCurrencyNctc} sortable></Column>
