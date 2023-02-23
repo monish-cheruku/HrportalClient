@@ -1,11 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 export interface Iinsurance {
-    selectedCandidateid: number,
+       
+    Id :number,
     Name: string,
     DateOfBirth: Date,
     Relationship: string,
     Gender: string,
-    PercentageofInsurance: string
+    selectedCandidateid: number,
+   
 }
 
 const initialState: Iinsurance[] = []
@@ -16,7 +18,7 @@ const insuranceSlice = createSlice({
         insurancedata: (state, payload: PayloadAction<any>) => {
             console.log(payload)
             var temp = payload.payload
-            state = temp
+            state = [...temp]
 
             return state;
 

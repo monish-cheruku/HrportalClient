@@ -25,7 +25,6 @@ import { InputTextarea } from 'primereact/inputtextarea'
 function BankDetails() {
     const dispatch = useDispatch()
     const [modalDialog, setModaldialog] = useState(false);
-    const [edit, setEdit] = useState(true);
     const [gridview, setgridview] = useState("grid")
     const [globalFilterValue2, setGlobalFilterValue2] = useState("");
     const [filters2, setFilters2] = useState({
@@ -35,6 +34,7 @@ function BankDetails() {
     const [tempdata, settempdata] = useState<any>({})
     const isFormFieldValid = (meta) => !!(meta.touched && meta.error);
     const bankdetailsdata: Ibankdetail = useSelector((state: RootState) => state.bankdetails)
+    const [edit, setEdit] = useState(bankdetailsdata.BankName == "" ? false : true);
     useEffect(() => {
         dispatch(bankdetailsgetaction(
             {
@@ -43,6 +43,7 @@ function BankDetails() {
             }
         ))
         console.log("bankdetailsdata ")
+        console.log(edit)
     }, [])
 
     // const isFormFieldValid = (meta) => !!(meta.touched && meta.error);
@@ -52,7 +53,7 @@ function BankDetails() {
         return isFormFieldValid(meta) && <small className="p-error">{meta.error}</small>;
     };
     const validate = (values) => {
-        const arr = ["BankName", "AccountNumber", "BranchName", "IFSCcode", "BankPassbook"]
+        const arr = ["BankName", "AccountNumber", "BranchName", "IFSCcode"]
         let errors = {};
         arr.forEach((i) => {
             // console.log(values["Resume"])
@@ -61,6 +62,9 @@ function BankDetails() {
                 errors[i.toString()] = "* This field is required";
             }
         })
+        if (!edit && !values["BankPassbook"]) {
+            errors["BankPassbook"] = "*File is required";
+        }
 
         console.log(errors)
         return errors
@@ -73,29 +77,33 @@ function BankDetails() {
 
     return (
         <div>
+            {console.log(edit)}
             <Form
                 // {console.log(candidateinfodata)}
                 onSubmit={(values: any) => {
                     console.log(values)
 
-
-                    // var datetemp = new Date(values.DateOfBirth)
-                    // console.log(datetemp.getFullYear() + "-" + datetemp.getMonth() + "-" + datetemp.getDate())
-                    // values.DateOfBirth = datetemp.getFullYear() + "-" + (datetemp.getMonth() + 1).toString().padStart(2, '0') + "-" + datetemp.getDate().toString().padStart(2, '0')
-                    // var datetemp = new Date(values.PassportValidFrom)
-                    // console.log(datetemp.getFullYear() + "-" + datetemp.getMonth() + "-" + datetemp.getDate())
-                    // values.PassportValidFrom = datetemp.getFullYear() + "-" + (datetemp.getMonth() + 1).toString().padStart(2, '0') + "-" + datetemp.getDate().toString().padStart(2, '0')
-                    // var datetemp = new Date(values.PassportValidTo)
-                    // console.log(datetemp.getFullYear() + "-" + datetemp.getMonth() + "-" + datetemp.getDate())
-                    // values.PassportValidTo = datetemp.getFullYear() + "-" + (datetemp.getMonth() + 1).toString().padStart(2, '0') + "-" + datetemp.getDate().toString().padStart(2, '0')
-                    console.log(values)
                     values.selectedCandidateid = candidateinfodata.Selected_Candidate_ID
-                    edit ? dispatch(updatebankdetailsaction(values)) : dispatch(createbankdetailsaction(values))
+                    var data = new FormData()
+                    data.append("Id", edit ? bankdetailsdata.Id.toString() : "")
+                    data.append("BankName", values.BankName)
+                    data.append("AccountNumber", values.AccountNumber)
+                    data.append("BranchName", values.BranchName)
+                    data.append("selectedcandidateid", candidateinfodata.Selected_Candidate_ID.toString())
+                    data.append("IFSCcode", values.IFSCcode)
+                    console.log(values["BankPassbook"])
+                    // values.BankPassbook.file?data.append("BankPassbook", values.BankPassbook.file[0]):data.append("BankPassbook", "")
+                    data.append("BankPassbook",typeof values.BankPassbook=='string' ?'': values.BankPassbook )
+                    dispatch(uploaddocumentaction(data))
+
+
+                    edit ? dispatch(updatebankdetailsaction(data)) : dispatch(createbankdetailsaction(data))
 
 
                     dispatch(setnextcandidateinfotab())
                 }}
                 initialValues={edit ? {
+                    // "Id": bankdetailsdata.Id,
                     "BankName": bankdetailsdata.BankName,
                     "AccountNumber": bankdetailsdata.AccountNumber,
 
@@ -109,18 +117,7 @@ function BankDetails() {
 
 
 
-                } : {
-                    // "BankName": bankdetailsdata.BankName,
-                    // "AccountNumber": bankdetailsdata.AccountNumber,
-
-                    // "BranchName": bankdetailsdata.BranchName,
-
-                    // "IFSCcode": bankdetailsdata.IFSCcode,
-
-                    // "BankPassbook": bankdetailsdata.BankPassbook,
-
-
-                }}
+                } : {}}
 
                 validate={validate}
                 render={({ handleSubmit, values, submitting,
@@ -222,7 +219,30 @@ function BankDetails() {
                                                         console.log("no files uploaded yet")
                                                     }
                                                 }} />
+
                                             </span>
+                                            
+                                            {edit ? <span>
+                                                {(typeof(bankdetailsdata.BankPassbook) ==='string') && <>Uploaded File: <a style={{ cursor: "pointer" }} onClick={e =>
+                                                    dispatch(documentdownloadaction(
+                                                        {
+                                                            'file': bankdetailsdata.BankPassbook.toString().substring(1, bankdetailsdata.BankPassbook.toString().length)
+                                                        }
+                                                    )
+                                                    )
+
+                                                }  >
+                                                    {bankdetailsdata.BankPassbook?.split("/")[bankdetailsdata.BankPassbook.split("/").length - 1]}
+                                                    {/* {bankdetailsdata.BankPassbook} */}
+                                                
+                                                </a>
+                                                    <br></br>
+
+                                                </>}
+
+
+                                            </span> : <></>}
+                                            {getFormErrorMessage(meta)}
 
 
                                         </div>
@@ -235,37 +255,10 @@ function BankDetails() {
                         <div className="p-fluid  grid">
 
 
-                            {/* <div>
-                                <label htmlFor="BankPassbook">Passbook*</label>
 
-                                <FileUpload style={{}} className='p-success mr-2' mode="basic" name="BankPassbook" maxFileSize={1000000} onSelect={k => {
-
-
-
-                                    if (k.files.length > 0) {
-
-                                        console.log(k.files[0])
-                                        values["BankPassbook"] = k.files[0]
-
-                                    }
-                                    else {
-                                        console.log("no files uploaded yet")
-                                    }
-
-
-
-                                }} />
-
-                            </div> */}
 
 
                         </div>
-
-
-
-
-
-
 
 
                         <br></br>
@@ -278,7 +271,6 @@ function BankDetails() {
                             <div className="field col-12 md:col-5 flex"></div>
                             <div className="field col-12 md:col-2 ">
                                 <Button type='submit'
-                                // onClick={e => dispatch(setnextcandidateinfotab(";aufhds"))}
                                 >Save & Next</Button>
                             </div>
                         </div>

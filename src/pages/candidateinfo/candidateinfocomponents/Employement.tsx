@@ -99,47 +99,47 @@ function Employement() {
       </div>
     );
   };
-  const filestemplate=(rowdata)=>{
-    const rowfiles=rowdata.files
-    const no:number=rowdata.files?rowdata.files.length:0
-    if (no>0)
-    return(
-      <div style={{overflowY: "scroll",height: "70px"}}>{
-            rowdata.files.map((f) => (
-                <div className='field row-12 md:row-12 flex' onClick={() => console.log(f.file)} style={{ border: "2px solid blue", padding: "4px", margin: "4px", borderRadius: "10px", backgroundColor: "#C1C2F3", height: "30px" }}>
+  const filestemplate = (rowdata) => {
+    const rowfiles = rowdata.files
+    const no: number = rowdata.files ? rowdata.files.length : 0
+    if (no > 0)
+      return (
+        <div style={{ overflowY: "scroll", height: "70px" }}>{
+          rowdata.files.map((f) => (
+            <div className='field row-12 md:row-12 flex' onClick={() => console.log(f.file)} style={{ border: "2px solid blue", padding: "4px", margin: "4px", borderRadius: "10px", backgroundColor: "#C1C2F3", height: "30px" }}>
 
-                    {f.file.split("/")[f.file.split("/").length - 1].toString().length < 20 ? f.file.split("/")[f.file.split("/").length - 1] : f.file.split("/")[f.file.split("/").length - 1].substring(0, 20) + "..."}
-                    <i className="pi pi-download mr-2 ml-2" onClick={() => {
-                        dispatch(documentdownloadaction({
-                            "file": f.file.toString().substring(1, f.file.length)
-                        }))
-                    }} style={{ cursor: "pointer", backgroundColor: "blue", padding: "4px", borderRadius: "4px", color: "white" }}> </i>
-                    <i className="pi pi-trash mr-2 ml-2" style={{ cursor: "pointer", backgroundColor: "red", padding: "4px", borderRadius: "4px", color: "white" }}
-                        onClick={() => {
-                            dispatch(deletedocumentaction({
-                                "fileid": f.id
-                            }))
-                        }}
-                    > </i>
+              {f.file.split("/")[f.file.split("/").length - 1].toString().length < 20 ? f.file.split("/")[f.file.split("/").length - 1] : f.file.split("/")[f.file.split("/").length - 1].substring(0, 20) + "..."}
+              <i className="pi pi-download mr-2 ml-2" onClick={() => {
+                dispatch(documentdownloadaction({
+                  "file": f.file.toString().substring(1, f.file.length)
+                }))
+              }} style={{ cursor: "pointer", backgroundColor: "blue", padding: "4px", borderRadius: "4px", color: "white" }}> </i>
+              <i className="pi pi-trash mr-2 ml-2" style={{ cursor: "pointer", backgroundColor: "red", padding: "4px", borderRadius: "4px", color: "white" }}
+                onClick={() => {
+                  dispatch(deletedocumentaction({
+                    "fileid": f.id
+                  }))
+                }}
+              > </i>
 
-                </div>
-            ))
-                    }
             </div>
-    )
-}
-  const formatstartDate = (rowdata:any) => {
+          ))
+        }
+        </div>
+      )
+  }
+  const formatstartDate = (rowdata: any) => {
     return new Date(rowdata.Start_Date).toLocaleDateString('en-US', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
     });
   }
-const formatendDate = (rowdata:any) => {
+  const formatendDate = (rowdata: any) => {
     return new Date(rowdata.End_Date).toLocaleDateString('en-US', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
     });
   }
   const formatDate = (value: any) => {
@@ -168,50 +168,50 @@ const formatendDate = (rowdata:any) => {
         <Button className='' style={{}} onClick={e => { setEditmode(false); setModaldialog(true) }}>Add </Button>            </div>
     )
   }
-  const actionBodyTemplate=(rowdata)=>{
+  const actionBodyTemplate = (rowdata) => {
     return (
-<div className=" flex gap-2">
-                                <Button className="p-button-info editbutton mr-2" style={{ height: "40px", width: "4.4rem" }} label="" icon="pi pi-pencil" onClick={() => { setEditmode(true); settempdata(rowdata); setModaldialog(true); }}></Button>
+      <div className=" flex gap-2">
+        <Button className="p-button-info editbutton mr-2" style={{ height: "40px", width: "4.4rem" }} label="" icon="pi pi-pencil" onClick={() => { setEditmode(true); settempdata(rowdata); setModaldialog(true); }}></Button>
 
 
-                                <FileUpload emptyTemplate={emptytemplate} style={{}} chooseOptions={chooseOptions} className='p-success mr-2' mode="basic" name="demo[]" chooseLabel='abc' maxFileSize={1000000} auto onSelect={k => {
-
-
-
-                                    if (k.files.length > 0) {
+        <FileUpload emptyTemplate={emptytemplate} style={{}} chooseOptions={chooseOptions} className='p-success mr-2' mode="basic" name="demo[]" chooseLabel='abc' maxFileSize={1000000} auto onSelect={k => {
 
 
 
-                                        console.log(k.files[0])
-                                        const data = new FormData()
-                                        data.append("selectedcandidate", candidateinfodata.Selected_Candidate_ID.toString())
-                                        data.append("detailtypeId", rowdata.id.toString())
-                                        data.append("detailtype", "Employment")
-                                        data.append("file", k.files[0])
-                                        dispatch(uploaddocumentaction(data))
+          if (k.files.length > 0) {
+
+
+
+            console.log(k.files[0])
+            const data = new FormData()
+            data.append("selectedcandidate", candidateinfodata.Selected_Candidate_ID.toString())
+            data.append("detailtypeId", rowdata.id.toString())
+            data.append("detailtype", "Employment")
+            data.append("file", k.files[0])
+            dispatch(uploaddocumentaction(data))
 
 
 
 
 
-                                    }
-                                    else {
-                                        console.log("no files uploaded yet")
-                                    }
+          }
+          else {
+            console.log("no files uploaded yet")
+          }
 
 
 
-                                }} />
-                                <Button style={{ height: "40px", width: "4.4rem" }}  icon="pi pi-trash" className="p-button-danger" onClick={() => dispatch(deleteemployementdetailsaction({
-                                    "id": rowdata.id
+        }} />
+        <Button style={{ height: "40px", width: "4.4rem" }} icon="pi pi-trash" className="p-button-danger" onClick={() => dispatch(deleteemployementdetailsaction({
+          "id": rowdata.id
 
-                                }))} />
+        }))} />
 
-                            </div>
+      </div>
 
 
     )
-}
+  }
   const chooseOptions = { icon: 'pi pi-fw pi-cloud-upload', iconOnly: true, className: 'custom-upload-btn p-button-success' };
 
   const emptytemplate = () => {
@@ -388,7 +388,7 @@ const formatendDate = (rowdata:any) => {
                         <div className="field fluid">
                           <label htmlFor="Start_Date">Start Date*</label>
                           <span className="field fluid">
-                            <Calendar id="Start_Date" {...input} dateFormat="mm/dd/yy" mask="99/99/9999"  maxDate={new Date(values["End_Date"])}  showIcon placeholder="Select Date of Joining" value={new Date(values["Start_Date"])} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                            <Calendar id="Start_Date" {...input} dateFormat="mm/dd/yy" mask="99/99/9999" maxDate={new Date(values["End_Date"])} showIcon placeholder="Select Date of Joining" value={new Date(values["Start_Date"])} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                           </span>
                           {getFormErrorMessage(meta)}
                         </div>
@@ -404,7 +404,7 @@ const formatendDate = (rowdata:any) => {
                         <div className="field fluid">
                           <label htmlFor="End_Date">End Date* </label>
                           <span className="field fluid">
-                            <Calendar id="End_Date" {...input} dateFormat="mm/dd/yy" mask="99/99/9999"  minDate={new Date(values["Start_Date"])} showIcon placeholder="Select Date Of Completion" value={new Date(values["End_Date"])} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                            <Calendar id="End_Date" {...input} dateFormat="mm/dd/yy" mask="99/99/9999" minDate={new Date(values["Start_Date"])} showIcon placeholder="Select Date Of Completion" value={new Date(values["End_Date"])} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                           </span>
                           {getFormErrorMessage(meta)}
                         </div>
@@ -464,7 +464,7 @@ const formatendDate = (rowdata:any) => {
         <br></br>
 
         <div className='grid' style={gridview == "grid" ? { display: "flex" } : { display: "block" }}>
-          {gridview == "grid"&& employmentdetailsdata.length==0&&<div className='flex text-align-center'> No Data</div>}
+          {gridview == "grid" && employmentdetailsdata.length == 0 && <div className='flex text-align-center'> No Data</div>}
           {gridview == "grid" ? employmentdetailsdata.map((e) => <div className='lg:col-3 md:col-6 sm:col-2 gap-4' key={e.id.toString()}>
             <Card className='card1 margin-auto'>
 
@@ -476,7 +476,7 @@ const formatendDate = (rowdata:any) => {
                   <p className="date-range"> Duration : {formatDate(new Date(e.Start_Date))} to {formatDate(new Date(e.End_Date))}</p>
                   <p className="specialization"> Address : {e.PreviousCompanyAddress}</p>
                   <p className="institution">Designation on joining : {e.Designationonjoining}</p>
-                  <p className="institution">Designation on leaving : {e.Designationonleaving}</p><br/>
+                  <p className="institution">Designation on leaving : {e.Designationonleaving}</p><br />
 
                 </div>
 
@@ -532,53 +532,53 @@ const formatendDate = (rowdata:any) => {
               </div>
               <br />
               <div className="card-footer p-fluid grid ">
-                                <div className="field col-12 md:col-3 flex">
+                <div className="field col-12 md:col-3 flex">
 
-                                </div>
-                                <div className="field col-12 md:col-2 flex">
-
-
-                                </div>
-              <div className="field col-12 md:col-7 flex gap-2">
-                                    <Button className="p-button-info editbutton mr-2" style={{ height: "35px", width: "3.5rem" }} label="" icon="pi pi-pencil" onClick={() => { setEditmode(true); settempdata(e); setModaldialog(true); }}></Button>
+                </div>
+                <div className="field col-12 md:col-2 flex">
 
 
-                                    <FileUpload emptyTemplate={emptytemplate} style={{}} chooseOptions={chooseOptions} className='p-success fileuplod2 mr-2' mode="basic" name="demo[]" chooseLabel='abc' maxFileSize={1000000} auto onSelect={k => {
+                </div>
+                <div className="field col-12 md:col-7 flex gap-2">
+                  <Button className="p-button-info editbutton mr-2" style={{ height: "35px", width: "3.5rem" }} label="" icon="pi pi-pencil" onClick={() => { setEditmode(true); settempdata(e); setModaldialog(true); }}></Button>
 
 
-
-                                        if (k.files.length > 0) {
+                  <FileUpload emptyTemplate={emptytemplate} style={{}} chooseOptions={chooseOptions} className='p-success fileuplod2 mr-2' mode="basic" name="demo[]" chooseLabel='abc' maxFileSize={1000000} auto onSelect={k => {
 
 
 
-                                            console.log(k.files[0])
-                                            const data = new FormData()
-                                            data.append("selectedcandidate", candidateinfodata.Selected_Candidate_ID.toString())
-                                            data.append("detailtypeId", e.id.toString())
-                                            data.append("detailtype", "Employment")
-                                            data.append("file", k.files[0])
-                                            dispatch(uploaddocumentaction(data))
+                    if (k.files.length > 0) {
+
+
+
+                      console.log(k.files[0])
+                      const data = new FormData()
+                      data.append("selectedcandidate", candidateinfodata.Selected_Candidate_ID.toString())
+                      data.append("detailtypeId", e.id.toString())
+                      data.append("detailtype", "Employment")
+                      data.append("file", k.files[0])
+                      dispatch(uploaddocumentaction(data))
 
 
 
 
 
-                                        }
-                                        else {
-                                            console.log("no files uploaded yet")
-                                        }
+                    }
+                    else {
+                      console.log("no files uploaded yet")
+                    }
 
 
 
-                                    }} />
-                                    <Button style={{ height: "35px", width: "3.5rem" }} icon="pi pi-trash" className="p-button-danger" onClick={() => dispatch(deleteemployementdetailsaction({
-                                        "id": e.id
+                  }} />
+                  <Button style={{ height: "35px", width: "3.5rem" }} icon="pi pi-trash" className="p-button-danger" onClick={() => dispatch(deleteemployementdetailsaction({
+                    "id": e.id
 
-                                    }))} />
+                  }))} />
 
-                                </div>
+                </div>
 
-</div>
+              </div>
 
             </Card>
             <br></br>
@@ -587,23 +587,23 @@ const formatendDate = (rowdata:any) => {
 
 
           </div>)
-            : 
-                    
-            <DataTable   className='dttable' value={employmentdetailsdata} showGridlines={false} responsiveLayout="scroll" paginator={true} rows={5}
-        globalFilterFields={['PreviousCompanyName','Start_Date','End_Date','PreviousCompanyAddress','Designationonjoining','Designationonleaving']} filters={filters2} header={Headercomp}>
+            :
 
-        <Column field="PreviousCompanyName" header="Company Name" sortable style={{ minWidth: '11rem', maxWidth: '14rem' }} ></Column>
-        <Column field="Start_Date" header="Start Date" body={formatstartDate}sortable></Column>
-        <Column field="End_Date" header="End Date"body={formatendDate} sortable></Column>
-        <Column field="PreviousCompanyAddress" header="CompanyAddress" sortable></Column>
-        <Column field="Designationonjoining" header="Designation on joining" sortable ></Column>
-        <Column field="Designationonleaving" header="Designation on leaving "sortable > </Column>
-        <Column field="" header="Uploaded Files " body={filestemplate} > </Column>
-       
-        <Column field="action" header="Actions" body={actionBodyTemplate} exportable={false}></Column>
-    </DataTable>
-            
-            
+            <DataTable className='dttable' value={employmentdetailsdata} showGridlines={false} responsiveLayout="scroll" paginator={true} rows={5}
+              globalFilterFields={['PreviousCompanyName', 'Start_Date', 'End_Date', 'PreviousCompanyAddress', 'Designationonjoining', 'Designationonleaving']} filters={filters2} header={Headercomp}>
+
+              <Column field="PreviousCompanyName" header="Company Name" sortable style={{ minWidth: '11rem', maxWidth: '14rem' }} ></Column>
+              <Column field="Start_Date" header="Start Date" body={formatstartDate} sortable></Column>
+              <Column field="End_Date" header="End Date" body={formatendDate} sortable></Column>
+              <Column field="PreviousCompanyAddress" header="CompanyAddress" sortable></Column>
+              <Column field="Designationonjoining" header="Designation on joining" sortable ></Column>
+              <Column field="Designationonleaving" header="Designation on leaving " sortable > </Column>
+              <Column field="" header="Uploaded Files " body={filestemplate} > </Column>
+
+              <Column field="action" header="Actions" body={actionBodyTemplate} exportable={false}></Column>
+            </DataTable>
+
+
           }
         </div>
 
@@ -611,12 +611,12 @@ const formatendDate = (rowdata:any) => {
       <br />
       <div className="p-fluid  grid">
 
-<div className="field col-12 md:col-4 flex">
-</div>
-<div className="field col-12 md:col-4 flex">
-</div>
+        <div className="field col-12 md:col-4 flex">
+        </div>
+        <div className="field col-12 md:col-4 flex">
+        </div>
 
-<div className="field col-12 md:col-4 flex gap-4">
+        <div className="field col-12 md:col-4 flex gap-4">
           <Button className='mr-4' onClick={e => dispatch(setprevcandidateinfotab())}>Previous</Button>
           <Button onClick={e => dispatch(setnextcandidateinfotab())}>Next</Button>
         </div>

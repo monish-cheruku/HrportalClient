@@ -1,25 +1,25 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 export interface Ibankdetail { 
-    id:Number,
+    Id:Number,
     BankName:string,
     files: any[],
-    AccountNumber:Number,
+    AccountNumber:string,
     BranchName:string, 
     IFSCcode:string, 
     BankPassbook:string,
-    selectedCandidateId: Number
+    selectedcandidateid: Number
 
 }
 
 const initialState: Ibankdetail = {
-    id: 0,
+    Id: 0,
     BankName: "",
     files: [],
-    AccountNumber: 0,
+    AccountNumber: "",
     BranchName: "",
     IFSCcode: "",
     BankPassbook: "",
-    selectedCandidateId: 0
+    selectedcandidateid: 0
 }
 
 const bankdetailsSlice = createSlice({

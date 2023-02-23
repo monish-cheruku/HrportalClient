@@ -26,7 +26,7 @@ import { Dropdown } from 'primereact/dropdown'
 function FamilyDetails() {
 
     const familydetailsdata = useSelector((state: RootState) => state.CandidateFamilydetails);
-   
+
     const [tempdata, settempdata] = useState<any>({})
     const [gridview, setgridview] = useState("grid")
     const [globalFilterValue2, setGlobalFilterValue2] = useState("");
@@ -138,7 +138,7 @@ function FamilyDetails() {
         return (
             <div
                 className="flex flex-column md:flex-row md:justify-content-between md:align-items-center"
-          
+
             > <span style={{ width: "30%" }}></span>
                 <span className="p-input-icon-left">
                     <i className="pi pi-search" />
@@ -168,12 +168,12 @@ function FamilyDetails() {
         { value: 'mother', label: 'Mother' },
         { value: 'father', label: 'Father' },
         { value: 'spouse', label: 'Spouse' },
-        { value: 'brother',label: 'Brother' },
+        { value: 'brother', label: 'Brother' },
         { value: 'sister', label: 'Sister' },
         { value: 'others', label: 'Others' },
 
     ]
-   
+
     const formatDate = (value: any) => {
         return value.toLocaleDateString('en-US', {
             day: '2-digit',
@@ -182,13 +182,13 @@ function FamilyDetails() {
         });
         // return value.toLocaleDateString('en-US');
     }
-    const formatdob = (rowdata:any) => {
+    const formatdob = (rowdata: any) => {
         return new Date(rowdata.Date_Of_Birth).toLocaleDateString('en-US', {
             day: '2-digit',
             month: '2-digit',
             year: 'numeric',
         });
-      }
+    }
     return (
         <div>
             <style>{`
@@ -259,9 +259,9 @@ function FamilyDetails() {
                             // console.log(datetemp.getFullYear() + "-" + datetemp.getMonth() + "-" + datetemp.getDate())
                             values.Date_Of_Birth = datetempstart.getFullYear() + "-" + (datetempstart.getMonth() + 1).toString().padStart(2, '0') + "-" + datetempstart.getDate().toString().padStart(2, '0')
 
-if(!values["Contact_Number"]){
-    values["Contact_Number"]=""
-}
+                            if (!values["Contact_Number"]) {
+                                values["Contact_Number"] = ""
+                            }
                             values.selectedcandidateid = candidateinfodata.Selected_Candidate_ID
                             console.log(values)
                             if (!editmode) {
@@ -283,7 +283,7 @@ if(!values["Contact_Number"]){
                             FullName: tempdata.FullName,
                             Date_Of_Birth: new Date(tempdata.Date_Of_Birth),
                             Relationship_with_employee: tempdata.Relationship_with_employee,
-                            Contact_Number: tempdata.Contact_Number?tempdata.Contact_Number:"",
+                            Contact_Number: tempdata.Contact_Number ? tempdata.Contact_Number : "",
                         }}
 
                         validate={validate}
@@ -333,18 +333,18 @@ if(!values["Contact_Number"]){
 
                                     <div className="field col-12 md:col-10">
 
-                                    <Field
-                                    name="Relationship_with_employee"
-                                    render={({ input, meta }) => (
-                                        <div className="field">
-                                            <label htmlFor="Relationship_with_employee ">Relation*</label>
-                                            <span className="p-float-label">
-                                                <Dropdown id="Relationship_with_employee " {...input} options={Relation} placeholder="Select Relation" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
-                                            </span>
-                                            {getFormErrorMessage(meta)}
-                                        </div>
-                                    )}
-                                />
+                                        <Field
+                                            name="Relationship_with_employee"
+                                            render={({ input, meta }) => (
+                                                <div className="field">
+                                                    <label htmlFor="Relationship_with_employee ">Relation*</label>
+                                                    <span className="p-float-label">
+                                                        <Dropdown id="Relationship_with_employee " {...input} options={Relation} placeholder="Select Relation" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                    </span>
+                                                    {getFormErrorMessage(meta)}
+                                                </div>
+                                            )}
+                                        />
                                     </div>
 
                                     <div className="field col-12 md:col-10">
@@ -390,19 +390,19 @@ if(!values["Contact_Number"]){
                 <br></br>
 
 
-                <div className='grid' style={gridview=="grid"?{display:"flex"}:{display:"block"}}>
-                {gridview == "grid"&& familydetailsdata.length==0&&<div className='flex text-align-center'> No Data</div>}
+                <div className='grid' style={gridview == "grid" ? { display: "flex" } : { display: "block" }}>
+                    {gridview == "grid" && familydetailsdata.length == 0 && <div className='flex text-align-center'> No Data</div>}
 
-                    {gridview=="grid"?familydetailsdata.map((e) => <div className='lg:col-3 md:col-6 sm:col-2 gap-4' key={e.id.toString()}>
+                    {gridview == "grid" ? familydetailsdata.map((e) => <div className='lg:col-3 md:col-6 sm:col-2 gap-4' key={e.id.toString()}>
                         <Card className='card1 margin-auto'>
                             <div className="p-fluid  grid card1content">
-                               
+
                                 <div className="card-body">
                                     <p className="FullName">Name : {e.FullName}</p>
-                                    <p className="Date_Of_Birth"> Date Of Birth : {formatDate(new Date(e.Date_Of_Birth)) }</p>
+                                    <p className="Date_Of_Birth"> Date Of Birth : {formatDate(new Date(e.Date_Of_Birth))}</p>
                                     <p className="Relationship_with_employee"> Relationship : {e.Relationship_with_employee}</p>
                                     <p className="Contact_Number">Contact : {e.Contact_Number}</p>
-                               
+
 
                                 </div>
 
@@ -410,7 +410,7 @@ if(!values["Contact_Number"]){
 
 
                             </div>
-                            
+
                             <br />
                             <div className="card-footer p-fluid grid ">
                                 <div className="field col-12 md:col-4 flex">
@@ -421,10 +421,10 @@ if(!values["Contact_Number"]){
 
                                 </div>
                                 <div className="field col-12 md:col-5 flex gap-2">
-                                    <Button className="p-button-info editbutton mr-2" style={{ height: "35px", width: "3.5rem" }} label="" icon="pi pi-pencil" onClick={() => {console.log(e); setEditmode(true); settempdata(e); setModaldialog(true); }}></Button>
+                                    <Button className="p-button-info editbutton mr-2" style={{ height: "35px", width: "3.5rem" }} label="" icon="pi pi-pencil" onClick={() => { console.log(e); setEditmode(true); settempdata(e); setModaldialog(true); }}></Button>
 
 
-                                
+
                                     <Button style={{ height: "35px", width: "3.5rem" }} icon="pi pi-trash" className="p-button-danger" onClick={() => dispatch(deletefamilydetailsaction({
                                         "id": e.id
 
@@ -442,22 +442,22 @@ if(!values["Contact_Number"]){
 
                     </div>)
 
-                    :
-                    
-                    
-                    <DataTable   className='dttable' value={familydetailsdata} showGridlines={false} responsiveLayout="scroll" paginator={true} rows={5}
-                globalFilterFields={['FullName','Date_Of_Birth','Relationship_with_employee','Contact_Number']} filters={filters2} header={Headercomp}>
+                        :
 
-                <Column field="FullName" header="FullName" sortable style={{ minWidth: '11rem', maxWidth: '14rem' }} ></Column>
-                <Column field="Date_Of_Birth" header="Date Of Birth" body={formatdob}sortable></Column>
-                <Column field="Relationship_with_employee" header="Relationship"sortable></Column>
-                <Column field="Contact_Number" header="Contact Number"  sortable></Column>
-                
-               
-                <Column field="action" header="Actions" body={actionBodyTemplate} exportable={false}></Column>
-            </DataTable>
-                    
-                    
+
+                        <DataTable className='dttable' value={familydetailsdata} showGridlines={false} responsiveLayout="scroll" paginator={true} rows={5}
+                            globalFilterFields={['FullName', 'Date_Of_Birth', 'Relationship_with_employee', 'Contact_Number']} filters={filters2} header={Headercomp}>
+
+                            <Column field="FullName" header="FullName" sortable style={{ minWidth: '11rem', maxWidth: '14rem' }} ></Column>
+                            <Column field="Date_Of_Birth" header="Date Of Birth" body={formatdob} sortable></Column>
+                            <Column field="Relationship_with_employee" header="Relationship" sortable></Column>
+                            <Column field="Contact_Number" header="Contact Number" sortable></Column>
+
+
+                            <Column field="action" header="Actions" body={actionBodyTemplate} exportable={false}></Column>
+                        </DataTable>
+
+
                     }
                 </div>
 
@@ -465,7 +465,7 @@ if(!values["Contact_Number"]){
 
 
             </Panel>
-<br/>
+            <br />
             <div className="p-fluid  grid">
 
                 <div className="field col-12 md:col-4 flex">

@@ -14,8 +14,8 @@ import {UserRoles} from "../features/UserRoles/userroleslice"
 
 
 // import {Band} from ../features/Band/bandslice"
-axios.defaults.baseURL = 'http://10.154.155.236:8000/api';
-// axios.defaults.baseURL = 'http://10.154.155.221:8000/api';
+// axios.defaults.baseURL = 'http://10.154.20.135:8000/api';
+axios.defaults.baseURL = 'http://10.154.155.70:8000/api';
 
 // axios.defaults.baseURL = 'http://10.154.155.54:8000/api';
 // axios.defaults.baseURL = 'http://10.154.20.135:8000/api';
@@ -249,7 +249,7 @@ export const familydetails = {
 }
 export const insurance = {
   createinsurance:(data)=>requests.post("selectedcandidate/createinsurancedetail",data),
-  updateinsurance:(data)=>requests.post("selectedcandidate/updateinsurancedetails",data),  
+  updateinsurance:(data)=>requests.post("selectedcandidate/updateinsurancedetail",data),  
   getinsurance:(data)=>requests.post("selectedcandidate/getinsurancedetails",data),
   deleteinsurance:(data)=>requests.post("selectedcandidate/deleteinsurancedetail",data),
 }
@@ -301,7 +301,7 @@ export const employementdetailsapis = {
 export const bankdetailsapis = {
   getbankdetails:(data)=>requests.post("selectedcandidate/getbankdetails",data),
   createbankdetail:(data)=>requests.post("selectedcandidate/createbankdetail",data),
-  updatebankdetails:(data)=>requests.post("selectedcandidate/updatebankdetails",data),
+  updatebankdetails:(data)=>requests.post("selectedcandidate/updatebankdetail",data),
   deletebankdetails:(data)=>requests.post("selectedcandidate/deletebankdetail",data),
  
 }

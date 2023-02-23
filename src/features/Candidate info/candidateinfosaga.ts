@@ -605,7 +605,7 @@ function* createnewinsurancesagaworker(data) {
         var res: Promise<any> = yield call(insurance.createinsurance, data.payload)
         // console.log(res)
         // yield Candidatedatasagaworker(data.payload={"jobpostID":data.payload.jobpostID})
-        yield put({ type: "Familydetails/familydetailsaction", payload: { "selectedcandidateid": store.getState().candidateinfo.Selected_Candidate_ID } })
+        yield put({ type: "insurance/insuranceaction", payload: { "selectedcandidateid": store.getState().candidateinfo.Selected_Candidate_ID } })
 
         // yield call({type:"getCandidatefromapi"})
         //toast

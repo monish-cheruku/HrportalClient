@@ -17,7 +17,7 @@ const familydetailsSlice = createSlice({
         familydetailsdata: (state, payload: PayloadAction<any>) => {
             console.log(payload)
             var temp = payload.payload
-            state = temp
+            state =[...temp]
 
             return state;
 

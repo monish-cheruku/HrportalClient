@@ -13,7 +13,7 @@ export interface Ipersonaldetail {
     Marital_status: string
     Name: string
     PAN: string
-    Passport: string
+    PassportNumber: string
     PassportValidFrom: string
     PassportValidTo: string
     id: number
@@ -33,7 +33,7 @@ const initialState: Ipersonaldetail = {
     Marital_status: "",
     Name: "",
     PAN: "",
-    Passport: "",
+    PassportNumber: "",
     PassportValidFrom: "",
     PassportValidTo: "",
     id: 0,

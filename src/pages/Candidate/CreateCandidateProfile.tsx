@@ -20,6 +20,7 @@ import { getManageBillaction } from '../../features/ManageBillRate/ManageBillRat
 import { Panel } from 'primereact/panel'
 import { downloadresume } from '../../features/Downloadpdfs/pdfslice'
 import { Link } from 'react-router-dom'
+import { documentdownloadaction } from '../../features/Candidate info/candidateinfoslice'
 
 function CreateCandidateProfile() {
     const dispatch = useDispatch()
@@ -657,9 +658,9 @@ function CreateCandidateProfile() {
                                                         }>
 
                                                             {/* Uploaded File: {values.Resume.split("/")[values.Resume.split("/").length-1]} */}
-                                                            {(typeof values.Resume == typeof "abc") && <>Uploaded File: <a style={{cursor : "pointer"}}  onClick={e => dispatch(downloadresume(
+                                                            {(typeof values.Resume == typeof "abc") && <>Uploaded File: <a style={{cursor : "pointer"}}  onClick={e => dispatch(documentdownloadaction(
                                                                 {
-                                                                    'Resume': values?.Resume?.toString().substring(1, values?.Resume.toString().length)
+                                                                    'file': values?.Resume?.toString().substring(1, values?.Resume.toString().length)
                                                                 }
                                                             )
                                                             )}  >{values?.Resume?.split("/")[values.Resume.split("/").length - 1]}</a>

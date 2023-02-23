@@ -225,7 +225,7 @@ function PersonalDetails() {
 
                     "EmergencycontactNumber": personalsdetailsdata.EmergencycontactNumber,
 
-                    "Passport": personalsdetailsdata.Passport,
+                    "PassportNumber": personalsdetailsdata.PassportNumber,
 
                     "PassportValidFrom": new Date(personalsdetailsdata.PassportValidFrom),
 
@@ -340,9 +340,9 @@ function PersonalDetails() {
                                     name="PAN"
                                     render={({ input, meta }) => (
                                         <div className="field " >
-                                            <label htmlFor="Employee Name">PAN* </label>
+                                            <label htmlFor="PAN">PAN* </label>
                                             <span className="label">
-                                                <InputText caps={true}  onInput={toInputUppercase} value={values["PAN"]?.toUpperCase()}  id="Employee Name " {...input} autoFocus maxLength={10} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                <InputText   onInput={toInputUppercase}   id="PAN" {...input} autoFocus maxLength={10} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                 <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                             </span>
                                             {getFormErrorMessage(meta)}
@@ -359,7 +359,7 @@ function PersonalDetails() {
                                     <div className="field " >
                                         <label htmlFor="Employee Name"> Aadhaar* </label>
                                         <span className="label">
-                                            <InputText id="Employee Name " {...input} autoFocus maxLength={12} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                            <InputText id="Employee Name " {...input} autoFocus maxLength={12}  onInput={toInputUppercase}  className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                             <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                         </span>
                                         {getFormErrorMessage(meta)}
@@ -467,12 +467,12 @@ function PersonalDetails() {
                             <div className="p-fluid  grid">
                                 <div className="field col-12 md:col-4">
                                     <Field
-                                        name="Passport"
+                                        name="PassportNumber"
                                         render={({ input, meta }) => (
                                             <div className="field " >
-                                                <label htmlFor="Employee Name">Passport No*</label>
+                                                <label htmlFor="PassportNumber">Passport No*</label>
                                                 <span className="label">
-                                                    <InputText id="Employee Name " {...input} autoFocus maxLength={8} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                    <InputText id="PassportNumber " {...input} autoFocus maxLength={8} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                     <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                                 </span>
                                                 {getFormErrorMessage(meta)}
