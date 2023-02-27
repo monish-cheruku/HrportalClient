@@ -66,7 +66,7 @@ function Candidateinfo() {
       </style>
       <div className="col-12 md:col-12">
         <div className="card card-w-title">
-         { roles.includes("HR")&&<Button className="tooltip-button">validate</Button>}
+         { roles.includes("HR")&&<Button className="">Notify Candidate</Button>}
           <br />
         
 

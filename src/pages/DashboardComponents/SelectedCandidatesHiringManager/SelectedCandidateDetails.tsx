@@ -21,7 +21,7 @@ import { getsubbandsaction } from '../../../features/SubBand/subbandslice'
 import CandidateDetails from '../CandidateDetails'
 import JobPostDetails from '../JobPostDetails'
 import { RadioButton } from 'primereact/radiobutton';
-import { previewannexureaction, updateselectedcandidatesaction } from '../../../features/CandidateActions/selectedcandidatesslice'
+import { previewannexureaction, updateselcontractcandidateaction, updateselectedcandidatesaction, updateselinterncandidateaction } from '../../../features/CandidateActions/selectedcandidatesslice'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../app/store'
 import { Accordion, AccordionTab } from 'primereact/accordion'
@@ -59,6 +59,8 @@ function SelectedCandidateDetails(props) {
     }, [])
     useEffect(() => {
         console.log(annexuredata)
+        console.log(jobpostdata)
+        console.log(candidatedata)
     }, [annexuredata])
     const validate = (values) => {
         let errors = {};
@@ -107,13 +109,37 @@ function SelectedCandidateDetails(props) {
             errors["JoiningBonus"] = "*This field is required"
         }
         //   console.log(values["Duration"])
-        if(jobpostdata.businessunit_name=="Workforce Solutions"  && !values["ShiftAllowance"]){
+        if (jobpostdata.businessunit_name == "Workforce Solutions" && !values["ShiftAllowance"]) {
             errors["ShiftAllowance"] = "*This field is required"
 
         }
         console.log(errors)
         return errors;
     };
+    const contractformvalidate = (values) => {
+        var errors = []
+
+        var arr = ["designation", "FinalCTC", "NoOfHours", "DateOfJoining", "endDate", "Duration"]
+        arr.forEach((i) => {
+            if (!values[i]) {
+                errors[i.toString()] = "* This field is required";
+            }
+        })
+        console.log(errors)
+        return errors
+    }
+    const Internformvalidate = (values) => {
+        var errors = []
+
+        var arr = ["designation", "FinalCTC", "DateOfJoining", "Duration"]
+        arr.forEach((i) => {
+            if (!values[i]) {
+                errors[i.toString()] = "* This field is required";
+            }
+        })
+        console.log(errors)
+        return errors
+    }
     const isFormFieldValid = (meta) => !!(meta.touched && meta.error);
 
     const getFormErrorMessage = (meta) => {
@@ -143,11 +169,11 @@ function SelectedCandidateDetails(props) {
         if (values.Is_Eligible_Joining_Bonus == true && !values["JoiningBonus"]) {
             // console.log(values["Duration"])
 
-           return true
+            return true
         }
         //   console.log(values["Duration"])
-        if(jobpostdata.businessunit_name=="Workforce Solutions"  && !values["ShiftAllowance"]){
-           return true
+        if (jobpostdata.businessunit_name == "Workforce Solutions" && !values["ShiftAllowance"]) {
+            return true
 
         }
         if (values.IsVariable == null) {
@@ -247,12 +273,12 @@ function SelectedCandidateDetails(props) {
                     
                 </Panel> */}
                     <br></br>
-                    <Form
+                    {Object.is(candidatedata.EmploymentType, "Full-Time") && <Form
 
                         onSubmit={async (values: any) => {
                             console.log(values)
-                            if(values["Is_Eligible_Joining_Bonus"]==false){
-                                values["JoiningBonus"]=0
+                            if (values["Is_Eligible_Joining_Bonus"] == false) {
+                                values["JoiningBonus"] = 0
                             }
                             values["FinalCTC"] = parseInt(values["FinalCTC"])
                             values["VariablePerc"] = parseInt(values["VariablePerc"])
@@ -333,8 +359,8 @@ function SelectedCandidateDetails(props) {
                             "IS_Eligible_Monthly_Incentive": data.IS_Eligible_Monthly_Incentive,
                             "VariablePerc": data.VariablePerc,
                             "IsVariable": data.IsVariable,
-                            "ShiftAllowance": data.ShiftAllowance? data.ShiftAllowance:null,
-                            "JoiningBonus":  data.JoiningBonus? data.JoiningBonus:null,
+                            "ShiftAllowance": data.ShiftAllowance ? data.ShiftAllowance : null,
+                            "JoiningBonus": data.JoiningBonus ? data.JoiningBonus : null,
 
 
                         } : mode == "false" ? {
@@ -353,7 +379,7 @@ function SelectedCandidateDetails(props) {
                             "VariablePerc": null,
                             "DateOfJoining": null,
                             "IsVariable": null,
-                            "ShiftAllowance":3000,
+                            "ShiftAllowance": 3000,
                             "JoiningBonus": null
 
 
@@ -379,8 +405,8 @@ function SelectedCandidateDetails(props) {
                                 "IS_Eligible_Monthly_Incentive": data.IS_Eligible_Monthly_Incentive,
                                 "VariablePerc": data.VariablePerc,
                                 "IsVariable": data.IsVariable,
-                                "ShiftAllowance": data.ShiftAllowance? data.ShiftAllowance:null,
-                                "JoiningBonus":  data.JoiningBonus? data.JoiningBonus:null,
+                                "ShiftAllowance": data.ShiftAllowance ? data.ShiftAllowance : null,
+                                "JoiningBonus": data.JoiningBonus ? data.JoiningBonus : null,
                             }
 
                         }
@@ -477,9 +503,9 @@ function SelectedCandidateDetails(props) {
                                                     </div>
                                                 )}
                                             </Field>
-                                                {console.log(jobpostdata)}
+                                            {console.log(jobpostdata)}
                                         </div>
-                                       {jobpostdata.businessunit_name=="Workforce Solutions"&& <div className="field col-12 md:col-3">
+                                        {jobpostdata.businessunit_name == "Workforce Solutions" && <div className="field col-12 md:col-3">
                                             <Field name="ShiftAllowance">
                                                 {({ input, meta }) => (
                                                     <div>
@@ -616,12 +642,12 @@ function SelectedCandidateDetails(props) {
                                             type="checkbox"
                                             render={({ input, meta }) => (
                                                 <div className="field-checkbox">
-                                                    <Checkbox inputId={input.name} {...input}  onClick={e=>e.value==false?values["JoiningBonus"]=0:console.log()}/>
+                                                    <Checkbox inputId={input.name} {...input} onClick={e => e.value == false ? values["JoiningBonus"] = 0 : console.log()} />
                                                     <label htmlFor={input.name} style={{ cursor: "pointer" }}>
                                                         {"Eligible for Joining Bonus"}
                                                     </label>
                                                 </div>)} />
-                                       { values["Is_Eligible_Joining_Bonus"]&&<Field
+                                        {values["Is_Eligible_Joining_Bonus"] && <Field
                                             name="JoiningBonus"
                                             type="input"
                                             render={({ input, meta }) => (
@@ -678,6 +704,421 @@ function SelectedCandidateDetails(props) {
 
 
                     />
+
+                    }
+                    {
+                        Object.is(candidatedata.EmploymentType, "Internship") && <div>
+
+                            <h3>Internship Offer Details</h3>
+
+
+                            <Form
+
+                                onSubmit={async (values: any) => {
+                                    console.log(values)
+
+
+                                    var tempstartdate = values["DateOfJoining"]
+values["Duration"]=parseInt(values["Duration"])
+values["FinalCTC"]=parseInt(values["FinalCTC"])
+                                    values.StartDate = tempstartdate.getFullYear() + "-" + (tempstartdate.getMonth() + 1).toString().padStart(2, '0') + "-" + tempstartdate.getDate().toString().padStart(2, '0')
+
+                                    console.log(values)
+                                    // dispatch(updateselinterncandidateaction(values))
+
+                                    try {
+                                        setShowspinner(true)
+                                        selectedcandidateactions.updateselinterncandidate(values)
+                                            .then((res) => {
+                                                console.log(res);
+                                                setShowspinner(false)
+                                            }).then((res) =>
+                                                toast.current.show({ severity: 'success', summary: 'Success Message', detail: res, life: 3000 })
+                                            ).then(() => setTimeout(() => { navigate(-1); }, 2000))
+                                            .catch((ex) => {
+                                                console.log(ex);
+                                                setShowspinner(false)
+                                                setdata(values); setmode('draft');
+                                                toast.current.show({ severity: 'error', summary: 'Error Message', detail: ex, life: 3000 });
+                                            })
+        
+                                        // console.log(res)
+        
+                                        // yield put({type:"selectedcandidates/selectedandidatesdata",payload:res})
+        
+                                    }
+                                    catch (err) {
+                                        console.log(err)
+        
+                                        setShowspinner(false)
+        
+                                    }
+
+
+
+
+
+
+                                }
+                                }
+                                initialValues={mode == "true" ? {
+
+
+                                    "selectedcandidateid": data.Selected_Candidate_ID,
+
+                                    "DateOfJoining": new Date(data.DateOfJoining),
+                                    "designation": data.designation,
+                                    "FinalCTC": data.FinalCTC,
+                                    "Duration": data.Duration,
+                                    "Modified_By": logindata.username
+
+                                } : {
+                                    "selectedcandidateid": data.Selected_Candidate_ID,
+
+                                    // "StartDate": "2023-1-26",
+                                    // "designation": 1,
+                                    // "FinalCTC": 575000,
+                                    // "Duration" : 1,
+                                    "Modified_By": logindata.username
+                                }
+
+                                }
+
+                                validate={Internformvalidate}
+
+                                render={({ handleSubmit, values, submitting,
+                                    submitError,
+                                    invalid,
+                                    pristine,
+                                    initialValues = {},
+                                    dirtySinceLastSubmit, }) => (
+
+                                    <form onSubmit={handleSubmit} >
+
+                                        <div className="p-fluid  grid">
+                                            <div className="field col-12 md:col-4">
+                                                <Field
+                                                    name="designation"
+                                                    render={({ input, meta }) => (
+                                                        <div className="field">
+                                                            <label htmlFor="designation">Designation</label>
+                                                            <span className="p-float-label">
+                                                                <Dropdown id="designation"  {...input} options={props.getactivedesignationoptionsprop} optionLabel="label" placeholder="Select Designation"
+
+                                                                    className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                            </span>
+                                                            {getFormErrorMessage(meta)}
+                                                        </div>
+                                                    )}
+                                                />
+
+                                            </div>
+
+                                            <div className="field col-12 md:col-4">
+                                                <Field name="FinalCTC">
+                                                    {({ input, meta }) => (
+                                                        <div>
+                                                            <label>Final CTC: </label>
+                                                            <br></br>
+                                                            <br></br>
+                                                            <input className='p-inputtext p-component' {...input} type="number" min={0} value={parseInt(values["FinalCTC"])} placeholder="Final CTC" />
+                                                            <br></br>
+                                                            {getFormErrorMessage(meta)}
+                                                        </div>
+                                                    )}
+                                                </Field>
+                                            </div>
+
+
+
+
+
+
+                                        </div>
+
+                                        <div className="p-fluid  grid">
+                                            <div className="field col-12 md:col-4"><Field
+                                                name="DateOfJoining"
+                                                render={({ input, meta }) => (
+                                                    <div className="field">
+                                                        <label htmlFor="DateOfJoining">Date of joining</label>
+                                                        <span className="p-float-label">
+                                                            <Calendar dateFormat='mm/dd/yy' {...input}showIcon={true} id="DateOfJoining" {...input} placeholder="Start Date" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        </span>
+                                                        {getFormErrorMessage(meta)}
+                                                    </div>
+                                                )}
+                                            />
+
+                                            </div>
+
+                                            <div className="field col-12 md:col-4">
+                                                <Field name="Duration">
+                                                    {({ input, meta }) => (
+                                                        <div>
+                                                            <label>Duration: </label>
+                                                            <br></br>
+                                                            <br></br>
+
+                                                            <input className='p-inputtext p-component' {...input} type="number" min={0} value={parseInt(values["Duration"])} placeholder="Duration" />
+                                                            <br></br>
+                                                            {getFormErrorMessage(meta)}
+                                                        </div>
+                                                    )}
+                                                </Field>
+                                            </div>
+                                        </div>
+
+                                        <div className="grid">
+                                            <div className="field col-12 md:col-4"></div>
+                                            <div className="field col-12 md:col-4"></div>
+                                            <div className="field col-12 md:col-4 flex">
+                                                <Button  className='mr-2' type="button" onClick={e => navigate(-1)}>
+                                                    Cancel
+                                                </Button>
+                                                <Button type="submit">
+                                                    save and generate Offer Letter
+                                                </Button>
+
+                                            </div>
+                                        </div>
+
+
+                                    </form>
+
+
+
+
+
+                                )}
+
+                            />
+
+
+                        </div>
+                    }
+                    {
+                        Object.is(candidatedata.EmploymentType, "Contract(direct)") &&
+                        <div>
+
+                            <h3>Contractor Offer  Details</h3>
+
+                            <Form
+
+                                onSubmit={async (values: any) => {
+
+                                    var tempstartdate = values["DateOfJoining"]
+                                    var tempenddate = values["endDate"]
+                                    values["Duration"] = parseInt(values["Duration"])
+                                    values["FinalCTC"] = parseInt(values["FinalCTC"])
+                                    values["StartDate"] = tempstartdate.getFullYear() + "-" + (tempstartdate.getMonth() + 1).toString().padStart(2, '0') + "-" + tempstartdate.getDate().toString().padStart(2, '0')
+                                    values["EndDate"] = tempenddate.getFullYear() + "-" + (tempenddate.getMonth() + 1).toString().padStart(2, '0') + "-" + tempenddate.getDate().toString().padStart(2, '0')
+
+                                    console.log(values)
+
+                                    // dispatch(updateselcontractcandidateaction(values))
+
+                                    try {
+                                        setShowspinner(true)
+                                        selectedcandidateactions.updateselcontractcandidate(values)
+                                            .then((res) => {
+                                                console.log(res);
+                                                setShowspinner(false)
+                                            }).then((res) =>
+                                                toast.current.show({ severity: 'success', summary: 'Success Message', detail: res, life: 3000 })
+                                            ).then(() => setTimeout(() => { navigate(-1); }, 2000))
+                                            .catch((ex) => {
+                                                console.log(ex);
+                                                setShowspinner(false)
+                                                setdata(values); setmode('draft');
+                                                toast.current.show({ severity: 'error', summary: 'Error Message', detail: ex, life: 3000 });
+                                            })
+        
+                                        // console.log(res)
+        
+                                        // yield put({type:"selectedcandidates/selectedandidatesdata",payload:res})
+        
+                                    }
+                                    catch (err) {
+                                        console.log(err)
+        
+                                        setShowspinner(false)
+        
+                                    }
+
+
+
+                                }
+                                }
+                                initialValues={mode == "true" ? {
+
+
+                                    "selectedcandidateid": data.Selected_Candidate_ID,
+
+                                    "DateOfJoining": new Date(data.DateOfJoining),
+                                    "endDate": new Date(data.EndDate),
+                                    "designation": data.designation,
+                                    "FinalCTC": data.FinalCTC,
+                                    "NoOfHours": data.NoOfHours,
+                                    "Duration": data.Duration,
+                                    "Modified_By": logindata.username
+
+                                } : {
+                                    "selectedcandidateid": data.Selected_Candidate_ID,
+                                    "Modified_By": logindata.username
+
+                                }
+
+                                }
+
+                                validate={contractformvalidate}
+
+                                render={({ handleSubmit, values, submitting,
+                                    submitError,
+                                    invalid,
+                                    pristine,
+                                    initialValues = {},
+                                    dirtySinceLastSubmit, }) => (
+
+                                    <form onSubmit={handleSubmit} >
+
+                                        <div className="p-fluid  grid">
+                                            <div className="field col-12 md:col-4">
+                                                <Field
+                                                    name="designation"
+                                                    render={({ input, meta }) => (
+                                                        <div className="field">
+                                                            <label htmlFor="designation">Designation</label>
+                                                            <span className="p-float-label">
+                                                                <Dropdown id="designation"  {...input} options={props.getactivedesignationoptionsprop} optionLabel="label" placeholder="Select Designation"
+
+                                                                    className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                            </span>
+                                                            {getFormErrorMessage(meta)}
+                                                        </div>
+                                                    )}
+                                                />
+
+                                            </div>
+
+                                            <div className="field col-12 md:col-4">
+                                                <Field name="FinalCTC">
+                                                    {({ input, meta }) => (
+                                                        <div>
+                                                            <label>Remuneration (Per Month): </label>
+                                                            <br></br>
+                                                            <br></br>
+                                                            <input className='p-inputtext p-component' {...input} type="number" min={0} value={parseInt(values["FinalCTC"])} placeholder="Final CTC" />
+                                                            <br></br>
+                                                            {getFormErrorMessage(meta)}
+                                                        </div>
+                                                    )}
+                                                </Field>
+                                            </div>
+
+
+
+                                            <div className="field col-12 md:col-4">
+                                                <Field name="NoOfHours">
+                                                    {({ input, meta }) => (
+                                                        <div>
+                                                            <label>NoOfHours (Per Month)*: </label>
+                                                            <br></br>
+                                                            <br></br>
+                                                            <input className='p-inputtext p-component' {...input} type="number" min={0} value={parseInt(values["NoOfHours"])} placeholder="NoOfHours" />
+                                                            <br></br>
+                                                            {getFormErrorMessage(meta)}
+                                                        </div>
+                                                    )}
+                                                </Field>
+                                            </div>
+
+
+
+
+                                        </div>
+
+                                        <div className="p-fluid  grid">
+                                            <div className="field col-12 md:col-4"><Field
+                                                name="DateOfJoining"
+                                                render={({ input, meta }) => (
+                                                    <div className="field">
+                                                        <label htmlFor="DateOfJoining"> Start Date </label>
+                                                        <span className="p-float-label">
+                                                            <Calendar dateFormat='mm/dd/yy' showIcon={true} id="DateOfJoining" {...input} placeholder="Start Date" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        </span>
+                                                        {getFormErrorMessage(meta)}
+                                                    </div>
+                                                )}
+                                            />
+
+                                            </div>
+                                            <div className="field col-12 md:col-4"><Field
+                                                name="endDate"
+                                                render={({ input, meta }) => (
+                                                    <div className="field">
+                                                        <label htmlFor="endDate">End Date</label>
+                                                        <span className="p-float-label">
+                                                            <Calendar dateFormat='mm/dd/yy' showIcon={true} id="endDate" {...input} placeholder="End Date" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        </span>
+                                                        {getFormErrorMessage(meta)}
+                                                    </div>
+                                                )}
+                                            />
+
+                                            </div>
+                                            <div className="field col-12 md:col-4">
+                                                <Field name="Duration">
+                                                    {({ input, meta }) => (
+                                                        <div>
+                                                            <label>Duration(In Months): </label>
+                                                            <br></br>
+                                                            <br></br>
+                                                            <input className='p-inputtext p-component' {...input} type="number" min={0} value={parseInt(values["Duration"])} placeholder="Duration" />
+                                                            <br></br>
+                                                            {getFormErrorMessage(meta)}
+                                                        </div>
+                                                    )}
+                                                </Field>
+                                            </div>
+                                        </div>
+
+                                        <div className="grid">
+                                            <div className="field col-12 md:col-4"></div>
+                                            <div className="field col-12 md:col-4"></div>
+                                            <div className="field col-12 md:col-4 flex">
+                                                <Button className='mr-2' type="button" onClick={e => navigate(-1)}>Cancel
+                                                </Button>
+                                                <Button type="submit">
+                                                    save and generate Offer Letter
+                                                </Button>
+
+                                            </div>
+                                        </div>
+
+
+                                    </form>
+
+
+
+
+
+                                )}
+
+                            />
+
+
+
+
+
+
+                        </div>
+                    }
+
+
+
+
+
                 </Card>
             </LoadingOverlay>
         </>

@@ -17,7 +17,7 @@ import { RadioButton } from "primereact/radiobutton";
 import Counter from "./Counter";
 import QuotesComp from "./QuotesComp";
 import { getuserrolesaction, createuserrolesaction, updateuserrolesaction, UserRoles, getadusersaction, getrolesaction } from "../features/UserRoles/userroleslice";
-import { useDispatch } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { RootState } from "../app/store";
 import { act } from "react-dom/test-utils";
@@ -27,8 +27,9 @@ import { ICompanyoptions } from "../features/Company/companyslice";
 import { userroleoptionsdata } from '../features/UserRoles/userroleoptionsslice';
 import { Form, Field } from "react-final-form";
 import { Checkbox } from 'primereact/checkbox';
+import { getactiveuserroleoptions } from "../features/UserRoles/userroleoptionsselctor";
 // import '../../index.css';
-const UserRoleS = () => {
+const UserRoleS = (props) => {
     const [productDialog, setProductDialog] = useState(false);
     const [submitted, setSubmitted] = useState(false);
     const [cities, setCities] = useState([]);
@@ -290,7 +291,7 @@ const UserRoleS = () => {
             <div>
 
                 <div>
-                    <DataTable value={userrolesdata} showGridlines={false} responsiveLayout="scroll" paginator={true} rows={5} globalFilterFields={["UserRolesName", "UserRolesEmail", "Roles"]} filters={filters2} header={Headercomp}>
+                    <DataTable value={userrolesdata} showGridlines={false} responsiveLayout="scroll" paginator={true} rows={5} globalFilterFields={["username", "last_name", "email","groups"]} filters={filters2} header={Headercomp}>
                         <Column field="username" header="User Name" sortable></Column>
                         <Column field="last_name" header="Display Name" body={displaynametemplate} sortable></Column>
                         <Column field="email" header="E-mail" sortable></Column>
@@ -400,7 +401,7 @@ const UserRoleS = () => {
                                                 <span className="column">
                                                     {editmode ? <span>: {initialValues.username}</span> :
 
-                                                        <Dropdown filter  {...input} options={selectadusernames} placeholder="Last Name, First Name" />
+                                                        <Dropdown filter  {...input} options={props.getactiveuserroleoptionsprop} placeholder="Last Name, First Name" />
                                                     }
                                                 </span>
                                             </div>
@@ -461,4 +462,10 @@ type="submit"
 
 // export default React.memo(UserRoleS, comparisonFn);
 
-export default UserRoleS
+function mapStateToProps(state) {
+    return {
+        getactiveuserroleoptionsprop: getactiveuserroleoptions(state),
+        
+    };
+}
+export default connect(mapStateToProps)(UserRoleS)

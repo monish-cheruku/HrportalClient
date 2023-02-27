@@ -22,11 +22,11 @@ function Declaration() {
 
     const [roles, setRoles] = useState<any>([]);
 
-    const navigate=useNavigate()
+    const navigate = useNavigate()
     useEffect(() => {
         var w: any = []
         // Logindata.groups.forEach((i) => w.push(i["name"].toString()))
-        Logindata.groups.forEach((i)=>setRoles(roles=>[...roles,i["name"].toString()]))
+        Logindata.groups.forEach((i) => setRoles(roles => [...roles, i["name"].toString()]))
         dispatch(getcandidateinfoclearanceaction({
             "selectedcandidateid": candidateinfodata.Selected_Candidate_ID
 
@@ -57,7 +57,7 @@ function Declaration() {
         navigate("/acknowledgementpage")
     }
     const shouldbuttondisabled = () => {
-        if (accept==true&&declared ==true&& clearancedata.validation==true)
+        if (accept == true && declared == true && clearancedata.validation == true)
             return false
         return true
     }
@@ -75,21 +75,18 @@ function Declaration() {
             </br>
             {/* <input type="checkbox" id="accept"  style={{font:"30px"}}onClick={e => setaccept(!accept)}>
             </input> */}
-            <Checkbox className='mr-2'  checked={accept}  inputId="accept" onChange={e=>setaccept(!accept)}/>
-                                                <label htmlFor="accept" style={{ cursor: "pointer", fontSize:"18px",fontWeight:700}}>
-                                                  
-              Accept Offer Letter
-                                                </label>
+            <Checkbox className='mr-2' checked={accept} inputId="accept" onChange={e => setaccept(!accept)} />
+            <label htmlFor="accept" style={{ cursor: "pointer", fontSize: "18px", fontWeight: 700 }}>
+
+                Accept Offer Letter
+            </label>
             <br />
             <br />
 
-            <Checkbox className='mr-2' inputId="declare" checked={declared}  onChange={e=>setdeclared(!declared)}/>
-            <label htmlFor ="declare"  style={{ cursor: "pointer",fontSize:"18px",fontWeight:700}}>
+            <Checkbox className='mr-2' inputId="declare" checked={declared} onChange={e => setdeclared(!declared)} />
+            <label htmlFor="declare" style={{ cursor: "pointer", fontSize: "18px", fontWeight: 700 }}>
 
-                I do hereby declare that the information furnished as above by me is true and correct to be the best
-                of my knowledge and belief. If any information furnished by me is proved to be incorrect or false,
-                management may take appropriate action against me including termination of service
-
+                I do hereby declare that the information furnished as above by me is true and correct to be the best of my knowledge and belief. If any information furnished by me is proved to be incorrect or false, management may take appropriate action against me which could even include termination of my services from the organization with immediate effect
             </label>
 
 
@@ -97,7 +94,7 @@ function Declaration() {
 
 
             </div>
-           
+
             <div className="p-fluid  grid">
 
                 <div className="field col-12 md:col-4 flex">

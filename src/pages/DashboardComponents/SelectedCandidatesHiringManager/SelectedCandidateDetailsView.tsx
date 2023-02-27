@@ -159,14 +159,18 @@ function SelectedCandidateDetailsView(props) {
                 <Panel header="Final CTC">
                     <div className="grid">
                         <div className="md:col-4">
-                            Fixed CTC: {formatCurrency(data?.FixedCTC)}
+                        {data.IsVariable == true ? (<> Fixed CTC: {formatCurrency(data?.FixedCTC)}
+                        
+                        
+                        
+                            <br></br>
+                            <br></br>
+                            Variable Pay :{formatCurrency(data?.VariablePay)} {data.VariablePerc}   
+                            {data.MQVariable=="M"?"(Monthly)":"(Quaterly)"}
+                          <br></br>
+                          <br />
+                        </>) : ""}
                             {/* {formatCurrency(candidatedata?.ExpectedCTC)} */}
-                            <br></br>
-                            <br></br>
-                            {data.IsVariable == true ? (<>Variable Pay :{formatCurrency(data?.VariablePay)}</>) : ""}
-                            {data.IsVariable == true ? (<>{data.MQVariable=="M"?"(Monthly)":"(Quaterly)"}</>) : ""}
-                            <br></br>
-                            <br></br>
                             Final CTC: {formatCurrency(data?.FinalCTC)}
 
 

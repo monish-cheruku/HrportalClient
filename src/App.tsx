@@ -22,15 +22,16 @@ import './assets/layout/layout.scss';
 import { Toast } from 'primereact/toast';
 
 import { createtoast, Toaster, toastreset } from '../src/features/ToastSlice'
-import { useDispatch } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 
 import { useSelector } from 'react-redux';
 
 import { RootState } from './app/store';
 import { ILogin } from './features/Login/Loginslice';
-import Newcomp from './Newcomp';
 import { ProgressSpinner } from "primereact/progressspinner";
 import SelectedCandidateDetailsView from './pages/DashboardComponents/SelectedCandidatesHiringManager/SelectedCandidateDetailsView';
+import ProtectedRoute from './components/routes/ProtectedRout';
+import { getuserroles } from './features/Login/LoginSelector';
 const Acknowledgementpage =lazy(()=>import( './pages/candidateinfo/candidateinfocomponents/Acknowledgementpage'));
 
 const  ManageCompany=lazy(()=>import("./pages/ManageCompany")) ;
@@ -68,8 +69,9 @@ const SelectedCandidatesHRHold =lazy(()=>import('./pages/DashboardComponents/Sel
 const SelectedCandidateDetails=lazy(()=>import('./pages/DashboardComponents/SelectedCandidatesHiringManager/SelectedCandidateDetails'));
 const Candidateinfo =lazy(()=>import('./pages/candidateinfo/Candidateinfo'));
 const PersonalDetails =lazy(()=>import('./pages/candidateinfo/candidateinfocomponents/PersonalDetails'));
+const Pagenotfound =lazy(()=>import('./Pagenotfound'));
 
-const App = () => {
+const App = (props) => {
     const toastdata = useSelector((state: RootState) => state.toaster)
     const state = useSelector((state: RootState) => state)
     const [layoutMode, setLayoutMode] = useState('static');
@@ -123,7 +125,10 @@ const App = () => {
         copyTooltipRef && copyTooltipRef.current && copyTooltipRef.current.updateTargetEvents();
     }, [location]);
     useEffect(() => {
-        // console.log(state)
+    //     var w: any = []
+    //     // Logindata.groups.forEach((i) => w.push(i["name"].toString()))
+    //    Logindata.username!=""? Logindata.groups.forEach((i) => setRoles(roles => [...roles, i["name"].toString()])):console.log()
+    //     console.log(roles)
     }, [])
 
     const onInputStyleChange = (inputStyle: React.SetStateAction<string>) => {
@@ -206,90 +211,6 @@ const App = () => {
         return window.innerWidth >= 992;
     }
 
-    const menu = [
-        {
-            label: 'Home',
-            items: [
-                // {label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/'},
-                { label: 'Dashboard', icon: 'pi pi-fw pi-Hospital', to: '/dashboard' },
-            ]
-        },
-        {
-            label: 'Administration',
-            // label: 'Administration', icon: 'pi pi-fw pi-search',
-            items: [
-
-
-                {
-                    label: 'Industry', icon: 'pi pi-fw pi-bookmark', to: '/Industry'
-
-                },
-                {
-                    label: 'Company', icon: 'pi pi-fw pi-bookmark', to: '/Managecompany',
-                },
-                {
-                    label: 'Businessunit', icon: 'pi pi-fw pi-bookmark', to: '/ManageBusinessUnit',
-                },
-                {
-                    label: 'Service Line', icon: 'pi pi-fw pi-bookmark', to: '/serviceline',
-                },
-                // {
-                //     label: 'Roles', icon: 'pi pi-fw pi-bookmark',to: '/manage Roles' ,
-                // },
-
-
-
-                {
-                    label: 'Customer', icon: 'pi pi-fw pi-bookmark', to: '/ManageCustomer',
-                },
-                {
-                    label: 'Location', icon: 'pi pi-fw pi-bookmark', to: '/Location',
-                },
-
-                {
-                    label: 'Experience Level', icon: 'pi pi-fw pi-bookmark', to: '/ManageExperienceLevel',
-                },
-                {
-
-                    label: 'Avg CTC/Bill Rate', icon: 'pi pi-fw pi-bookmark', to: '/AvgCTC',
-
-                },
-                {
-                    label: 'Designation', icon: 'pi pi-fw pi-bookmark', to: '/ManageDesignation',
-                },
-                {
-                    label: 'UserRoles', icon: 'pi pi-fw pi-bookmark', to: '/userroles',
-                },
-                {
-
-                    label: 'Band', icon: 'pi pi-fw pi-bookmark', to: '/Band',
-
-                },
-                {
-                    label: 'SubBand', icon: 'pi pi-fw pi-bookmark', to: '/ManageSubBand',
-                },
-
-
-                {
-
-                    label: 'Insurance/Accident Limit', icon: 'pi pi-fw pi-bookmark', to: '/Insurance',
-
-                },
-
-
-            ]
-        },
-
-
-    ];
-    if (Logindata.groups ? !(Logindata.groups.length > 1) : true) {
-        // console.log(Logindata.groups?Logindata.groups.length>1:"text")
-
-        var ob = menu.filter((i) => i.label == "Administration")
-        var i = menu.indexOf(ob[0])
-        i > 0 ? menu.splice(i, 1) : console.log()
-
-    }
     const addClass = (element: HTMLElement, className: string) => {
         if (element.classList)
             element.classList.add(className);
@@ -365,19 +286,20 @@ const App = () => {
           />}>
                                     <Routes>
                                         <Route path="/dashboard" element={<Dashboard />} />
-                                        <Route path="/Industry" element={<Industry />} />
-                                        <Route path="/Managecompany" element={<ManageCompany />} />
-                                        <Route path="/ManageBusinessUnit" element={<ManageBusinessUnit />} />
-                                        <Route path="/Managecustomer" element={<ManageCustomer />} />
-                                        <Route path="/ManageExperienceLevel" element={<ManageExperienceLevel />} />
-                                        <Route path="/ManageDesignation" element={<ManageDesignation />} />
-                                        <Route path="/ManageSubBand" element={<ManageSubBand />} />
-                                        <Route path="/serviceline" element={<ServiceLine />} />
-                                        <Route path="/Location" element={<Location />} />
-                                        <Route path="/Band" element={<ManageBand />} />
-                                        <Route path="/AvgCTC" element={<ManageBill />} />
-                                        <Route path="/Insurance" element={<ManageInsurance />} />
-                                        <Route path="/userroles" element={<UserRoles />} />
+                                       {/* {roles.includes("HR")? <Route path="/" element={<Dashboard />} />:<Pagenotfound></Pagenotfound>} */}
+                                        <Route path="/Industry" element={ <ProtectedRoute isAllowed={props.getrolesprop.includes("Administrator")}>   <Industry /></ProtectedRoute>} />
+                                        <Route path="/Managecompany" element={  <ProtectedRoute isAllowed={props.getrolesprop.includes("Administrator")}>    <ManageCompany />  </ProtectedRoute>   } />
+                                        <Route path="/ManageBusinessUnit" element={<ProtectedRoute isAllowed={props.getrolesprop.includes("Administrator")}> <ManageBusinessUnit /></ProtectedRoute>  } />
+                                        <Route path="/serviceline" element={<ProtectedRoute isAllowed={props.getrolesprop.includes("Administrator")}> <ServiceLine /></ProtectedRoute>  } />
+                                        <Route path="/Managecustomer" element={<ProtectedRoute isAllowed={props.getrolesprop.includes("Administrator")}> <ManageCustomer /></ProtectedRoute>  } />
+                                        <Route path="/Location" element={<ProtectedRoute isAllowed={props.getrolesprop.includes("Administrator")}> <Location /></ProtectedRoute>  } />
+                                        <Route path="/ManageExperienceLevel" element={<ProtectedRoute isAllowed={props.getrolesprop.includes("Administrator")}> <ManageExperienceLevel /></ProtectedRoute>  } />
+                                        <Route path="/AvgCTC" element={<ProtectedRoute isAllowed={props.getrolesprop.includes("Administrator")}> <ManageBill /></ProtectedRoute>  } />
+                                        <Route path="/ManageDesignation" element={<ProtectedRoute isAllowed={props.getrolesprop.includes("Administrator")}> <ManageDesignation /></ProtectedRoute>  } />
+                                        <Route path="/userroles" element={<ProtectedRoute isAllowed={props.getrolesprop.includes("Administrator")}> <UserRoles /></ProtectedRoute>  } />
+                                        <Route path="/Band" element={<ProtectedRoute isAllowed={props.getrolesprop.includes("Administrator")}> <ManageBand /></ProtectedRoute>  } />
+                                        <Route path="/ManageSubBand" element={<ProtectedRoute isAllowed={props.getrolesprop.includes("Administrator")}> <ManageSubBand /></ProtectedRoute>  } />
+                                        <Route path="/Insurance" element={<ProtectedRoute isAllowed={props.getrolesprop.includes("Administrator")}> <ManageInsurance /></ProtectedRoute>  } />
 
 
 
@@ -411,6 +333,7 @@ const App = () => {
                                         <Route path='/candidateinfo' element={<Candidateinfo></Candidateinfo>}></Route>
                                         <Route path='/candidateinfo/PersonalDetails' element={<PersonalDetails></PersonalDetails>}></Route>
                                         <Route path='/acknowledgementpage' element={<Acknowledgementpage></Acknowledgementpage>}></Route>
+                                        <Route path='/pagenotfound' element={<Pagenotfound></Pagenotfound>}></Route>
                                     </Routes>
                                     </Suspense>
                                 </div>
@@ -436,5 +359,10 @@ const App = () => {
     );
 
 }
-
-export default App;
+function mapStateToProps(state) {
+    return {
+        getrolesprop: getuserroles(state),
+        
+    };
+}
+export default connect(mapStateToProps)(App);

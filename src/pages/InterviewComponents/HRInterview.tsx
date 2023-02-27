@@ -164,7 +164,7 @@ function HRInterview() {
 navigate(-1)
 
               }}
-              // initialValues={ }
+              initialValues={{comments:"" } }
               validate={validate}
 
               render={({ handleSubmit, values, submitting,

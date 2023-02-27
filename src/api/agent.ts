@@ -22,8 +22,8 @@ axios.defaults.baseURL = 'http://10.154.155.102:8000/api';//monish
 // axios.defaults.baseURL = 'http://10.154.20.135:8000/api';
 
 // axios.defaults.baseURL = 'http://127.0.0.1:8000/api';
-// axios.defaults.baseURL = 'http://10.154.155.169:8000/api';
-//http://10.154.28.135:8000/api/     monish//
+//  axios.defaults.baseURL = 'http://10.154.155.169:8000/api';
+//http://10.154.20.198:8000/api/    // monish
 //http://10.154.155.152:8000/api      /dwaraka
 axios.interceptors.response.use(undefined, (error) => {
   if (error.message === "Network Error" && !error.response) {
@@ -268,6 +268,8 @@ export const selectedcandidateactions = {
   // getallselectedcandidatedata:(data)=>requests.post("candidate/gridcandidates",data),
   // createselectedcandidate:(data)=>requests.post("candidate/addcandidate",data),//not used by any slice api not there ?
   updateselectedcandidate:(data)=>requests.post("candidate/updateselectedcandidate",data),
+  updateselinterncandidate:(data)=>requests.post("candidate/updateselinterncandidate",data),
+  updateselcontractcandidate:(data)=>requests.post("candidate/updateselcontractcandidate",data),
   sendOfferLetter:(data)=>requests.post("candidate/sendOfferLetter",data),
   // selectedcandidatedetails:(data)=>requests.post("candidate/candidateactionsdetails",data),
  

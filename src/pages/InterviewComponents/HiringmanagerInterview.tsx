@@ -185,7 +185,7 @@ function HiringmanagerInterview() {
 navigate(-1)
 
                 }}
-                initialValues={{ status: "" }}
+                initialValues={{ status: "",comments:"" }}
 
                 validate={validate}
 
