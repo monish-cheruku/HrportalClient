@@ -34,7 +34,7 @@ import LoadingOverlay from "react-loading-overlay";
 
 function SelectedCandidateDetails(props) {
     const location = useLocation()
-    const [data, setdata] = useState(location.state.rowdata)
+    const [data, setdata] = useState(location.state)
     const logindata = useSelector((state: RootState) => state.Login)
     const annexuredata = useSelector((state: RootState) => state.anexure)
     const toaststatus = useSelector((state: RootState) => state.toaster.status)
