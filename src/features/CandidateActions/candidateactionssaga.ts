@@ -387,6 +387,48 @@ function* generalmanagerapprovalsubmitactionsagaworker(data) {
     }
 }
 
+function* hrupdatecandidatesagaworker(data) {
+    try {
+
+        var res: Promise<any> = yield call(candidateactions.hrupdatecandidate, data.payload)
+        // console.log(res)
+        // yield put({ type: "Candidateactiondetails/Candidates", payload: res })
+
+        //toast
+        yield put(createtoast({
+
+            id: 454,
+
+            status: "success",
+
+            data: res.toString(),                                                //change this
+
+            endpoint: "400"
+
+        }))
+    }
+    catch (err) {
+        console.log(err)
+        //toast
+
+        yield put(createtoast({
+
+
+            id: 34324,
+
+            status: "error",
+
+            data: err.data[0][0],                                                       //change this
+
+            endpoint: err.config.url.toString()                                        //change this
+
+        }))
+
+
+
+    }
+}
+
 function* feedbackfieldactionsagaworker(data) {
     try {
         var res: Promise<any> = yield call(candidateactions.getfeedbackfields, data.payload)
@@ -654,6 +696,7 @@ export function* watcherCandidateAction() {
     yield takeEvery("Candidateactiondetails/selectedcandidatesholdsubmitaction", selectedcandidatesholdsubmitactionsagaworker)
     yield takeEvery("Candidateactiondetails/selectedcandidateshrholdsubmitaction", selectedcandidateshrholdsubmitactionsagaworker)
     yield takeEvery("Candidateactiondetails/generalmanagerapprovalsubmitaction", generalmanagerapprovalsubmitactionsagaworker)
+    yield takeEvery("Candidateactiondetails/hrupdatecandidateaction", hrupdatecandidatesagaworker)
     yield takeEvery("Candidateactiondetails/financecontrollerapprovalsubmitaction", financecontrollerapprovalsubmitactionsagaworker)
     yield takeEvery("selectedcandidates/selectedcandidatesaction", selectedcandidatesactionsagaworker)
     yield takeEvery("selectedcandidates/previewannexureaction", previewannexuresagaworker)

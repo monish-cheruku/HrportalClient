@@ -955,8 +955,8 @@ values["FinalCTC"]=parseInt(values["FinalCTC"])
 
                                     "selectedcandidateid": data.Selected_Candidate_ID,
 
-                                    "DateOfJoining": new Date(data.DateOfJoining),
-                                    "endDate": new Date(data.EndDate),
+                                    "DateOfJoining":data.DateOfJoining? new Date(data.DateOfJoining):null,
+                                    "endDate": data.EndDate?new Date(data.EndDate):null,
                                     "designation": data.designation,
                                     "FinalCTC": data.FinalCTC,
                                     "NoOfHours": data.NoOfHours,

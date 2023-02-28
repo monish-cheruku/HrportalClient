@@ -8,7 +8,7 @@ export const getactiveemplyementtypes=createSelector(
         var temp:IOptions[]=[]
 
         employement.forEach(e=>{
-            if(e.Active=="true"){
+            if(e.Active==true){
 temp.push({
     key: e.EmployementTypeId,
     label: e.EmployementType,

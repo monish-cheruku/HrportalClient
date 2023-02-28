@@ -14,7 +14,7 @@ import {UserRoles} from "../features/UserRoles/userroleslice"
 
 
 // import {Band} from ../features/Band/bandslice"
-axios.defaults.baseURL = 'http://10.154.155.102:8000/api';//monish
+axios.defaults.baseURL = 'http://10.154.155.113:8000/api';//monish
 // axios.defaults.baseURL = 'http://10.154.20.135:8000/api';//dwaraka
 // axios.defaults.baseURL ='http://10.154.155.217:8000/api'     //dwaraka
 
@@ -234,7 +234,8 @@ export const candidateactions = {
   getfeedbackfields:(data)=>requests.post("candidate/getfeedbackfields",data),
   getprevfeedbacks:(data)=>requests.post("candidate/getcandidatefeedbacks",data),
   selectedcandidates:(data)=>requests.post("candidate/getselectedcandidates",data),
-  annexure:(data)=>requests.post("candidate/getAnnexureDetails",data)
+  annexure:(data)=>requests.post("candidate/getAnnexureDetails",data),
+  hrupdatecandidate:(data)=>requests.post("candidate/hrupdatecandidate",data)
 }
 export const personaldetails = {
   createpersonaldetails:(data)=>requests.post("selectedcandidate/createpersonaldetails",data),
