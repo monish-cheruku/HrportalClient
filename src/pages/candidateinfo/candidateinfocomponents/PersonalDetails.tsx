@@ -42,7 +42,7 @@ function PersonalDetails() {
         console.log(candidateinfodata)
         dispatch(personaldetailsaction({
 
-            "selectedcandidateid": candidateinfodata.Selected_Candidate_ID
+            "selectedCandidateid": candidateinfodata.Selected_Candidate_ID
         }))
         personalsdetailsdata.Name == "" ? setEdit(false) : setEdit(true)
 

@@ -1,5 +1,5 @@
 import { call, put, takeEvery } from "redux-saga/effects"
-import { candidateinfo, educationaldetailsapis, employementdetailsapis, otherdocumentsapis, personaldetails, familydetails, insurance, bankdetailsapis } from "../../api/agent"
+import { candidateinfo, educationaldetailsapis, employementdetailsapis, otherdocumentsapis, personaldetails, familydetails, insurance, bankdetailsapis, pfdetails } from "../../api/agent"
 import { RootState, store } from "../../app/store"
 import { createtoast } from "../ToastSlice"
 import { Educationaldetailsdata } from "./educationdetailsslice"
@@ -9,6 +9,42 @@ function* createnewpersonalsagaworker(data) {
     try {
         // console.log(data.payload)
         var res: Promise<any> = yield call(personaldetails.createpersonaldetails, data.payload)
+
+        yield put(createtoast({
+
+            id: 454,
+
+            status: "success",
+
+            data: res.toString(),                                                //change this
+
+            endpoint: "400"
+
+        }))
+    }
+    catch (err) {
+        console.log(err)
+        yield put(createtoast({
+
+            id: 34324,
+
+            status: "error",
+
+            data: err.data[0][0],                                                       //change this
+
+            endpoint: err.config.url.toString()                                        //change this
+
+        }))
+
+
+
+
+    }
+}
+function* createnewpfsagaworker(data) {
+    try {
+        // console.log(data.payload)
+        var res: Promise<any> = yield call(pfdetails.createpfdetails, data.payload)
 
         yield put(createtoast({
 
@@ -192,6 +228,46 @@ function* updatepersonalsagaworker(data) {
 
     }
 }
+
+function* updatepfsagaworker(data) {
+    try {
+        // console.log(data.payload)
+        var res: Promise<any> = yield call(pfdetails.updatepfdetails, data.payload)
+        // console.log(res)
+
+
+        //toast
+        yield put(createtoast({
+
+            id: 454,
+
+            status: "success",
+
+            data: res.toString(),                                                //change this
+
+            endpoint: "400"
+
+        }))
+    }
+    catch (err) {
+        console.log(err)
+        yield put(createtoast({
+
+            id: 34324,
+
+            status: "error",
+
+            data: err.data[0][0],                                                       //change this
+
+            endpoint: err.config.url.toString()                                        //change this
+
+        }))
+
+
+
+
+    }
+}
 function* updateedducationaldetailssagaworker(data) {
     try {
         // console.log(data.payload)
@@ -321,6 +397,20 @@ function* Personaldatasagaworker(data) {
         var res: Promise<any> = yield call(personaldetails.getpersonaldetailsdata, data.payload)
         // console.log(res)
         yield put({ type: "Personaldetails/Personaldetailsdata", payload: res })
+    }
+    catch (err) {
+        console.log(err)
+
+
+
+    }
+}
+function* Pfdatasagaworker(data) {
+    try {
+        console.log(data)
+        var res: Promise<any> = yield call(pfdetails.getpfdetailsdata, data.payload)
+        // console.log(res)
+        yield put({ type: "Pfdetails/pfdetailsdata", payload: res })
     }
     catch (err) {
         console.log(err)
@@ -754,6 +844,7 @@ function* candidateinfogetactionsagaworker(data) {
         yield put({ type: "candidateinfo/Candidateinfodata", payload: res })
         console.log(res["Selected_Candidate_ID"])
         yield put({ type: "Personaldetails/personaldetailsaction", payload: { "selectedcandidateid": store.getState().candidateinfo.Selected_Candidate_ID } })
+        yield put({ type: "Pfdetails/pfdetailsaction", payload: { "selectedcandidateid": store.getState().candidateinfo.Selected_Candidate_ID } })
         // yield put()
     }
     catch (err) {
@@ -906,14 +997,17 @@ catch(err) {
 export function* watcherpersonaldetails() {
 
     yield takeEvery("Personaldetails/createpersonaldetailsaction", createnewpersonalsagaworker)
+    yield takeEvery("Pfdetails/createpfdetailsaction", createnewpfsagaworker)
     yield takeEvery("educationaldetails/createedducationaldetailsaction", createedducationaldetailssagaworker)
     yield takeEvery("employementdetails/createemployementdetailsaction", createemployementdetailssagaworker)
     yield takeEvery("bankdetails/createbankdetailsaction", createbankdetailssagaworker)
     yield takeEvery("Personaldetails/updatepersonaldetailsaction", updatepersonalsagaworker)
+    yield takeEvery("Pfdetails/updatepfdetailsaction", updatepfsagaworker)
     yield takeEvery("educationaldetails/updateedducationaldetailsaction", updateedducationaldetailssagaworker)
     yield takeEvery("employementdetails/updateemployementdetailsaction", updateemployementdetailssagaworker)
     yield takeEvery("bankdetails/updatebankdetailsaction", updatebankdetailssagaworker)
     yield takeEvery("Personaldetails/personaldetailsaction", Personaldatasagaworker)
+    yield takeEvery("Pfdetails/pfdetailsaction", Pfdatasagaworker)
     yield takeEvery("educationaldetails/educationaldetailsgetaction", educationaldetailsgetsagaworker)
     yield takeEvery("employementdetails/employementdetailsgetaction", employementdetailsgetsagaworker)
     yield takeEvery("bankdetails/bankdetailsgetaction", bankdetailsgetsagaworker)

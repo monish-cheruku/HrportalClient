@@ -15,7 +15,7 @@ import {UserRoles} from "../features/UserRoles/userroleslice"
 
 // import {Band} from ../features/Band/bandslice"
 // axios.defaults.baseURL = 'http://10.154.20.135:8000/api';
-axios.defaults.baseURL = 'http://10.154.155.70:8000/api';
+axios.defaults.baseURL = 'http://10.154.155.136:8000/api';
 
 // axios.defaults.baseURL = 'http://10.154.155.54:8000/api';
 // axios.defaults.baseURL = 'http://10.154.20.135:8000/api';
@@ -239,6 +239,12 @@ export const personaldetails = {
   createpersonaldetails:(data)=>requests.post("selectedcandidate/createpersonaldetails",data),
   updatepersonaldetails:(data)=>requests.post("selectedcandidate/updatepersonaldetails",data),  
   getpersonaldetailsdata:(data)=>requests.post("selectedcandidate/getpersonaldetailsdata",data),
+
+}
+export const pfdetails = {
+  createpfdetails:(data)=>requests.post("selectedcandidate/createPFdetail",data),
+  updatepfdetails:(data)=>requests.post("selectedcandidate/updatePFdetail",data),  
+  getpfdetailsdata:(data)=>requests.post("selectedcandidate/getPFdetails",data),
 
 }
 export const familydetails = {

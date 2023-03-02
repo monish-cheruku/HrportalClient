@@ -43,6 +43,7 @@ import otherdocumentsReducer from "../features/Candidate info/otherdocumentsslic
 import FamilydetailsReducer from "../features/Candidate info/familydetailsslice"
 import insuranceReducer from "../features/Candidate info/insuranceslice"
 import bankdetailsReducer from "../features/Candidate info/bankdetailsslice"
+import PfdetailsReducer from '../features/Candidate info/pfdetailsslice';
 // export function useReduxStore() {
 const sagaMiddleware = createSagaMiddleware();
 const logger = createLogger();
@@ -85,6 +86,7 @@ feedbackfields:feedbackfieldsReducer,
 prevfeedback:prevfeedbackReducer,
 global:globalReducer,
 CandidatePersonaldetails:PersonaldetailsReducer,
+CandidatePfdetails:PfdetailsReducer,
 CandidateFamilydetails:FamilydetailsReducer,
 CandidateInsurance:insuranceReducer,
 candidateinfo:candidateinfoReducer,
