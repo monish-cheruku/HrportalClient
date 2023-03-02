@@ -187,12 +187,14 @@ function PersonalDetails() {
                     var datetemp = new Date(values.DateOfBirth)
                     // console.log(datetemp.getFullYear() + "-" + datetemp.getMonth() + "-" + datetemp.getDate())
                     values.DateOfBirth = datetemp.getFullYear() + "-" + (datetemp.getMonth() + 1).toString().padStart(2, '0') + "-" + datetemp.getDate().toString().padStart(2, '0')
-                    var datetemp = new Date(values.PassportValidFrom)
-                    // console.log(datetemp.getFullYear() + "-" + datetemp.getMonth() + "-" + datetemp.getDate())
-                    values.PassportValidFrom = datetemp.getFullYear() + "-" + (datetemp.getMonth() + 1).toString().padStart(2, '0') + "-" + datetemp.getDate().toString().padStart(2, '0')
-                    var datetemp = new Date(values.PassportValidTo)
-                    // console.log(datetemp.getFullYear() + "-" + datetemp.getMonth() + "-" + datetemp.getDate())
-                    values.PassportValidTo = datetemp.getFullYear() + "-" + (datetemp.getMonth() + 1).toString().padStart(2, '0') + "-" + datetemp.getDate().toString().padStart(2, '0')
+                    if (values.PassportValidFrom != null){
+                        var datetemp = new Date(values.PassportValidFrom)
+                        values.PassportValidFrom = datetemp.getFullYear() + "-" + (datetemp.getMonth() + 1).toString().padStart(2, '0') + "-" + datetemp.getDate().toString().padStart(2, '0')
+                    }
+                    if (values.PassportValidTo != null){
+                        var datetemp = new Date(values.PassportValidTo)                    
+                        values.PassportValidTo = datetemp.getFullYear() + "-" + (datetemp.getMonth() + 1).toString().padStart(2, '0') + "-" + datetemp.getDate().toString().padStart(2, '0')
+                    }
                     console.log(values)
                     values.selectedCandidateid = candidateinfodata.Selected_Candidate_ID
                     edit ? dispatch(updatepersonaldetailsaction(values)) : dispatch(createpersonaldetailsaction(values))
@@ -227,9 +229,9 @@ function PersonalDetails() {
 
                     "PassportNumber": personalsdetailsdata.PassportNumber,
 
-                    "PassportValidFrom": new Date(personalsdetailsdata.PassportValidFrom),
+                    "PassportValidFrom": personalsdetailsdata.PassportValidFrom? new Date(personalsdetailsdata.PassportValidFrom):null,
 
-                    "PassportValidTo": new Date(personalsdetailsdata.PassportValidTo),
+                    "PassportValidTo": personalsdetailsdata.PassportValidTo? new Date(personalsdetailsdata.PassportValidTo):null,
 
                     "Address": personalsdetailsdata.Address
 
@@ -238,6 +240,11 @@ function PersonalDetails() {
 
                     "ContactNumber": candidateinfodata.candidate.ContactNo,
                     "Email": candidateinfodata.candidate.Email,
+                    "PassportNumber":null,
+
+                    "PassportValidFrom": null,
+
+                    "PassportValidTo": null,                    
 
                 } : {}}
 
@@ -257,6 +264,7 @@ function PersonalDetails() {
 
                         <br></br>
                         <br></br>
+                        <Panel header="Personal Information">
                         <div className="p-fluid  grid">
                             <div className="field col-12 md:col-4">
                                 <Field
@@ -265,7 +273,7 @@ function PersonalDetails() {
                                         <div className="field " >
                                             <label htmlFor="Employee Name">Employee Name (As per Aadhar Card)*</label>
                                             <span className="label">
-                                                <InputText id="Employee Name " {...input} autoFocus className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                <InputText id="Employee Name " {...input}  className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                 <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                             </span>
                                             {getFormErrorMessage(meta)}
@@ -342,7 +350,7 @@ function PersonalDetails() {
                                         <div className="field " >
                                             <label htmlFor="PAN">PAN* </label>
                                             <span className="label">
-                                                <InputText   onInput={toInputUppercase}   id="PAN" {...input} autoFocus maxLength={10} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                <InputText   onInput={toInputUppercase}   id="PAN" {...input}  maxLength={10} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                 <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                             </span>
                                             {getFormErrorMessage(meta)}
@@ -359,7 +367,7 @@ function PersonalDetails() {
                                     <div className="field " >
                                         <label htmlFor="Employee Name"> Aadhaar* </label>
                                         <span className="label">
-                                            <InputText id="Employee Name " {...input} autoFocus maxLength={12}  onInput={toInputUppercase}  className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                            <InputText id="Employee Name " {...input}  maxLength={12}  onInput={toInputUppercase}  className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                             <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                         </span>
                                         {getFormErrorMessage(meta)}
@@ -372,7 +380,7 @@ function PersonalDetails() {
                                     <div className="field " >
                                         <label htmlFor="Employee Name">Email*</label>
                                         <span className="label">
-                                            <InputText id="Employee Name " {...input} autoFocus className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                            <InputText id="Employee Name " {...input}  className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                             <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                         </span>
                                         {getFormErrorMessage(meta)}
@@ -386,7 +394,7 @@ function PersonalDetails() {
                                         <div className="field " >
                                             <label htmlFor="ContactNumber">Contact No*</label>
                                             <span className="label">
-                                                {/* <InputNumber id="Employee Name " value={values.NoOfPositions} onChange={e=>values["ContactNumber"]=e.value} max={9999999999} {...input} autoFocus className={classNames({ "p-invalid": isFormFieldValid(meta) })} /> */}
+                                                {/* <InputNumber id="Employee Name " value={values.NoOfPositions} onChange={e=>values["ContactNumber"]=e.value} max={9999999999} {...input}  className={classNames({ "p-invalid": isFormFieldValid(meta) })} /> */}
                                                 <InputMask  {...input} value={values["ContactNumber"]} onChange={(e) => values["ContactNumber"] = e.value} mask="99-9999999999" />
                                                 <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                             </span>
@@ -403,7 +411,7 @@ function PersonalDetails() {
                                         <div className="field " >
                                             <label htmlFor="Employee Name">Address (As per Aadhaar) *</label>
                                             <span className="label">
-                                                <InputTextarea style={{ width: "100%" }} id="Employee Name " {...input} autoFocus className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                <InputTextarea style={{ width: "100%" }} id="Employee Name " {...input}  className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                 <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                             </span>
                                             {getFormErrorMessage(meta)}
@@ -412,6 +420,7 @@ function PersonalDetails() {
                                 />
                             </div>
                         </div>
+                        </Panel>
 
                         {/* contact no */}
                         <Panel header="Emergency Contact:">
@@ -425,7 +434,7 @@ function PersonalDetails() {
                                             <div className="field ">
                                                 <label htmlFor="Employee Name">Name*</label>
                                                 <span className="label">
-                                                    <InputText id="Employee Name " {...input} autoFocus className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                    <InputText id="Employee Name " {...input}  className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                     <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                                 </span>
                                                 {getFormErrorMessage(meta)}
@@ -472,7 +481,7 @@ function PersonalDetails() {
                                             <div className="field " >
                                                 <label htmlFor="PassportNumber">Passport No*</label>
                                                 <span className="label">
-                                                    <InputText id="PassportNumber " {...input} autoFocus maxLength={8} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                    <InputText id="PassportNumber " {...input}  maxLength={8} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                     <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                                 </span>
                                                 {getFormErrorMessage(meta)}
@@ -487,7 +496,7 @@ function PersonalDetails() {
                                             <div className="field " >
                                                 <label htmlFor="Employee Name">Valid from*</label>
                                                 <span className="label">
-                                                    <Calendar maxDate={new Date(values["PassportValidTo"])} id="ExpectedDOJ" {...input} dateFormat="mm/dd/yy" showIcon placeholder="Select a Date" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                    <Calendar  maxDate={values["PassportValidTo"]?new Date(values["PassportValidTo"]):new Date()} id="ExpectedDOJ" {...input} dateFormat="mm/dd/yy" showIcon placeholder="Select a Date" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                     <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                                 </span>
                                                 {getFormErrorMessage(meta)}
@@ -501,7 +510,7 @@ function PersonalDetails() {
                                         <div className="field " >
                                             <label htmlFor="Employee Name">Valid to*</label>
                                             <span className="label">
-                                                <Calendar minDate={new Date(values["PassportValidFrom"])} id="ExpectedDOJ" {...input} dateFormat="mm/dd/yy" showIcon placeholder="Select a Date" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                <Calendar minDate={values["PassportValidFrom"]?new Date(values["PassportValidFrom"]):new Date()} id="ExpectedDOJ" {...input} dateFormat="mm/dd/yy" showIcon placeholder="Select a Date" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                 <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                             </span>
                                             {getFormErrorMessage(meta)}

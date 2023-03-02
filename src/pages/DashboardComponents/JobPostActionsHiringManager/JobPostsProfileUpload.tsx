@@ -156,11 +156,7 @@ function JobPostProfileUpload() {
             />
         </React.Fragment>
     );
-    const nametemplate = (rowdata) => {
-        return (
-            <>{rowdata.CanFirstName + ", " + rowdata.CanLastName}</>
-        )
-    }
+   
     const exptemplate=(rowdata)=>{
         return(
             <div>{rowdata.OverallExpYear +"."+rowdata.OverallExpMonth+" Years"}</div>
@@ -230,9 +226,9 @@ function JobPostProfileUpload() {
                 <br></br>
                 <br></br>
                 <DataTable value={candidatesdata} showGridlines={true} responsiveLayout="scroll" style={{}} paginator={true} rows={10}
-globalFilterFields={['CandidateCode', 'CanFirstName', 'OverallExpYear', 'ExpectedDOJ', "CurrentCTC",'ExpectedCTC', 'Email','stage_name']}filters={filters2} emptyMessage="No data found." header={Headercomp}>
+globalFilterFields={['CandidateCode', 'candidatefullname', 'OverallExpYear', 'ExpectedDOJ', "CurrentCTC",'ExpectedCTC', 'Email','stage_name']}filters={filters2} emptyMessage="No data found." header={Headercomp}>
                     <Column field="CandidateCode" header="Code" body={linktemplate} sortable></Column>
-                    <Column field="CanFirstName" header="Name" body={nametemplate}  sortable></Column>
+                    <Column field="candidatefullname" header="Name"  sortable></Column>
                     <Column field="OverallExpYear" header="Overall Experience (in years)" body={exptemplate}   sortable style={{ minWidth: '8rem', maxWidth : '8rem'}}></Column>
                     <Column field="ExpectedDOJ" header="Expected DOJ" body={formatDate}  sortable style={{ minWidth: '8rem', maxWidth : '8rem'}}  dataType={"date"}  ></Column>
                     <Column field="CurrentCTC" header="Current CTC" body={formatCurrency} sortable></Column>

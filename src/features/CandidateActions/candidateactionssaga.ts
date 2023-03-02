@@ -387,6 +387,48 @@ function* generalmanagerapprovalsubmitactionsagaworker(data) {
     }
 }
 
+function* hrupdatecandidatesagaworker(data) {
+    try {
+
+        var res: Promise<any> = yield call(candidateactions.hrupdatecandidate, data.payload)
+        // console.log(res)
+        // yield put({ type: "Candidateactiondetails/Candidates", payload: res })
+
+        //toast
+        yield put(createtoast({
+
+            id: 454,
+
+            status: "success",
+
+            data: res.toString(),                                                //change this
+
+            endpoint: "400"
+
+        }))
+    }
+    catch (err) {
+        console.log(err)
+        //toast
+
+        yield put(createtoast({
+
+
+            id: 34324,
+
+            status: "error",
+
+            data: err.data[0][0],                                                       //change this
+
+            endpoint: err.config.url.toString()                                        //change this
+
+        }))
+
+
+
+    }
+}
+
 function* feedbackfieldactionsagaworker(data) {
     try {
         var res: Promise<any> = yield call(candidateactions.getfeedbackfields, data.payload)
@@ -544,6 +586,104 @@ function* updateselectedcandidatesactionsagaworker(data) {
 
     }
 }
+function* updateselinterncandidatesagaworker(data) {
+    try {
+        var res: Promise<any> = yield call(selectedcandidateactions.updateselinterncandidate, data.payload)
+        const logindata = store.getState().Login
+        var w: any = []
+        logindata.groups.forEach((i) => w.push(i["name"].toString()))
+        console.log(logindata)
+        yield put(selectedcandidatesaction({
+
+            "RoleName": w,
+
+            "username": logindata.username
+
+        }))
+        // console.log(res)
+
+        // yield put({type:"selectedcandidates/selectedandidatesdata",payload:res})
+        yield put(createtoast({
+
+            id: 454,
+
+            status: "success",
+
+            data: res.toString(),                                                //change this
+
+            endpoint: "400"
+
+        }))
+    }
+    catch (err) {
+        console.log(err)
+
+        yield put(createtoast({
+
+
+            id: 34324,
+
+            status: "error",
+
+            data: err.data[0][0],                                                       //change this
+
+            endpoint: err.config.url.toString()                                        //change this
+
+        }))
+
+
+
+    }
+}
+function* updateselcontractcandidatesagaworker(data) {
+    try {
+        var res: Promise<any> = yield call(selectedcandidateactions.updateselcontractcandidate, data.payload)
+        const logindata = store.getState().Login
+        var w: any = []
+        logindata.groups.forEach((i) => w.push(i["name"].toString()))
+        console.log(logindata)
+        yield put(selectedcandidatesaction({
+
+            "RoleName": w,
+
+            "username": logindata.username
+
+        }))
+        // console.log(res)
+
+        // yield put({type:"selectedcandidates/selectedandidatesdata",payload:res})
+        yield put(createtoast({
+
+            id: 454,
+
+            status: "success",
+
+            data: res.toString(),                                                //change this
+
+            endpoint: "400"
+
+        }))
+    }
+    catch (err) {
+        console.log(err)
+
+        yield put(createtoast({
+
+
+            id: 34324,
+
+            status: "error",
+
+            data: err.data[0][0],                                                       //change this
+
+            endpoint: err.config.url.toString()                                        //change this
+
+        }))
+
+
+
+    }
+}
 
 
 export function* watcherCandidateAction() {
@@ -556,10 +696,13 @@ export function* watcherCandidateAction() {
     yield takeEvery("Candidateactiondetails/selectedcandidatesholdsubmitaction", selectedcandidatesholdsubmitactionsagaworker)
     yield takeEvery("Candidateactiondetails/selectedcandidateshrholdsubmitaction", selectedcandidateshrholdsubmitactionsagaworker)
     yield takeEvery("Candidateactiondetails/generalmanagerapprovalsubmitaction", generalmanagerapprovalsubmitactionsagaworker)
+    yield takeEvery("Candidateactiondetails/hrupdatecandidateaction", hrupdatecandidatesagaworker)
     yield takeEvery("Candidateactiondetails/financecontrollerapprovalsubmitaction", financecontrollerapprovalsubmitactionsagaworker)
     yield takeEvery("selectedcandidates/selectedcandidatesaction", selectedcandidatesactionsagaworker)
     yield takeEvery("selectedcandidates/previewannexureaction", previewannexuresagaworker)
     yield takeEvery("selectedcandidates/updateselectedcandidatesaction", updateselectedcandidatesactionsagaworker)
+    yield takeEvery("selectedcandidates/updateselinterncandidateaction", updateselinterncandidatesagaworker)
+    yield takeEvery("selectedcandidates/updateselcontractcandidateaction", updateselcontractcandidatesagaworker)
     yield takeEvery("selectedcandidates/sendofferletteraction", sendofferletteractionsagaworker)
     // yield takeEvery("Candidateactiondetails/candidateactiondetails", getcandiatessagaworker)
     yield takeEvery("Candidateactiondetails/candidateactionsdetailsaction", candidateactionsdetailsactionsagaworker)

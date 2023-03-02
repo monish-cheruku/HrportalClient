@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import BelcanLogo from "./assets/demo/flags/belcanLogo.JPG";
 import { ILogin, logout } from './features/Login/Loginslice';
 import { RootState } from './app/store';
-import { useSelector } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { TieredMenu } from 'primereact/tieredmenu';
 import { useDispatch } from 'react-redux';
 import { Menubar } from 'primereact/menubar';
@@ -13,6 +13,7 @@ import { Button } from 'primereact/button';
 // import { MenuItem } from 'primereact/menuitem';
 import { PanelMenu } from 'primereact/panelmenu';
 import { Dock } from 'primereact/dock';
+import { getuserroles } from './features/Login/LoginSelector';
 interface Itiredmenu{
     label: string,
     icon: string,
@@ -24,14 +25,14 @@ interface Itiredmenu{
         
     
 }
-export const AppTopbar = (props) => {
+ const AppTopbar = (props) => {
     const menu = useRef(null);
     const profile = useRef(null);
     const navigate=useNavigate()
     const Logindata:ILogin = useSelector((state: RootState) => state.Login);
     const dispatch=useDispatch()
+    const roles=props.getuserrolesprop
     const [profilemenuitems,setprofilemenuitems] =useState( [
-       
       
         {
             label: 'Profile',
@@ -61,6 +62,17 @@ export const AppTopbar = (props) => {
                 }]
             
         },
+        {
+            label: 'Quit',
+            icon: 'pi pi-fw pi-sign-out',
+            command:()=>dispatch(logout())
+
+        }
+    ]);
+    const [profilemenuitemscandidate] =useState( [
+       
+      
+       
         {
             label: 'Quit',
             icon: 'pi pi-fw pi-sign-out',
@@ -128,8 +140,7 @@ setprofilemenuitems([
     },
     
 ])
-// setprofilemenuitems(...profilemenuitems,profilemenuitems["1"].items=temproles)
-        // console.log(profilemenuitems)
+
     },[])
     const tieredMenuItems:Itiredmenu= {
         label: 'Profile',
@@ -286,7 +297,7 @@ Logindata.groups?Logindata.groups.forEach(e => {
                     {/* <span>{Logindata.last_name}</span> */}
                     <span> </span>
                     {/* <TieredMenu model={[tieredMenuItems]}  /> */}
-                    <Menu model={profilemenuitems} popup ref={profile} id="popup_menu1" ></Menu>
+                    <Menu model={roles.includes("Candidate")?profilemenuitemscandidate:profilemenuitems} popup ref={profile} id="popup_menu1" ></Menu>
 
                     <li>
                         <button className="p-link layout-topbar-button" onClick={(event) => profile.current.toggle(event)} aria-controls="popup_menu1" aria-haspopup>
@@ -298,3 +309,12 @@ Logindata.groups?Logindata.groups.forEach(e => {
         </div>
     );
 }
+
+
+function mapStateToProps(state) {
+    return {
+
+        getuserrolesprop: getuserroles(state)
+    };
+}
+export default connect(mapStateToProps)(AppTopbar);

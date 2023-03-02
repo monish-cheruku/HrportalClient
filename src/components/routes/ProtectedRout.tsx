@@ -31,31 +31,49 @@
 // }
 
 
-import React from "react";
-import { Route,Navigate, useNavigate } from "react-router-dom";
+// import React from "react";
+// import { Route,Navigate, useNavigate } from "react-router-dom";
 
-const ProtectedRoute = ({ isAuthenticated,component: Component, ...rest }) => {
-  //converts object to boolean ->false if null else true//
-//   const isAuthenticated = !!localStorage.getItem("token");
-//   const isAuthenticated = true;
-  const navigate = useNavigate();
+// const ProtectedRoute = ({ isAuthenticated,component: Component, ...rest }) => {
+//   //converts object to boolean ->false if null else true//
+// //   const isAuthenticated = !!localStorage.getItem("token");
+// //   const isAuthenticated = true;
+//   const navigate = useNavigate();
   
-  if(!isAuthenticated) {
-    navigate("/login");
+//   if(!isAuthenticated) {
+//     navigate("/login");
+//   }
+  
+//   return (
+//      <Route
+//     path="*"
+//     element={
+//       isAuthenticated ? (
+//         <Navigate to="/dashboard" />
+//       ) : (
+//         <Navigate to="/login" />
+//       )
+//     }
+//   />
+//   );
+// };
+
+// export default React.memo(ProtectedRoute);
+import React, { useEffect } from "react";
+import { Navigate, Outlet } from "react-router-dom";
+const ProtectedRoute = ({
+  isAllowed,
+  redirectPath = '/pagenotfound',
+  children,
+}) => {
+useEffect(()=>{
+  // alert(isAllowed)
+},[])
+
+  if (!isAllowed) {
+    return <Navigate to={redirectPath} replace />;
   }
-  
-  return (
-     <Route
-    path="*"
-    element={
-      isAuthenticated ? (
-        <Navigate to="/dashboard" />
-      ) : (
-        <Navigate to="/login" />
-      )
-    }
-  />
-  );
-};
 
-export default React.memo(ProtectedRoute);
+  return children ? children : <Outlet />;
+};
+export default ProtectedRoute

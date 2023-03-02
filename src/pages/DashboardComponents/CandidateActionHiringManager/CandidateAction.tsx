@@ -186,7 +186,7 @@ return(<>{
                 globalFilterFields={['CandidateCode', 'CanFirstName', 'JobCode', 'JobTitle', 'OverallExpYear', 'ExpectedCTC', 'OnBoardingDate', 'stage_name']} filters={filters2} header={Headercomp}>
 
                 <Column field="CandidateCode" header="Candiate Code" sortable style={{ minWidth: '11rem', maxWidth: '14rem' }} body={linktemplate}></Column>
-                <Column field="CanFirstName" body={nametemplate} header="Candidate Name" sortable></Column>
+                <Column field="CandidateName"  header="Candidate Name" sortable></Column>
                 <Column field="JobCode" header="Job Code" sortable></Column>
                 <Column field="JobTitle" header="Job Title" sortable></Column>
                 <Column field="OverallExpYear" body={exptemplate} header="Experience" sortable ></Column>

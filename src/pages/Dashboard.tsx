@@ -3,7 +3,7 @@ import { useState } from "react";
 import ManageCompany from "./ManageCompany";
 import MyJobPosts from "./DashboardComponents/MyJobPosts";
 import JobPostActions from "./DashboardComponents/JobPostActionsHiringManager/JobPostActions";
-import { useSelector } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { RootState } from "../app/store";
 import { useDispatch } from "react-redux";
 import { myjobpostsaction } from "../features/JobPostActions/myjobpostsslice";
@@ -13,9 +13,11 @@ import { setdashboardactivetab } from "../features/Misc/globalslice";
 import SelectedCandidates from "./DashboardComponents/SelectedCandidatesHiringManager/SelectedCandidates";
 import { selectedcandidatesaction } from "../features/CandidateActions/selectedcandidatesslice";
 import { getJobPostActionfromapi } from "../features/JobPostActions/jobpostactionsslice";
+import { getuserroles } from "../features/Login/LoginSelector";
+import CandidateDashboard from "./Candidate/CandidateDashboard";
 
 
-const Dashboard = () => {
+const Dashboard = (props) => {
     const [openedtab, setOpenedtab] = useState("jobpostactions")
     const [nooftabs, setnooftabs] = useState(4)
     const myjobpostactions = useSelector((state: RootState) => state.JobPostAction);
@@ -25,6 +27,7 @@ const Dashboard = () => {
     const myJobPosts = useSelector((state: RootState) => state.myjobposts);
     const logindata = useSelector((state: RootState) => state.Login)
     const dispatch = useDispatch()
+    const roles=props.getrolesprop
    
     
     // const rolesarr:any=[]
@@ -65,7 +68,7 @@ const Dashboard = () => {
         }, [])
     return (
         <div>
-            <div className="grid justify-content-between  d-flex  flex-row align-items-stretch" id="parentfortabs" style={{gap:"40px"}}>    
+           {!roles.includes("Candidate")? <div className="grid justify-content-between  d-flex  flex-row align-items-stretch" id="parentfortabs" style={{gap:"40px"}}>    
                 {/* <div className={"col-"+(12/nooftabs).toString()+" lg:col-"+(12/nooftabs).toString()+" xl:col-"+(12/nooftabs).toString()+" sm:col-6"} onClick={e=>setOpenedtab("candidateaction")}>
 
                     <div className={openedtab=="candidateaction"?"cardaction mb-0":"cardaction1 mb-0"}>     
@@ -159,7 +162,10 @@ const Dashboard = () => {
                         <span className="text-500">responded</span>
                     </div>
                 </div> */}
-            </div>
+            </div>:<div>
+                <CandidateDashboard></CandidateDashboard>
+                </div>
+                }
             <br></br>
             <div >
                 <div className="card mb-0">
@@ -185,4 +191,11 @@ const Dashboard = () => {
 // };
 
 // export default React.memo(Dashboard, comparisonFn);
-export default Dashboard
+function mapStateToProps(state) {
+    return {
+        getrolesprop: getuserroles(state),
+        
+    };
+}
+export default connect(mapStateToProps)(Dashboard);
+// export default Dashboard

@@ -1,6 +1,6 @@
 import { Button } from 'primereact/button'
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { connect, useDispatch, useSelector } from 'react-redux'
 import { Field, Form } from 'react-final-form'
 import { setnextcandidateinfotab, setprevcandidateinfotab } from '../../../features/Misc/globalslice'
 import { Card } from 'primereact/card'
@@ -21,9 +21,11 @@ import { FileUpload } from 'primereact/fileupload'
 import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
 import { Dropdown } from 'primereact/dropdown'
+import { getuserroles } from '../../../features/Login/LoginSelector'
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog'
 // import { createfamilydetailsaction, familydetailsaction, updatefamilydetailsaction } from '../../../features/Candidateinfo/familydetailsslice'
 
-function FamilyDetails() {
+function FamilyDetails(props) {
 
     const familydetailsdata = useSelector((state: RootState) => state.CandidateFamilydetails);
 
@@ -39,6 +41,7 @@ function FamilyDetails() {
     const isFormFieldValid = (meta) => !!(meta.touched && meta.error);
 
     const dispatch = useDispatch()
+    const roles = props.getuserrolesprop
 
 
     useEffect(() => {
@@ -118,11 +121,11 @@ function FamilyDetails() {
             <div className={className}>
 
                 <span className={titleClassName}>
-                    <h4>
+                    <h5>
                         Family details
-                    </h4>
+                    </h5>
                 </span>
-                <SelectButton value={gridview} options={gridviewoptions} onChange={(e) => setgridview(e.value)} />
+                {/* {roles.includes("HR") && <SelectButton value={gridview} options={gridviewoptions} onChange={(e) => setgridview(e.value)} />} */}
                 <Button className='' style={{}} onClick={e => { setEditmode(false); setModaldialog(true) }}>Add </Button>            </div>
         )
     }
@@ -165,12 +168,12 @@ function FamilyDetails() {
         )
     }
     const Relation = [
-        { value: 'mother', label: 'Mother' },
-        { value: 'father', label: 'Father' },
-        { value: 'spouse', label: 'Spouse' },
-        { value: 'brother', label: 'Brother' },
-        { value: 'sister', label: 'Sister' },
-        { value: 'others', label: 'Others' },
+        { value: 'Mother', label: 'Mother' },
+        { value: 'Father', label: 'Father' },
+        { value: 'Spouse', label: 'Spouse' },
+        { value: 'Brother', label: 'Brother' },
+        { value: 'Sister', label: 'Sister' },
+        { value: 'Others', label: 'Others' },
 
     ]
 
@@ -215,17 +218,12 @@ function FamilyDetails() {
            
            }
           
-            .card1{
-                   
-                   
-                // background: linear-gradient(-52deg, #155dce 0%, #2de3b0 100%);
-                // background:  linear-gradient(-50deg, #155dce 0%, #2de3b0 100%);
-                background:  #c1c2f3;;
-                    background-blend-mode: normal;
-                    border-radius:8px;
-                    // width:300px
-                    
-               color:white;
+           .card1 {
+            background-color: var(--surface-card);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 12px;
+            box-shadow: 0px 3px 5px #6366f1, 0px 0px 2px #6366f1, 0px 1px 4px #6366f1 !important;
             }
             .card1:hover{
                 scale:1.1;
@@ -249,9 +247,11 @@ function FamilyDetails() {
 .p-card .p-card-content {
     padding:  0rem; 
 }
+
             `}</style>
+            <ConfirmDialog/>
             <Panel headerTemplate={template}>
-                <Dialog visible={modalDialog} style={{ width: "450px" }} header={editmode ? "Edit  Information " : "Add  Information "} modal className="p-fluid" onHide={() => setModaldialog(false)}>
+                <Dialog visible={modalDialog} style={{ width: "450px" }} header={editmode ? "Edit Member " : "Add Member"} modal className="p-fluid" onHide={() => setModaldialog(false)}>
 
                     <Form
                         onSubmit={(values: any) => {
@@ -425,10 +425,25 @@ function FamilyDetails() {
 
 
 
-                                    <Button style={{ height: "35px", width: "3.5rem" }} icon="pi pi-trash" className="p-button-danger" onClick={() => dispatch(deletefamilydetailsaction({
-                                        "id": e.id
+                                    <Button style={{ height: "35px", width: "3.5rem" }} icon="pi pi-trash" className="p-button-danger" onClick={() =>
+                                    
 
-                                    }))} />
+
+                                    confirmDialog({
+                                        message: 'Do you want to delete this record?',
+                                        header: 'Delete Confirmation',
+                                        icon: 'pi pi-info-circle',
+                                        acceptClassName: 'p-button-danger',                                     
+                                        accept: () => 
+                                        dispatch(deletefamilydetailsaction({
+                                            "id": e.id
+    
+                                        })),
+                                        reject: () => console.log()
+                                    })
+                                    
+                                    
+                                    } />
 
                                 </div>
 
@@ -481,5 +496,12 @@ function FamilyDetails() {
         </div>
     )
 }
+function mapStateToProps(state) {
+    return {
 
-export default FamilyDetails
+        
+        getuserrolesprop: getuserroles(state)
+    };
+}
+export default connect(mapStateToProps)(FamilyDetails)
+

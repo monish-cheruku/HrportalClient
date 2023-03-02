@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../../../app/store'
 import { Card } from 'primereact/card'
 import { createemployementdetailsaction, deleteemployementdetailsaction, employementdetailsgetaction, updateemployementdetailsaction } from '../../../features/Candidate info/employementdetailsslice'
-import { deletedocumentaction, documentdownloadaction, uploaddocumentaction } from '../../../features/Candidate info/candidateinfoslice'
+import { deletedocumentaction, documentdownloadaction, uploaddocumentaction, verifydocumentaction } from '../../../features/Candidate info/candidateinfoslice'
 import { FileUpload } from 'primereact/fileupload'
 import { FilterMatchMode } from 'primereact/api'
 import { SelectButton } from 'primereact/selectbutton'
@@ -20,6 +20,8 @@ import { Panel, PanelHeaderTemplateOptions } from 'primereact/panel'
 import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
 import { InputTextarea } from 'primereact/inputtextarea'
+import { Tooltip } from 'primereact/tooltip';
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog'
 
 
 function Employement() {
@@ -31,11 +33,22 @@ function Employement() {
   const [filters2, setFilters2] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
   });
+  const [curid, setCurid] = useState(0)
+
   const candidateinfodata = useSelector((state: RootState) => state.candidateinfo)
   const [tempdata, settempdata] = useState<any>({})
   const isFormFieldValid = (meta) => !!(meta.touched && meta.error);
+  const Logindata = useSelector((state: RootState) => state.Login);
+  const [rejectdialog, setRejectdialog] = useState(false);
+  const [reviewcomment, setReviewComment] = useState("")
+
+    const [roles, setRoles] = useState<any>([]);
+    
   const employmentdetailsdata = useSelector((state: RootState) => state.employementdetails)
   useEffect(() => {
+    var w: any = []
+    // Logindata.groups.forEach((i) => w.push(i["name"].toString()))
+    Logindata.groups.forEach((i)=>setRoles(roles=>[...roles,i["name"].toString()]))
     dispatch(employementdetailsgetaction(
       {
         "selectedcandidateid": candidateinfodata.Selected_Candidate_ID
@@ -106,9 +119,9 @@ function Employement() {
       return (
         <div style={{ overflowY: "scroll", height: "70px" }}>{
           rowdata.files.map((f) => (
-            <div className='field row-12 md:row-12 flex' onClick={() => console.log(f.file)} style={{ border: "2px solid blue", padding: "4px", margin: "4px", borderRadius: "10px", backgroundColor: "#C1C2F3", height: "30px" }}>
+            <div className='field row-12 md:row-12 flex' onClick={() => console.log(f.file)} style={{ border: "2px solid blue", color:"blue", padding: "4px", margin: "4px", borderRadius: "10px", backgroundColor: "#C1C2F3", height: "30px" }}>
 
-              {f.file.split("/")[f.file.split("/").length - 1].toString().length < 20 ? f.file.split("/")[f.file.split("/").length - 1] : f.file.split("/")[f.file.split("/").length - 1].substring(0, 20) + "..."}
+              {f.file.split("/")[f.file.split("/").length - 1].toString().length < 20 ? f.file.split("/")[f.file.split("/").length - 1] : f.file.split("/")[f.file.split("/").length - 1]}
               <i className="pi pi-download mr-2 ml-2" onClick={() => {
                 dispatch(documentdownloadaction({
                   "file": f.file.toString().substring(1, f.file.length)
@@ -116,9 +129,18 @@ function Employement() {
               }} style={{ cursor: "pointer", backgroundColor: "blue", padding: "4px", borderRadius: "4px", color: "white" }}> </i>
               <i className="pi pi-trash mr-2 ml-2" style={{ cursor: "pointer", backgroundColor: "red", padding: "4px", borderRadius: "4px", color: "white" }}
                 onClick={() => {
-                  dispatch(deletedocumentaction({
-                    "fileid": f.id
-                  }))
+                  confirmDialog({
+                    message: 'Do you want to delete this fi?',
+                    header: 'Delete Confirmation',
+                    icon: 'pi pi-info-circle',
+                    acceptClassName: 'p-button-danger',                                     
+                    accept: () => 
+                    dispatch(deletedocumentaction({
+                      "fileid": f.id
+                    })),
+                    reject: () => console.log()
+                })
+             
                 }}
               > </i>
 
@@ -160,11 +182,11 @@ function Employement() {
       <div className={className}>
 
         <span className={titleClassName}>
-          <h4>
+          <h5>
             Employement details
-          </h4>
+          </h5>
         </span>
-        <SelectButton value={gridview} options={gridviewoptions} onChange={(e) => setgridview(e.value)} />
+        {/* {roles.includes("HR") && <SelectButton value={gridview} options={gridviewoptions} onChange={(e) => setgridview(e.value)} />} */}
         <Button className='' style={{}} onClick={e => { setEditmode(false); setModaldialog(true) }}>Add </Button>            </div>
     )
   }
@@ -188,6 +210,8 @@ function Employement() {
             data.append("detailtypeId", rowdata.id.toString())
             data.append("detailtype", "Employment")
             data.append("file", k.files[0])
+            data.append("verified", roles.includes("HR") ? "verified" : "")
+
             dispatch(uploaddocumentaction(data))
 
 
@@ -202,10 +226,20 @@ function Employement() {
 
 
         }} />
-        <Button style={{ height: "40px", width: "4.4rem" }} icon="pi pi-trash" className="p-button-danger" onClick={() => dispatch(deleteemployementdetailsaction({
-          "id": rowdata.id
+        <Button style={{ height: "40px", width: "4.4rem" }} icon="pi pi-trash" className="p-button-danger" onClick={() => 
+            confirmDialog({
+              message: 'Do you want to delete this record?',
+              header: 'Delete Confirmation',
+              icon: 'pi pi-info-circle',
+              acceptClassName: 'p-button-danger',                                     
+              accept: () => 
+              dispatch(deleteemployementdetailsaction({
+                "id": rowdata.id
+              })),
+              reject: () => console.log()
+          })
 
-        }))} />
+        } />
 
       </div>
 
@@ -247,17 +281,12 @@ function Employement() {
            
            }
           
-            .card1{
-                   
-                   
-                // background: linear-gradient(-52deg, #155dce 0%, #2de3b0 100%);
-                // background:  linear-gradient(-50deg, #155dce 0%, #2de3b0 100%);
-                background:  #c1c2f3;;
-                    background-blend-mode: normal;
-                    border-radius:8px;
-                    // width:300px
-                    
-               color:white;
+           .card1 {
+            background-color: var(--surface-card);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 12px;
+            box-shadow: 0px 3px 5px #6366f1, 0px 0px 2px #6366f1, 0px 1px 4px #6366f1 !important;
             }
             .card1:hover{
                 scale:1.1;
@@ -300,9 +329,10 @@ function Employement() {
     padding:  0rem; 
 }
             `}</style>
+            <ConfirmDialog/>
       <Panel headerTemplate={template}>
 
-        <Dialog visible={modalDialog} style={{ width: "450px" }} header={editmode ? "Edit  Information " : "Add  Information "} modal className="p-fluid" onHide={() => setModaldialog(false)}>
+        <Dialog  position='top' visible={modalDialog} style={{ width: "450px" }} header={editmode ? "Edit  Information " : "Add  Information "} modal className="p-fluid" onHide={() => setModaldialog(false)}>
 
           <Form
             onSubmit={(values: any) => {
@@ -465,7 +495,7 @@ function Employement() {
 
         <div className='grid' style={gridview == "grid" ? { display: "flex" } : { display: "block" }}>
           {gridview == "grid" && employmentdetailsdata.length == 0 && <div className='flex text-align-center'> No Data</div>}
-          {gridview == "grid" ? employmentdetailsdata.map((e) => <div className='lg:col-3 md:col-6 sm:col-2 gap-4' key={e.id.toString()}>
+          {gridview == "grid" ? employmentdetailsdata.map((e) => <div className='lg:col-6 md:col-6 sm:col-2 gap-4' key={e.id.toString()}>
             <Card className='card1 margin-auto'>
 
               <div className="p-fluid  grid card1content">
@@ -484,62 +514,295 @@ function Employement() {
 
 
               </div>
+              <Dialog className='' style={{ width: "30%" }} header={<h4>
+                                Review Comments
+                            </h4>} visible={rejectdialog} onHide={() => setRejectdialog(false)}>
 
-              <div className="p-fluid  grid filesarea" style={{}}>
+
+                                <InputTextarea className='flex' cols={40} rows={5} onChange={e => { setReviewComment(e.target.value) }} value={reviewcomment}>
+
+                                </InputTextarea>
+                                <br />
+                                <br />
+                                <div className="flex justify-content-end">
+
+                                    <Button className='mr-2' onClick={e => setRejectdialog(false)}>
+                                        cancel
+                                    </Button>
+                                    <Button disabled={reviewcomment?.length < 1} className='btn btn-danger' onClick={e => {
+
+                                        console.log(reviewcomment)
+                                        console.log(curid)
+                                        dispatch(verifydocumentaction(
+                                            {
+                                                "fileid": curid,
+                                                "verified": "rejected",
+                                                "verificationcomments": reviewcomment
 
 
+                                            }
 
-                {e.files.length > 0 ?
-                  e.files.map((f) => (
-                    <div className='field row-12 md:row-12 flex' onClick={() => console.log(f.file)} style={{ border: "2px solid blue", padding: "4px", margin: "4px", borderRadius: "10px", backgroundColor: "#C1C2F3", height: "30px" }}>
+                                        ))
+                                        setRejectdialog(false)
 
-                      {f.file.split("/")[f.file.split("/").length - 1].toString().length < 20 ? f.file.split("/")[f.file.split("/").length - 1] : f.file.split("/")[f.file.split("/").length - 1].substring(0, 20) + "..."}
-                      <i className="pi pi-download mr-2 ml-2" onClick={() => {
-                        dispatch(documentdownloadaction({
-                          "file": f.file.toString().substring(1, f.file.length)
-                        }))
-                      }} style={{ cursor: "pointer", backgroundColor: "blue", padding: "4px", borderRadius: "4px", color: "white" }}> </i>
-                      <i className="pi pi-trash mr-2 ml-2" style={{ cursor: "pointer", backgroundColor: "red", padding: "4px", borderRadius: "4px", color: "white" }}
-                        onClick={() => {
-                          dispatch(deletedocumentaction({
-                            "fileid": f.id
-                          }))
-                        }}
-                      > </i>
-
-                    </div>
-                  )) :
-                  <div className='nofiles' style={{}}
-                    onDragOver={e => {
-                      e.preventDefault();
-
-                      e.stopPropagation(); console.log(e)
-                    }}
-                    onDrop={e => {
-
-                      e.preventDefault();
-
-                      e.stopPropagation(); console.log(e)
-                    }}>
-                    No Files Uploaded
-                  </div>
+                                    }}>
+                                        reject
+                                    </Button>
+                                </div>
+                            </Dialog>
+              <div className="p-fluid  grid" style={{}}>
 
 
 
-                }
+              {e.files.length > 0 ?
+                                    e.files.map((f) => (
+                                        <div className='field col-12 md:col-12 flex' style={{ border: "0px solid blue", color:"blue", padding: "2px", marginTop: "4px", verticalAlign: "center",  backgroundColor: "#f8f9fa", justifyContent: "space-between" }}>
+                                            <div className="fileleftdiv">
+                                                {f.file.split("/")[f.file.split("/").length - 1].toString().length < 20 ? f.file.split("/")[f.file.split("/").length - 1] : f.file.split("/")[f.file.split("/").length - 1]}
+                                                <br />
+                                                {
+                                                    (f.verificationcomments == "" || f.verificationcomments == null) ? <></> : <div className="pt-2" style={{color:"red"}}>{
+                                                        "Comments : " + f.verificationcomments}</div>
+                                                }
+                                            </div>
+                                            <div className='filerightdiv'>
+                                                {
+                                                    (roles.includes("HR") || roles.includes("Recruiter")) ?
+                                                        <>
+                                                            {/* "HR" or "Recruiter" */}
+                                                            {Object.is(f.verified, null) ? <>
+
+                                                                {/* something went wrong */}
+                                                                <Tooltip target=".tt" />
+                                                                <i className="pi pi-spin pi-spinner tt" data-pr-tooltip="Uploading In Progress" style={{ 'fontSize': '1em', width: "18px" }}></i>
+
+                                                            </> : <>
+
+
+                                                                {Object.is(f.verified, "verified") &&
+
+                                                                    // "hr true"
+                                                                    <>
+
+                                                                        {/* <i style={{ cursor: "pointer", backgroundColor: "brown", padding: "4px", borderRadius: "4px", color: "white" }} onClick={() => {
+
+                                                                            setRejectdialog(true)
+                                                                            f.verificationcomments != "" ? setReviewComment(f.verificationcomments) : setReviewComment("")
+                                                                            setCurid(f.id)
+
+                                                                        }} className="pi pi-times ml-2 rejecttooltip"></i> */}
+                                                                        <Tooltip target=".up" />
+                                                                        <i className="pi pi-thumbs-up mr-2 ml-2 up" style={{ color: "green" }} data-pr-tooltip="Verified" ></i>
+                                                                        <Tooltip target=".rejecttooltip" className='validateoptionstooltip' autoHide={false} style={{ background: "" }}>
+                                                                            <div className="flex align-items-center" style={{ background: "" }}>reject</div>
+                                                                        </Tooltip>
+                                                                    </>}
+                                                                {(Object.is(f["verified"], "pending")) &&
+
+                                                                    // "hr false"
+                                                                    <>
+                                                                        <Tooltip target=".pending" />
+                                                                        <i className="pi pi-history mr-2 ml-2 pending" style={{ color: "blue" }} data-pr-tooltip="verification Pending" ></i>
+                                                                        <i style={{ cursor: "pointer", backgroundColor: "green", padding: "4px", borderRadius: "4px", color: "white" }} onClick={() =>
+                                                                            dispatch(verifydocumentaction(
+                                                                                {
+                                                                                    "fileid": f.id,
+                                                                                    "verified": "verified",
+                                                                                    "verificationcomments": ""
+
+
+                                                                                }
+                                                                            ))
+
+
+                                                                        } className="pi pi-check ml-2 accepttooltip"></i>
+                                                                        <i style={{ cursor: "pointer", backgroundColor: "brown", padding: "4px", borderRadius: "4px", color: "white" }} onClick={() => {
+
+                                                                            setRejectdialog(true)
+                                                                            f.verificationcomments != "" ? setReviewComment(f.verificationcomments) : setReviewComment("")
+                                                                            setCurid(f.id)
+
+                                                                        }} className="pi pi-times ml-2 rejecttooltip"></i>
+                                                                        <Tooltip target=".rejecttooltip" className='validateoptionstooltip' autoHide={false} style={{ background: "" }}>
+                                                                            <div className="flex align-items-center" style={{ background: "" }}>reject</div>
+                                                                        </Tooltip>
+                                                                        <Tooltip target=".accepttooltip" className='validateoptionstooltip' autoHide={false} style={{ background: "" }}>
+                                                                            <div className="flex align-items-center" style={{ background: "" }}>verify</div>
+                                                                        </Tooltip>
+
+
+                                                                    </>
+                                                                }
+                                                                {(Object.is(f["verified"], "rejected")) &&
+
+                                                                    // "hr false"
+                                                                    <>
+
+                                                                        {/* <i style={{ cursor: "pointer", backgroundColor: "green", padding: "4px", borderRadius: "4px", color: "white" }} onClick={() =>
+                                                                            dispatch(verifydocumentaction(
+                                                                                {
+                                                                                    "fileid": f.id,
+                                                                                    "verified": "verified",
+                                                                                    "verificationcomments": ""
+
+
+                                                                                }
+                                                                            ))
+
+
+                                                                        } className="pi pi-check ml-2 accepttooltip"></i> */}
+                                                                        <i className="pi pi-thumbs-down mr-2 ml-2 down" style={{ color: "red" }} data-pr-tooltip={"Rejected "} ></i>
+                                                                        <Tooltip target=".down" ></Tooltip>
+                                                                        <i style={{ cursor: "pointer", backgroundColor: "brown", padding: "4px", borderRadius: "4px", color: "white" }} onClick={() => {
+
+                                                                            setRejectdialog(true)
+                                                                            f.verificationcomments != "" ? setReviewComment(f.verificationcomments) : setReviewComment("")
+                                                                            setCurid(f.id)
+
+                                                                        }} className="pi pi-times ml-2 rejecttooltip"></i>
+                                                                        <Tooltip target=".rejecttooltip" className='validateoptionstooltip' autoHide={false} style={{ background: "" }}>
+                                                                            <div className="flex align-items-center" style={{ background: "" }}>reject</div>
+                                                                        </Tooltip>
+                                                                        <Tooltip target=".accepttooltip" className='validateoptionstooltip' autoHide={false} style={{ background: "" }}>
+                                                                            <div className="flex align-items-center" style={{ background: "" }}>verify</div>
+                                                                        </Tooltip>
+
+
+                                                                    </>
+                                                                }
+
+
+
+
+
+
+                                                            </>
+
+                                                            }
+                                                        </>
+                                                        : <>
+
+                                                            {/* "employee" */}
+                                                            {Object.is(f.verified, null) ? <>
+                                                                {/* don't show anything to employee if null */}
+
+                                                            </> :
+
+                                                                <>
+                                                                    {Object.is(f.verified, "verified") && <>
+                                                                        <Tooltip target=".up" />
+                                                                        <i className="pi pi-thumbs-up mr-2 ml-2 up" style={{ color: "green" }} data-pr-tooltip="Verified" ></i>
+                                                                    </>
+                                                                    }{Object.is(f.verified, "rejected") &&
+                                                                        <>
+                                                                            <i className="pi pi-thumbs-down mr-2 ml-2 down" style={{ color: "red" }} data-pr-tooltip={"Rejected "} ></i>
+                                                                            <Tooltip target=".down" >
+                                                                                {/* {f.verificationcomments} */}
+                                                                                <div className="flex align-items-center" style={{ background: "red" }}>
+                                                                                    <div>
+
+                                                                                        {/* <InputTextarea style={{margin:"5px"}}></InputTextarea> */}
+                                                                                        <textarea></textarea>
+                                                                                    </div>
+                                                                                    <Button type="button" icon="pi pi-check" onClick={() => console.log("abc")} className="p-button-rounded p-button-success ml-2"></Button>
+                                                                                    <Button type="button" icon="pi pi-minus-circle" onClick={() => console.log("def")} className="p-button-rounded p-button-danger ml-2"></Button>
+                                                                                    <br />
+                                                                                </div>
+
+
+
+
+                                                                            </Tooltip>
+                                                                        </>
+                                                                    }
+                                                                    {Object.is(f.verified, "pending") && <>
+
+                                                                        <Tooltip target=".up" />
+                                                                        <i className="pi pi-history mr-2 ml-2 up" style={{ color: "blue" }} data-pr-tooltip="verification Pending" ></i>
+                                                                    </>
+                                                                    }
+
+
+
+                                                                </>
+
+
+                                                            }
+
+
+                                                        </>
+                                                }
+
+
+                                                {/* </div> */}
+
+                                                <i className="pi pi-download mr-2 ml-2" onClick={() => {
+
+
+
+                                                    dispatch(documentdownloadaction({
+                                                        "file": f.file.toString().substring(1, f.file.length)
+                                                    }))
+
+
+
+
+                                                }} style={{ cursor: "pointer", backgroundColor: "blue", padding: "4px", borderRadius: "4px", color: "white", height: "25px" }}> </i>
+                                                {((!Object.is(f.verified, "pending") && !Object.is(f.verified, "verified")) || roles.includes("HR")) ? <i className="pi pi-trash mr-2 " style={{ cursor: "pointer", backgroundColor: "red", padding: "4px", borderRadius: "4px", color: "white", height: "25px" }}
+                                                    onClick={() => {
+                                                      
+                                                        confirmDialog({
+                                                            message: 'Do you want to delete this file?',
+                                                            header: 'Delete Confirmation',
+                                                            icon: 'pi pi-info-circle',
+                                                            acceptClassName: 'p-button-danger',                                     
+                                                            accept: () => 
+                                                            dispatch(deletedocumentaction({
+                                                                "fileid": f.id
+                                                            })),
+                                                            reject: () => console.log()
+                                                        });
+
+
+
+
+                                                    }}
+                                                > </i> : <></>}
+
+                                            </div>
+                                        </div>
+                                    )) :
+                                    <div className='field col-12 md:col-12 flex nofiles' style={{ border: "0px solid blue", padding: "2px", marginTop: "4px", verticalAlign: "center", alignContent:"center", borderRadius: "10px", backgroundColor: "#f8f9fa", justifyContent: "space-around" }}
+                                        onDragOver={e => {
+                                            e.preventDefault();
+
+                                            e.stopPropagation(); console.log(e)
+                                        }}
+                                        onDrop={e => {
+
+                                            e.preventDefault();
+
+                                            e.stopPropagation(); console.log(e)
+                                        }}>
+                                        No Files Uploaded
+                                    </div>
+
+
+
+                                }
 
 
               </div>
               <br />
               <div className="card-footer p-fluid grid ">
+                <div className="field col-12 md:col-5 flex">
+
+                </div>
                 <div className="field col-12 md:col-3 flex">
 
-                </div>
-                <div className="field col-12 md:col-2 flex">
-
 
                 </div>
-                <div className="field col-12 md:col-7 flex gap-2">
+                <div className="field col-12 md:col-4 flex gap-2">
                   <Button className="p-button-info editbutton mr-2" style={{ height: "35px", width: "3.5rem" }} label="" icon="pi pi-pencil" onClick={() => { setEditmode(true); settempdata(e); setModaldialog(true); }}></Button>
 
 
@@ -557,6 +820,8 @@ function Employement() {
                       data.append("detailtypeId", e.id.toString())
                       data.append("detailtype", "Employment")
                       data.append("file", k.files[0])
+                      data.append("verified", roles.includes("HR") ? "verified" : "")
+
                       dispatch(uploaddocumentaction(data))
 
 
@@ -571,10 +836,22 @@ function Employement() {
 
 
                   }} />
-                  <Button style={{ height: "35px", width: "3.5rem" }} icon="pi pi-trash" className="p-button-danger" onClick={() => dispatch(deleteemployementdetailsaction({
-                    "id": e.id
+                  <Button style={{ height: "35px", width: "3.5rem" }} icon="pi pi-trash" className="p-button-danger" onClick={() =>
+       
+                  confirmDialog({
+                    message: 'Do you want to delete this record?',
+                    header: 'Delete Confirmation',
+                    icon: 'pi pi-info-circle',
+                    acceptClassName: 'p-button-danger',                                     
+                    accept: () => 
+                    dispatch(deleteemployementdetailsaction({
+                        "id": e.id
 
-                  }))} />
+                    })),
+                    reject: () => console.log()
+                })
+
+                  } />
 
                 </div>
 

@@ -10,7 +10,7 @@ import { Field, Form } from 'react-final-form'
 import { InputMask } from 'primereact/inputmask';
 import { FileUpload } from 'primereact/fileupload';
 import { Button } from "primereact/button";
-import { useDispatch } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 import { createnewcandidate, ICandidate, updatecandidate } from '../../features/CandidateActions/candidateactionsslice'
 import { useNavigate } from 'react-router'
 import { useLocation } from 'react-router'
@@ -20,9 +20,12 @@ import { getManageBillaction } from '../../features/ManageBillRate/ManageBillRat
 import { Panel } from 'primereact/panel'
 import { downloadresume } from '../../features/Downloadpdfs/pdfslice'
 import { Link } from 'react-router-dom'
-import { documentdownloadaction } from '../../features/Candidate info/candidateinfoslice'
+import { getemplyementtypes } from '../../features/Dropdownoptions/Employementtypeselector'
+import { getLocationaction } from '../../features/Location/Locationslice'
+import { getactiveLocationoptions } from '../../features/Location/LocationSelector'
+import { employementaction } from '../../features/Dropdownoptions/employementtypeslice'
 
-function CreateCandidateProfile() {
+function CreateCandidateProfile(props) {
     const dispatch = useDispatch()
     const location = useLocation()
     // console.log(location.state)
@@ -52,11 +55,15 @@ function CreateCandidateProfile() {
             setdatafromprops(location.state.data)
         }
 
-        // console.log(datafromprops)
         dispatch(getManageBillaction());
+        console.log(datafromprops)
     }, [])
     useEffect(() => {
-        // console.log(datafromprops)
+        dispatch(getLocationaction());
+        
+        dispatch(employementaction())
+
+        console.log(datafromprops)
         console.log(location.state)
     }, [])
     const getFormErrorMessage = (meta) => {
@@ -73,9 +80,9 @@ function CreateCandidateProfile() {
         // if (!data.JobTitle) {
         //     errors.JobTitle = "*JobDescription is required.";
         // }
-        // var arr = ["CandidateFirstName", "BusinessUnit_id", "Serviceline_id", "Industry_id", "Industry_id", "Customer_id", "Location_id", "EmploymentType", "JobTitle", "JobDesc", "ExperianceLevel_id", "Qualification", "NoOfPositions", "OnBoardingDate", "HR_User_Name", "BH_User_Name"]
+        // var arr = ["CandidateFirstName", "BusinessUnit_id", "Serviceline_id", "Industry_id", "Industry_id", "Customer_id", "Location", "EmploymentType", "JobTitle", "JobDesc", "ExperianceLevel_id", "Qualification", "NoOfPositions", "OnBoardingDate", "HR_User_Name", "BH_User_Name"]
         var arr = ["CanFirstName", "CanLastName", "Qualification", "Skills", "ExpectedDOJ", "Email",
-            "ContactNo", "CurrentCTC", "ExpectedCTC", "AvgBillRate"]
+            "ContactNo", "CurrentCTC", "ExpectedCTC", "AvgBillRate","Job Location","EmploymentType"]
         arr.forEach((i) => {
             // console.log(values["Resume"])
             if (!values[i]) {
@@ -101,6 +108,12 @@ function CreateCandidateProfile() {
         if (values["ReleventExpMonth"] == undefined || values["ReleventExpMonth"] == null) {
 
             errors["ReleventExpMonth"] = "*This field is required"
+        }
+        if (!values["Duration"] && values.EmploymentType != "Full-Time") {
+            console.log(values["Duration"])
+            console.log(values["Full-Time"])
+
+            errors["Duration"] = "*This field is required"
         }
         if (!editmode && (values["Resume"] == null)) {
 
@@ -139,6 +152,10 @@ function CreateCandidateProfile() {
                             data.append("OverallExpMonth", values.OverallExpMonth)
                             data.append("ReleventExpYear", values.ReleventExpYear)
                             data.append("ReleventExpMonth", values.ReleventExpMonth)
+                            data.append("EmploymentType", values.EmploymentType)
+                            data.append("Duration", values.EmploymentType=="Full-Time"?"":values["Duration"])
+                            data.append("Location", values["Job Location"])
+
                             data.append("CurrentCTC", values.CurrentCTC)
                             data.append("ExpectedCTC", values.ExpectedCTC)
                             values.NegotiatedCTC ? data.append("NegotiatedCTC", values.NegotiatedCTC) : data.append("NegotiatedCTC", '')
@@ -217,6 +234,9 @@ function CreateCandidateProfile() {
                             "CurrentJobLocation": datafromprops?.CurrentJobLocation,
                             "CurrentOrganization": datafromprops?.CurrentOrganization,
                             "Email": datafromprops?.Email,
+                            "EmploymentType":datafromprops?.EmploymentType,
+                            "Duration":datafromprops?.Duration,
+                            "Job Location": datafromprops?.Location,
                             "ExpectedCTC": datafromprops?.ExpectedCTC,
                             "ExpectedDOJ": new Date(datafromprops?.ExpectedDOJ),
                             "HRUserName": datafromprops?.HRUserName,
@@ -247,9 +267,13 @@ function CreateCandidateProfile() {
                             "AvgApprovedCTC": location.state.jobdata.AvgApprovedCTC,
                             "AvgBillRate": location.state.jobdata.AvgBillRate,
                             "Resume": null,
+                            // "Job Location": location.state.jobdata.,
                             "NegotiatedCTC": null,
                             "CurrentOrganization": '',
-                            "CurrentJobLocation": '',
+                            "EmploymentType":location.state.jobdata.EmploymentType,
+                            "Duration":location.state.jobdata.Duration,
+                            "Job Location": location.state.jobdata.Location_ID
+                            // "Job Location":1,
 
 
                             //default default values
@@ -475,6 +499,61 @@ function CreateCandidateProfile() {
 
                                     </div>
                                 </div>
+                                <div className="p-fluid  grid">
+                                    <div className="field col-12 md:col-4">
+                                        <Field
+                                            name="EmploymentType"
+                                            render={({ input, meta }) => (
+                                                <div className="field fluid">
+                                                    <label htmlFor="EmploymentType">EmploymentType</label>
+                                                    <span className="field fluid">
+                                                    <Dropdown id="EmploymentType" {...input} options={props.getemplyementtypesprop} optionLabel="label" placeholder="Select EmploymentType" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <label htmlFor="EmploymentType" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
+                                                    </span>
+                                                    {getFormErrorMessage(meta)}
+                                                </div>
+                                            )}
+                                        />
+                                    </div>
+
+                                  
+
+                                    <div   hidden={values["EmploymentType"] == "Full-Time" ? true : false} className="field col-12 md:col-4">
+                                        <Field
+                                            name="Duration"
+
+                                            render={({ input, meta }) => (
+                                                <div className="field fluid">
+                                                    <label htmlFor="Duration">Duration(No of Months)</label>
+                                                    <span className="field fluid">
+                                                    <InputText maxLength={50} id="Duration" {...input} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <label htmlFor="Duration" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
+                                                    </span>
+                                                    {getFormErrorMessage(meta)}
+                                                </div>
+                                            )}
+                                        />
+
+                                    </div>
+                                    <div className="field col-12 md:col-4">
+                                        <Field
+
+                                            name="Job Location"
+                                            render={({ input, meta }) => (
+                                                <div className="field fluid">
+                                                    <label htmlFor="Job Location">Job Location</label>
+                                                    <span className="field fluid">
+                                                    {/* <Dropdown id="EmploymentType" {...input} options={props.getemplyementtypesprop} optionLabel="label" placeholder="Select EmploymentType" className={classNames({ "p-invalid": isFormFieldValid(meta) })} /> */}
+
+                                                        <Dropdown id="Job Location" {...input} options={props.getactiveLocationoptionsprop} optionLabel="label" placeholder="Select Job Location" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <label htmlFor="Job Location" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
+                                                    </span>
+                                                    {getFormErrorMessage(meta)}
+                                                </div>
+                                            )}
+                                        />
+                                    </div>
+                                </div>
 
                                 <div className="p-fluid  grid">
                                     <div className="field col-12 md:col-4">
@@ -658,9 +737,9 @@ function CreateCandidateProfile() {
                                                         }>
 
                                                             {/* Uploaded File: {values.Resume.split("/")[values.Resume.split("/").length-1]} */}
-                                                            {(typeof values.Resume == typeof "abc") && <>Uploaded File: <a style={{cursor : "pointer"}}  onClick={e => dispatch(documentdownloadaction(
+                                                            {(typeof values.Resume == typeof "abc") && <>Uploaded File: <a style={{cursor : "pointer"}}  onClick={e => dispatch(downloadresume(
                                                                 {
-                                                                    'file': values?.Resume?.toString().substring(1, values?.Resume.toString().length)
+                                                                    'Resume': values?.Resume?.toString().substring(1, values?.Resume.toString().length)
                                                                 }
                                                             )
                                                             )}  >{values?.Resume?.split("/")[values.Resume.split("/").length - 1]}</a>
@@ -729,6 +808,13 @@ function CreateCandidateProfile() {
     )
 }
 
-export default CreateCandidateProfile
+function mapStateToProps(state) {
+    return {
+        getemplyementtypesprop:getemplyementtypes(state),
+        getactiveLocationoptionsprop: getactiveLocationoptions(state),
+
+    };
+}
+export default connect(mapStateToProps)(CreateCandidateProfile)
 
 

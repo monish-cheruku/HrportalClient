@@ -36,6 +36,7 @@ const navigate=useNavigate()
             }))
 setTimeout(()=>{
 
+    navigate("login")
     navigate("/candidateinfo")
 },1000)
         }

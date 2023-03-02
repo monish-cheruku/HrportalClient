@@ -14,15 +14,16 @@ import {UserRoles} from "../features/UserRoles/userroleslice"
 
 
 // import {Band} from ../features/Band/bandslice"
-// axios.defaults.baseURL = 'http://10.154.20.135:8000/api';
-axios.defaults.baseURL = 'http://10.154.155.136:8000/api';
+// axios.defaults.baseURL = 'http://10.154.155.102:8000/api';//monish
+// axios.defaults.baseURL = 'http://10.154.20.135:8000/api';//dwaraka
+// axios.defaults.baseURL ='http://10.154.155.217:8000/api'     //dwaraka
 
 // axios.defaults.baseURL = 'http://10.154.155.54:8000/api';
-// axios.defaults.baseURL = 'http://10.154.20.135:8000/api';
+// axios.defaults.baseURL = 'http://10.154.152.21:8000/api';
 
-// axios.defaults.baseURL = 'http://127.0.0.1:8000/api';
-// axios.defaults.baseURL = 'http://10.154.155.169:8000/api';
-//http://10.154.28.135:8000/api/     monish//
+axios.defaults.baseURL = 'http://127.0.0.1:8000/api';
+//  axios.defaults.baseURL = 'http://10.154.155.169:8000/api';
+//http://10.154.20.198:8000/api/    // monish
 //http://10.154.155.152:8000/api      /dwaraka
 axios.interceptors.response.use(undefined, (error) => {
   if (error.message === "Network Error" && !error.response) {
@@ -233,7 +234,8 @@ export const candidateactions = {
   getfeedbackfields:(data)=>requests.post("candidate/getfeedbackfields",data),
   getprevfeedbacks:(data)=>requests.post("candidate/getcandidatefeedbacks",data),
   selectedcandidates:(data)=>requests.post("candidate/getselectedcandidates",data),
-  annexure:(data)=>requests.post("candidate/getAnnexureDetails",data)
+  annexure:(data)=>requests.post("candidate/getAnnexureDetails",data),
+  hrupdatecandidate:(data)=>requests.post("candidate/hrupdatecandidate",data)
 }
 export const personaldetails = {
   createpersonaldetails:(data)=>requests.post("selectedcandidate/createpersonaldetails",data),
@@ -266,12 +268,15 @@ export const candidateinfo = {
   deletedetaildocument:(data)=>requests.post("selectedcandidate/deletedocument",data),
   getcandidateinfoclearance:(data)=>requests.post("selectedcandidate/getcandidateinfoclearance",data),
   acceptofferletter:(data)=>requests.post("selectedcandidate/acceptofferletter",data),
+  verifydocument:(data)=>requests.post("selectedcandidate/verifydocument",data),
 
 }
 export const selectedcandidateactions = {
   // getallselectedcandidatedata:(data)=>requests.post("candidate/gridcandidates",data),
   // createselectedcandidate:(data)=>requests.post("candidate/addcandidate",data),//not used by any slice api not there ?
   updateselectedcandidate:(data)=>requests.post("candidate/updateselectedcandidate",data),
+  updateselinterncandidate:(data)=>requests.post("candidate/updateselinterncandidate",data),
+  updateselcontractcandidate:(data)=>requests.post("candidate/updateselcontractcandidate",data),
   sendOfferLetter:(data)=>requests.post("candidate/sendOfferLetter",data),
   // selectedcandidatedetails:(data)=>requests.post("candidate/candidateactionsdetails",data),
  
