@@ -132,11 +132,11 @@ function Education(props) {
             <div className={className}>
 
                 <span className={titleClassName}>
-                    <h4>
+                    <h5>
                         Education details
-                    </h4>
+                    </h5>
                 </span>
-                {roles.includes("HR") && <SelectButton value={gridview} options={gridviewoptions} onChange={(e) => setgridview(e.value)} />}
+                {/* {roles.includes("HR") && <SelectButton value={gridview} options={gridviewoptions} onChange={(e) => setgridview(e.value)} />} */}
                 <Button className='' style={{}} onClick={e => { setEditmode(false); setModaldialog(true) }}>Add </Button>            </div>
         )
     }
@@ -222,7 +222,7 @@ function Education(props) {
                     rowdata.files.map((f) => (
                         <div className='field row-12 md:row-12 flex' onClick={() => console.log(f.file)} style={{ border: "2px solid blue", padding: "4px", margin: "4px", borderRadius: "10px", backgroundColor: "#C1C2F3", height: "30px" }}>
 
-                            {f.file.split("/")[f.file.split("/").length - 1].toString().length < 20 ? f.file.split("/")[f.file.split("/").length - 1] : f.file.split("/")[f.file.split("/").length - 1].substring(0, 15) + "..."}
+                            {f.file.split("/")[f.file.split("/").length - 1].toString().length < 20 ? f.file.split("/")[f.file.split("/").length - 1] : f.file.split("/")[f.file.split("/").length - 1]}
                             <i className="pi pi-download mr-2 ml-2" onClick={() => {
                                 dispatch(documentdownloadaction({
                                     "file": f.file.toString().substring(1, f.file.length)
@@ -279,17 +279,12 @@ function Education(props) {
            
            }
           
-            .card1{
-                   
-                   
-                // background: linear-gradient(-52deg, #155dce 0%, #2de3b0 100%);
-                // background:  linear-gradient(-50deg, #155dce 0%, #2de3b0 100%);
-                background:  #c1c2f3;;
-                    background-blend-mode: normal;
-                    border-radius:8px;
-                    // width:300px
-                    
-               color:white;
+           .card1 {
+            background-color: var(--surface-card);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 12px;
+            box-shadow: 0px 3px 5px #6366f1, 0px 0px 2px #6366f1, 0px 1px 4px #6366f1 !important;
             }
             .card1:hover{
                 scale:1.01;
@@ -506,9 +501,9 @@ function Education(props) {
                                 </div>
                                 <div className="card-body">
                                     <p className="date-range"> Duration : {formatDate(new Date(e.Start_Date))} to {formatDate(new Date(e.End_Date))}</p>
-                                    <p className="specialization"> Course : {e.Specialization}</p>
-                                    <p className="institution">Institute : {e.Institute}</p>
-                                    <span className="percentage"> Grade : {parseInt(e.Percentage) > 10 ? e.Percentage + " %" : e.Percentage + " CGPA"}</span><br /><br />
+                                    <p className="specialization"> Specialization : {e.Specialization}</p>
+                                    <p className="institution">Institution/University : {e.Institute}</p>
+                                    <span className="percentage"> Percentage/CGPA : {parseInt(e.Percentage) > 10 ? e.Percentage + " %" : e.Percentage + " CGPA"}</span><br /><br />
 
                                 </div>
 
@@ -552,19 +547,19 @@ function Education(props) {
                                     </Button>
                                 </div>
                             </Dialog>
-                            <div className="p-fluid  grid filesarea" style={{}}>
+                            <div className="p-fluid  grid" style={{}}>
 
 
 
                                 {e.files.length > 0 ?
                                     e.files.map((f) => (
-                                        <div className='field col-12 md:col-12 flex' style={{ border: "2px solid blue", padding: "2px", marginTop: "4px", verticalAlign: "center", borderRadius: "10px", backgroundColor: "#C1C2F3", justifyContent: "space-between" }}>
+                                        <div className='field col-12 md:col-12 flex' style={{ border: "0px solid blue", color:"blue",padding: "2px", marginTop: "4px", verticalAlign: "center",  backgroundColor: "#f8f9fa", justifyContent: "space-between" }}>
                                             <div className="fileleftdiv">
-                                                {f.file.split("/")[f.file.split("/").length - 1].toString().length < 20 ? f.file.split("/")[f.file.split("/").length - 1] : f.file.split("/")[f.file.split("/").length - 1].substring(0, 25) + "..."}
+                                                {f.file.split("/")[f.file.split("/").length - 1].toString().length < 20 ? f.file.split("/")[f.file.split("/").length - 1] : f.file.split("/")[f.file.split("/").length - 1]}
                                                 <br />
                                                 {
-                                                    (f.verificationcomments == "" || f.verificationcomments == null) ? <></> : <>{
-                                                        "Comments : " + f.verificationcomments}</>
+                                                    (f.verificationcomments == "" || f.verificationcomments == null) ? <></> : <div className="pt-2" style={{color:"red"}}>{
+                                                        "Comments : " + f.verificationcomments}</div>
                                                 }
                                             </div>
                                             <div className='filerightdiv'>
@@ -753,13 +748,17 @@ function Education(props) {
                                                 {((!Object.is(f.verified, "pending") && !Object.is(f.verified, "verified")) || roles.includes("HR")) ? <i className="pi pi-trash mr-2 " style={{ cursor: "pointer", backgroundColor: "red", padding: "4px", borderRadius: "4px", color: "white", height: "25px" }}
                                                     onClick={() => {
                                                         confirmDialog({
-                                                            message: 'Are you sure you want to proceed?',
-                                                            header: 'Confirmation',
-                                                            icon: 'pi pi-exclamation-triangle',
-                                                            position: "top",
-                                                            accept: () => alert("success"),
-                                                            reject: () => alert("rej")
-                                                        });
+                                                            message: 'Do you want to delete this File?',
+                                                            header: 'Delete Confirmation',
+                                                            icon: 'pi pi-info-circle',
+                                                            acceptClassName: 'p-button-danger',                                     
+                                                            accept: () => 
+                                                            dispatch(deletedocumentaction({
+                                                                "fileid": f.id
+                        
+                                                            })),
+                                                            reject: () => console.log()
+                                                        })
 
                                                         // dispatch(deletedocumentaction({
                                                         //     "fileid": f.id
@@ -773,7 +772,8 @@ function Education(props) {
                                             </div>
                                         </div>
                                     )) :
-                                    <div className='nofiles' style={{}}
+                                    // <div className='nofiles' style={{}}
+                                    <div className='field col-12 md:col-12 flex nofiles' style={{ border: "0px solid blue", padding: "2px", marginTop: "4px", verticalAlign: "center", alignContent:"center", borderRadius: "10px", backgroundColor: "#f8f9fa", justifyContent: "space-around" }}
                                         onDragOver={e => {
                                             e.preventDefault();
 
@@ -785,6 +785,7 @@ function Education(props) {
 
                                             e.stopPropagation(); console.log(e)
                                         }}>
+
                                         No Files Uploaded
                                     </div>
 
@@ -831,10 +832,25 @@ function Education(props) {
 
 
                                     }} />
-                                    <Button style={{ height: "35px", width: "3.5rem" }} icon="pi pi-trash" className="p-button-danger" onClick={() => dispatch(deleteedducationaldetailsaction({
-                                        "id": e.id
+                                    <Button style={{ height: "35px", width: "3.5rem" }} icon="pi pi-trash" className="p-button-danger" onClick={() =>
+                                                                        confirmDialog({
+                                                                            message: 'Do you want to delete this record?',
+                                                                            header: 'Delete Confirmation',
+                                                                            icon: 'pi pi-info-circle',
+                                                                            acceptClassName: 'p-button-danger',                                     
+                                                                            accept: () => 
+                                                                            dispatch(deleteedducationaldetailsaction({
+                                                                                "id": e.id
+                                        
+                                                                            })),
+                                                                            reject: () => console.log()
+                                                                        })
+                                    // dispatch(deleteedducationaldetailsaction({
+                                    //     "id": e.id
 
-                                    }))} />
+                                    // }))
+                                    
+                                    } />
 
                                 </div>
 

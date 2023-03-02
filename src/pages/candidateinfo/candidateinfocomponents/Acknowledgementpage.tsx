@@ -25,7 +25,7 @@ function Acknowledgementpage() {
         <br />
         {/* <img className="image-1"> */}
 {/* </img> */}
-        <Card title={()=>{return (<div style={{textAlign:"center"}}><h1>💼Thank You For Accpting Offer </h1></div>)}}>
+        <Card subTitle={()=>{return (<div style={{textAlign:"center"}}><h3>💼Thank you for submitting your details and response has been Recorded </h3></div>)}}>
           
 
         </Card>

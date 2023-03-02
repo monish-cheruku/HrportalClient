@@ -3,7 +3,6 @@ import classNames from 'classnames';
 import { Route, useLocation, Routes, Navigate } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 
-import { AppTopbar } from './AppTopbar';
 import { AppFooter } from './AppFooter';
 import { AppMenu } from './AppMenu';
 import { AppConfig } from './AppConfig';
@@ -33,7 +32,8 @@ import SelectedCandidateDetailsView from './pages/DashboardComponents/SelectedCa
 import ProtectedRoute from './components/routes/ProtectedRout';
 import { getuserroles } from './features/Login/LoginSelector';
 const Acknowledgementpage =lazy(()=>import( './pages/candidateinfo/candidateinfocomponents/Acknowledgementpage'));
-
+// import AppTopbar  from './AppTopbar';
+const AppTopbar =lazy(()=>import('./AppTopbar'))
 const  ManageCompany=lazy(()=>import("./pages/ManageCompany")) ;
 const Dashboard =lazy(()=>import("./pages/Dashboard"));
 const ManageBusinessUnit =lazy(()=>import("./pages/ManageBusinessUnit"));

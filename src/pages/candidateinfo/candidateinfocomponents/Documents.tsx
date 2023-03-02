@@ -1,6 +1,6 @@
 import { Button } from 'primereact/button'
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { connect, useDispatch, useSelector } from 'react-redux'
 import { setnextcandidateinfotab, setprevcandidateinfotab } from '../../../features/Misc/globalslice'
 import { Field, Form } from 'react-final-form'
 import { otherdocumentsgetaction } from '../../../features/Candidate info/otherdocumentsslice'
@@ -13,14 +13,17 @@ import { RenderErrorBoundary } from 'react-router/dist/lib/hooks'
 import { InputTextarea } from 'primereact/inputtextarea'
 import { Dialog } from 'primereact/dialog'
 import { Tooltip } from 'primereact/tooltip'
+import { Messages } from 'primereact/messages';
+import { Message } from 'primereact/message';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog'
-function Documents() {
+import { getuserroles } from '../../../features/Login/LoginSelector'
+function Documents(props) {
     const dispatch = useDispatch()
     const candidateinfodata = useSelector((state: RootState) => state.candidateinfo)
     const otherdocumentsdata = useSelector((state: RootState) => state.otherdocuments)
     const isFormFieldValid = (meta) => !!(meta.touched && meta.error);
     const Logindata = useSelector((state: RootState) => state.Login);
-    const [roles, setRoles] = useState<any>([]);
+    const roles = props.getuserrolesprop
     const [curid, setCurid] = useState(0)
     const [rejectdialog, setRejectdialog] = useState(false);
     const [reviewcomment, setReviewComment] = useState("")
@@ -32,9 +35,9 @@ function Documents() {
         return isFormFieldValid(meta) && <small className="p-error">{meta.error}</small>;
     };
     useEffect(() => {
-        var w: any = []
-        // Logindata.groups.forEach((i) => w.push(i["name"].toString()))
-        Logindata.groups.forEach((i) => setRoles(roles => [...roles, i["name"].toString()]))
+        // var w: any = []
+        // // Logindata.groups.forEach((i) => w.push(i["name"].toString()))
+        // Logindata.groups.forEach((i) => setRoles(roles => [...roles, i["name"].toString()]))
         dispatch(otherdocumentsgetaction({
             "selectedcandidateid": candidateinfodata.Selected_Candidate_ID
         }))
@@ -55,9 +58,9 @@ function Documents() {
             <div className={className}>
 
                 <span className={titleClassName}>
-                    <h4>
-                        Signedofferletter<span style={{ color: "red" }}>*</span>
-                    </h4>
+                    <h5>
+                        Signed Offer Letter<span style={{ color: "red" }}>*</span>
+                    </h5>
                 </span>
                 <FileUpload style={{}} disabled={selectfileobject(otherdocumentsdata, "Signedofferletter").length > 0} chooseOptions={chooseOptions} className='p-success fileuplod2 mr-2' mode="basic" name="demo[]" chooseLabel='abc' maxFileSize={1000000} auto onSelect={k => {
 
@@ -94,9 +97,12 @@ function Documents() {
             <div className={className}>
 
                 <span className={titleClassName}>
-                    <h4>
+                    <span className="flex" >
+                    <h5 className="pt-2">
                         Photograph<span style={{ color: "red" }}>*</span>
-                    </h4>
+                    </h5>
+                    <Message  className="ml-3"severity="info" text={candidateinfodata.candidate.EmployementType=="Full-Time"?"Please upload blue background passport size photo":"Please upload red background passport size photo "} />
+                    </span>
                 </span>
                 <FileUpload style={{}} disabled={selectfileobject(otherdocumentsdata, "Photograph").length > 0} chooseOptions={chooseOptions} className='p-success fileuplod2 mr-2' mode="basic" name="demo[]" chooseLabel='abc' maxFileSize={1000000} auto onSelect={k => {
 
@@ -133,9 +139,13 @@ function Documents() {
             <div className={className}>
 
                 <span className={titleClassName}>
-                    <h4>
+                <span className="flex">
+                    <h5 className="pt-2">
+                   
                         Passport
-                    </h4>
+                    </h5>
+                    <Message  className="ml-3"severity="info" text="Please upload valid pages of passport" />
+                </span>
                 </span>
                 <FileUpload disabled={selectfileobject(otherdocumentsdata, "Passport").length > 0} chooseOptions={chooseOptions} className='p-success fileuplod2 ' mode="basic" name="demo[]" maxFileSize={1000000} auto chooseLabel="upload File" onSelect={k => {
 
@@ -169,9 +179,9 @@ function Documents() {
             <div className={className}>
 
                 <span className={titleClassName}>
-                    <h4>
-                        Pan<span style={{ color: "red" }}>*</span>
-                    </h4>
+                    <h5>
+                        PAN<span style={{ color: "red" }}>*</span>
+                    </h5>
                 </span>
                 <FileUpload disabled={selectfileobject(otherdocumentsdata, "Pan").length > 0} chooseOptions={chooseOptions} className='p-success fileuplod2 mr-2' mode="basic" name="demo[]" maxFileSize={1000000} auto chooseLabel="upload File" onSelect={k => {
 
@@ -205,9 +215,13 @@ function Documents() {
             <div className={className}>
 
                 <span className={titleClassName}>
-                    <h4>
-                        Payslips
-                    </h4>
+                    <span className="flex">
+                    <h5 className="pt-2">
+                        Payslips 
+                    </h5>
+                       {/* <label> (Please upload past 3 Months Paysl )</label> */}
+                       <Message  className="ml-3"severity="info" text="Please upload latest 3 months payslips" />
+                       </span>
                 </span>
                 <FileUpload chooseOptions={chooseOptions} className='p-success fileuplod2 mr-2' mode="basic" name="demo[]" maxFileSize={1000000} auto chooseLabel="upload File" onSelect={k => {
 
@@ -241,9 +255,12 @@ function Documents() {
             <div className={className}>
 
                 <span className={titleClassName}>
-                    <h4>
-                        Form16
-                    </h4>
+                <span className="flex">
+                    <h5 className="pt-2">
+                        Form 16
+                    </h5>
+                    <Message  className="ml-3"severity="info" text="Please upload latest 2 years form16 documents" />
+                </span>
                 </span>
                 <FileUpload chooseOptions={chooseOptions} className='p-success fileuplod2 mr-2' mode="basic" name="demo[]" maxFileSize={1000000} auto chooseLabel="upload File" onSelect={k => {
 
@@ -277,9 +294,9 @@ function Documents() {
             <div className={className}>
 
                 <span className={titleClassName}>
-                    <h4>
+                    <h5>
                         Aadhar<span style={{ color: "red" }}>*</span>
-                    </h4>
+                    </h5>
                 </span>
                 <FileUpload disabled={selectfileobject(otherdocumentsdata, "Aadhar").length > 0} chooseOptions={chooseOptions} className='p-success fileuplod2 mr-2' mode="basic" name="demo[]" maxFileSize={1000000} auto chooseLabel="upload File" onSelect={k => {
 
@@ -330,9 +347,9 @@ function Documents() {
             </style>
             <ConfirmDialog />
 
-            <Dialog className='' style={{ width: "30%" }} header={<h4>
+            <Dialog className='' style={{ width: "30%" }} header={<h5>
                 Review Comments
-            </h4>} visible={rejectdialog} onHide={() => setRejectdialog(false)}>
+            </h5>} visible={rejectdialog} onHide={() => setRejectdialog(false)}>
 
 
                 <InputTextarea className='flex' cols={40} rows={5} onChange={e => { setReviewComment(e.target.value) }} value={reviewcomment}>
@@ -397,13 +414,13 @@ function Documents() {
                                         //     </div>
                                         // </div>
                                         
-                                        <div className='field col-12 md:col-12 flex' style={{ padding: "2px", marginTop: "4px", verticalAlign: "center", justifyContent: "space-between" }}>
+                                        <div className='field col-12 md:col-12 flex' style={{ border: "0px solid blue", color:"blue",padding: "2px", marginTop: "4px", verticalAlign: "center",  backgroundColor: "#f8f9fa", justifyContent: "space-between" }}>
                                             <div className="fileleftdiv">
-                                                {f.file.split("/")[f.file.split("/").length - 1].toString().length < 20 ? f.file.split("/")[f.file.split("/").length - 1] : f.file.split("/")[f.file.split("/").length - 1].substring(0, 25) + "..."}
+                                                {f.file.split("/")[f.file.split("/").length - 1].toString().length < 20 ? f.file.split("/")[f.file.split("/").length - 1] : f.file.split("/")[f.file.split("/").length - 1]}
                                                 <br />
                                                 {
-                                                    (f.verificationcomments == "" || f.verificationcomments == null) ? <></> : <>{
-                                                        "Comments : " + f.verificationcomments}</>
+                                                    (f.verificationcomments == "" || f.verificationcomments == null) ? <></> : <div className="pt-2" style={{color:"red"}}>{
+                                                        "Comments : " + f.verificationcomments}</div>
                                                 }
                                             </div>
                                             <div className='filerightdiv'>
@@ -592,10 +609,10 @@ function Documents() {
                                                 {((!Object.is(f.verified, "pending") && !Object.is(f.verified, "verified")) || roles.includes("HR")) ? <i className="pi pi-trash mr-2 " style={{ cursor: "pointer", backgroundColor: "red", padding: "4px", borderRadius: "4px", color: "white", height: "25px" }}
                                                     onClick={() => {
                                                         confirmDialog({
-                                                            message: 'Are you sure you want to proceed?',
-                                                            header: 'Confirmation',
-                                                            icon: 'pi pi-exclamation-triangle',
-                                                            position: "top",
+                                                            message: 'Do you want to delete this File?',
+                                                            header: 'Delete Confirmation',
+                                                            icon: 'pi pi-info-circle',
+                                                            acceptClassName: 'p-button-danger', 
                                                             accept: () =>     dispatch(deletedocumentaction({
                                                                 "fileid": f.id
                                                             })),
@@ -674,13 +691,13 @@ function Documents() {
                                         //     </div>
                                         // </div>
 
-<div className='field col-12 md:col-12 flex' style={{ padding: "2px", marginTop: "4px", verticalAlign: "center", justifyContent: "space-between" }}>
+<div className='field col-12 md:col-12 flex' style={{ border: "0px solid blue", color:"blue",padding: "2px", marginTop: "4px", verticalAlign: "center",  backgroundColor: "#f8f9fa", justifyContent: "space-between" }}>
                                             <div className="fileleftdiv">
-                                                {f.file.split("/")[f.file.split("/").length - 1].toString().length < 20 ? f.file.split("/")[f.file.split("/").length - 1] : f.file.split("/")[f.file.split("/").length - 1].substring(0, 25) + "..."}
+                                                {f.file.split("/")[f.file.split("/").length - 1].toString().length < 20 ? f.file.split("/")[f.file.split("/").length - 1] : f.file.split("/")[f.file.split("/").length - 1]}
                                                 <br />
                                                 {
-                                                    (f.verificationcomments == "" || f.verificationcomments == null) ? <></> : <>{
-                                                        "Comments : " + f.verificationcomments}</>
+                                                    (f.verificationcomments == "" || f.verificationcomments == null) ? <></> : <div className="pt-2" style={{color:"red"}}>{
+                                                        "Comments : " + f.verificationcomments}</div>
                                                 }
                                             </div>
                                             <div className='filerightdiv'>
@@ -869,10 +886,10 @@ function Documents() {
                                                 {((!Object.is(f.verified, "pending") && !Object.is(f.verified, "verified")) || roles.includes("HR")) ? <i className="pi pi-trash mr-2 " style={{ cursor: "pointer", backgroundColor: "red", padding: "4px", borderRadius: "4px", color: "white", height: "25px" }}
                                                     onClick={() => {
                                                         confirmDialog({
-                                                            message: 'Are you sure you want to proceed?',
-                                                            header: 'Confirmation',
-                                                            icon: 'pi pi-exclamation-triangle',
-                                                            position: "top",
+                                                            message: 'Do you want to delete this File?',
+                                                            header: 'Delete Confirmation',
+                                                            icon: 'pi pi-info-circle',
+                                                            acceptClassName: 'p-button-danger', 
                                                             accept: () =>     dispatch(deletedocumentaction({
                                                                 "fileid": f.id
                                                             })),
@@ -932,13 +949,13 @@ function Documents() {
 
                                         //     </span>
                                         // </div>
-                                        <div className='field col-12 md:col-12 flex' style={{ padding: "2px", marginTop: "4px", verticalAlign: "center", justifyContent: "space-between" }}>
+                                        <div className='field col-12 md:col-12 flex' style={{ border: "0px solid blue", color:"blue",padding: "2px", marginTop: "4px", verticalAlign: "center",  backgroundColor: "#f8f9fa", justifyContent: "space-between" }}>
                                             <div className="fileleftdiv">
-                                                {f.file.split("/")[f.file.split("/").length - 1].toString().length < 20 ? f.file.split("/")[f.file.split("/").length - 1] : f.file.split("/")[f.file.split("/").length - 1].substring(0, 25) + "..."}
+                                                {f.file.split("/")[f.file.split("/").length - 1].toString().length < 20 ? f.file.split("/")[f.file.split("/").length - 1] : f.file.split("/")[f.file.split("/").length - 1]}
                                                 <br />
                                                 {
-                                                    (f.verificationcomments == "" || f.verificationcomments == null) ? <></> : <>{
-                                                        "Comments : " + f.verificationcomments}</>
+                                                    (f.verificationcomments == "" || f.verificationcomments == null) ? <></> : <div className="pt-2" style={{color:"red"}}>{
+                                                        "Comments : " + f.verificationcomments}</div>
                                                 }
                                             </div>
                                             <div className='filerightdiv'>
@@ -1127,10 +1144,10 @@ function Documents() {
                                                 {((!Object.is(f.verified, "pending") && !Object.is(f.verified, "verified")) || roles.includes("HR")) ? <i className="pi pi-trash mr-2 " style={{ cursor: "pointer", backgroundColor: "red", padding: "4px", borderRadius: "4px", color: "white", height: "25px" }}
                                                     onClick={() => {
                                                         confirmDialog({
-                                                            message: 'Are you sure you want to proceed?',
-                                                            header: 'Confirmation',
-                                                            icon: 'pi pi-exclamation-triangle',
-                                                            position: "top",
+                                                            message: 'Do you want to delete this File?',
+                                                            header: 'Delete Confirmation',
+                                                            icon: 'pi pi-info-circle',
+                                                            acceptClassName: 'p-button-danger', 
                                                             accept: () =>     dispatch(deletedocumentaction({
                                                                 "fileid": f.id
                                                             })),
@@ -1190,13 +1207,13 @@ function Documents() {
                                         // </div>
 
 
-                                        <div className='field col-12 md:col-12 flex' style={{ padding: "2px", marginTop: "4px", verticalAlign: "center", justifyContent: "space-between" }}>
+                                        <div className='field col-12 md:col-12 flex' style={{ border: "0px solid blue", color:"blue",padding: "2px", marginTop: "4px", verticalAlign: "center",  backgroundColor: "#f8f9fa", justifyContent: "space-between" }}>
                                             <div className="fileleftdiv">
-                                                {f.file.split("/")[f.file.split("/").length - 1].toString().length < 20 ? f.file.split("/")[f.file.split("/").length - 1] : f.file.split("/")[f.file.split("/").length - 1].substring(0, 25) + "..."}
+                                                {f.file.split("/")[f.file.split("/").length - 1].toString().length < 20 ? f.file.split("/")[f.file.split("/").length - 1] : f.file.split("/")[f.file.split("/").length - 1]}
                                                 <br />
                                                 {
-                                                    (f.verificationcomments == "" || f.verificationcomments == null) ? <></> : <>{
-                                                        "Comments : " + f.verificationcomments}</>
+                                                    (f.verificationcomments == "" || f.verificationcomments == null) ? <></> : <div className="pt-2" style={{color:"red"}}>{
+                                                        "Comments : " + f.verificationcomments}</div>
                                                 }
                                             </div>
                                             <div className='filerightdiv'>
@@ -1385,10 +1402,10 @@ function Documents() {
                                                 {((!Object.is(f.verified, "pending") && !Object.is(f.verified, "verified")) || roles.includes("HR")) ? <i className="pi pi-trash mr-2 " style={{ cursor: "pointer", backgroundColor: "red", padding: "4px", borderRadius: "4px", color: "white", height: "25px" }}
                                                     onClick={() => {
                                                         confirmDialog({
-                                                            message: 'Are you sure you want to proceed?',
-                                                            header: 'Confirmation',
-                                                            icon: 'pi pi-exclamation-triangle',
-                                                            position: "top",
+                                                            message: 'Do you want to delete this File?',
+                                                            header: 'Delete Confirmation',
+                                                            icon: 'pi pi-info-circle',
+                                                            acceptClassName: 'p-button-danger', 
                                                             accept: () =>     dispatch(deletedocumentaction({
                                                                 "fileid": f.id
                                                             })),
@@ -1441,13 +1458,13 @@ function Documents() {
                                         //             }))}
                                         //         > </i></div>
                                         // </div>
-                                        <div className='field col-12 md:col-12 flex' style={{ padding: "2px", marginTop: "4px", verticalAlign: "center", justifyContent: "space-between" }}>
+                                        <div className='field col-12 md:col-12 flex' style={{ border: "0px solid blue", color:"blue",padding: "2px", marginTop: "4px", verticalAlign: "center",  backgroundColor: "#f8f9fa", justifyContent: "space-between" }}>
                                             <div className="fileleftdiv">
-                                                {f.file.split("/")[f.file.split("/").length - 1].toString().length < 20 ? f.file.split("/")[f.file.split("/").length - 1] : f.file.split("/")[f.file.split("/").length - 1].substring(0, 25) + "..."}
+                                                {f.file.split("/")[f.file.split("/").length - 1].toString().length < 20 ? f.file.split("/")[f.file.split("/").length - 1] : f.file.split("/")[f.file.split("/").length - 1]}
                                                 <br />
                                                 {
-                                                    (f.verificationcomments == "" || f.verificationcomments == null) ? <></> : <>{
-                                                        "Comments : " + f.verificationcomments}</>
+                                                    (f.verificationcomments == "" || f.verificationcomments == null) ? <></> : <div className="pt-2" style={{color:"red"}}>{
+                                                        "Comments : " + f.verificationcomments}</div>
                                                 }
                                             </div>
                                             <div className='filerightdiv'>
@@ -1636,10 +1653,10 @@ function Documents() {
                                                 {((!Object.is(f.verified, "pending") && !Object.is(f.verified, "verified")) || roles.includes("HR")) ? <i className="pi pi-trash mr-2 " style={{ cursor: "pointer", backgroundColor: "red", padding: "4px", borderRadius: "4px", color: "white", height: "25px" }}
                                                     onClick={() => {
                                                         confirmDialog({
-                                                            message: 'Are you sure you want to proceed?',
-                                                            header: 'Confirmation',
-                                                            icon: 'pi pi-exclamation-triangle',
-                                                            position: "top",
+                                                            message: 'Do you want to delete this File?',
+                                                            header: 'Delete Confirmation',
+                                                            icon: 'pi pi-info-circle',
+                                                            acceptClassName: 'p-button-danger', 
                                                             accept: () =>     dispatch(deletedocumentaction({
                                                                 "fileid": f.id
                                                             })),
@@ -1704,13 +1721,13 @@ function Documents() {
 
                                         // </div>
                                         
-                                        <div className='field col-12 md:col-12 flex' style={{ padding: "2px", marginTop: "4px", verticalAlign: "center", justifyContent: "space-between" }}>
+                                        <div className='field col-12 md:col-12 flex' style={{ border: "0px solid blue", color:"blue",padding: "2px", marginTop: "4px", verticalAlign: "center",  backgroundColor: "#f8f9fa", justifyContent: "space-between" }}>
                                             <div className="fileleftdiv">
-                                                {f.file.split("/")[f.file.split("/").length - 1].toString().length < 20 ? f.file.split("/")[f.file.split("/").length - 1] : f.file.split("/")[f.file.split("/").length - 1].substring(0, 25) + "..."}
+                                                {f.file.split("/")[f.file.split("/").length - 1].toString().length < 20 ? f.file.split("/")[f.file.split("/").length - 1] : f.file.split("/")[f.file.split("/").length - 1]}
                                                 <br />
                                                 {
-                                                    (f.verificationcomments == "" || f.verificationcomments == null) ? <></> : <>{
-                                                        "Comments : " + f.verificationcomments}</>
+                                                    (f.verificationcomments == "" || f.verificationcomments == null) ? <></> : <div className="pt-2" style={{color:"red"}}>{
+                                                        "Comments : " + f.verificationcomments}</div>
                                                 }
                                             </div>
                                             <div className='filerightdiv'>
@@ -1899,10 +1916,10 @@ function Documents() {
                                                 {((!Object.is(f.verified, "pending") && !Object.is(f.verified, "verified")) || roles.includes("HR")) ? <i className="pi pi-trash mr-2 " style={{ cursor: "pointer", backgroundColor: "red", padding: "4px", borderRadius: "4px", color: "white", height: "25px" }}
                                                     onClick={() => {
                                                         confirmDialog({
-                                                            message: 'Are you sure you want to proceed?',
-                                                            header: 'Confirmation',
-                                                            icon: 'pi pi-exclamation-triangle',
-                                                            position: "top",
+                                                            message: 'Do you want to delete this File?',
+                                                            header: 'Delete Confirmation',
+                                                            icon: 'pi pi-info-circle',
+                                                            acceptClassName: 'p-button-danger', 
                                                             accept: () =>     dispatch(deletedocumentaction({
                                                                 "fileid": f.id
                                                             })),
@@ -1958,13 +1975,13 @@ function Documents() {
                                         //     </div>
                                         // </div>
                                         
-                                        <div className='field col-12 md:col-12 flex' style={{ padding: "2px", marginTop: "4px", verticalAlign: "center", justifyContent: "space-between" }}>
+                                        <div className='field col-12 md:col-12 flex' style={{ border: "0px solid blue", color:"blue",padding: "2px", marginTop: "4px", verticalAlign: "center",  backgroundColor: "#f8f9fa", justifyContent: "space-between" }}>
                                             <div className="fileleftdiv">
-                                                {f.file.split("/")[f.file.split("/").length - 1].toString().length < 20 ? f.file.split("/")[f.file.split("/").length - 1] : f.file.split("/")[f.file.split("/").length - 1].substring(0, 25) + "..."}
+                                                {f.file.split("/")[f.file.split("/").length - 1].toString().length < 20 ? f.file.split("/")[f.file.split("/").length - 1] : f.file.split("/")[f.file.split("/").length - 1]}
                                                 <br />
                                                 {
-                                                    (f.verificationcomments == "" || f.verificationcomments == null) ? <></> : <>{
-                                                        "Comments : " + f.verificationcomments}</>
+                                                    (f.verificationcomments == "" || f.verificationcomments == null) ? <></> : <div className="pt-2" style={{color:"red"}}>{
+                                                        "Comments : " + f.verificationcomments}</div>
                                                 }
                                             </div>
                                             <div className='filerightdiv'>
@@ -2153,10 +2170,10 @@ function Documents() {
                                                 {((!Object.is(f.verified, "pending") && !Object.is(f.verified, "verified")) || roles.includes("HR")) ? <i className="pi pi-trash mr-2 " style={{ cursor: "pointer", backgroundColor: "red", padding: "4px", borderRadius: "4px", color: "white", height: "25px" }}
                                                     onClick={() => {
                                                         confirmDialog({
-                                                            message: 'Are you sure you want to proceed?',
-                                                            header: 'Confirmation',
-                                                            icon: 'pi pi-exclamation-triangle',
-                                                            position: "top",
+                                                            message: 'Do you want to delete this File?',
+                                                            header: 'Delete Confirmation',
+                                                            icon: 'pi pi-info-circle',
+                                                            acceptClassName: 'p-button-danger', 
                                                             accept: () =>     dispatch(deletedocumentaction({
                                                                 "fileid": f.id
                                                             })),
@@ -2202,11 +2219,11 @@ function Documents() {
 
                 <div className="field col-12 md:col-4 flex">
                 </div>
-                <div className="field col-12 md:col-4 flex">
+                <div className={"field col-12 md:col-4 flex"}>
                 </div>
 
-                <div className="field col-12 md:col-4 flex gap-4">
-                    <Button className='mr-4' onClick={e => dispatch(setprevcandidateinfotab())}>Previous</Button>
+                <div className={"field col-12 md:col-4 flex"}>
+                    <Button className=' mr-4' onClick={e => dispatch(setprevcandidateinfotab())}>Previous</Button>
                     {!(roles.includes("HR") || roles.includes("Adminstrator")) ? <Button onClick={e => dispatch(setnextcandidateinfotab())}>Next</Button> : <></>}
                 </div>
             </div>
@@ -2214,4 +2231,10 @@ function Documents() {
     )
 }
 
-export default Documents
+function mapStateToProps(state) {
+    return {
+
+        getuserrolesprop: getuserroles(state)
+    };
+}
+export default connect(mapStateToProps)(Documents)

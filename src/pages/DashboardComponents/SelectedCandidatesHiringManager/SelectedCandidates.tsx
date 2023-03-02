@@ -6,7 +6,7 @@ import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import React, { useEffect, useState } from 'react'
 import { Form } from 'react-final-form';
-import { useDispatch, useSelector } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { Link, useNavigate } from 'react-router-dom';
 import { RootState } from '../../../app/store';
@@ -18,7 +18,8 @@ import { selectedcandidatesaction, sendofferletteraction } from '../../../featur
 import { downloadresume } from '../../../features/Downloadpdfs/pdfslice';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { candidateinfogetaction } from '../../../features/Candidate info/candidateinfoslice';
-const SelectedCandidates = () => {
+import { getuserroles } from '../../../features/Login/LoginSelector';
+const SelectedCandidates = (props) => {
 
 
     const [productDialog, setProductDialog] = useState(false);
@@ -38,7 +39,7 @@ const SelectedCandidates = () => {
 
     const selectedcandidatesdata = useSelector((state: RootState) => state.Selectedcandidates);
     const Logindata = useSelector((state: RootState) => state.Login);
-    const [roles, setRoles] = useState<any>([]);
+    const roles = props.getuserrolesprop;
     
 
     // const navigate=useNavigate()
@@ -60,13 +61,13 @@ const SelectedCandidates = () => {
     //         //fetch('./jobpostdata.json').then(res => {res.json(); console.log(res);}).then(d => setcompany(d.data));
     //     }, []);
     useEffect(() => {
-        var w: any = []
-        Logindata.groups.forEach((i) => w.push(i["name"].toString()))
-        Logindata.groups.forEach((i)=>setRoles(roles=>[...roles,i["name"].toString()]))
-        console.log(roles)
+        // var w: any = []
+        // Logindata.groups.forEach((i) => w.push(i["name"].toString()))
+        // Logindata.groups.forEach((i)=>setRoles(roles=>[...roles,i["name"].toString()]))
+        // console.log(roles)
         dispatch(selectedcandidatesaction({
 
-            "RoleName": w,
+            "RoleName": roles,
 
             "username": Logindata.username
 
@@ -207,7 +208,7 @@ const SelectedCandidates = () => {
         // console.log(rowdata)
         return (
             <>
-            {roles.includes("HR") ?
+            {(roles.includes("HR") && rowdata.candidate.EmploymentType != "Contract(vendor)") ?
             <Link to={'/SelectedCandidatesdetails'} state={rowdata}>{rowdata.candidate.CandidateCode}</Link>
              : rowdata.designation  ? <Link to={'/SelectedCandidatesdetailsview'} state={rowdata}>{rowdata.candidate.CandidateCode}</Link>
              :<div>{rowdata.candidate.CandidateCode}</div>}
@@ -215,20 +216,25 @@ const SelectedCandidates = () => {
         )
     }
 
-    const actionBodyTemplate = (data) => {
-       
+ 
 
+    const actionBodyTemplate = (data) => {
+        var pdftooltip = ""
+        if (data.candidate.EmploymentType == "Internship")
+            pdftooltip = "Internship Letter"
+        else if (data.candidate.EmploymentType == "Contract(direct)")
+            pdftooltip = "Contract Letter"
+        else if (data.candidate.EmploymentType == "Full-Time")
+            pdftooltip = "Offer Letter"          
         return (
-            // <>
-            // {roles.includes("HR") ?
-            <React.Fragment>
-                <div className="p-fluid  grid">
-                    {data.OfferLetter && 
-                    <div className="field col-12 md:col-5">
+            <>
+                    {data.candidate.EmploymentType != "Contract(vendor)" &&
+                    <>
+                    {data.OfferLetter && <>
                         <Button
                             icon="pi pi-download"
-                            tooltip='Download OfferLetter'
-                            className="p-button-rounded p-button-warning mr-6"
+                            tooltip={"Download "+pdftooltip}
+                            className="p-button-rounded p-button-warning"
                             // style={{ width: "30px", height: "30px",}}
                             onClick={(e) => {
 
@@ -239,39 +245,87 @@ const SelectedCandidates = () => {
                                 ))
                             }}
                         />
-                    </div>
+                        <Button
+                        icon="pi pi-file-pdf"
+                        tooltip= {"Download "+pdftooltip}
+                        className="p-button-rounded p-button-Primary"
+                        // style={{ width: "30px", height: "30px",}}
+                        onClick={(e) => {
+                            var strdoc = data?.OfferLetter?.toString().substring(1, data?.OfferLetter?.toString().length); 
+
+                            var re = /.docx/gi; 
+                          
+                            // Use of String replace() Method
+                            var strdoc = strdoc.replace(re, ".pdf"); 
+
+                            dispatch(downloadresume(
+                                {
+                                    'Resume': strdoc
+                                }
+                            ))
+                        }}
+                        />
+                       </> 
                     }
+
+                  
                     {data.OfferLetter && 
-                    <div className="field col-12 md:col-5">
+               
                         <Button
                             icon="pi pi-share-alt"
-                            tooltip='Send OfferLetter'
+                            tooltip={"Send "+pdftooltip}
                             className="p-button-rounded p-button-success"                        
-                            disabled = {data.IsOfferAccepted}
+                            // disabled = {data.IsOfferAccepted}
                        
                             onClick={(e) => {
-                                // confirmDialog({
-                                //     message: 'Are you sure you want to proceed?',
-                                //     header: 'Confirmation',
-                                //     icon: 'pi pi-exclamation-triangle',
-                                //     accept(){console.log("assdsd")},
-                                //     reject(){console.log("assdsd11")},
-                                // });
-                                dispatch(sendofferletteraction(
-                                    {
-                                        'selectedcandidateid': data?.Selected_Candidate_ID
-                                    }
-                                ))
+                                console.log("into click")
+                                confirmDialog({
+                                    message: 'Are you sure you want to proceed?',
+                                    header: 'Confirmation',
+                                    icon: 'pi pi-exclamation-triangle',
+                                    accept:()=>dispatch(sendofferletteraction(
+                                        {
+                                            'selectedcandidateid': data?.Selected_Candidate_ID
+                                        }
+                                    )),
+                                    reject:()=>console.log()
+                                });
+
                             }}
                         />
-                    </div>
+                   
                     }
-                     {data.OfferLetter && 
-                    <div className="field col-12 md:col-5">
+
+                    {data.JoiningBonusLetter && 
+                         <Button
+                        icon="pi pi-file-pdf"
+                        tooltip= {"Download JoiningBonus Letter"}
+                        className="p-button-rounded p-button-help"
+                        // style={{ width: "30px", height: "30px",}}
+                        onClick={(e) => {
+                            var strdoc = data?.JoiningBonusLetter?.toString().substring(1, data?.JoiningBonusLetter?.toString().length); 
+
+                            var re = /.docx/gi; 
+                          
+                            // Use of String replace() Method
+                            var strdoc = strdoc.replace(re, ".pdf"); 
+
+                            dispatch(downloadresume(
+                                {
+                                    'Resume': strdoc
+                                }
+                            ))
+                        }}
+                        />
+                    }
+
+                                  
+                     {data.IsOfferAccepted && 
+                    
                         <Button
                             icon="pi-thumbs-up"
                             tooltip='Verify Documents'
-                            className="p-button-rounded p-button-warning mr-6"
+                            className="p-button-rounded p-button-danger"
                             // style={{ width: "30px", height: "30px",}}
                             onClick={(e) => {
 
@@ -290,21 +344,22 @@ const SelectedCandidates = () => {
                                 },1000)
                             }}
                         />
-                    </div>
+                    
                     }
-                </div>
-            </React.Fragment>
-    // : <></>}
-    //         </>
+                    </>
+                }
+      
+        </>
         );
     };
     return (
         <div>
-
+            
+            <ConfirmDialog />
             <DataTable value={selectedcandidatesdata} showGridlines={false} responsiveLayout="scroll" paginator={true} rows={10}
                 globalFilterFields={['candidate.candidatefullname', 'candidate.CanFirstName', 'candidate.Jobpost.JobCode', 'candidate.EmploymentType','candidate.Jobpost.JobTitle', 'candidate.OverallExpYear', 'candidate.CurrentCTC', 'candidate.ExpectedCTC', 'Jobpost.NegotiatedCTC', 'candidate.ExpectedDOJ']} filters={filters2} header={Headercomp}>
 
-                <Column field="candidate.CandidateCode" header="Candiate Code" sortable style={{ minWidth: '11rem', maxWidth: '14rem' }} body={linktemplate}></Column>
+                <Column field="candidate.CandidateCode" header="Candiate Code" sortable style={{ minWidth: '13rem', maxWidth: '13rem' }} body={linktemplate}></Column>
                 <Column field="candidate.candidatefullname" header="Candidate Name" sortable></Column>
                 <Column field="jobpost.JobCode" header="Job Code" sortable></Column>
                 <Column field="jobpost.JobTitle" header="Job Title" sortable></Column>
@@ -315,7 +370,7 @@ const SelectedCandidates = () => {
                 <Column field="candidate.NegotiatedCTC" header="Negotiated CTC" body={formatCurrencyNctc} sortable></Column>
                 <Column field="candidate.ExpectedDOJ" header="Expected DOJ" body={datetemplate} sortable></Column>
                 {roles.includes("HR") &&
-                <Column field="action" header="Action" body={actionBodyTemplate} exportable={false}></Column>
+                <Column field="action" header="Action" style={{ minWidth: '15rem', maxWidth : '15rem'}} body={actionBodyTemplate} exportable={false}></Column>
                 }
                  </DataTable>
 
@@ -327,4 +382,9 @@ const SelectedCandidates = () => {
 
 }
 
-export default SelectedCandidates
+function mapStateToProps(state) {
+    return {
+        getuserrolesprop: getuserroles(state)};
+    }
+export default connect(mapStateToProps)(SelectedCandidates)
+

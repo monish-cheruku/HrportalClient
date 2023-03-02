@@ -213,6 +213,11 @@ function SelectedCandidateDetails(props) {
         console.log(values)
         values["FinalCTC"] = parseInt(values["FinalCTC"])
         values["VariablePerc"] = parseInt(values["VariablePerc"])
+        if (values["ShiftAllowance"] != null)
+            values["ShiftAllowance"] = parseInt(values["ShiftAllowance"])
+        if (values["JoiningBonus"] != null)
+            values["JoiningBonus"] = parseInt(values["JoiningBonus"])
+
         if (
             values.selectedcandidateid &&
             values.designation &&
@@ -242,7 +247,7 @@ function SelectedCandidateDetails(props) {
             <LoadingOverlay
                 active={showspinner}
                 spinner
-                text="Generating Offer Letter..."
+                text="Generating documents..."
             >
                 {/* {showspinner &&
             <ProgressSpinner  style={{width: '50px', height: '50px'}} strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s"/>
@@ -282,6 +287,7 @@ function SelectedCandidateDetails(props) {
                             }
                             values["FinalCTC"] = parseInt(values["FinalCTC"])
                             values["VariablePerc"] = parseInt(values["VariablePerc"])
+                            values["JoiningBonus"] = parseInt(values["JoiningBonus"])
                             console.log(values.DateOfJoining)
                             // console.log(typeof values.DateOfJoining)
                             // var tempdate = values.DateOfJoining
@@ -298,14 +304,14 @@ function SelectedCandidateDetails(props) {
                                     .then((res) => {
                                         console.log(res);
                                         setShowspinner(false)
-                                    }).then((res) =>
                                         toast.current.show({ severity: 'success', summary: 'Success Message', detail: res, life: 3000 })
+                                    }).then((res) =>{}
                                     ).then(() => setTimeout(() => { navigate(-1); }, 2000))
                                     .catch((ex) => {
                                         console.log(ex);
                                         setShowspinner(false)
                                         setdata(values); setmode('draft');
-                                        toast.current.show({ severity: 'error', summary: 'Error Message', detail: ex, life: 3000 });
+                                        toast.current.show({ severity: 'error', summary: 'Error Message', detail: "error", life: 3000 });
                                     })
 
                                 // console.log(res)
@@ -494,7 +500,7 @@ function SelectedCandidateDetails(props) {
                                             <Field name="FinalCTC">
                                                 {({ input, meta }) => (
                                                     <div>
-                                                        <label>Final CTC: </label>
+                                                        <label>Final CTC </label>
                                                         <br></br>
                                                         <br></br>
                                                         <input className='p-inputtext p-component' {...input} type="number" min={0} value={parseInt(values["FinalCTC"])} placeholder="Final CTC" />
@@ -509,10 +515,10 @@ function SelectedCandidateDetails(props) {
                                             <Field name="ShiftAllowance">
                                                 {({ input, meta }) => (
                                                     <div>
-                                                        <label>ShiftAllowance : </label>
+                                                        <label>Shift Allowance</label>
                                                         <br></br>
                                                         <br></br>
-                                                        <input className='p-inputtext p-component' {...input} type="number" min={0} value={parseInt(values["ShiftAllowance"])} placeholder="ShiftAllowance" />
+                                                        <input className='p-inputtext p-component' {...input} type="number" min={0} value={parseInt(values["ShiftAllowance"])} placeholder="Enter Shift Allowance" />
                                                         <br></br>
                                                         {getFormErrorMessage(meta)}
                                                     </div>
@@ -566,14 +572,14 @@ function SelectedCandidateDetails(props) {
                                         <div hidden={values["IsVariable"] == true ? false : true} className="field col-12 md:col-3">
                                             <div className="p-fluid  grid">
                                                 <div className="field col-12 md:col-6">
-                                                    <label >Variable Pay :
+                                                    <label >Variable Pay (%) :
                                                     </label>
                                                 </div>
                                                 <div className="field col-12 md:col-6">
                                                     <Field name="VariablePerc">
                                                         {({ input, meta }) => (
                                                             <div>
-                                                                <input className='p-inputtext p-component' {...input} value={parseInt(values["VariablePerc"])} type="number" min={0} placeholder="variable pay" />
+                                                                <input className='p-inputtext p-component' {...input} value={parseInt(values["VariablePerc"])} type="number" min={0} placeholder="variable pay percentage" />
 
                                                                 {getFormErrorMessage(meta)}
                                                             </div>
@@ -647,19 +653,16 @@ function SelectedCandidateDetails(props) {
                                                         {"Eligible for Joining Bonus"}
                                                     </label>
                                                 </div>)} />
-                                        {values["Is_Eligible_Joining_Bonus"] && <Field
+                                        {values["Is_Eligible_Joining_Bonus"] && <div className="field col-12 md:col-4"> <Field
                                             name="JoiningBonus"
                                             type="input"
                                             render={({ input, meta }) => (
                                                 <div className="field-checkbox">
-                                                    <input className='p-inputtext p-component' {...input} value={parseInt(values["JoiningBonus"])} type="number" min={0} placeholder="Joining Bonus" />
+                                                    <input className='p-inputtext p-component' {...input} value={parseInt(values["JoiningBonus"])} type="number" min={0} placeholder="Enter Joining Bonus" />
 
-                                                    <label htmlFor={input.name} style={{ cursor: "pointer" }}>
-                                                        {"Eligible for Joining Bonus"}
 
-                                                    </label>
                                                     {getFormErrorMessage(meta)}
-                                                </div>)} />}
+                                                </div>)} /></div>}
                                     </div>
                                     <div className="field col-12 md:col-4">
                                         <Field
@@ -688,7 +691,7 @@ function SelectedCandidateDetails(props) {
                                         }}>Preview Annexure
 
                                         </Button>
-                                        <Button className='mr-3' type="submit" onClick={e => handleSubmit}>Save & Generate Offer Letter
+                                        <Button className='mr-3' type="submit" onClick={e => handleSubmit}>Save & Generate Documents
 
                                         </Button>
                                         {/* <Button className='mr-3' type="button">Download/Preview Offer Letter
@@ -707,10 +710,7 @@ function SelectedCandidateDetails(props) {
 
                     }
                     {
-                        Object.is(candidatedata.EmploymentType, "Internship") && <div>
-
-                            <h3>Internship Offer Details</h3>
-
+                        Object.is(candidatedata.EmploymentType, "Internship") && <Panel header="Internship Details">
 
                             <Form
 
@@ -719,8 +719,8 @@ function SelectedCandidateDetails(props) {
 
 
                                     var tempstartdate = values["DateOfJoining"]
-values["Duration"]=parseInt(values["Duration"])
-values["FinalCTC"]=parseInt(values["FinalCTC"])
+                                    values["Duration"] = parseInt(values["Duration"])
+                                    values["FinalCTC"] = parseInt(values["FinalCTC"])
                                     values.StartDate = tempstartdate.getFullYear() + "-" + (tempstartdate.getMonth() + 1).toString().padStart(2, '0') + "-" + tempstartdate.getDate().toString().padStart(2, '0')
 
                                     console.log(values)
@@ -729,29 +729,33 @@ values["FinalCTC"]=parseInt(values["FinalCTC"])
                                     try {
                                         setShowspinner(true)
                                         selectedcandidateactions.updateselinterncandidate(values)
-                                            .then((res) => {
+                                            .then((res:string) => {
                                                 console.log(res);
                                                 setShowspinner(false)
-                                            }).then((res) =>
                                                 toast.current.show({ severity: 'success', summary: 'Success Message', detail: res, life: 3000 })
+                                            }).then((res) =>{
+                                                    // var message = res?.toString()
+                                                    console.log(res)    
+                                                    
+                                                }
                                             ).then(() => setTimeout(() => { navigate(-1); }, 2000))
                                             .catch((ex) => {
                                                 console.log(ex);
                                                 setShowspinner(false)
                                                 setdata(values); setmode('draft');
-                                                toast.current.show({ severity: 'error', summary: 'Error Message', detail: ex, life: 3000 });
+                                                toast.current.show({ severity: 'error', summary: 'Error Message', detail: "error", life: 3000 });
                                             })
-        
+
                                         // console.log(res)
-        
+
                                         // yield put({type:"selectedcandidates/selectedandidatesdata",payload:res})
-        
+
                                     }
                                     catch (err) {
                                         console.log(err)
-        
+
                                         setShowspinner(false)
-        
+
                                     }
 
 
@@ -796,7 +800,7 @@ values["FinalCTC"]=parseInt(values["FinalCTC"])
                                     <form onSubmit={handleSubmit} >
 
                                         <div className="p-fluid  grid">
-                                            <div className="field col-12 md:col-4">
+                                            <div className="field col-12 md:col-3">
                                                 <Field
                                                     name="designation"
                                                     render={({ input, meta }) => (
@@ -814,14 +818,13 @@ values["FinalCTC"]=parseInt(values["FinalCTC"])
 
                                             </div>
 
-                                            <div className="field col-12 md:col-4">
+                                            <div className="field col-12 md:col-3">
                                                 <Field name="FinalCTC">
                                                     {({ input, meta }) => (
                                                         <div>
-                                                            <label>Final CTC: </label>
-                                                            <br></br>
-                                                            <br></br>
-                                                            <input className='p-inputtext p-component' {...input} type="number" min={0} value={parseInt(values["FinalCTC"])} placeholder="Final CTC" />
+                                                            <label>Stipend (Per Month) </label>
+
+                                                            <input className='p-inputtext p-component mt-2' {...input} type="number" min={0} value={parseInt(values["FinalCTC"])} placeholder="Stipend" />
                                                             <br></br>
                                                             {getFormErrorMessage(meta)}
                                                         </div>
@@ -834,33 +837,33 @@ values["FinalCTC"]=parseInt(values["FinalCTC"])
 
 
 
-                                        </div>
 
-                                        <div className="p-fluid  grid">
-                                            <div className="field col-12 md:col-4"><Field
+
+
+                                            <div className="field col-12 md:col-3"><Field
                                                 name="DateOfJoining"
                                                 render={({ input, meta }) => (
                                                     <div className="field">
-                                                        <label htmlFor="DateOfJoining">Date of joining</label>
+                                                        <label htmlFor="DateOfJoining">Start Date</label>
                                                         <span className="p-float-label">
-                                                            <Calendar dateFormat='mm/dd/yy' {...input}showIcon={true} id="DateOfJoining" {...input} placeholder="Start Date" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                            <Calendar dateFormat='mm/dd/yy' {...input} showIcon={true} id="DateOfJoining" {...input} placeholder="Start Date" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                         </span>
                                                         {getFormErrorMessage(meta)}
                                                     </div>
                                                 )}
                                             />
-
                                             </div>
 
-                                            <div className="field col-12 md:col-4">
+
+
+                                            <div className="field col-12 md:col-3">
                                                 <Field name="Duration">
                                                     {({ input, meta }) => (
                                                         <div>
-                                                            <label>Duration: </label>
-                                                            <br></br>
-                                                            <br></br>
+                                                            <label>Duration (In Months)</label>
 
-                                                            <input className='p-inputtext p-component' {...input} type="number" min={0} value={parseInt(values["Duration"])} placeholder="Duration" />
+
+                                                            <input className='p-inputtext p-component mt-2' {...input} type="number" min={0} value={parseInt(values["Duration"])} placeholder="Duration" />
                                                             <br></br>
                                                             {getFormErrorMessage(meta)}
                                                         </div>
@@ -873,11 +876,12 @@ values["FinalCTC"]=parseInt(values["FinalCTC"])
                                             <div className="field col-12 md:col-4"></div>
                                             <div className="field col-12 md:col-4"></div>
                                             <div className="field col-12 md:col-4 flex">
-                                                <Button  className='mr-2' type="button" onClick={e => navigate(-1)}>
-                                                    Cancel
+
+                                                <Button className='mr-2' type="submit">
+                                                Save and Generate Internship Letter
                                                 </Button>
-                                                <Button type="submit">
-                                                    save and generate Offer Letter
+                                                <Button  type="button" onClick={e => navigate(-1)}>
+                                                    Cancel
                                                 </Button>
 
                                             </div>
@@ -895,13 +899,12 @@ values["FinalCTC"]=parseInt(values["FinalCTC"])
                             />
 
 
-                        </div>
+                        </Panel>
                     }
                     {
                         Object.is(candidatedata.EmploymentType, "Contract(direct)") &&
-                        <div>
+                        <Panel header="Contractor Details">
 
-                            <h3>Contractor Offer  Details</h3>
 
                             <Form
 
@@ -924,26 +927,26 @@ values["FinalCTC"]=parseInt(values["FinalCTC"])
                                             .then((res) => {
                                                 console.log(res);
                                                 setShowspinner(false)
-                                            }).then((res) =>
                                                 toast.current.show({ severity: 'success', summary: 'Success Message', detail: res, life: 3000 })
+                                            }).then((res) =>{}
                                             ).then(() => setTimeout(() => { navigate(-1); }, 2000))
                                             .catch((ex) => {
                                                 console.log(ex);
                                                 setShowspinner(false)
                                                 setdata(values); setmode('draft');
-                                                toast.current.show({ severity: 'error', summary: 'Error Message', detail: ex, life: 3000 });
+                                                toast.current.show({ severity: 'error', summary: 'Error Message', detail: "error", life: 3000 });
                                             })
-        
+
                                         // console.log(res)
-        
+
                                         // yield put({type:"selectedcandidates/selectedandidatesdata",payload:res})
-        
+
                                     }
                                     catch (err) {
                                         console.log(err)
-        
+
                                         setShowspinner(false)
-        
+
                                     }
 
 
@@ -1005,10 +1008,9 @@ values["FinalCTC"]=parseInt(values["FinalCTC"])
                                                 <Field name="FinalCTC">
                                                     {({ input, meta }) => (
                                                         <div>
-                                                            <label>Remuneration (Per Month): </label>
-                                                            <br></br>
-                                                            <br></br>
-                                                            <input className='p-inputtext p-component' {...input} type="number" min={0} value={parseInt(values["FinalCTC"])} placeholder="Final CTC" />
+                                                            <label>Remuneration (Per Month) </label>
+                                                     
+                                                            <input className='p-inputtext p-component mt-2' {...input} type="number" min={0} value={parseInt(values["FinalCTC"])} placeholder="Enter Remuneration" />
                                                             <br></br>
                                                             {getFormErrorMessage(meta)}
                                                         </div>
@@ -1022,10 +1024,9 @@ values["FinalCTC"]=parseInt(values["FinalCTC"])
                                                 <Field name="NoOfHours">
                                                     {({ input, meta }) => (
                                                         <div>
-                                                            <label>NoOfHours (Per Month)*: </label>
-                                                            <br></br>
-                                                            <br></br>
-                                                            <input className='p-inputtext p-component' {...input} type="number" min={0} value={parseInt(values["NoOfHours"])} placeholder="NoOfHours" />
+                                                            <label>No Of Hours (Per Month) </label>
+                                                       
+                                                            <input className='p-inputtext p-component mt-2' {...input} type="number" min={0} value={parseInt(values["NoOfHours"])} placeholder="Enter No Of Hours" />
                                                             <br></br>
                                                             {getFormErrorMessage(meta)}
                                                         </div>
@@ -1071,10 +1072,9 @@ values["FinalCTC"]=parseInt(values["FinalCTC"])
                                                 <Field name="Duration">
                                                     {({ input, meta }) => (
                                                         <div>
-                                                            <label>Duration(In Months): </label>
-                                                            <br></br>
-                                                            <br></br>
-                                                            <input className='p-inputtext p-component' {...input} type="number" min={0} value={parseInt(values["Duration"])} placeholder="Duration" />
+                                                            <label>Duration(In Months) </label>
+                                             
+                                                            <input className='p-inputtext p-component mt-2' {...input} type="number" min={0} value={parseInt(values["Duration"])} placeholder="Duration" />
                                                             <br></br>
                                                             {getFormErrorMessage(meta)}
                                                         </div>
@@ -1087,10 +1087,11 @@ values["FinalCTC"]=parseInt(values["FinalCTC"])
                                             <div className="field col-12 md:col-4"></div>
                                             <div className="field col-12 md:col-4"></div>
                                             <div className="field col-12 md:col-4 flex">
-                                                <Button className='mr-2' type="button" onClick={e => navigate(-1)}>Cancel
+
+                                                <Button className='mr-2' type="submit">
+                                                    Save and Generate Contract Letter
                                                 </Button>
-                                                <Button type="submit">
-                                                    save and generate Offer Letter
+                                                <Button  type="button" onClick={e => navigate(-1)}>Cancel
                                                 </Button>
 
                                             </div>
@@ -1112,7 +1113,7 @@ values["FinalCTC"]=parseInt(values["FinalCTC"])
 
 
 
-                        </div>
+                        </Panel>
                     }
 
 

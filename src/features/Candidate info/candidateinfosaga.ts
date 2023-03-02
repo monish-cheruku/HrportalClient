@@ -9,7 +9,7 @@ function* createnewpersonalsagaworker(data) {
     try {
         // console.log(data.payload)
         var res: Promise<any> = yield call(personaldetails.createpersonaldetails, data.payload)
-
+        yield put({type:"Personaldetails/personaldetailsaction", payload:{"selectedcandidateid":store.getState().candidateinfo.Selected_Candidate_ID}})
         yield put(createtoast({
 
             id: 454,

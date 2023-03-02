@@ -19,8 +19,11 @@ import { InputTextarea } from 'primereact/inputtextarea';
 import Insurance from './candidateinfocomponents/Insurance';
 import BankDetaiis from './candidateinfocomponents/BankDetails';
 import BankDetails from './candidateinfocomponents/BankDetails';
+import { personaldetailsaction } from '../../features/Candidate info/personaldetailsslice';
 function Candidateinfo() {
   // const [activeIndex, setActiveIndex] = useState(0);
+  var candidateinfodata = useSelector((state: RootState) => state.candidateinfo);
+
   const activeIndex = useSelector((store: RootState) => store.global.candidateinfoactivetab)
   const Logindata = useSelector((state: RootState) => state.Login);
   const [roles, setRoles] = useState<any>([]);
@@ -32,6 +35,13 @@ function Candidateinfo() {
     Logindata.groups.forEach((i) => setRoles(roles => [...roles, i["name"].toString()]))
     console.log(activeIndex)
     if (activeIndex == null) setcandidateinfotab(0)
+
+
+    dispatch(personaldetailsaction({ "selectedcandidateid": candidateinfodata.Selected_Candidate_ID } ))
+
+
+
+
   }, [activeIndex])
   const navigate = useNavigate()
   const wizardItems = [
