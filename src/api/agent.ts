@@ -234,7 +234,8 @@ export const candidateactions = {
   getfeedbackfields:(data)=>requests.post("candidate/getfeedbackfields",data),
   getprevfeedbacks:(data)=>requests.post("candidate/getcandidatefeedbacks",data),
   selectedcandidates:(data)=>requests.post("candidate/getselectedcandidates",data),
-  annexure:(data)=>requests.post("candidate/getAnnexureDetails",data)
+  annexure:(data)=>requests.post("candidate/getAnnexureDetails",data),
+  hrupdatecandidate:(data)=>requests.post("candidate/hrupdatecandidate",data)
 }
 export const personaldetails = {
   createpersonaldetails:(data)=>requests.post("selectedcandidate/createpersonaldetails",data),
