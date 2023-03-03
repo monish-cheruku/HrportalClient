@@ -167,7 +167,7 @@ const Dashboard = (props) => {
                 </div>
                 }
             <br></br>
-            <div >
+          { !roles.includes("Candidate")&& <div >
                 <div className="card mb-0">
                     <div className="flex justify-content-between mb-3">
                         {globaldata.dashboardactivetab == "jobpostactions" && <div style={{ width: "100%" }}> <JobPostActions />    </div>}
@@ -180,7 +180,7 @@ const Dashboard = (props) => {
 
                     </div>
                 </div>
-            </div>
+            </div>}
         </div>
     );
 };

@@ -31,6 +31,7 @@ import { selectedcandidateactions } from '../../../api/agent'
 import { Toast } from 'primereact/toast';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import LoadingOverlay from "react-loading-overlay";
+import { InputTextarea } from 'primereact/inputtextarea'
 
 function SelectedCandidateDetails(props) {
     const location = useLocation()
@@ -119,7 +120,7 @@ function SelectedCandidateDetails(props) {
     const contractformvalidate = (values) => {
         var errors = []
 
-        var arr = ["designation", "FinalCTC", "NoOfHours", "DateOfJoining", "endDate", "Duration"]
+        var arr = ["designation", "FinalCTC", "NoOfHours", "DateOfJoining", "endDate", "Duration","Responsibilities"]
         arr.forEach((i) => {
             if (!values[i]) {
                 errors[i.toString()] = "* This field is required";
@@ -305,7 +306,7 @@ function SelectedCandidateDetails(props) {
                                         console.log(res);
                                         setShowspinner(false)
                                         toast.current.show({ severity: 'success', summary: 'Success Message', detail: res, life: 3000 })
-                                    }).then((res) =>{}
+                                    }).then((res) => { }
                                     ).then(() => setTimeout(() => { navigate(-1); }, 2000))
                                     .catch((ex) => {
                                         console.log(ex);
@@ -729,15 +730,15 @@ function SelectedCandidateDetails(props) {
                                     try {
                                         setShowspinner(true)
                                         selectedcandidateactions.updateselinterncandidate(values)
-                                            .then((res:string) => {
+                                            .then((res: string) => {
                                                 console.log(res);
                                                 setShowspinner(false)
                                                 toast.current.show({ severity: 'success', summary: 'Success Message', detail: res, life: 3000 })
-                                            }).then((res) =>{
-                                                    // var message = res?.toString()
-                                                    console.log(res)    
-                                                    
-                                                }
+                                            }).then((res) => {
+                                                // var message = res?.toString()
+                                                console.log(res)
+
+                                            }
                                             ).then(() => setTimeout(() => { navigate(-1); }, 2000))
                                             .catch((ex) => {
                                                 console.log(ex);
@@ -878,9 +879,9 @@ function SelectedCandidateDetails(props) {
                                             <div className="field col-12 md:col-4 flex">
 
                                                 <Button className='mr-2' type="submit">
-                                                Save and Generate Internship Letter
+                                                    Save and Generate Internship Letter
                                                 </Button>
-                                                <Button  type="button" onClick={e => navigate(-1)}>
+                                                <Button type="button" onClick={e => navigate(-1)}>
                                                     Cancel
                                                 </Button>
 
@@ -928,7 +929,7 @@ function SelectedCandidateDetails(props) {
                                                 console.log(res);
                                                 setShowspinner(false)
                                                 toast.current.show({ severity: 'success', summary: 'Success Message', detail: res, life: 3000 })
-                                            }).then((res) =>{}
+                                            }).then((res) => { }
                                             ).then(() => setTimeout(() => { navigate(-1); }, 2000))
                                             .catch((ex) => {
                                                 console.log(ex);
@@ -958,17 +959,17 @@ function SelectedCandidateDetails(props) {
 
                                     "selectedcandidateid": data.Selected_Candidate_ID,
 
-                                    "DateOfJoining":data.DateOfJoining? new Date(data.DateOfJoining):null,
-                                    "endDate": data.EndDate?new Date(data.EndDate):null,
+                                    "DateOfJoining": data.DateOfJoining ? new Date(data.DateOfJoining) : null,
+                                    "endDate": data.EndDate ? new Date(data.EndDate) : null,
                                     "designation": data.designation,
                                     "FinalCTC": data.FinalCTC,
                                     "NoOfHours": data.NoOfHours,
                                     "Duration": data.Duration,
-                                    "Modified_By": logindata.username
-
+                                    "Modified_By": logindata.username,
+                                    "Responsibilities": data.Responsibilities
                                 } : {
                                     "selectedcandidateid": data.Selected_Candidate_ID,
-                                    "Modified_By": logindata.username
+                                    "Modified_By": logindata.username,
 
                                 }
 
@@ -1009,7 +1010,7 @@ function SelectedCandidateDetails(props) {
                                                     {({ input, meta }) => (
                                                         <div>
                                                             <label>Remuneration (Per Month) </label>
-                                                     
+
                                                             <input className='p-inputtext p-component mt-2' {...input} type="number" min={0} value={parseInt(values["FinalCTC"])} placeholder="Enter Remuneration" />
                                                             <br></br>
                                                             {getFormErrorMessage(meta)}
@@ -1025,7 +1026,7 @@ function SelectedCandidateDetails(props) {
                                                     {({ input, meta }) => (
                                                         <div>
                                                             <label>No Of Hours (Per Month) </label>
-                                                       
+
                                                             <input className='p-inputtext p-component mt-2' {...input} type="number" min={0} value={parseInt(values["NoOfHours"])} placeholder="Enter No Of Hours" />
                                                             <br></br>
                                                             {getFormErrorMessage(meta)}
@@ -1073,13 +1074,32 @@ function SelectedCandidateDetails(props) {
                                                     {({ input, meta }) => (
                                                         <div>
                                                             <label>Duration(In Months) </label>
-                                             
+
                                                             <input className='p-inputtext p-component mt-2' {...input} type="number" min={0} value={parseInt(values["Duration"])} placeholder="Duration" />
                                                             <br></br>
                                                             {getFormErrorMessage(meta)}
                                                         </div>
                                                     )}
                                                 </Field>
+                                            </div>
+                                        </div>
+
+                                        <div className="p-fluid  grid">
+                                            <div className="field col-12 md:col-4"><Field
+                                                name="Responsibilities"
+                                                render={({ input, meta }) => (
+                                                    <div className="field">
+                                                        <label htmlFor="DateOfJoining"> Responsibilities </label>
+                                                        <span className="p-float-label">
+                                                            {/* <Calendar dateFormat='mm/dd/yy' showIcon={true} id="DateOfJoining" {...input} placeholder="Start Date" className={classNames({ "p-invalid": isFormFieldValid(meta) })} /> */}
+                                                            <InputTextarea  {...input} className='flex' cols={100} rows={5} >
+
+                                                            </InputTextarea>
+                                                        </span>
+                                                        {getFormErrorMessage(meta)}
+                                                    </div>
+                                                )}
+                                            />
                                             </div>
                                         </div>
 
@@ -1091,7 +1111,7 @@ function SelectedCandidateDetails(props) {
                                                 <Button className='mr-2' type="submit">
                                                     Save and Generate Contract Letter
                                                 </Button>
-                                                <Button  type="button" onClick={e => navigate(-1)}>Cancel
+                                                <Button type="button" onClick={e => navigate(-1)}>Cancel
                                                 </Button>
 
                                             </div>

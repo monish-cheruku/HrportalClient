@@ -19,6 +19,8 @@ import { candidateinfogetaction } from '../../../features/Candidate info/candida
 import { RadioButton } from 'primereact/radiobutton'
 import { Checkbox } from 'primereact/checkbox'
 import { bankdetailsgetaction, Ibankdetail } from '../../../features/Candidate info/bankdetailsslice'
+import { Card } from 'primereact/card'
+import { Navigate, useNavigate } from 'react-router'
 
 
 function PFDetails(props) {
@@ -34,7 +36,7 @@ function PFDetails(props) {
   console.log(candidateinfodata)
   console.log(pfdetailsdata)
   const dispatch = useDispatch()
-
+const navigate=useNavigate()
 
   useEffect(() => {
     dispatch(bankdetailsgetaction(
@@ -196,6 +198,7 @@ function PFDetails(props) {
   ]
   return (
     <div>
+      <Card title="PF Details">
       <Form
         // {console.log(candidateinfodata)}
         onSubmit={(values: any) => {
@@ -221,9 +224,8 @@ function PFDetails(props) {
           values.selectedcandidateid = candidateinfodata.Selected_Candidate_ID
           if(edit)values["Id"]=pfdetailsdata.Id
           edit ? dispatch(updatepfdetailsaction(values)) : dispatch(createpfdetailsaction(values))
-
-
-          dispatch(setnextcandidateinfotab())
+navigate(-1)
+          // dispatch(setnextcandidateinfotab())
         }}
         initialValues={edit ? {
 
@@ -304,7 +306,7 @@ function PFDetails(props) {
                     <div className="field " >
                       <label htmlFor="PreviousCompanyUAN">Previous Company UAN</label>
                       <span className="label">
-                        <InputText id="PreviousCompanyUAN" {...input} autoFocus className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                        <InputText id="PreviousCompanyUAN" {...input}  className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                         <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                       </span>
                       {getFormErrorMessage(meta)}
@@ -319,7 +321,7 @@ function PFDetails(props) {
                     <div className="field " >
                       <label htmlFor="PreviousMemberId">Previous Member Id</label>
                       <span className="label">
-                        <InputText id="PreviousMemberId" {...input} autoFocus className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                        <InputText id="PreviousMemberId" {...input}  className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                         <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                       </span>
                       {getFormErrorMessage(meta)}
@@ -335,7 +337,7 @@ function PFDetails(props) {
                     <div className="field " >
                       <label htmlFor="MemberNameAsPerAadhar">Employee Name (As per Aadhar Card)*</label>
                       <span className="label">
-                        <InputText id="MemberNameAsPerAadhar" {...input} autoFocus className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                        <InputText id="MemberNameAsPerAadhar" {...input}  className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                         <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                       </span>
                       {getFormErrorMessage(meta)}
@@ -351,7 +353,7 @@ function PFDetails(props) {
                   <div className="field " >
                     <label htmlFor="AADHAR"> Aadhaar* </label>
                     <span className="label">
-                      <InputText id="AADHAR" {...input} autoFocus maxLength={12} onInput={toInputUppercase} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                      <InputText id="AADHAR" {...input}  maxLength={12} onInput={toInputUppercase} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                       <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                     </span>
                     {getFormErrorMessage(meta)}
@@ -416,7 +418,7 @@ function PFDetails(props) {
                     <div className="field " >
                       <label htmlFor="FatherOrHusbandName">Father Or Husband Name*</label>
                       <span className="label">
-                        <InputText id="FatherOrHusbandName" {...input} autoFocus className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                        <InputText id="FatherOrHusbandName" {...input}  className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                         <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                       </span>
                       {getFormErrorMessage(meta)}
@@ -480,7 +482,7 @@ function PFDetails(props) {
                     <div className="field " >
                       <label htmlFor="ContactNumber">Contact Number*</label>
                       <span className="label">
-                        {/* <InputNumber id="Employee Name " value={values.NoOfPositions} onChange={e=>values["ContactNumber"]=e.value} max={9999999999} {...input} autoFocus className={classNames({ "p-invalid": isFormFieldValid(meta) })} /> */}
+                        {/* <InputNumber id="Employee Name " value={values.NoOfPositions} onChange={e=>values["ContactNumber"]=e.value} max={9999999999} {...input}  className={classNames({ "p-invalid": isFormFieldValid(meta) })} /> */}
                         <InputMask  {...input} value={values["ContactNumber"]} onChange={(e) => values["ContactNumber"] = e.value} mask="99-9999999999" />
                         <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                       </span>
@@ -498,7 +500,7 @@ function PFDetails(props) {
                     <div className="field " >
                       <label htmlFor="Email">Email*</label>
                       <span className="label">
-                        <InputText id="Email " {...input} autoFocus className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                        <InputText id="Email " {...input}  className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                         <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                       </span>
                       {getFormErrorMessage(meta)}
@@ -514,7 +516,7 @@ function PFDetails(props) {
                     <div className="field " >
                       <label htmlFor="Nationality">Nationality*</label>
                       <span className="label">
-                        <InputText id="Nationality " {...input} autoFocus className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                        <InputText id="Nationality " {...input}  className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                         <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                       </span>
                       {getFormErrorMessage(meta)}
@@ -529,7 +531,7 @@ function PFDetails(props) {
                     <div className="field " >
                       <label htmlFor="wages">Wages</label>
                       <span className="label">
-                        <InputText id="wages" {...input} autoFocus className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                        <InputText id="wages" {...input}  className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                         <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                       </span>
                       {getFormErrorMessage(meta)}
@@ -560,7 +562,7 @@ function PFDetails(props) {
                     <div className="field ">
                       <label htmlFor="CountryOfOrigin">Country Of Origin*</label>
                       <span className="label">
-                        <InputText id="CountryOfOrigin " {...input} autoFocus className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                        <InputText id="CountryOfOrigin " {...input}  className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                         <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                       </span>
                       {getFormErrorMessage(meta)}
@@ -581,7 +583,7 @@ function PFDetails(props) {
                       <div className="field " >
                         <label htmlFor="PassportNumber">Passport Number</label>
                         <span className="label">
-                          <InputText id="PassportNumber " {...input} autoFocus maxLength={8} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                          <InputText id="PassportNumber " {...input}  maxLength={8} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                           <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                         </span>
                         {getFormErrorMessage(meta)}
@@ -667,7 +669,7 @@ function PFDetails(props) {
                     <div className="field " >
                       <label htmlFor="AccountNumber">Account Number* </label>
                       <span className="label">
-                        <InputText onInput={toInputUppercase} id="AccountNumber" {...input} autoFocus maxLength={10} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                        <InputText onInput={toInputUppercase} id="AccountNumber" {...input}  maxLength={10} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                         <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                       </span>
                       {getFormErrorMessage(meta)}
@@ -682,7 +684,7 @@ function PFDetails(props) {
                     <div className="field " >
                       <label htmlFor="IFSCcode">IFSC code* </label>
                       <span className="label">
-                        <InputText onInput={toInputUppercase} id="IFSCcode" {...input} autoFocus maxLength={10} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                        <InputText onInput={toInputUppercase} id="IFSCcode" {...input}  maxLength={10} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                         <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                       </span>
                       {getFormErrorMessage(meta)}
@@ -754,7 +756,7 @@ function PFDetails(props) {
                     <div className="field " >
                       <label htmlFor="NameAsPerBank">Name (As per Bank)*</label>
                       <span className="label">
-                        <InputText id="NameAsPerBank " {...input} autoFocus className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                        <InputText id="NameAsPerBank " {...input}  className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                         <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                       </span>
                       {getFormErrorMessage(meta)}
@@ -770,7 +772,7 @@ function PFDetails(props) {
                     <div className="field " >
                       <label htmlFor="PAN">PAN* </label>
                       <span className="label">
-                        <InputText onInput={toInputUppercase} id="PAN" {...input} autoFocus maxLength={10} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                        <InputText onInput={toInputUppercase} id="PAN" {...input}  maxLength={10} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                         <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                       </span>
                       {getFormErrorMessage(meta)}
@@ -785,7 +787,7 @@ function PFDetails(props) {
                     <div className="field " >
                       <label htmlFor="NameAsPerPan">Name (As per Pan)*</label>
                       <span className="label">
-                        <InputText id="NameAsPerPan " {...input} autoFocus className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                        <InputText id="NameAsPerPan " {...input}  className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                         <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                       </span>
                       {getFormErrorMessage(meta)}
@@ -798,10 +800,13 @@ function PFDetails(props) {
 
               <div className="field col-12 md:col-5 flex"></div>
               <div className="field col-12 md:col-5 flex"></div>
-              <div className="field col-12 md:col-2 ">
+              <div className="field col-12 md:col-2 flex">
+                <Button type='button' className='mr-2' onClick={e=>navigate(-1)}
+                // onClick={e => dispatch(setnextcandidateinfotab(";aufhds"))}
+                >cancel</Button>
                 <Button type='submit'
                 // onClick={e => dispatch(setnextcandidateinfotab(";aufhds"))}
-                >Save & Next</Button>
+                >Save</Button>
               </div>
             </div>
 
@@ -810,6 +815,7 @@ function PFDetails(props) {
 
         )}
       />
+      </Card>
 
 
     </div>

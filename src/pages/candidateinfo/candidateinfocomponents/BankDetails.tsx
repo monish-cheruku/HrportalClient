@@ -20,6 +20,7 @@ import { Panel, PanelHeaderTemplateOptions } from 'primereact/panel'
 import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
 import { InputTextarea } from 'primereact/inputtextarea'
+import { useNavigate } from 'react-router'
 
 
 function BankDetails() {
@@ -35,6 +36,7 @@ function BankDetails() {
     const isFormFieldValid = (meta) => !!(meta.touched && meta.error);
     const bankdetailsdata: Ibankdetail = useSelector((state: RootState) => state.bankdetails)
     const [edit, setEdit] = useState(bankdetailsdata.BankName == "" ? false : true);
+    const navigate=useNavigate()
     useEffect(() => {
         dispatch(bankdetailsgetaction(
             {
@@ -77,7 +79,8 @@ function BankDetails() {
 
     return (
         <div>
-            {console.log(edit)}
+            <Card title="Bank Details">
+           
             <Form
                 // {console.log(candidateinfodata)}
                 onSubmit={(values: any) => {
@@ -99,8 +102,8 @@ function BankDetails() {
 
                     edit ? dispatch(updatebankdetailsaction(data)) : dispatch(createbankdetailsaction(data))
 
-
-                    dispatch(setnextcandidateinfotab())
+navigate(-1)
+                    // dispatch(setnextcandidateinfotab())
                 }}
                 initialValues={edit ? {
                     // "Id": bankdetailsdata.Id,
@@ -143,7 +146,7 @@ function BankDetails() {
                                         <div className="field " >
                                             <label htmlFor="BankName">Bank Name*</label>
                                             <span className="label">
-                                                <InputText id="BankName" {...input} autoFocus className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                <InputText id="BankName" {...input}  className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                 <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                             </span>
                                             {getFormErrorMessage(meta)}
@@ -158,7 +161,7 @@ function BankDetails() {
                                         <div className="field " >
                                             <label htmlFor="AccountNumber">Account Number*</label>
                                             <span className="label">
-                                                <InputText id="AccountNumber " {...input} autoFocus className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                <InputText id="AccountNumber " {...input}  className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                 <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                             </span>
                                             {getFormErrorMessage(meta)}
@@ -173,7 +176,7 @@ function BankDetails() {
                                         <div className="field " >
                                             <label htmlFor="BranchName">Branch Name*</label>
                                             <span className="label">
-                                                <InputText id="BranchName " {...input} autoFocus className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                <InputText id="BranchName " {...input}  className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                 <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                             </span>
                                             {getFormErrorMessage(meta)}
@@ -193,7 +196,7 @@ function BankDetails() {
                                         <div className="field " >
                                             <label htmlFor="IFSCcode">IFSC Code*</label>
                                             <span className="label">
-                                                <InputText id="IFSCcode " {...input} autoFocus className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                <InputText id="IFSCcode " {...input}  className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
                                                 <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
                                             </span>
                                             {getFormErrorMessage(meta)}
@@ -269,9 +272,12 @@ function BankDetails() {
 
                             <div className="field col-12 md:col-5 flex"></div>
                             <div className="field col-12 md:col-5 flex"></div>
-                            <div className="field col-12 md:col-2 ">
+                            <div className="field col-12 md:col-2 flex ">
+                            <Button type='button'   className='mr-2' onClick={e=>navigate(-1)}
+                // onClick={e => dispatch(setnextcandidateinfotab(";aufhds"))}
+                >cancel</Button>
                                 <Button type='submit'
-                                >Save & Next</Button>
+                                >Save</Button>
                             </div>
                         </div>
 
@@ -280,7 +286,9 @@ function BankDetails() {
 
                 )}
             />
+            </Card>
         </div>
+
     )
 }
 

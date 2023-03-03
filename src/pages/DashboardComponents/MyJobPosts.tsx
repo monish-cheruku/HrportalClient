@@ -64,7 +64,7 @@ const MyJobPosts = (props) => {
     const [filters2, setFilters2] = useState({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     });
-    const myJobPosts =useSelector((state:RootState)=>state.myjobposts);
+    const myJobPosts = useSelector((state: RootState) => state.myjobposts);
     const Logindata = useSelector((state: RootState) => state.Login);
 
     const companiesdata = useSelector((state: RootState) => state.company);
@@ -85,12 +85,12 @@ const MyJobPosts = (props) => {
         // console.log(data11.data);
         //setcompany(data11;
         //fetch('./jobpostdata.json').then(res => {res.json(); console.log(res);}).then(d => setcompany(d.data));
-    
-    dispatch(myjobpostsaction({
-        "UserName":Logindata.username
-        // "ApproverName":"nkanagala"
-    }))
-    console.log(myJobPosts)
+
+        dispatch(myjobpostsaction({
+            "UserName": Logindata.username
+            // "ApproverName":"nkanagala"
+        }))
+        console.log(myJobPosts)
     }, []);
 
     const onGlobalFilterChange2 = (e: any) => {
@@ -179,9 +179,9 @@ const MyJobPosts = (props) => {
                     icon="pi pi-pencil"
                     className="p-button-rounded p-button-success mr-2"
                     onClick={(e) => {
-                      
 
-                        navigate("/myjobposts/updatejobpost",{state:{data}})
+
+                        navigate("/myjobposts/updatejobpost", { state: { data } })
                     }}
                 />
             </React.Fragment>
@@ -225,9 +225,10 @@ const MyJobPosts = (props) => {
         form.restart();
     };
 
-  
-const linkbody=rowdata=>{
-return(<Link to={"/jobpostdetailedview/"+rowdata.JobCode}>{rowdata.JobCode}</Link>)}
+
+    const linkbody = rowdata => {
+        return (<Link to={"/jobpostdetailedview/" + rowdata.JobCode}>{rowdata.JobCode}</Link>)
+    }
     //  const end = <InputText placeholder="Search" type="text" />;
     const activediv = (body: { Active: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined }) => {
         return <div>{body.stage_name?.toString()}</div>;
@@ -284,33 +285,37 @@ return(<Link to={"/jobpostdetailedview/"+rowdata.JobCode}>{rowdata.JobCode}</Lin
         console.log(temp)
         return temp
     }
-    
-const dateBodyTemplate = (rowData:any) => {
-    return formatDate(new Date(rowData.OnBoardingDate));
-  }
-    const formatDate = (value:any) => {
+
+    const dateBodyTemplate = (rowData: any) => {
+        return formatDate(new Date(rowData.OnBoardingDate));
+    }
+    const formatDate = (value: any) => {
         return value.toLocaleDateString('en-US', {
             day: '2-digit',
             month: '2-digit',
             year: 'numeric',
         });
         // return value.toLocaleDateString('en-US');
-      }
+    }
     return (
         <div>
             <DataTable stripedRows value={myJobPosts} showGridlines={false} responsiveLayout="scroll" paginator={true} rows={10}
-             globalFilterFields={["JobCode","JobTitle","company_name","businessunit_name","serviceline_name","industry_name" ,"customer_name","experience_Level" ,"OnBoardingDate","NoOfPositions","stage_name" ]} filters={filters2} header={Headercomp}>
-                <Column field="JobCode" header="Job Code" sortable style={{ minWidth: '13rem', maxWidth : '13rem'}} body={linkbody}>  </Column>
+                globalFilterFields={["JobCode", "JobTitle", "company_name", "businessunit_name", "serviceline_name", "industry_name", "customer_name", "experience_Level", "OnBoardingDate", "NoOfPositions", "stage_name"]} filters={filters2} header={Headercomp}>
+                <Column field="JobCode" header="Job Code" sortable style={{ minWidth: '13rem', maxWidth: '13rem' }} body={linkbody}>  </Column>
                 <Column field="JobTitle" header="Job Title" sortable></Column>
                 <Column field="company_name" header="Company" sortable></Column>
                 <Column field="businessunit_name" header="Business Unit" sortable></Column>
                 <Column field="serviceline_name" header="Service Line" sortable></Column>
                 <Column field="industry_name" header="Industry" sortable></Column>
                 <Column field="customer_name" header="Customer" sortable></Column>
-                <Column field="experience_Level" header="Experience Level" sortable style={{ minWidth: '8rem', maxWidth : '8rem'}} ></Column>
+                {/* <Column field="experience_Level" header="Experience Level" sortable style={{ minWidth: '8rem', maxWidth: '8rem' }} ></Column> */}
+
+                <Column field="experiencerange" header="Experience Range" sortable style={{ minWidth: '8rem', maxWidth: '8rem' }} ></Column>
+
+
                 <Column field="OnBoardingDate" header="On Boarding Date" body={dateBodyTemplate} sortable></Column>
-                <Column field="NoOfPositions" header="No Of Positions" sortable style={{ minWidth: '7rem', maxWidth : '7rem'}}></Column>
-                <Column field="stage_name" header="Status" sortable  body={activediv}></Column>
+                <Column field="NoOfPositions" header="No Of Positions" sortable style={{ minWidth: '7rem', maxWidth: '7rem' }}></Column>
+                <Column field="stage_name" header="Status" sortable body={activediv}></Column>
                 <Column field="edit" header="Edit" body={actionBodyTemplate} exportable={false}></Column>
             </DataTable>
 
@@ -321,12 +326,12 @@ const dateBodyTemplate = (rowData:any) => {
 
                 render={({ handleSubmit, values }) => (
                     <form onSubmit={handleSubmit} className="formgrid grid"> */}
-                        {/* <Dialog visible={productDialog} style={{ width: "70vw" }} header="Create Job post" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}> */}
-                            <br />
+            {/* <Dialog visible={productDialog} style={{ width: "70vw" }} header="Create Job post" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}> */}
+            <br />
 
-                           
-{/* <CreateJobPost></CreateJobPost> */}
-                   
+
+            {/* <CreateJobPost></CreateJobPost> */}
+
         </div>
     );
 };

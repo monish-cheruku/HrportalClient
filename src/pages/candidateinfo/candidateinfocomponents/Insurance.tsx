@@ -19,10 +19,10 @@ import { FilterMatchMode } from 'primereact/api'
 import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
 import { Dropdown } from 'primereact/dropdown'
+import { useNavigate } from 'react-router'
 // import { createfamilydetailsaction, familydetailsaction, updatefamilydetailsaction } from '../../../features/Candidateinfo/familydetailsslice'
 
 function Insurance() {
-
     const insurancedata = useSelector((state: RootState) => state.CandidateInsurance);
     const [tempdata, settempdata] = useState<any>({})
     const [gridview, setgridview] = useState("grid")
@@ -30,6 +30,7 @@ function Insurance() {
     const [filters2, setFilters2] = useState({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     });
+    const navigate = useNavigate()
     const [editmode, setEditmode] = useState(false);
     var candidateinfodata = useSelector((state: RootState) => state.candidateinfo);
     const [modalDialog, setModaldialog] = useState(false);
@@ -55,7 +56,7 @@ function Insurance() {
     const validate = (values) => {
         values["CurrentCTC"] = values["CurrentCTC"]
         let errors = {};
-        
+
         var arr = ["Name", "DateOfBirth", "Relationship", "Gender"]
         arr.forEach((i) => {
             // console.log(values["Resume"])
@@ -75,14 +76,14 @@ function Insurance() {
             errors["DateOfBirth"] = "*This field is required"
         }
 
-        
-        
+
+
         if (values["Relationship"] == undefined || values["Relationship"] == null) {
 
             errors["Relationship"] = "*This field is required"
         }
-        
-        
+
+
         if (values["Gender"] == undefined || values["Gender"] == null) {
 
             errors["Gender"] = "*This field is required"
@@ -99,7 +100,7 @@ function Insurance() {
         { value: 'mother', label: 'Mother' },
         { value: 'father', label: 'Father' },
         { value: 'spouse', label: 'Spouse' },
-        { value: 'brother',label: 'Brother' },
+        { value: 'brother', label: 'Brother' },
         { value: 'sister', label: 'Sister' },
         { value: 'others', label: 'Others' },
 
@@ -160,7 +161,7 @@ function Insurance() {
 
         )
     }
-    
+
 
     const formatDate = (value: any) => {
         return value.toLocaleDateString('en-US', {
@@ -244,12 +245,12 @@ function Insurance() {
                     <Form
                         onSubmit={(values: any) => {
                             var datetempstart = new Date(values.DateOfBirth
-                                )
+                            )
                             console.log(datetempstart)
                             // console.log(datetemp.getFullYear() + "-" + datetemp.getMonth() + "-" + datetemp.getDate())
                             values.DateOfBirth = datetempstart.getFullYear() + "-" + (datetempstart.getMonth() + 1).toString().padStart(2, '0') + "-" + datetempstart.getDate().toString().padStart(2, '0')
 
-                            
+
                             values.selectedcandidateid = candidateinfodata.Selected_Candidate_ID
                             console.log(values)
                             if (!editmode) {
@@ -257,7 +258,7 @@ function Insurance() {
                                 setModaldialog(false)
                             }
                             else {
-                                values["Id"]=tempdata.Id
+                                values["Id"] = tempdata.Id
                                 dispatch(updateinsuranceaction(values))
                                 setEditmode(false)
                                 settempdata(undefined)
@@ -268,7 +269,7 @@ function Insurance() {
                         initialValues={!editmode ? {
                             Contact_Number: "",
                         } : {
-                            Id:tempdata.Id,
+                            Id: tempdata.Id,
                             Name: tempdata.Name,
                             DateOfBirth: new Date(tempdata.DateOfBirth).toString(),
                             Relationship: tempdata.Relationship,
@@ -289,66 +290,66 @@ function Insurance() {
 
 
                                     <div className="field col-12 md:col-10">
-                                    <Field
-                                        name="Name"
-                                        render={({ input, meta }) => (
-                                            <div className="field fluid">
-                                                <label htmlFor="Name">Name*</label>
-                                                <span className="field fluid">
-                                                    <InputText maxLength={50} id="Name" {...input} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
-                                                    <label htmlFor="Name" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
-                                                </span>
-                                                {getFormErrorMessage(meta)}
-                                            </div>
-                                        )}
-                                    />
+                                        <Field
+                                            name="Name"
+                                            render={({ input, meta }) => (
+                                                <div className="field fluid">
+                                                    <label htmlFor="Name">Name*</label>
+                                                    <span className="field fluid">
+                                                        <InputText maxLength={50} id="Name" {...input} className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                        <label htmlFor="Name" className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
+                                                    </span>
+                                                    {getFormErrorMessage(meta)}
+                                                </div>
+                                            )}
+                                        />
                                     </div>
                                     <div className="field col-12 md:col-10">
-                                    <Field
-                                        name="DateOfBirth"
-                                        render={({ input, meta }) => (
-                                            <div className="field " >
-                                                <label htmlFor="DateOfBirth ">Date Of Birth*</label>
-                                                <Calendar id="DateOfBirth" onChange={e=>{values["DateOfBirth"]=e.value}} value={new Date(values["DateOfBirth"])} dateFormat="mm/dd/yy" showIcon placeholder="Select a Date" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                        <Field
+                                            name="DateOfBirth"
+                                            render={({ input, meta }) => (
+                                                <div className="field " >
+                                                    <label htmlFor="DateOfBirth ">Date Of Birth*</label>
+                                                    <Calendar id="DateOfBirth" onChange={e => { values["DateOfBirth"] = e.value }} value={new Date(values["DateOfBirth"])} dateFormat="mm/dd/yy" showIcon placeholder="Select a Date" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
 
-                                                <span className="label">
-                                                    <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
-                                                </span>
-                                                {getFormErrorMessage(meta)}
-                                            </div>
-                                        )}
-                                    />
-                                    </div>
-
-                                    <div className="field col-12 md:col-10">
-
-                                    <Field
-                                        name="Relationship"
-                                        render={({ input, meta }) => (
-                                            <div className="field">
-                                                <label htmlFor="Relationship ">Relationship*</label>
-                                                <span className="p-float-label">
-                                                    <Dropdown id="Relationship " {...input} options={Relation} placeholder="Select Relation" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
-                                                </span>
-                                                {getFormErrorMessage(meta)}
-                                            </div>
-                                        )}
-                                    />
+                                                    <span className="label">
+                                                        <label htmlFor="." className={classNames({ "p-error": isFormFieldValid(meta) })}></label>
+                                                    </span>
+                                                    {getFormErrorMessage(meta)}
+                                                </div>
+                                            )}
+                                        />
                                     </div>
 
                                     <div className="field col-12 md:col-10">
-                                    <Field
-                                    name="Gender"
-                                    render={({ input, meta }) => (
-                                        <div className="field">
-                                            <label htmlFor="Gender ">Gender*</label>
-                                            <span className="p-float-label">
-                                                <Dropdown id="Gender " {...input} options={options} placeholder="Select Gender" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
-                                            </span>
-                                            {getFormErrorMessage(meta)}
-                                        </div>
-                                    )}
-                                />
+
+                                        <Field
+                                            name="Relationship"
+                                            render={({ input, meta }) => (
+                                                <div className="field">
+                                                    <label htmlFor="Relationship ">Relationship*</label>
+                                                    <span className="p-float-label">
+                                                        <Dropdown id="Relationship " {...input} options={Relation} placeholder="Select Relation" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                    </span>
+                                                    {getFormErrorMessage(meta)}
+                                                </div>
+                                            )}
+                                        />
+                                    </div>
+
+                                    <div className="field col-12 md:col-10">
+                                        <Field
+                                            name="Gender"
+                                            render={({ input, meta }) => (
+                                                <div className="field">
+                                                    <label htmlFor="Gender ">Gender*</label>
+                                                    <span className="p-float-label">
+                                                        <Dropdown id="Gender " {...input} options={options} placeholder="Select Gender" className={classNames({ "p-invalid": isFormFieldValid(meta) })} />
+                                                    </span>
+                                                    {getFormErrorMessage(meta)}
+                                                </div>
+                                            )}
+                                        />
                                         <br>
                                         </br>
 
@@ -448,20 +449,23 @@ function Insurance() {
 
 
 
-            </Panel>
             <br />
             <div className="p-fluid  grid">
 
                 <div className="field col-12 md:col-4 flex">
                 </div>
-                <div className="field col-12 md:col-4 flex">
+                <div className="field col-12 md:col-6 flex">
                 </div>
 
-                <div className="field col-12 md:col-4 flex gap-4">
+                {/* <div className="field col-12 md:col-4 flex gap-4">
                     <Button className='mr-4' onClick={e => dispatch(setprevcandidateinfotab())}>Previous</Button>
                     <Button onClick={e => dispatch(setnextcandidateinfotab())}>Next</Button>
+                </div> */}
+                <div className='field col-12 md:col-2 flex'>
+                    <Button onClick={e => navigate(-1)}>Cancel</Button>
                 </div>
             </div>
+                </Panel>
         </div>
     )
 }

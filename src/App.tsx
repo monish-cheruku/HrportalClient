@@ -31,6 +31,9 @@ import { ProgressSpinner } from "primereact/progressspinner";
 import SelectedCandidateDetailsView from './pages/DashboardComponents/SelectedCandidatesHiringManager/SelectedCandidateDetailsView';
 import ProtectedRoute from './components/routes/ProtectedRout';
 import { getuserroles } from './features/Login/LoginSelector';
+import Insurance from './pages/candidateinfo/candidateinfocomponents/Insurance';
+import BankDetails from './pages/candidateinfo/candidateinfocomponents/BankDetails';
+import PFDetails from './pages/candidateinfo/candidateinfocomponents/PFDetails';
 const Acknowledgementpage =lazy(()=>import( './pages/candidateinfo/candidateinfocomponents/Acknowledgementpage'));
 // import AppTopbar  from './AppTopbar';
 const AppTopbar =lazy(()=>import('./AppTopbar'))
@@ -333,7 +336,13 @@ const App = (props) => {
                                         <Route path='/candidateinfo' element={<Candidateinfo></Candidateinfo>}></Route>
                                         <Route path='/candidateinfo/PersonalDetails' element={<PersonalDetails></PersonalDetails>}></Route>
                                         <Route path='/acknowledgementpage' element={<Acknowledgementpage></Acknowledgementpage>}></Route>
+                                        <Route path='/candidateinsurance' element={<Insurance></Insurance>}></Route>
+                                        <Route path='/BankDetails' element={<BankDetails></BankDetails>}></Route>
+                                        <Route path='/PFDetails' element={<PFDetails></PFDetails>}></Route>
                                         <Route path='/pagenotfound' element={<Pagenotfound></Pagenotfound>}></Route>
+                                  
+                                  
+                                  
                                     </Routes>
                                     </Suspense>
                                 </div>
